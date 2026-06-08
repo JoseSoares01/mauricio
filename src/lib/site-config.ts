@@ -1,32 +1,56 @@
 import { promises as fs } from "fs";
 import path from "path";
-import { put, list } from "@vercel/blob";
+import { put, get } from "@vercel/blob";
 import type { SiteConfig } from "./types";
+import defaultConfig from "../../data/site-config.json";
 
 const CONFIG_PATH = path.join(process.cwd(), "data", "site-config.json");
 const BLOB_PATHNAME = "mauricio/site-config.json";
 
-async function readFromBlob(): Promise<SiteConfig | null> {
+function isBlobEnabled(): boolean {
+  return !!(process.env.BLOB_READ_WRITE_TOKEN || process.env.BLOB_STORE_ID);
+}
+
+function blobAuth() {
+  const storeId = process.env.BLOB_STORE_ID;
+
+  if (process.env.VERCEL === "1" && storeId) {
+    return { storeId };
+  }
+
   const token = process.env.BLOB_READ_WRITE_TOKEN;
-  if (!token) return null;
+  if (token) return { token };
+  if (storeId) return { storeId };
+
+  return {};
+}
+
+async function readFromBlob(): Promise<SiteConfig | null> {
+  if (!isBlobEnabled()) return null;
 
   try {
-    const { blobs } = await list({ prefix: BLOB_PATHNAME, token });
-    const blob = blobs.find((item) => item.pathname === BLOB_PATHNAME) ?? blobs[0];
-    if (!blob) return null;
+    const result = await get(BLOB_PATHNAME, {
+      access: "public",
+      useCache: false,
+      ...blobAuth(),
+    });
+    if (!result) return null;
 
-    const response = await fetch(blob.url, { cache: "no-store" });
-    if (!response.ok) return null;
-
-    return (await response.json()) as SiteConfig;
-  } catch {
+    const text = await new Response(result.stream).text();
+    return JSON.parse(text) as SiteConfig;
+  } catch (error) {
+    console.error("Falha ao ler config do Blob:", error);
     return null;
   }
 }
 
 async function readFromDisk(): Promise<SiteConfig> {
-  const raw = await fs.readFile(CONFIG_PATH, "utf-8");
-  return JSON.parse(raw) as SiteConfig;
+  try {
+    const raw = await fs.readFile(CONFIG_PATH, "utf-8");
+    return JSON.parse(raw) as SiteConfig;
+  } catch {
+    return defaultConfig as SiteConfig;
+  }
 }
 
 export async function getSiteConfig(): Promise<SiteConfig> {
@@ -37,22 +61,30 @@ export async function getSiteConfig(): Promise<SiteConfig> {
 
 export async function saveSiteConfig(config: SiteConfig): Promise<void> {
   const content = `${JSON.stringify(config, null, 2)}\n`;
-  const token = process.env.BLOB_READ_WRITE_TOKEN;
 
-  if (token) {
-    await put(BLOB_PATHNAME, content, {
-      access: "public",
-      addRandomSuffix: false,
-      allowOverwrite: true,
-      contentType: "application/json",
-      token,
-    });
-    return;
+  if (isBlobEnabled()) {
+    try {
+      await put(BLOB_PATHNAME, content, {
+        access: "public",
+        addRandomSuffix: false,
+        allowOverwrite: true,
+        contentType: "application/json",
+        ...blobAuth(),
+      });
+      return;
+    } catch (error) {
+      console.error("Falha ao gravar config no Blob:", error);
+      throw new Error(
+        error instanceof Error
+          ? `Erro ao gravar no Blob: ${error.message}`
+          : "Erro ao gravar no Blob."
+      );
+    }
   }
 
   if (process.env.VERCEL === "1") {
     throw new Error(
-      "Configure BLOB_READ_WRITE_TOKEN na Vercel (Storage → Blob) para salvar alterações online."
+      "Blob não ligado ao deploy. Na Vercel: Storage → mauricio-blob → Projects → confirme o projeto mauricio e faça Redeploy."
     );
   }
 

@@ -1,6 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  outputFileTracingIncludes: {
+    "/*": ["./data/site-config.json"],
+    "/api/**": ["./data/site-config.json"],
+  },
   images: {
     remotePatterns: [
       { protocol: "https", hostname: "cironogueira.com.br" },
