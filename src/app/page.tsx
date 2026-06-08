@@ -51,8 +51,8 @@ export default async function HomePage() {
               src={config.images.logoBlue}
               alt="Logo"
               width={500}
-              height={280}
-              className="w-[60%] md:w-[50%] mb-6"
+              height={500}
+              className="w-[75%] md:w-[65%] max-w-[340px] mb-6"
               unoptimized
             />
             <p className="text-white text-[17px] leading-relaxed mb-6">

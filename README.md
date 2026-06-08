@@ -1,6 +1,6 @@
-# Site Maurício Sergio
+# Site Mauricío Soares
 
-Réplica do site cironogueira.com.br personalizado para **Maurício Sergio**, com painel admin completo para edição fácil.
+Réplica do site cironogueira.com.br personalizado para **Mauricío Soares**, com painel admin completo para edição fácil.
 
 ## Início Rápido
 

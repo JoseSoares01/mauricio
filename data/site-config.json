@@ -1,9 +1,9 @@
 {
   "site": {
-    "title": "Maurício Sergio",
+    "title": "Mauricío Soares",
     "subtitle": "Candidato",
-    "description": "Site oficial de Maurício Sergio",
-    "copyright": "© 2026 Maurício Sergio – TODOS OS DIREITOS RESERVADOS"
+    "description": "Site oficial de Mauricío Soares",
+    "copyright": "© 2026 Mauricío Soares – TODOS OS DIREITOS RESERVADOS"
   },
   "theme": {
     "primary": "#0071B7",
@@ -19,11 +19,26 @@
     "fontBody": "Red Hat Display"
   },
   "menu": [
-    { "label": "Home", "href": "/" },
-    { "label": "Sobre", "href": "/sobre" },
-    { "label": "Notícias", "href": "/noticias" },
-    { "label": "Agenda", "href": "/agenda" },
-    { "label": "Contato", "href": "/contato" }
+    {
+      "label": "Home",
+      "href": "/"
+    },
+    {
+      "label": "Sobre",
+      "href": "/sobre"
+    },
+    {
+      "label": "Notícias",
+      "href": "/noticias"
+    },
+    {
+      "label": "Agenda",
+      "href": "/agenda"
+    },
+    {
+      "label": "Contato",
+      "href": "/contato"
+    }
   ],
   "social": {
     "instagram": "https://instagram.com/",
@@ -33,7 +48,7 @@
     "tiktok": "https://tiktok.com/"
   },
   "images": {
-    "heroLogo": "/uploads/logo-mauricio-sergio-transparent.png",
+    "heroLogo": "/uploads/1780939300318-wfdf2pak9v.png",
     "logoBlue": "/uploads/logo-mauricio-sergio-blue.png",
     "headerLogo": "/uploads/logo-mauricio-sergio-transparent.png",
     "heroPhoto": "/uploads/hero-photo.png",
@@ -47,15 +62,15 @@
   },
   "hero": {
     "titleLine1": "CANDIDATO",
-    "titleLine2": "MAURÍCIO",
-    "titleLine3": "SERGIO"
+    "titleLine2": "MAURICÍO",
+    "titleLine3": "SOARES"
   },
   "about": {
-    "shortText": "Maurício Sergio é um líder comprometido com o desenvolvimento e o bem-estar da população. Com vasta experiência em gestão pública e políticas sociais, dedica-se a construir um futuro melhor para todos. Sua trajetória é marcada por resultados concretos e pelo diálogo permanente com a sociedade.",
-    "fullText": "Maurício Sergio é um líder comprometido com o desenvolvimento e o bem-estar da população. Com vasta experiência em gestão pública e políticas sociais, dedica-se a construir um futuro melhor para todos.\n\nSua trajetória é marcada por resultados concretos e pelo diálogo permanente com a sociedade. Acredita que a política deve ser feita com transparência, responsabilidade e foco nas pessoas.\n\nAo longo de sua carreira, Maurício Sergio tem trabalhado incansavelmente para garantir investimentos em educação, saúde, infraestrutura e geração de empregos, sempre colocando o cidadão no centro de suas ações."
+    "shortText": "Mauricío Soares é um líder comprometido com o desenvolvimento e o bem-estar da população. Com vasta experiência em gestão pública e políticas sociais, dedica-se a construir um futuro melhor para todos. Sua trajetória é marcada por resultados concretos e pelo diálogo permanente com a sociedade.",
+    "fullText": "Mauricío Soares é um líder comprometido com o desenvolvimento e o bem-estar da população. Com vasta experiência em gestão pública e políticas sociais, dedica-se a construir um futuro melhor para todos.\n\nSua trajetória é marcada por resultados concretos e pelo diálogo permanente com a sociedade. Acredita que a política deve ser feita com transparência, responsabilidade e foco nas pessoas.\n\nAo longo de sua carreira, Mauricío Soares tem trabalhado incansavelmente para garantir investimentos em educação, saúde, infraestrutura e geração de empregos, sempre colocando o cidadão no centro de suas ações."
   },
   "senado": {
-    "title": "Maurício em Ação",
+    "title": "Mauricío em Ação",
     "buttonAccess": "Acessar",
     "buttonProposicoes": "Proposições",
     "accessUrl": "#",
@@ -63,37 +78,37 @@
   },
   "contact": {
     "title": "Fale comigo",
-    "email": "contato@mauriciosergio.com.br",
+    "email": "contato@mauricisooares.com.br",
     "phone": "(00) 0000-0000",
     "address": "Brasil"
   },
   "news": [
     {
       "id": "1",
-      "title": "Maurício Sergio defende investimentos na educação básica",
-      "excerpt": "Maurício Sergio voltou a defender a aprovação de projetos que garantem o piso salarial profissional nacional para os profissionais da educação...",
+      "title": "Mauricío Soares defende investimentos na educação básica",
+      "excerpt": "Mauricío Soares voltou a defender a aprovação de projetos que garantem o piso salarial profissional nacional para os profissionais da educação...",
       "date": "2026-04-14",
       "category": "Educação",
       "image": "/uploads/banner.jpg",
-      "content": "Maurício Sergio voltou a defender a aprovação de projetos que garantem o piso salarial profissional nacional para os profissionais da educação básica. Em discurso, destacou a importância de valorizar os educadores e garantir condições dignas de trabalho em todas as regiões do país."
+      "content": "Mauricío Soares voltou a defender a aprovação de projetos que garantem o piso salarial profissional nacional para os profissionais da educação básica. Em discurso, destacou a importância de valorizar os educadores e garantir condições dignas de trabalho em todas as regiões do país."
     },
     {
       "id": "2",
-      "title": "Maurício Sergio apresenta propostas para o agronegócio",
-      "excerpt": "Maurício Sergio protestou contra medidas que prejudicam os produtores rurais e apresentou alternativas para fortalecer o setor...",
+      "title": "Mauricío Soares apresenta propostas para o agronegócio",
+      "excerpt": "Mauricío Soares protestou contra medidas que prejudicam os produtores rurais e apresentou alternativas para fortalecer o setor...",
       "date": "2025-02-21",
       "category": "Agronegócio",
       "image": "/uploads/news-agronegocio.jpg",
-      "content": "Maurício Sergio protestou contra medidas que prejudicam os produtores rurais e apresentou alternativas para fortalecer o setor agrícola brasileiro, garantindo crédito acessível e condições justas para o campo."
+      "content": "Mauricío Soares protestou contra medidas que prejudicam os produtores rurais e apresentou alternativas para fortalecer o setor agrícola brasileiro, garantindo crédito acessível e condições justas para o campo."
     },
     {
       "id": "3",
-      "title": "Maurício Sergio defende mais segurança em compras online",
+      "title": "Mauricío Soares defende mais segurança em compras online",
       "excerpt": "Três em cada dez consumidores brasileiros já sofreram prejuízos ou passaram por alguma tentativa de fraude nas compras pela internet...",
       "date": "2024-10-30",
       "category": "Segurança",
       "image": "/uploads/senado-bg.jpg",
-      "content": "Três em cada dez consumidores brasileiros já sofreram prejuízos ou passaram por alguma tentativa de fraude nas compras pela internet. Maurício Sergio defendeu a criação de mecanismos mais robustos de proteção ao consumidor no ambiente digital."
+      "content": "Três em cada dez consumidores brasileiros já sofreram prejuízos ou passaram por alguma tentativa de fraude nas compras pela internet. Mauricío Soares defendeu a criação de mecanismos mais robustos de proteção ao consumidor no ambiente digital."
     }
   ],
   "videos": [
@@ -105,7 +120,7 @@
     },
     {
       "id": "2",
-      "title": "Maurício Sergio - Compromisso com o desenvolvimento regional",
+      "title": "Mauricío Soares - Compromisso com o desenvolvimento regional",
       "youtubeId": "dQw4w9WgXcQ",
       "thumbnail": ""
     },
@@ -117,35 +132,71 @@
     },
     {
       "id": "4",
-      "title": "Maurício Sergio - Obras de pavimentação",
+      "title": "Mauricío Soares - Obras de pavimentação",
       "youtubeId": "dQw4w9WgXcQ",
       "thumbnail": ""
     },
     {
       "id": "5",
-      "title": "Maurício Sergio - Compromisso assumido é compromisso cumprido",
+      "title": "Mauricío Soares - Compromisso assumido é compromisso cumprido",
       "youtubeId": "dQw4w9WgXcQ",
       "thumbnail": ""
     },
     {
       "id": "6",
-      "title": "Maurício Sergio - Festa comunitária",
+      "title": "Mauricío Soares - Festa comunitária",
       "youtubeId": "dQw4w9WgXcQ",
       "thumbnail": ""
     }
   ],
   "instagram": {
-    "username": "mauriciosergio",
+    "username": "mauricisooares",
     "posts": [
-      { "id": "1", "image": "/uploads/instagram-clube-news.jpg", "caption": "Quando olho para o futuro, sinto a força e a determinação" },
-      { "id": "2", "image": "/uploads/instagram-mauricio.jpg", "caption": "Em artigo publicado hoje, falei sobre os desafios do país" },
-      { "id": "3", "image": "/uploads/senado-bg.jpg", "caption": "O dia hoje foi de muitos debates nas comissões" },
-      { "id": "4", "image": "/uploads/instagram-partido-liberal.jpg", "caption": "Boa notícia para os nossos municípios" },
-      { "id": "5", "image": "/uploads/instagram-mauricio.jpg", "caption": "Hoje na reunião de líderes discutimos propostas" },
-      { "id": "6", "image": "/uploads/senado-bg.jpg", "caption": "Qual foi a última vez que você andou na rua à noite?" },
-      { "id": "7", "image": "/uploads/instagram-retrato.jpg", "caption": "Hoje reunimos toda a nossa equipe" },
-      { "id": "8", "image": "/uploads/instagram-mauricio.jpg", "caption": "Simplesmente o melhor presente que eu poderia receber" },
-      { "id": "9", "image": "/uploads/senado-bg.jpg", "caption": "Há coisas a respeito das quais tenho certeza" }
+      {
+        "id": "1",
+        "image": "/uploads/instagram-clube-news.jpg",
+        "caption": "Quando olho para o futuro, sinto a força e a determinação"
+      },
+      {
+        "id": "2",
+        "image": "/uploads/instagram-mauricio.jpg",
+        "caption": "Em artigo publicado hoje, falei sobre os desafios do país"
+      },
+      {
+        "id": "3",
+        "image": "/uploads/senado-bg.jpg",
+        "caption": "O dia hoje foi de muitos debates nas comissões"
+      },
+      {
+        "id": "4",
+        "image": "/uploads/instagram-partido-liberal.jpg",
+        "caption": "Boa notícia para os nossos municípios"
+      },
+      {
+        "id": "5",
+        "image": "/uploads/instagram-mauricio.jpg",
+        "caption": "Hoje na reunião de líderes discutimos propostas"
+      },
+      {
+        "id": "6",
+        "image": "/uploads/senado-bg.jpg",
+        "caption": "Qual foi a última vez que você andou na rua à noite?"
+      },
+      {
+        "id": "7",
+        "image": "/uploads/instagram-retrato.jpg",
+        "caption": "Hoje reunimos toda a nossa equipe"
+      },
+      {
+        "id": "8",
+        "image": "/uploads/instagram-mauricio.jpg",
+        "caption": "Simplesmente o melhor presente que eu poderia receber"
+      },
+      {
+        "id": "9",
+        "image": "/uploads/senado-bg.jpg",
+        "caption": "Há coisas a respeito das quais tenho certeza"
+      }
     ]
   },
   "agenda": [

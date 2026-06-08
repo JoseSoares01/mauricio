@@ -40,7 +40,7 @@ export default function AdminLogin({ onLogin }: AdminLoginProps) {
             <Lock className="text-white" size={28} />
           </div>
           <h1 className="text-2xl font-bold text-gray-800">Painel Admin</h1>
-          <p className="text-gray-500 mt-2">Maurício Sergio - Control System</p>
+          <p className="text-gray-500 mt-2">Mauricío Soares - Control System</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">

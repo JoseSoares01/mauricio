@@ -63,7 +63,7 @@ export default function AdminDashboard({ config: initialConfig, token, onSave, o
         <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
           <div>
             <h1 className="text-xl font-bold">Control System</h1>
-            <p className="text-sm text-white/70">Maurício Sergio - Painel Admin</p>
+            <p className="text-sm text-white/70">Mauricío Soares - Painel Admin</p>
           </div>
           <div className="flex items-center gap-3">
             {message && (
@@ -206,7 +206,7 @@ export default function AdminDashboard({ config: initialConfig, token, onSave, o
                     <input className="admin-input" value={config.hero.titleLine2} onChange={(e) => update("hero", { ...config.hero, titleLine2: e.target.value })} />
                   </div>
                   <div>
-                    <label className="admin-label">Linha 3 (ex: SERGIO)</label>
+                    <label className="admin-label">Linha 3 (ex: SOARES)</label>
                     <input className="admin-input" value={config.hero.titleLine3} onChange={(e) => update("hero", { ...config.hero, titleLine3: e.target.value })} />
                   </div>
                 </div>
