@@ -1,0 +1,201 @@
+{
+  "site": {
+    "title": "Maurício Sergio",
+    "subtitle": "Candidato",
+    "description": "Site oficial de Maurício Sergio",
+    "copyright": "© 2026 Maurício Sergio – TODOS OS DIREITOS RESERVADOS"
+  },
+  "theme": {
+    "primary": "#0071B7",
+    "secondary": "#129547",
+    "accent": "#FDCE27",
+    "text": "#677993",
+    "textLight": "#6A6A6A",
+    "background": "#FFFFFF",
+    "heroGradientStart": "#FFFFFF",
+    "heroGradientEnd": "#D3D3D3",
+    "footerBg": "#0071B7",
+    "fontHeading": "Poppins",
+    "fontBody": "Red Hat Display"
+  },
+  "menu": [
+    { "label": "Home", "href": "/" },
+    { "label": "Sobre", "href": "/sobre" },
+    { "label": "Notícias", "href": "/noticias" },
+    { "label": "Agenda", "href": "/agenda" },
+    { "label": "Contato", "href": "/contato" }
+  ],
+  "social": {
+    "instagram": "https://instagram.com/",
+    "facebook": "https://facebook.com/",
+    "twitter": "https://x.com/",
+    "youtube": "https://youtube.com/",
+    "tiktok": "https://tiktok.com/"
+  },
+  "images": {
+    "heroLogo": "/uploads/logo-mauricio-sergio-transparent.png",
+    "logoBlue": "/uploads/logo-mauricio-sergio-blue.png",
+    "headerLogo": "/uploads/logo-mauricio-sergio-transparent.png",
+    "heroPhoto": "/uploads/hero-photo.png",
+    "heroPhotoOriginal": "/uploads/hero-mauricio-original.png",
+    "aboutPhoto": "/uploads/logo-mauricio-sergio-blue.png",
+    "aboutBg": "/uploads/about-bg-new.jpg",
+    "senadoBg": "/uploads/senado-bg-new.jpg",
+    "banner": "/uploads/banner.jpg",
+    "bannerSecondary": "/uploads/banner-new.jpg",
+    "favicon": "/uploads/favicon.png"
+  },
+  "hero": {
+    "titleLine1": "CANDIDATO",
+    "titleLine2": "MAURÍCIO",
+    "titleLine3": "SERGIO"
+  },
+  "about": {
+    "shortText": "Maurício Sergio é um líder comprometido com o desenvolvimento e o bem-estar da população. Com vasta experiência em gestão pública e políticas sociais, dedica-se a construir um futuro melhor para todos. Sua trajetória é marcada por resultados concretos e pelo diálogo permanente com a sociedade.",
+    "fullText": "Maurício Sergio é um líder comprometido com o desenvolvimento e o bem-estar da população. Com vasta experiência em gestão pública e políticas sociais, dedica-se a construir um futuro melhor para todos.\n\nSua trajetória é marcada por resultados concretos e pelo diálogo permanente com a sociedade. Acredita que a política deve ser feita com transparência, responsabilidade e foco nas pessoas.\n\nAo longo de sua carreira, Maurício Sergio tem trabalhado incansavelmente para garantir investimentos em educação, saúde, infraestrutura e geração de empregos, sempre colocando o cidadão no centro de suas ações."
+  },
+  "senado": {
+    "title": "Maurício em Ação",
+    "buttonAccess": "Acessar",
+    "buttonProposicoes": "Proposições",
+    "accessUrl": "#",
+    "proposicoesUrl": "#"
+  },
+  "contact": {
+    "title": "Fale comigo",
+    "email": "contato@mauriciosergio.com.br",
+    "phone": "(00) 0000-0000",
+    "address": "Brasil"
+  },
+  "news": [
+    {
+      "id": "1",
+      "title": "Maurício Sergio defende investimentos na educação básica",
+      "excerpt": "Maurício Sergio voltou a defender a aprovação de projetos que garantem o piso salarial profissional nacional para os profissionais da educação...",
+      "date": "2026-04-14",
+      "category": "Educação",
+      "image": "/uploads/banner.jpg",
+      "content": "Maurício Sergio voltou a defender a aprovação de projetos que garantem o piso salarial profissional nacional para os profissionais da educação básica. Em discurso, destacou a importância de valorizar os educadores e garantir condições dignas de trabalho em todas as regiões do país."
+    },
+    {
+      "id": "2",
+      "title": "Maurício Sergio apresenta propostas para o agronegócio",
+      "excerpt": "Maurício Sergio protestou contra medidas que prejudicam os produtores rurais e apresentou alternativas para fortalecer o setor...",
+      "date": "2025-02-21",
+      "category": "Agronegócio",
+      "image": "/uploads/news-agronegocio.jpg",
+      "content": "Maurício Sergio protestou contra medidas que prejudicam os produtores rurais e apresentou alternativas para fortalecer o setor agrícola brasileiro, garantindo crédito acessível e condições justas para o campo."
+    },
+    {
+      "id": "3",
+      "title": "Maurício Sergio defende mais segurança em compras online",
+      "excerpt": "Três em cada dez consumidores brasileiros já sofreram prejuízos ou passaram por alguma tentativa de fraude nas compras pela internet...",
+      "date": "2024-10-30",
+      "category": "Segurança",
+      "image": "/uploads/senado-bg.jpg",
+      "content": "Três em cada dez consumidores brasileiros já sofreram prejuízos ou passaram por alguma tentativa de fraude nas compras pela internet. Maurício Sergio defendeu a criação de mecanismos mais robustos de proteção ao consumidor no ambiente digital."
+    }
+  ],
+  "videos": [
+    {
+      "id": "1",
+      "title": "Gratidão pela vida, fé nos planos de Deus e coragem para seguir em frente",
+      "youtubeId": "dQw4w9WgXcQ",
+      "thumbnail": ""
+    },
+    {
+      "id": "2",
+      "title": "Maurício Sergio - Compromisso com o desenvolvimento regional",
+      "youtubeId": "dQw4w9WgXcQ",
+      "thumbnail": ""
+    },
+    {
+      "id": "3",
+      "title": "Muito feliz em ver essa creche equipada!",
+      "youtubeId": "dQw4w9WgXcQ",
+      "thumbnail": ""
+    },
+    {
+      "id": "4",
+      "title": "Maurício Sergio - Obras de pavimentação",
+      "youtubeId": "dQw4w9WgXcQ",
+      "thumbnail": ""
+    },
+    {
+      "id": "5",
+      "title": "Maurício Sergio - Compromisso assumido é compromisso cumprido",
+      "youtubeId": "dQw4w9WgXcQ",
+      "thumbnail": ""
+    },
+    {
+      "id": "6",
+      "title": "Maurício Sergio - Festa comunitária",
+      "youtubeId": "dQw4w9WgXcQ",
+      "thumbnail": ""
+    }
+  ],
+  "instagram": {
+    "username": "mauriciosergio",
+    "posts": [
+      { "id": "1", "image": "/uploads/instagram-clube-news.jpg", "caption": "Quando olho para o futuro, sinto a força e a determinação" },
+      { "id": "2", "image": "/uploads/instagram-mauricio.jpg", "caption": "Em artigo publicado hoje, falei sobre os desafios do país" },
+      { "id": "3", "image": "/uploads/senado-bg.jpg", "caption": "O dia hoje foi de muitos debates nas comissões" },
+      { "id": "4", "image": "/uploads/instagram-partido-liberal.jpg", "caption": "Boa notícia para os nossos municípios" },
+      { "id": "5", "image": "/uploads/instagram-mauricio.jpg", "caption": "Hoje na reunião de líderes discutimos propostas" },
+      { "id": "6", "image": "/uploads/senado-bg.jpg", "caption": "Qual foi a última vez que você andou na rua à noite?" },
+      { "id": "7", "image": "/uploads/instagram-retrato.jpg", "caption": "Hoje reunimos toda a nossa equipe" },
+      { "id": "8", "image": "/uploads/instagram-mauricio.jpg", "caption": "Simplesmente o melhor presente que eu poderia receber" },
+      { "id": "9", "image": "/uploads/senado-bg.jpg", "caption": "Há coisas a respeito das quais tenho certeza" }
+    ]
+  },
+  "agenda": [
+    {
+      "id": "1",
+      "title": "Reunião com lideranças comunitárias",
+      "description": "Encontro para discutir propostas de desenvolvimento local",
+      "date": "2026-06-10",
+      "time": "09:00",
+      "location": "Centro Comunitário",
+      "type": "reuniao"
+    },
+    {
+      "id": "2",
+      "title": "Visita à escola municipal",
+      "description": "Acompanhamento das obras de reforma e entrega de materiais",
+      "date": "2026-06-12",
+      "time": "14:00",
+      "location": "Escola Municipal João Silva",
+      "type": "visita"
+    },
+    {
+      "id": "3",
+      "title": "Comício de lançamento da campanha",
+      "description": "Grande evento de abertura oficial da campanha",
+      "date": "2026-06-15",
+      "time": "18:00",
+      "location": "Praça Central",
+      "type": "evento"
+    },
+    {
+      "id": "4",
+      "title": "Debate sobre educação",
+      "description": "Painel com especialistas sobre o futuro da educação",
+      "date": "2026-06-20",
+      "time": "10:00",
+      "location": "Auditório Municipal",
+      "type": "debate"
+    },
+    {
+      "id": "5",
+      "title": "Caminhada pelo bairro",
+      "description": "Conversa com moradores e comerciantes locais",
+      "date": "2026-06-25",
+      "time": "08:00",
+      "location": "Bairro São José",
+      "type": "caminhada"
+    }
+  ],
+  "admin": {
+    "password": "mauricio2026"
+  }
+}
