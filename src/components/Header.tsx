@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
@@ -9,8 +8,6 @@ import type { MenuItem } from "@/lib/types";
 
 interface HeaderProps {
   menu: MenuItem[];
-  siteTitle: string;
-  headerLogo?: string;
 }
 
 const MENU_ACCENTS: Record<string, string> = {
@@ -29,29 +26,13 @@ function isMenuActive(pathname: string, href: string) {
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 
-export default function Header({ menu, siteTitle, headerLogo }: HeaderProps) {
+export default function Header({ menu }: HeaderProps) {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
 
   return (
     <header className="fixed top-[15px] left-0 right-0 z-50">
-      <nav className="container-site flex items-center justify-between py-3 sm:py-4">
-        <Link href="/" className="flex items-center shrink min-w-0 max-w-[calc(100%-3.25rem)] sm:max-w-[calc(100%-4rem)] md:max-w-none">
-          {headerLogo ? (
-            <Image
-              src={headerLogo}
-              alt={siteTitle}
-              width={360}
-              height={156}
-              className="h-[clamp(3.25rem,11vw,5.25rem)] w-auto max-w-full object-contain object-left"
-              priority
-              unoptimized
-            />
-          ) : (
-            <span className="text-white font-bold text-lg md:text-xl drop-shadow-lg">{siteTitle}</span>
-          )}
-        </Link>
-
+      <nav className="container-site flex items-center justify-end py-3 sm:py-4">
         <button
           className="md:hidden text-white p-2 drop-shadow-lg"
           onClick={() => setOpen(!open)}

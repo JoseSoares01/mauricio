@@ -12,7 +12,7 @@ export default function PageLayout({ config, children, showFlagBar = true }: Pag
   return (
     <>
       {showFlagBar && <div className="flag-bar fixed top-0 left-0 right-0 z-[60]" />}
-      <Header menu={config.menu} siteTitle={config.site.title} headerLogo={config.images.headerLogo} />
+      <Header menu={config.menu} />
       <main>{children}</main>
       <Footer config={config} />
     </>

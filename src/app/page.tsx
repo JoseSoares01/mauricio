@@ -16,28 +16,28 @@ export default async function HomePage() {
           background: `radial-gradient(at top center, var(--color-hero-start) 0%, var(--color-hero-end) 100%)`,
         }}
       >
-        <div className="container-site relative min-h-[98vh] pt-24">
-          <div className="relative z-10 flex justify-center md:justify-start items-center min-h-[calc(98vh-6rem)] md:max-w-[50%]">
+        <div className="container-site relative pt-24 z-10">
+          <div className="flex justify-center pt-4 md:justify-start md:items-center md:min-h-[calc(98vh-6rem)] md:max-w-[50%]">
             <Image
               src={config.images.heroLogo}
               alt={`${config.site.title} - Deputado Federal`}
               width={700}
               height={400}
-              className="w-full max-w-[79%] md:max-w-[80%] object-contain"
+              className="w-full max-w-[88%] sm:max-w-[82%] md:max-w-[80%] object-contain"
               priority
               unoptimized
             />
           </div>
-          <Image
-            src={config.images.heroPhoto}
-            alt={config.site.title}
-            width={609}
-            height={887}
-            className="absolute bottom-0 right-[-5vw] md:right-[6vw] lg:right-[10vw] h-[min(96vh,920px)] w-auto max-w-none object-contain object-bottom pointer-events-none z-[1]"
-            priority
-            unoptimized
-          />
         </div>
+        <Image
+          src={config.images.heroPhoto}
+          alt={config.site.title}
+          width={609}
+          height={887}
+          className="absolute bottom-0 left-1/2 z-[1] h-[min(54vh,480px)] sm:h-[min(58vh,520px)] w-auto max-w-[95%] -translate-x-1/2 object-contain object-bottom pointer-events-none md:left-auto md:right-[6vw] lg:right-[10vw] md:translate-x-0 md:h-[min(96vh,920px)] md:max-w-none"
+          priority
+          unoptimized
+        />
         <div className="absolute bottom-0 left-0 right-0 flex justify-center z-20">
           <SocialIcons social={config.social} />
         </div>
