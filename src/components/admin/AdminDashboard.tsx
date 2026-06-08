@@ -11,7 +11,7 @@ import {
 interface AdminDashboardProps {
   config: SiteConfig;
   token: string;
-  onSave: (config: SiteConfig) => Promise<boolean>;
+  onSave: (config: SiteConfig) => Promise<{ ok: boolean; error?: string }>;
   onLogout: () => void;
 }
 
@@ -41,8 +41,8 @@ export default function AdminDashboard({ config: initialConfig, token, onSave, o
 
   const handleSave = async () => {
     setSaving(true);
-    const ok = await onSave(config);
-    setMessage(ok ? "Salvo com sucesso!" : "Erro ao salvar");
+    const result = await onSave(config);
+    setMessage(result.ok ? "Salvo com sucesso!" : result.error || "Erro ao salvar");
     setSaving(false);
     setTimeout(() => setMessage(""), 3000);
   };

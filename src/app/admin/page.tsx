@@ -41,7 +41,7 @@ export default function AdminPage() {
     setConfig(null);
   };
 
-  const handleSave = async (updated: SiteConfig) => {
+  const handleSave = async (updated: SiteConfig): Promise<{ ok: boolean; error?: string }> => {
     const res = await fetch("/api/admin/config", {
       method: "PUT",
       headers: {
@@ -52,9 +52,10 @@ export default function AdminPage() {
     });
     if (res.ok) {
       setConfig(updated);
-      return true;
+      return { ok: true };
     }
-    return false;
+    const data = await res.json().catch(() => ({}));
+    return { ok: false, error: data.error || "Erro ao salvar" };
   };
 
   if (loading) {

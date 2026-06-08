@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSiteConfig, saveSiteConfig } from "@/lib/site-config";
 
+export const dynamic = "force-dynamic";
+
 function checkAuth(request: NextRequest): boolean {
   const token = request.headers.get("x-admin-token");
   return !!token;
@@ -20,7 +22,9 @@ export async function PUT(request: NextRequest) {
     const body = await request.json();
     await saveSiteConfig(body);
     return NextResponse.json({ success: true });
-  } catch {
-    return NextResponse.json({ error: "Erro ao salvar" }, { status: 500 });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "Erro ao salvar";
+    console.error("Erro ao salvar config:", error);
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }

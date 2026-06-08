@@ -47,6 +47,16 @@ src/components/         ← Componentes reutilizáveis
 src/components/admin/   ← Componentes do painel admin
 ```
 
+## Deploy na Vercel (salvar no admin online)
+
+Na Vercel o disco é somente leitura. Para o botão **Salvar** do admin funcionar em produção:
+
+1. No painel da Vercel, abra o projeto → **Storage** → crie um **Blob Store**
+2. Conecte o Blob ao projeto (isso define `BLOB_READ_WRITE_TOKEN` automaticamente)
+3. Faça um novo deploy
+
+Sem o Blob, o admin funciona em `localhost`, mas dá erro ao salvar no site publicado.
+
 ## Edição Manual (Alternativa)
 
 Você também pode editar diretamente o arquivo `data/site-config.json` para alterações em massa.
