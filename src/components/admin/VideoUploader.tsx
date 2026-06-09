@@ -12,6 +12,7 @@ interface VideoUploaderProps {
 
 export default function VideoUploader({ label, value, onChange, token }: VideoUploaderProps) {
   const [uploading, setUploading] = useState(false);
+  const [error, setError] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -19,6 +20,7 @@ export default function VideoUploader({ label, value, onChange, token }: VideoUp
     if (!file) return;
 
     setUploading(true);
+    setError("");
     const formData = new FormData();
     formData.append("file", file);
     formData.append("folder", "uploads/videos");
@@ -29,11 +31,14 @@ export default function VideoUploader({ label, value, onChange, token }: VideoUp
       body: formData,
     });
 
-    if (res.ok) {
-      const { url } = await res.json();
-      onChange(url);
+    const data = await res.json().catch(() => ({}));
+    if (res.ok && data.url) {
+      onChange(data.url);
+    } else {
+      setError(data.error || "Falha no upload do vídeo");
     }
     setUploading(false);
+    if (inputRef.current) inputRef.current.value = "";
   };
 
   return (
@@ -59,6 +64,7 @@ export default function VideoUploader({ label, value, onChange, token }: VideoUp
         {uploading ? "Enviando vídeo..." : "Upload de Vídeo"}
       </button>
       <input ref={inputRef} type="file" accept="video/*" className="hidden" onChange={handleUpload} />
+      {error && <p className="text-sm text-red-600 mt-2">{error}</p>}
     </div>
   );
 }

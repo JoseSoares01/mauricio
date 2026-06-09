@@ -4,23 +4,10 @@ import { unstable_noStore as noStore } from "next/cache";
 import { put, list } from "@vercel/blob";
 import type { SiteConfig } from "./types";
 import defaultConfig from "../../data/site-config.json";
+import { blobAuth, isBlobEnabled } from "./blob-storage";
 
 const CONFIG_PATH = path.join(process.cwd(), "data", "site-config.json");
 const BLOB_PATHNAME = "mauricio/site-config.json";
-
-function isBlobEnabled(): boolean {
-  return !!(process.env.BLOB_READ_WRITE_TOKEN || process.env.BLOB_STORE_ID);
-}
-
-function blobAuth() {
-  const token = process.env.BLOB_READ_WRITE_TOKEN;
-  if (token) return { token };
-
-  const storeId = process.env.BLOB_STORE_ID;
-  if (storeId) return { storeId };
-
-  return {};
-}
 
 async function readFromBlob(): Promise<SiteConfig | null> {
   if (!isBlobEnabled()) return null;

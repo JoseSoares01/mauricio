@@ -14,6 +14,7 @@ interface ImageUploaderProps {
 
 export default function ImageUploader({ label, value, onChange, token, folder = "uploads" }: ImageUploaderProps) {
   const [uploading, setUploading] = useState(false);
+  const [error, setError] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -21,6 +22,7 @@ export default function ImageUploader({ label, value, onChange, token, folder = 
     if (!file) return;
 
     setUploading(true);
+    setError("");
     const formData = new FormData();
     formData.append("file", file);
     formData.append("folder", folder);
@@ -31,11 +33,14 @@ export default function ImageUploader({ label, value, onChange, token, folder = 
       body: formData,
     });
 
-    if (res.ok) {
-      const { url } = await res.json();
-      onChange(url);
+    const data = await res.json().catch(() => ({}));
+    if (res.ok && data.url) {
+      onChange(data.url);
+    } else {
+      setError(data.error || "Falha no upload da imagem");
     }
     setUploading(false);
+    if (inputRef.current) inputRef.current.value = "";
   };
 
   return (
@@ -44,7 +49,7 @@ export default function ImageUploader({ label, value, onChange, token, folder = 
       <div className="flex items-start gap-4">
         {value && (
           <div className="relative w-24 h-24 rounded-lg overflow-hidden border flex-shrink-0">
-            <Image src={value} alt={label} fill className="object-cover" />
+            <Image src={value} alt={label} fill className="object-cover" unoptimized />
             <button
               type="button"
               onClick={() => onChange("")}
@@ -72,6 +77,7 @@ export default function ImageUploader({ label, value, onChange, token, folder = 
             {uploading ? "Enviando..." : "Upload de Imagem"}
           </button>
           <input ref={inputRef} type="file" accept="image/*" className="hidden" onChange={handleUpload} />
+          {error && <p className="text-sm text-red-600 mt-2">{error}</p>}
         </div>
       </div>
     </div>
