@@ -9,7 +9,10 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: config.site.title,
     description: config.site.description,
-    icons: { icon: config.images.favicon },
+    icons: {
+      icon: [{ url: config.images.favicon, sizes: "190x190", type: "image/png" }],
+      apple: [{ url: config.images.favicon, sizes: "190x190", type: "image/png" }],
+    },
   };
 }
 
