@@ -57,6 +57,22 @@ Na Vercel o disco é somente leitura. Para o botão **Salvar** do admin funciona
 
 Sem o Blob, o admin funciona em `localhost`, mas dá erro ao salvar no site publicado.
 
+## Feed real do Instagram
+
+Por padrão a grade usa fotos manuais do admin. Para mostrar as **publicações reais** da conta:
+
+1. A conta Instagram deve ser **Profissional** (Empresa ou Criador) e ligada a uma **Página do Facebook**
+2. Crie uma app em [developers.facebook.com](https://developers.facebook.com/)
+3. Adicione o produto **Instagram Graph API**
+4. Gere um token de acesso de longa duração com permissão `instagram_basic`
+5. Obtenha o **Instagram User ID** da conta
+6. Na Vercel → Settings → Environment Variables, adicione:
+   - `INSTAGRAM_ACCESS_TOKEN` — token de acesso
+   - `INSTAGRAM_USER_ID` — ID numérico da conta Instagram
+7. Faça **Redeploy**
+
+O site atualiza o feed automaticamente (cache de ~1 hora). Se a API falhar, usa a grade manual do admin.
+
 ## Edição Manual (Alternativa)
 
 Você também pode editar diretamente o arquivo `data/site-config.json` para alterações em massa.

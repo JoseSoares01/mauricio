@@ -53,6 +53,7 @@ export interface InstagramPost {
   id: string;
   image: string;
   caption: string;
+  permalink?: string;
 }
 
 export interface AgendaEvent {
