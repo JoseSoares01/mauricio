@@ -1,6 +1,7 @@
 import { promises as fs } from "fs";
 import path from "path";
-import { put, get } from "@vercel/blob";
+import { unstable_noStore as noStore } from "next/cache";
+import { put, list } from "@vercel/blob";
 import type { SiteConfig } from "./types";
 import defaultConfig from "../../data/site-config.json";
 
@@ -12,14 +13,10 @@ function isBlobEnabled(): boolean {
 }
 
 function blobAuth() {
-  const storeId = process.env.BLOB_STORE_ID;
-
-  if (process.env.VERCEL === "1" && storeId) {
-    return { storeId };
-  }
-
   const token = process.env.BLOB_READ_WRITE_TOKEN;
   if (token) return { token };
+
+  const storeId = process.env.BLOB_STORE_ID;
   if (storeId) return { storeId };
 
   return {};
@@ -29,15 +26,14 @@ async function readFromBlob(): Promise<SiteConfig | null> {
   if (!isBlobEnabled()) return null;
 
   try {
-    const result = await get(BLOB_PATHNAME, {
-      access: "public",
-      useCache: false,
-      ...blobAuth(),
-    });
-    if (!result) return null;
+    const { blobs } = await list({ prefix: "mauricio/", ...blobAuth() });
+    const blob = blobs.find((item) => item.pathname === BLOB_PATHNAME);
+    if (!blob) return null;
 
-    const text = await new Response(result.stream).text();
-    return JSON.parse(text) as SiteConfig;
+    const response = await fetch(`${blob.url}?v=${blob.uploadedAt}`, { cache: "no-store" });
+    if (!response.ok) return null;
+
+    return (await response.json()) as SiteConfig;
   } catch (error) {
     console.error("Falha ao ler config do Blob:", error);
     return null;
@@ -54,6 +50,7 @@ async function readFromDisk(): Promise<SiteConfig> {
 }
 
 export async function getSiteConfig(): Promise<SiteConfig> {
+  noStore();
   const fromBlob = await readFromBlob();
   if (fromBlob) return fromBlob;
   return readFromDisk();
@@ -69,8 +66,14 @@ export async function saveSiteConfig(config: SiteConfig): Promise<void> {
         addRandomSuffix: false,
         allowOverwrite: true,
         contentType: "application/json",
+        cacheControlMaxAge: 60,
         ...blobAuth(),
       });
+
+      const saved = await readFromBlob();
+      if (!saved || JSON.stringify(saved) !== JSON.stringify(config)) {
+        throw new Error("O Blob não confirmou a gravação. Tente salvar novamente.");
+      }
       return;
     } catch (error) {
       console.error("Falha ao gravar config no Blob:", error);

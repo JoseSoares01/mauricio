@@ -1,3 +1,4 @@
+import { revalidatePath } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 import { getSiteConfig, saveSiteConfig } from "@/lib/site-config";
 
@@ -22,6 +23,7 @@ export async function PUT(request: NextRequest) {
   try {
     const body = await request.json();
     await saveSiteConfig(body);
+    revalidatePath("/", "layout");
     return NextResponse.json({ success: true });
   } catch (error) {
     const message = error instanceof Error ? error.message : "Erro ao salvar";

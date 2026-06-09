@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { getSiteConfig } from "@/lib/site-config";
 
+export const dynamic = "force-dynamic";
+
 export async function generateMetadata(): Promise<Metadata> {
   const config = await getSiteConfig();
   return {
