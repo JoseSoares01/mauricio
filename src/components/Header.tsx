@@ -31,7 +31,7 @@ export default function Header({ menu }: HeaderProps) {
   const pathname = usePathname();
 
   return (
-    <header className="fixed top-[15px] left-0 right-0 z-50">
+    <header className="fixed top-[10px] left-0 right-0 z-50">
       <nav className="container-site flex items-center justify-end py-3 sm:py-4">
         <button
           className="md:hidden text-white p-2 drop-shadow-lg"

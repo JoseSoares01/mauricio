@@ -117,15 +117,13 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .flag-bar {
-  height: 15px;
+  height: 10px;
   background: linear-gradient(
     to bottom,
-    var(--color-secondary) 0%,
-    var(--color-secondary) 33.333%,
-    var(--color-accent) 33.333%,
-    var(--color-accent) 66.666%,
-    var(--color-primary) 66.666%,
-    var(--color-primary) 100%
+    #129547 0%,
+    #129547 50%,
+    #fdce27 50%,
+    #fdce27 100%
   );
 }
 
