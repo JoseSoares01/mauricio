@@ -75,10 +75,11 @@ export default async function HomePage() {
         <div className="grid md:grid-cols-2 gap-4">
           <Image
             src={config.images.banner}
-            alt="Banner"
-            width={900}
-            height={300}
-            className="w-full rounded-lg"
+            alt="Banner MMBus"
+            width={512}
+            height={1024}
+            className="w-full h-auto rounded-lg"
+            unoptimized
           />
           <Image
             src={config.images.bannerSecondary || config.images.aboutBg}
