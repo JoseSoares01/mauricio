@@ -1,17 +1,40 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { getSiteConfig } from "@/lib/site-config";
+import { getAbsoluteUrl, getSiteUrl } from "@/lib/site-url";
 
 export const dynamic = "force-dynamic";
 
 export async function generateMetadata(): Promise<Metadata> {
   const config = await getSiteConfig();
+  const siteName = config.site.title;
+  const description = config.site.description;
+  const image = getAbsoluteUrl(config.images.heroPhoto || config.images.favicon);
+
   return {
-    title: config.site.title,
-    description: config.site.description,
+    metadataBase: new URL(getSiteUrl()),
+    title: {
+      default: siteName,
+      template: `%s | ${siteName}`,
+    },
+    description,
     icons: {
       icon: [{ url: config.images.favicon, sizes: "190x190", type: "image/png" }],
       apple: [{ url: config.images.favicon, sizes: "190x190", type: "image/png" }],
+    },
+    openGraph: {
+      type: "website",
+      locale: "pt_BR",
+      siteName,
+      title: siteName,
+      description,
+      images: [{ url: image, alt: siteName }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: siteName,
+      description,
+      images: [image],
     },
   };
 }

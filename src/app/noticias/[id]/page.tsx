@@ -1,9 +1,68 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import PageLayout from "@/components/PageLayout";
 import FormattedContent from "@/components/FormattedContent";
 import { getSiteConfig, formatDate } from "@/lib/site-config";
+import { getAbsoluteUrl, getSiteUrl } from "@/lib/site-url";
+
+function getNewsDescription(excerpt: string, content: string): string {
+  const source = excerpt.trim() || content.trim();
+  return source
+    .replace(/\*\*/g, "")
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
+    .replace(/^#{1,6}\s+/gm, "")
+    .replace(/^[-*]\s+/gm, "")
+    .replace(/\s+/g, " ")
+    .slice(0, 200)
+    .trim();
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+  const { id } = await params;
+  const config = await getSiteConfig();
+  const news = config.news.find((item) => item.id === id);
+
+  if (!news) {
+    return { title: "Notícia não encontrada" };
+  }
+
+  const description = getNewsDescription(news.excerpt, news.content);
+  const imageUrl = getAbsoluteUrl(news.image);
+  const pageUrl = `${getSiteUrl()}/noticias/${news.id}`;
+
+  return {
+    title: news.title,
+    description,
+    openGraph: {
+      type: "article",
+      url: pageUrl,
+      title: news.title,
+      description,
+      siteName: config.site.title,
+      publishedTime: news.date,
+      images: [
+        {
+          url: imageUrl,
+          width: 1200,
+          height: 630,
+          alt: news.title,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: news.title,
+      description,
+      images: [imageUrl],
+    },
+  };
+}
 
 export default async function NoticiaPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
