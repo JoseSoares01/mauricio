@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import PageLayout from "@/components/PageLayout";
+import FormattedContent from "@/components/FormattedContent";
 import { getSiteConfig, formatDate } from "@/lib/site-config";
 
 export default async function NoticiaPage({ params }: { params: Promise<{ id: string }> }) {
@@ -37,9 +38,10 @@ export default async function NoticiaPage({ params }: { params: Promise<{ id: st
         <div className="relative h-64 md:h-96 rounded-xl overflow-hidden mb-8">
           <Image src={news.image} alt={news.title} fill className="object-cover" />
         </div>
-        <div className="prose text-[17px] leading-relaxed" style={{ color: "var(--color-text)" }}>
-          <p>{news.content}</p>
-        </div>
+        <FormattedContent
+          content={news.content}
+          className="text-[17px] leading-relaxed"
+        />
       </article>
     </PageLayout>
   );

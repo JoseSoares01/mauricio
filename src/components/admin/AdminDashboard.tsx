@@ -12,6 +12,7 @@ import {
 } from "@/lib/video";
 import ImageUploader from "./ImageUploader";
 import VideoUploader from "./VideoUploader";
+import RichTextEditor from "./RichTextEditor";
 import {
   Palette, Image, Menu, FileText, Video, Calendar, Share2, Settings, Save, LogOut, ExternalLink, Plus, Trash2,
 } from "lucide-react";
@@ -282,7 +283,10 @@ export default function AdminDashboard({ config: initialConfig, token, onSave, o
 
           {tab === "news" && (
             <div className="admin-card">
-              <h2 className="text-xl font-bold mb-6">Notícias</h2>
+              <h2 className="text-xl font-bold mb-2">Notícias</h2>
+              <p className="text-sm text-gray-500 mb-6">
+                Use o editor para negrito, listas e links. Quebras de linha e URLs são formatadas automaticamente no site.
+              </p>
               {config.news.map((item, i) => (
                 <div key={item.id} className="border rounded-lg p-4 mb-4">
                   <div className="flex justify-between mb-3">
@@ -332,12 +336,17 @@ export default function AdminDashboard({ config: initialConfig, token, onSave, o
                       }} token={token} />
                     </div>
                     <div className="md:col-span-2">
-                      <label className="admin-label">Conteúdo Completo</label>
-                      <textarea className="admin-input min-h-[100px]" value={item.content} onChange={(e) => {
-                        const news = [...config.news];
-                        news[i] = { ...news[i], content: e.target.value };
-                        update("news", news);
-                      }} />
+                      <RichTextEditor
+                        label="Conteúdo Completo"
+                        value={item.content}
+                        onChange={(content) => {
+                          const news = [...config.news];
+                          news[i] = { ...news[i], content };
+                          update("news", news);
+                        }}
+                        minHeight={280}
+                        hint="Dica: selecione um trecho e clique em B para negrito. Links como https://... viram clicáveis automaticamente."
+                      />
                     </div>
                   </div>
                 </div>
