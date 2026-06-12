@@ -345,7 +345,7 @@ export default function AdminDashboard({ config: initialConfig, token, onSave, o
                           update("news", news);
                         }}
                         minHeight={280}
-                        hint="Dica: selecione um trecho e clique em B para negrito. Links como https://... viram clicáveis automaticamente."
+                        hint="Após títulos como PRÉ-CANDIDATOS, as linhas viram lista com - automaticamente ao salvar. Ou use o botão de lista."
                       />
                     </div>
                   </div>

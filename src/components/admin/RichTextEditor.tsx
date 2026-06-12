@@ -43,7 +43,7 @@ export default function RichTextEditor({
     });
   };
 
-  const prefixLines = (prefix: string) => {
+  const insertListItem = () => {
     const textarea = textareaRef.current;
     if (!textarea) return;
 
@@ -53,13 +53,32 @@ export default function RichTextEditor({
     const selected = value.slice(start, end);
     const after = value.slice(end);
 
-    const block = selected || "Item da lista";
-    const formatted = block
-      .split("\n")
-      .map((line) => (line.startsWith(prefix) ? line : `${prefix}${line}`))
-      .join("\n");
+    if (selected) {
+      const formatted = selected
+        .split("\n")
+        .map((line) => {
+          const trimmed = line.trim();
+          if (!trimmed) return "";
+          return /^[-*]\s/.test(trimmed) ? line : `- ${trimmed}`;
+        })
+        .filter(Boolean)
+        .join("\n");
 
-    onChange(before + formatted + after);
+      onChange(before + formatted + after);
+      return;
+    }
+
+    const lineStart = before.lastIndexOf("\n") + 1;
+    const currentLine = before.slice(lineStart);
+    const insertion = currentLine.trim() ? "\n- " : "- ";
+
+    onChange(before + insertion + after);
+
+    requestAnimationFrame(() => {
+      const pos = before.length + insertion.length;
+      textarea.focus();
+      textarea.setSelectionRange(pos, pos);
+    });
   };
 
   const insertLink = () => {
@@ -84,7 +103,7 @@ export default function RichTextEditor({
     { icon: Bold, label: "Negrito", action: () => wrapSelection("**") },
     { icon: Italic, label: "Itálico", action: () => wrapSelection("_") },
     { icon: Heading2, label: "Subtítulo", action: () => wrapSelection("\n## ", "\n") },
-    { icon: List, label: "Lista", action: () => prefixLines("- ") },
+    { icon: List, label: "Lista", action: insertListItem },
     { icon: Link, label: "Link", action: insertLink },
   ];
 

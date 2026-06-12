@@ -5,6 +5,7 @@ import { put, list } from "@vercel/blob";
 import type { SiteConfig } from "./types";
 import defaultConfig from "../../data/site-config.json";
 import { blobAuth, isBlobEnabled } from "./blob-storage";
+import { normalizeNewsMarkdown } from "./format-content";
 import { normalizeVideos } from "./video";
 
 const CONFIG_PATH = path.join(process.cwd(), "data", "site-config.json");
@@ -37,22 +38,26 @@ async function readFromDisk(): Promise<SiteConfig> {
   }
 }
 
-function applyVideoNormalization(config: SiteConfig): SiteConfig {
+function applyConfigNormalization(config: SiteConfig): SiteConfig {
   return {
     ...config,
     videos: normalizeVideos(config.videos),
+    news: config.news.map((item) => ({
+      ...item,
+      content: normalizeNewsMarkdown(item.content),
+    })),
   };
 }
 
 export async function getSiteConfig(): Promise<SiteConfig> {
   noStore();
   const fromBlob = await readFromBlob();
-  if (fromBlob) return applyVideoNormalization(fromBlob);
-  return applyVideoNormalization(await readFromDisk());
+  if (fromBlob) return applyConfigNormalization(fromBlob);
+  return applyConfigNormalization(await readFromDisk());
 }
 
 export async function saveSiteConfig(config: SiteConfig): Promise<void> {
-  const normalized = applyVideoNormalization(config);
+  const normalized = applyConfigNormalization(config);
   const content = `${JSON.stringify(normalized, null, 2)}\n`;
 
   if (isBlobEnabled()) {
