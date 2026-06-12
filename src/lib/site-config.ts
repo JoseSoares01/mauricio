@@ -5,6 +5,7 @@ import { put, list } from "@vercel/blob";
 import type { SiteConfig } from "./types";
 import defaultConfig from "../../data/site-config.json";
 import { blobAuth, isBlobEnabled } from "./blob-storage";
+import { normalizeVideos } from "./video";
 
 const CONFIG_PATH = path.join(process.cwd(), "data", "site-config.json");
 const BLOB_PATHNAME = "mauricio/site-config.json";
@@ -36,15 +37,23 @@ async function readFromDisk(): Promise<SiteConfig> {
   }
 }
 
+function applyVideoNormalization(config: SiteConfig): SiteConfig {
+  return {
+    ...config,
+    videos: normalizeVideos(config.videos),
+  };
+}
+
 export async function getSiteConfig(): Promise<SiteConfig> {
   noStore();
   const fromBlob = await readFromBlob();
-  if (fromBlob) return fromBlob;
-  return readFromDisk();
+  if (fromBlob) return applyVideoNormalization(fromBlob);
+  return applyVideoNormalization(await readFromDisk());
 }
 
 export async function saveSiteConfig(config: SiteConfig): Promise<void> {
-  const content = `${JSON.stringify(config, null, 2)}\n`;
+  const normalized = applyVideoNormalization(config);
+  const content = `${JSON.stringify(normalized, null, 2)}\n`;
 
   if (isBlobEnabled()) {
     try {
@@ -58,7 +67,7 @@ export async function saveSiteConfig(config: SiteConfig): Promise<void> {
       });
 
       const saved = await readFromBlob();
-      if (!saved || JSON.stringify(saved) !== JSON.stringify(config)) {
+      if (!saved || JSON.stringify(saved) !== JSON.stringify(normalized)) {
         throw new Error("O Blob não confirmou a gravação. Tente salvar novamente.");
       }
       return;

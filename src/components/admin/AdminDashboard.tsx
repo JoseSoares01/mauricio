@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import type { SiteConfig, MenuItem, NewsItem, VideoItem, AgendaEvent, InstagramPost } from "@/lib/types";
-import { extractYoutubeId, getYoutubeThumbnail } from "@/lib/video";
+import { extractYoutubeId, getYoutubeThumbnail, normalizeInput } from "@/lib/video";
 import ImageUploader from "./ImageUploader";
 import VideoUploader from "./VideoUploader";
 import {
@@ -379,7 +379,9 @@ export default function AdminDashboard({ config: initialConfig, token, onSave, o
                         videos[i] = {
                           ...videos[i],
                           youtubeId,
-                          videoFile: extractYoutubeId(value) ? undefined : videos[i].videoFile,
+                          videoFile: extractYoutubeId(value)
+                            ? normalizeInput(value)
+                            : videos[i].videoFile,
                           thumbnail: youtubeId && extractYoutubeId(value)
                             ? getYoutubeThumbnail(youtubeId)
                             : videos[i].thumbnail,
@@ -394,7 +396,7 @@ export default function AdminDashboard({ config: initialConfig, token, onSave, o
                         videos[i] = {
                           ...videos[i],
                           youtubeId,
-                          videoFile: undefined,
+                          videoFile: v.trim() ? normalizeInput(v) : undefined,
                           thumbnail: getYoutubeThumbnail(youtubeId),
                         };
                       } else {
