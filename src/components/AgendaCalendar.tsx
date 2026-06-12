@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from "react";
 import type { AgendaEvent } from "@/lib/types";
-import { ChevronLeft, ChevronRight, MapPin, Clock } from "lucide-react";
+import { ChevronLeft, ChevronRight, MapPin, Clock, X } from "lucide-react";
 
 interface AgendaCalendarProps {
   events: AgendaEvent[];
@@ -30,9 +30,119 @@ const MONTHS = [
   "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro",
 ];
 
+function EventChip({
+  event,
+  compact,
+  onSelect,
+}: {
+  event: AgendaEvent;
+  compact?: boolean;
+  onSelect: (event: AgendaEvent) => void;
+}) {
+  const color = TYPE_COLORS[event.type] || "var(--color-primary)";
+
+  return (
+    <button
+      type="button"
+      onClick={() => onSelect(event)}
+      className={`w-full text-left text-white rounded transition-opacity hover:opacity-90 cursor-pointer ${
+        compact ? "text-[10px] px-1 py-0.5 mt-0.5 truncate" : "text-xs p-1.5 mb-1"
+      }`}
+      style={{ backgroundColor: color }}
+      title={event.title}
+    >
+      {compact ? (
+        <>
+          {event.time} {event.title}
+        </>
+      ) : (
+        <>
+          <div className="font-semibold">{event.time}</div>
+          <div className="truncate">{event.title}</div>
+        </>
+      )}
+    </button>
+  );
+}
+
+function EventDetailModal({
+  event,
+  onClose,
+}: {
+  event: AgendaEvent;
+  onClose: () => void;
+}) {
+  const color = TYPE_COLORS[event.type] || "var(--color-primary)";
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50"
+      onClick={onClose}
+      role="presentation"
+    >
+      <div
+        className="bg-white rounded-2xl shadow-xl max-w-md w-full p-6 relative"
+        onClick={(e) => e.stopPropagation()}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="event-detail-title"
+      >
+        <button
+          type="button"
+          onClick={onClose}
+          className="absolute top-4 right-4 p-1 rounded-lg hover:bg-gray-100 text-gray-500"
+          aria-label="Fechar"
+        >
+          <X size={20} />
+        </button>
+
+        <span
+          className="text-xs font-medium text-white px-2 py-0.5 rounded"
+          style={{ backgroundColor: color }}
+        >
+          {TYPE_LABELS[event.type] || event.type}
+        </span>
+
+        <h3
+          id="event-detail-title"
+          className="text-xl font-semibold mt-3 pr-8"
+          style={{ color: "var(--color-primary)" }}
+        >
+          {event.title}
+        </h3>
+
+        {event.description && (
+          <p className="text-gray-600 mt-3 leading-relaxed">{event.description}</p>
+        )}
+
+        <div className="flex items-center gap-2 text-sm text-gray-600 mt-4">
+          <Clock size={16} className="shrink-0" />
+          <span>
+            {new Date(event.date + "T12:00:00").toLocaleDateString("pt-BR", {
+              weekday: "long",
+              day: "numeric",
+              month: "long",
+              year: "numeric",
+            })}{" "}
+            às {event.time}
+          </span>
+        </div>
+
+        {event.location && (
+          <div className="flex items-center gap-2 text-sm text-gray-600 mt-2">
+            <MapPin size={16} className="shrink-0" />
+            <span>{event.location}</span>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
 export default function AgendaCalendar({ events }: AgendaCalendarProps) {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [view, setView] = useState<"month" | "week">("month");
+  const [selectedEvent, setSelectedEvent] = useState<AgendaEvent | null>(null);
 
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth();
@@ -99,6 +209,10 @@ export default function AgendaCalendar({ events }: AgendaCalendarProps) {
   const todayStr = new Date().toISOString().split("T")[0];
 
   return (
+    <>
+    {selectedEvent && (
+      <EventDetailModal event={selectedEvent} onClose={() => setSelectedEvent(null)} />
+    )}
     <div className="grid lg:grid-cols-3 gap-8">
       <div className="lg:col-span-2">
         <div className="bg-white rounded-2xl shadow-lg p-6">
@@ -164,14 +278,12 @@ export default function AgendaCalendar({ events }: AgendaCalendarProps) {
                         {day}
                       </span>
                       {dayEvents.map((e) => (
-                        <div
+                        <EventChip
                           key={e.id}
-                          className="text-[10px] text-white rounded px-1 py-0.5 mt-0.5 truncate"
-                          style={{ backgroundColor: TYPE_COLORS[e.type] || "var(--color-primary)" }}
-                          title={e.title}
-                        >
-                          {e.time} {e.title}
-                        </div>
+                          event={e}
+                          compact
+                          onSelect={setSelectedEvent}
+                        />
                       ))}
                     </div>
                   );
@@ -198,14 +310,7 @@ export default function AgendaCalendar({ events }: AgendaCalendarProps) {
                       </div>
                     </div>
                     {dayEvents.map((e) => (
-                      <div
-                        key={e.id}
-                        className="text-xs text-white rounded p-1.5 mb-1"
-                        style={{ backgroundColor: TYPE_COLORS[e.type] || "var(--color-primary)" }}
-                      >
-                        <div className="font-semibold">{e.time}</div>
-                        <div className="truncate">{e.title}</div>
-                      </div>
+                      <EventChip key={e.id} event={e} onSelect={setSelectedEvent} />
                     ))}
                   </div>
                 );
@@ -225,7 +330,13 @@ export default function AgendaCalendar({ events }: AgendaCalendarProps) {
           ) : (
             <div className="space-y-4">
               {upcomingEvents.map((e) => (
-                <div key={e.id} className="border-l-4 pl-4 py-2" style={{ borderColor: TYPE_COLORS[e.type] }}>
+                <button
+                  key={e.id}
+                  type="button"
+                  onClick={() => setSelectedEvent(e)}
+                  className="w-full text-left border-l-4 pl-4 py-2 rounded-r-lg hover:bg-gray-50 transition-colors cursor-pointer"
+                  style={{ borderColor: TYPE_COLORS[e.type] }}
+                >
                   <span
                     className="text-xs font-medium text-white px-2 py-0.5 rounded"
                     style={{ backgroundColor: TYPE_COLORS[e.type] }}
@@ -235,7 +346,7 @@ export default function AgendaCalendar({ events }: AgendaCalendarProps) {
                   <h4 className="font-semibold mt-1" style={{ color: "var(--color-primary)" }}>
                     {e.title}
                   </h4>
-                  <p className="text-sm text-gray-600 mt-1">{e.description}</p>
+                  <p className="text-sm text-gray-600 mt-1 line-clamp-2">{e.description}</p>
                   <div className="flex items-center gap-1 text-xs text-gray-500 mt-2">
                     <Clock size={12} />
                     {new Date(e.date + "T12:00:00").toLocaleDateString("pt-BR")} às {e.time}
@@ -244,12 +355,13 @@ export default function AgendaCalendar({ events }: AgendaCalendarProps) {
                     <MapPin size={12} />
                     {e.location}
                   </div>
-                </div>
+                </button>
               ))}
             </div>
           )}
         </div>
       </div>
     </div>
+    </>
   );
 }
