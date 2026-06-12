@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { getSiteConfig } from "@/lib/site-config";
+import { getFaviconMetadata } from "@/lib/favicon";
 import { getAbsoluteUrl, getSiteUrl } from "@/lib/site-url";
 
 export const dynamic = "force-dynamic";
@@ -9,7 +10,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const config = await getSiteConfig();
   const siteName = config.site.title;
   const description = config.site.description;
-  const image = getAbsoluteUrl(config.images.heroPhoto || config.images.favicon);
+  const image = getAbsoluteUrl(config.images.heroPhoto || "/uploads/favicon-192.png");
 
   return {
     metadataBase: new URL(getSiteUrl()),
@@ -18,10 +19,7 @@ export async function generateMetadata(): Promise<Metadata> {
       template: `%s | ${siteName}`,
     },
     description,
-    icons: {
-      icon: [{ url: config.images.favicon, sizes: "190x190", type: "image/png" }],
-      apple: [{ url: config.images.favicon, sizes: "190x190", type: "image/png" }],
-    },
+    icons: getFaviconMetadata(),
     openGraph: {
       type: "website",
       locale: "pt_BR",
