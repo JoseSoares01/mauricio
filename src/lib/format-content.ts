@@ -1,59 +1,38 @@
-import DOMPurify from "isomorphic-dompurify";
-
 const HTML_TAG_RE = /<\/?[a-z][\s\S]*?>/i;
 
 export function isHtmlContent(content: string): boolean {
   return HTML_TAG_RE.test(content);
 }
 
-export function sanitizeHtml(html: string): string {
-  return DOMPurify.sanitize(html, {
-    ALLOWED_TAGS: [
-      "p",
-      "br",
-      "strong",
-      "b",
-      "em",
-      "i",
-      "u",
-      "a",
-      "ul",
-      "ol",
-      "li",
-      "h2",
-      "h3",
-      "h4",
-      "blockquote",
-    ],
-    ALLOWED_ATTR: ["href", "target", "rel"],
-    ADD_ATTR: ["target", "rel"],
-  });
+function decodeHtmlEntities(text: string): string {
+  return text
+    .replace(/&nbsp;/g, " ")
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"');
 }
 
-export function plainTextToHtml(text: string): string {
-  const escaped = text
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;");
-
-  const withLinks = escaped.replace(
-    /(https?:\/\/[^\s<]+[^\s<.,;:!?)\]}"'])/g,
-    '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>'
+export function htmlToPlainText(html: string): string {
+  return decodeHtmlEntities(
+    html
+      .replace(/<br\s*\/?>/gi, "\n")
+      .replace(/<\/p>/gi, "\n\n")
+      .replace(/<\/h[1-6]>/gi, "\n\n")
+      .replace(/<li[^>]*>/gi, "\n- ")
+      .replace(/<[^>]+>/g, "")
+      .replace(/\n{3,}/g, "\n\n")
+      .trim()
   );
-
-  return withLinks
-    .split(/\n\n+/)
-    .map((paragraph) => `<p>${paragraph.replace(/\n/g, "<br>")}</p>`)
-    .join("");
 }
 
-export function prepareNewsContent(content: string): { type: "html" | "markdown"; value: string } {
+export function prepareNewsContent(content: string): string {
   const trimmed = content.trim();
-  if (!trimmed) return { type: "markdown", value: "" };
+  if (!trimmed) return "";
 
   if (isHtmlContent(trimmed)) {
-    return { type: "html", value: sanitizeHtml(trimmed) };
+    return htmlToPlainText(trimmed);
   }
 
-  return { type: "markdown", value: trimmed };
+  return trimmed;
 }

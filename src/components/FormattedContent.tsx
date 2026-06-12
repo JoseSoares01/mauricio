@@ -1,3 +1,5 @@
+"use client";
+
 import ReactMarkdown from "react-markdown";
 import remarkBreaks from "remark-breaks";
 import remarkGfm from "remark-gfm";
@@ -9,18 +11,9 @@ interface FormattedContentProps {
 }
 
 export default function FormattedContent({ content, className = "" }: FormattedContentProps) {
-  const prepared = prepareNewsContent(content);
+  const markdown = prepareNewsContent(content);
 
-  if (!prepared.value) return null;
-
-  if (prepared.type === "html") {
-    return (
-      <div
-        className={`formatted-content ${className}`}
-        dangerouslySetInnerHTML={{ __html: prepared.value }}
-      />
-    );
-  }
+  if (!markdown) return null;
 
   return (
     <div className={`formatted-content ${className}`}>
@@ -34,7 +27,7 @@ export default function FormattedContent({ content, className = "" }: FormattedC
           ),
         }}
       >
-        {prepared.value}
+        {markdown}
       </ReactMarkdown>
     </div>
   );
