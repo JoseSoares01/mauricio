@@ -4,7 +4,7 @@ import PageLayout from "@/components/PageLayout";
 import SocialIcons from "@/components/SocialIcons";
 import InstagramSection from "@/components/InstagramSection";
 import { getSiteConfig, formatDate } from "@/lib/site-config";
-import { getVideoHref, getVideoThumbnail, isDirectVideoFile } from "@/lib/video";
+import { getVideoHref, getVideoThumbnail, isDirectVideoFile, isVideoClickable } from "@/lib/video";
 
 export default async function HomePage() {
   const config = await getSiteConfig();
@@ -154,48 +154,67 @@ export default async function HomePage() {
           {config.videos.map((video) => {
             const thumbnail = getVideoThumbnail(video);
             const href = getVideoHref(video);
+            const clickable = isVideoClickable(video);
             const directVideo = video.videoFile && isDirectVideoFile(video.videoFile);
 
-            return (
-            <a
-              key={video.id}
-              href={href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group block"
-            >
-              <div className="relative aspect-video rounded-lg overflow-hidden bg-gray-200">
-                {thumbnail ? (
-                  <Image
-                    src={thumbnail}
-                    alt={video.title}
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform"
-                    unoptimized={thumbnail.startsWith("http")}
-                  />
-                ) : directVideo ? (
-                  <video
-                    src={video.videoFile}
-                    preload="metadata"
-                    muted
-                    playsInline
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <div className="w-full h-full bg-gray-300" />
-                )}
-                <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/40 transition-colors">
-                  <div className="w-14 h-14 rounded-full bg-red-600 flex items-center justify-center">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
-                      <path d="M8 5v14l11-7z"/>
-                    </svg>
+            const card = (
+              <>
+                <div className="relative aspect-video rounded-lg overflow-hidden bg-gray-200">
+                  {thumbnail ? (
+                    <Image
+                      src={thumbnail}
+                      alt={video.title}
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform"
+                      unoptimized={thumbnail.startsWith("http")}
+                    />
+                  ) : directVideo ? (
+                    <video
+                      src={video.videoFile}
+                      preload="metadata"
+                      muted
+                      playsInline
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <div className="w-full h-full bg-gray-300" />
+                  )}
+                  <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/40 transition-colors pointer-events-none">
+                    <div className="w-14 h-14 rounded-full bg-red-600 flex items-center justify-center">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="white" aria-hidden="true">
+                        <path d="M8 5v14l11-7z"/>
+                      </svg>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <p className="mt-2 text-sm font-medium" style={{ color: "var(--color-primary)" }}>
-                {video.title}
-              </p>
-            </a>
+                <p
+                  className="mt-2 text-sm font-medium group-hover:underline"
+                  style={{ color: "var(--color-primary)" }}
+                >
+                  {video.title}
+                </p>
+              </>
+            );
+
+            if (!clickable) {
+              return (
+                <div key={video.id} className="block opacity-60">
+                  {card}
+                </div>
+              );
+            }
+
+            return (
+              <a
+                key={video.id}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group block cursor-pointer"
+                aria-label={`Abrir vídeo: ${video.title}`}
+              >
+                {card}
+              </a>
             );
           })}
         </div>

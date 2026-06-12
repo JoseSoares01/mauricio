@@ -2,7 +2,14 @@
 
 import { useState } from "react";
 import type { SiteConfig, MenuItem, NewsItem, VideoItem, AgendaEvent, InstagramPost } from "@/lib/types";
-import { extractYoutubeId, getYoutubeThumbnail, normalizeInput } from "@/lib/video";
+import {
+  getVideoHref,
+  getYoutubeInputValue,
+  isDirectVideoFile,
+  mergeDirectVideoFile,
+  mergeYoutubeInput,
+  resolveYoutubeId,
+} from "@/lib/video";
 import ImageUploader from "./ImageUploader";
 import VideoUploader from "./VideoUploader";
 import {
@@ -352,7 +359,9 @@ export default function AdminDashboard({ config: initialConfig, token, onSave, o
           {tab === "videos" && (
             <div className="admin-card">
               <h2 className="text-xl font-bold mb-2">Vídeos do Feed Principal</h2>
-              <p className="text-sm text-gray-500 mb-6">Faça upload de vídeos ou use links do YouTube.</p>
+              <p className="text-sm text-gray-500 mb-6">
+                Cole o ID ou qualquer link do YouTube. O visitante será direcionado ao clicar no vídeo ou no título.
+              </p>
               {config.videos.map((video, i) => (
                 <div key={video.id} className="border rounded-lg p-4 mb-4">
                   <div className="flex justify-between mb-3">
@@ -371,39 +380,33 @@ export default function AdminDashboard({ config: initialConfig, token, onSave, o
                       }} />
                     </div>
                     <div>
-                      <label className="admin-label">YouTube ID (opcional)</label>
-                      <input className="admin-input" value={video.youtubeId} onChange={(e) => {
-                        const videos = [...config.videos];
-                        const value = e.target.value;
-                        const youtubeId = extractYoutubeId(value) || value;
-                        videos[i] = {
-                          ...videos[i],
-                          youtubeId,
-                          videoFile: extractYoutubeId(value)
-                            ? normalizeInput(value)
-                            : videos[i].videoFile,
-                          thumbnail: youtubeId && extractYoutubeId(value)
-                            ? getYoutubeThumbnail(youtubeId)
-                            : videos[i].thumbnail,
-                        };
-                        update("videos", videos);
-                      }} placeholder="ID ou link do YouTube" />
+                      <label className="admin-label">YouTube — ID ou link</label>
+                      <input
+                        className="admin-input"
+                        value={getYoutubeInputValue(video)}
+                        onChange={(e) => {
+                          const videos = [...config.videos];
+                          videos[i] = mergeYoutubeInput(videos[i], e.target.value);
+                          update("videos", videos);
+                        }}
+                        placeholder="Rc7-_B72EUU ou https://youtube.com/watch?v=..."
+                      />
+                      {resolveYoutubeId(video) && (
+                        <p className="text-xs text-green-700 mt-1 break-all">
+                          Clique no site abre: {getVideoHref(video)}
+                        </p>
+                      )}
                     </div>
-                    <VideoUploader label="Link do YouTube ou upload de vídeo (.mp4)" value={video.videoFile || ""} onChange={(v) => {
-                      const videos = [...config.videos];
-                      const youtubeId = extractYoutubeId(v);
-                      if (youtubeId) {
-                        videos[i] = {
-                          ...videos[i],
-                          youtubeId,
-                          videoFile: v.trim() ? normalizeInput(v) : undefined,
-                          thumbnail: getYoutubeThumbnail(youtubeId),
-                        };
-                      } else {
-                        videos[i] = { ...videos[i], videoFile: v || undefined };
-                      }
-                      update("videos", videos);
-                    }} token={token} />
+                    <VideoUploader
+                      label="Upload de vídeo (.mp4) — opcional, substitui YouTube"
+                      value={video.videoFile && isDirectVideoFile(video.videoFile) ? video.videoFile : ""}
+                      onChange={(v) => {
+                        const videos = [...config.videos];
+                        videos[i] = mergeDirectVideoFile(videos[i], v);
+                        update("videos", videos);
+                      }}
+                      token={token}
+                    />
                   </div>
                 </div>
               ))}
