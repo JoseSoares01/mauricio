@@ -4,6 +4,7 @@ import PageLayout from "@/components/PageLayout";
 import SocialIcons from "@/components/SocialIcons";
 import InstagramSection from "@/components/InstagramSection";
 import { getSiteConfig, formatDate } from "@/lib/site-config";
+import { getVideoHref, getVideoThumbnail, isDirectVideoFile } from "@/lib/video";
 
 export default async function HomePage() {
   const config = await getSiteConfig();
@@ -150,24 +151,38 @@ export default async function HomePage() {
           </h2>
         </div>
         <div className="video-grid">
-          {config.videos.map((video) => (
+          {config.videos.map((video) => {
+            const thumbnail = getVideoThumbnail(video);
+            const href = getVideoHref(video);
+            const directVideo = video.videoFile && isDirectVideoFile(video.videoFile);
+
+            return (
             <a
               key={video.id}
-              href={video.videoFile ? video.videoFile : `https://youtube.com/watch?v=${video.youtubeId}`}
+              href={href}
               target="_blank"
               rel="noopener noreferrer"
               className="group block"
             >
               <div className="relative aspect-video rounded-lg overflow-hidden bg-gray-200">
-                {video.videoFile ? (
-                  <video src={video.videoFile} className="w-full h-full object-cover" />
-                ) : (
+                {thumbnail ? (
                   <Image
-                    src={video.thumbnail || `https://img.youtube.com/vi/${video.youtubeId}/hqdefault.jpg`}
+                    src={thumbnail}
                     alt={video.title}
                     fill
                     className="object-cover group-hover:scale-105 transition-transform"
+                    unoptimized={thumbnail.startsWith("http")}
                   />
+                ) : directVideo ? (
+                  <video
+                    src={video.videoFile}
+                    preload="metadata"
+                    muted
+                    playsInline
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <div className="w-full h-full bg-gray-300" />
                 )}
                 <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/40 transition-colors">
                   <div className="w-14 h-14 rounded-full bg-red-600 flex items-center justify-center">
@@ -181,7 +196,8 @@ export default async function HomePage() {
                 {video.title}
               </p>
             </a>
-          ))}
+            );
+          })}
         </div>
         <div className="text-center mt-8">
           <a href={config.social.youtube} target="_blank" rel="noopener noreferrer" className="btn-primary">

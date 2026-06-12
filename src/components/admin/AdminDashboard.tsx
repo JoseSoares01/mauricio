@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import type { SiteConfig, MenuItem, NewsItem, VideoItem, AgendaEvent, InstagramPost } from "@/lib/types";
+import { extractYoutubeId, getYoutubeThumbnail } from "@/lib/video";
 import ImageUploader from "./ImageUploader";
 import VideoUploader from "./VideoUploader";
 import {
@@ -373,13 +374,32 @@ export default function AdminDashboard({ config: initialConfig, token, onSave, o
                       <label className="admin-label">YouTube ID (opcional)</label>
                       <input className="admin-input" value={video.youtubeId} onChange={(e) => {
                         const videos = [...config.videos];
-                        videos[i] = { ...videos[i], youtubeId: e.target.value };
+                        const value = e.target.value;
+                        const youtubeId = extractYoutubeId(value) || value;
+                        videos[i] = {
+                          ...videos[i],
+                          youtubeId,
+                          videoFile: extractYoutubeId(value) ? undefined : videos[i].videoFile,
+                          thumbnail: youtubeId && extractYoutubeId(value)
+                            ? getYoutubeThumbnail(youtubeId)
+                            : videos[i].thumbnail,
+                        };
                         update("videos", videos);
-                      }} placeholder="ex: dQw4w9WgXcQ" />
+                      }} placeholder="ID ou link do YouTube" />
                     </div>
-                    <VideoUploader label="Upload de Vídeo (substitui YouTube)" value={video.videoFile || ""} onChange={(v) => {
+                    <VideoUploader label="Link do YouTube ou upload de vídeo (.mp4)" value={video.videoFile || ""} onChange={(v) => {
                       const videos = [...config.videos];
-                      videos[i] = { ...videos[i], videoFile: v };
+                      const youtubeId = extractYoutubeId(v);
+                      if (youtubeId) {
+                        videos[i] = {
+                          ...videos[i],
+                          youtubeId,
+                          videoFile: undefined,
+                          thumbnail: getYoutubeThumbnail(youtubeId),
+                        };
+                      } else {
+                        videos[i] = { ...videos[i], videoFile: v || undefined };
+                      }
                       update("videos", videos);
                     }} token={token} />
                   </div>
