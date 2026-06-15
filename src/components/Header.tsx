@@ -32,18 +32,6 @@ export default function Header({ menu }: HeaderProps) {
   return (
     <header className="fixed top-[10px] left-0 right-0 z-50">
       <nav className="container-site flex items-center justify-end py-3 sm:py-4">
-        <button
-          type="button"
-          className={`hamburger-btn md:hidden ${open ? "is-active" : ""}`}
-          onClick={() => setOpen(!open)}
-          aria-label={open ? "Fechar menu" : "Abrir menu"}
-          aria-expanded={open}
-        >
-          <span className="hamburger-bar hamburger-bar--top" />
-          <span className="hamburger-bar hamburger-bar--mid" />
-          <span className="hamburger-bar hamburger-bar--bot" />
-        </button>
-
         <ul className="hidden md:flex gap-8 list-none m-0 p-0">
           {menu.map((item) => {
             const active = isMenuActive(pathname, item.href);
@@ -69,6 +57,18 @@ export default function Header({ menu }: HeaderProps) {
             );
           })}
         </ul>
+
+        <button
+          type="button"
+          className={`hamburger-btn md:hidden ${open ? "is-active" : ""}`}
+          onClick={() => setOpen(!open)}
+          aria-label={open ? "Fechar menu" : "Abrir menu"}
+          aria-expanded={open}
+        >
+          <span className="hamburger-bar hamburger-bar--top" />
+          <span className="hamburger-bar hamburger-bar--mid" />
+          <span className="hamburger-bar hamburger-bar--bot" />
+        </button>
       </nav>
 
       {open && (
