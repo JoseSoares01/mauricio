@@ -40,8 +40,11 @@ export default async function HomePage() {
           priority
           unoptimized
         />
-        <div className="absolute bottom-0 left-0 right-0 flex justify-center z-20 social-bar-wrap">
-          <SocialIcons social={config.social} />
+        <div className="absolute bottom-0 left-0 right-0 z-20 social-bar-wrap">
+          <div className="flex justify-center">
+            <SocialIcons social={config.social} />
+          </div>
+          <div className="flag-bar w-full shrink-0" aria-hidden />
         </div>
       </section>
 

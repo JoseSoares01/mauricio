@@ -129,6 +129,9 @@ h1, h2, h3, h4, h5, h6 {
 
 .social-bar-wrap {
   padding-bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
 }
 
 .social-bar {
@@ -145,10 +148,6 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 @media (max-width: 767px) {
-  .social-bar-wrap {
-    bottom: 4.5rem;
-  }
-
   .social-bar {
     margin-top: 0;
     padding: 20px 14px;
