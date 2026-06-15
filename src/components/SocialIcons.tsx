@@ -93,7 +93,7 @@ export default function SocialIcons({ social, variant = "hero" }: SocialIconsPro
           style={{ background: item.bg }}
           aria-label={item.name}
         >
-          {item.icon}
+          <span className="flex items-center justify-center w-full h-full">{item.icon}</span>
         </a>
       ))}
     </div>

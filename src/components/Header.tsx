@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
-import { Menu, X } from "lucide-react";
 import type { MenuItem } from "@/lib/types";
 
 interface HeaderProps {
@@ -34,11 +33,15 @@ export default function Header({ menu }: HeaderProps) {
     <header className="fixed top-[10px] left-0 right-0 z-50">
       <nav className="container-site flex items-center justify-end py-3 sm:py-4">
         <button
-          className="md:hidden text-white p-2 drop-shadow-lg"
+          type="button"
+          className={`hamburger-btn md:hidden ${open ? "is-active" : ""}`}
           onClick={() => setOpen(!open)}
-          aria-label="Menu"
+          aria-label={open ? "Fechar menu" : "Abrir menu"}
+          aria-expanded={open}
         >
-          {open ? <X size={28} /> : <Menu size={28} />}
+          <span className="hamburger-bar hamburger-bar--top" />
+          <span className="hamburger-bar hamburger-bar--mid" />
+          <span className="hamburger-bar hamburger-bar--bot" />
         </button>
 
         <ul className="hidden md:flex gap-8 list-none m-0 p-0">

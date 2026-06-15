@@ -1,5 +1,6 @@
 import PageLayout from "@/components/PageLayout";
 import SocialIcons from "@/components/SocialIcons";
+import ContactForm from "@/components/ContactForm";
 import { getSiteConfig } from "@/lib/site-config";
 
 export default async function ContatoPage() {
@@ -38,23 +39,10 @@ export default async function ContatoPage() {
             </div>
           </div>
 
-          <form className="space-y-4">
-            <div>
-              <label className="admin-label">Nome</label>
-              <input type="text" className="admin-input" placeholder="Seu nome" />
-            </div>
-            <div>
-              <label className="admin-label">E-mail</label>
-              <input type="email" className="admin-input" placeholder="seu@email.com" />
-            </div>
-            <div>
-              <label className="admin-label">Mensagem</label>
-              <textarea className="admin-input min-h-[120px] resize-y" placeholder="Sua mensagem..." />
-            </div>
-            <button type="submit" className="btn-primary w-full text-center">
-              Enviar mensagem
-            </button>
-          </form>
+          <ContactForm
+            recipientEmail={config.contact.email}
+            siteTitle={config.site.title}
+          />
 
           <div className="mt-12 text-center">
             <h3 className="font-semibold mb-4" style={{ color: "var(--color-primary)" }}>
