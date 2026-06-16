@@ -3,13 +3,15 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { Share2, X, ExternalLink, MapPin, Calendar } from "lucide-react";
+import { Share2, X, ExternalLink, MapPin, Calendar, FileText, Landmark } from "lucide-react";
 import FormattedContent from "@/components/FormattedContent";
 import {
   ACTION_MAP_COLORS,
   formatActionDate,
   getActionVisitSharePath,
+  getIndicatorEntries,
   getRelatedNews,
+  getVisitVideoEmbed,
   statusLabel,
 } from "@/lib/action-map";
 import type { ActionVisit, NewsItem } from "@/lib/types";
@@ -29,6 +31,8 @@ export default function ActionMapDetailPanel({
 }: ActionMapDetailPanelProps) {
   const [shareMessage, setShareMessage] = useState("");
   const relatedNews = getRelatedNews(visit, news);
+  const videoEmbed = getVisitVideoEmbed(visit.videoUrl);
+  const indicators = getIndicatorEntries(visit.municipalityIndicators);
   const statusColor =
     visit.status === "agendada" ? ACTION_MAP_COLORS.agendada : ACTION_MAP_COLORS.realizada;
 
@@ -117,6 +121,22 @@ export default function ActionMapDetailPanel({
           </div>
         )}
 
+        {videoEmbed && (
+          <div className="relative mb-4 aspect-video overflow-hidden rounded-xl bg-black">
+            {videoEmbed.type === "youtube" ? (
+              <iframe
+                src={videoEmbed.src}
+                title={`Vídeo: ${visit.title}`}
+                className="absolute inset-0 h-full w-full border-0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            ) : (
+              <video src={videoEmbed.src} controls className="h-full w-full object-cover" />
+            )}
+          </div>
+        )}
+
         <p className="mb-4 text-sm leading-relaxed text-gray-700 md:text-base">{visit.excerpt}</p>
 
         {visit.content && (
@@ -135,6 +155,66 @@ export default function ActionMapDetailPanel({
                 </div>
               ))}
             </div>
+          </div>
+        )}
+
+        {indicators.length > 0 && (
+          <div className="mt-6">
+            <h3 className="mb-3 text-sm font-semibold text-gray-800">Indicadores em {visit.city}</h3>
+            <div className="grid grid-cols-2 gap-2">
+              {indicators.map((item) => (
+                <div
+                  key={item.label}
+                  className="rounded-xl border border-gray-100 bg-gray-50 px-3 py-2 text-center"
+                >
+                  <p className="text-lg font-bold" style={{ color: ACTION_MAP_COLORS.realizada }}>
+                    {item.value}
+                  </p>
+                  <p className="text-xs text-gray-600">{item.label}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {(visit.emendaRef || visit.projectRef) && (
+          <div className="mt-6 space-y-2 rounded-xl border border-blue-100 bg-blue-50/60 px-4 py-3">
+            <p className="text-xs font-semibold uppercase tracking-wide text-[#0071B7]">
+              Referências legislativas
+            </p>
+            {visit.emendaRef && (
+              <p className="inline-flex items-center gap-2 text-sm text-gray-800">
+                <Landmark size={15} className="text-[#0071B7]" />
+                {visit.emendaRef}
+              </p>
+            )}
+            {visit.projectRef && (
+              <p className="inline-flex items-center gap-2 text-sm text-gray-800">
+                <Landmark size={15} className="text-[#0071B7]" />
+                {visit.projectRef}
+              </p>
+            )}
+          </div>
+        )}
+
+        {visit.documents && visit.documents.length > 0 && (
+          <div className="mt-6">
+            <h3 className="mb-3 text-sm font-semibold text-gray-800">Documentos</h3>
+            <ul className="space-y-2">
+              {visit.documents.map((doc) => (
+                <li key={`${doc.title}-${doc.url}`}>
+                  <a
+                    href={doc.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 rounded-lg border border-gray-200 px-3 py-2 text-sm font-medium text-[#0071B7] hover:bg-gray-50"
+                  >
+                    <FileText size={16} />
+                    {doc.title || "Baixar documento"}
+                  </a>
+                </li>
+              ))}
+            </ul>
           </div>
         )}
 

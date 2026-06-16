@@ -1,9 +1,11 @@
 "use client";
 
-import { Plus, Trash2 } from "lucide-react";
+import { useState } from "react";
+import { Loader2, MapPin, Plus, Trash2 } from "lucide-react";
 import type { ActionMapConfig, ActionVisit, NewsItem } from "@/lib/types";
-import { slugifyActionVisit } from "@/lib/action-map";
+import { slugifyActionVisit, getIndicatorEntries, indicatorEntriesToRecord } from "@/lib/action-map";
 import ImageUploader from "./ImageUploader";
+import FileUploader from "./FileUploader";
 import RichTextEditor from "./RichTextEditor";
 
 interface ActionMapAdminProps {
@@ -39,6 +41,9 @@ function createEmptyVisit(): ActionVisit {
 }
 
 export default function ActionMapAdmin({ actionMap, news, token, onChange }: ActionMapAdminProps) {
+  const [geocodingIndex, setGeocodingIndex] = useState<number | null>(null);
+  const [geocodeMessage, setGeocodeMessage] = useState("");
+
   const updateVisit = (index: number, patch: Partial<ActionVisit>) => {
     const visits = [...actionMap.visits];
     const current = visits[index];
@@ -61,6 +66,109 @@ export default function ActionMapAdmin({ actionMap, news, token, onChange }: Act
     onChange({ ...actionMap, visits });
   };
 
+  const geocodeCity = async (index: number) => {
+    const visit = actionMap.visits[index];
+    if (!visit.city.trim()) {
+      setGeocodeMessage("Informe o nome da cidade antes de buscar coordenadas.");
+      return;
+    }
+
+    setGeocodingIndex(index);
+    setGeocodeMessage("");
+    try {
+      const params = new URLSearchParams({ city: visit.city.trim() });
+      const response = await fetch(`/api/geocode?${params}`, {
+        headers: { "x-admin-token": token },
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        setGeocodeMessage(data.error || "Não foi possível localizar a cidade.");
+        return;
+      }
+      updateVisit(index, { latitude: data.latitude, longitude: data.longitude });
+      setGeocodeMessage(`Coordenadas atualizadas: ${data.placeName}`);
+    } catch {
+      setGeocodeMessage("Erro ao buscar coordenadas.");
+    } finally {
+      setGeocodingIndex(null);
+    }
+  };
+
+  const updateIndicator = (
+    index: number,
+    indicatorIndex: number,
+    field: "label" | "value",
+    value: string
+  ) => {
+    const visit = actionMap.visits[index];
+    const entries = getIndicatorEntries(visit.municipalityIndicators);
+    const next = [...entries];
+    next[indicatorIndex] = {
+      ...next[indicatorIndex],
+      [field]: value,
+    };
+    updateVisit(index, { municipalityIndicators: indicatorEntriesToRecord(next) });
+  };
+
+  const addIndicator = (index: number) => {
+    const visit = actionMap.visits[index];
+    const entries = getIndicatorEntries(visit.municipalityIndicators);
+    updateVisit(index, {
+      municipalityIndicators: indicatorEntriesToRecord([...entries, { label: "", value: "" }]),
+    });
+  };
+
+  const removeIndicator = (index: number, indicatorIndex: number) => {
+    const visit = actionMap.visits[index];
+    const entries = getIndicatorEntries(visit.municipalityIndicators).filter(
+      (_, i) => i !== indicatorIndex
+    );
+    updateVisit(index, {
+      municipalityIndicators: entries.length ? indicatorEntriesToRecord(entries) : undefined,
+    });
+  };
+
+  const updateDocument = (
+    index: number,
+    docIndex: number,
+    field: "title" | "url",
+    value: string
+  ) => {
+    const visit = actionMap.visits[index];
+    const documents = [...(visit.documents || [])];
+    documents[docIndex] = { ...documents[docIndex], [field]: value };
+    updateVisit(index, { documents });
+  };
+
+  const addDocument = (index: number) => {
+    const visit = actionMap.visits[index];
+    updateVisit(index, {
+      documents: [...(visit.documents || []), { title: "Documento", url: "" }],
+    });
+  };
+
+  const updateRoutePoint = (
+    index: number,
+    pointIndex: number,
+    field: "latitude" | "longitude",
+    value: number
+  ) => {
+    const visit = actionMap.visits[index];
+    const routePoints = [...(visit.routePoints || [])];
+    routePoints[pointIndex] = { ...routePoints[pointIndex], [field]: value };
+    updateVisit(index, { routePoints });
+  };
+
+  const addRoutePoint = (index: number) => {
+    const visit = actionMap.visits[index];
+    updateVisit(index, {
+      routePoints: [
+        ...(visit.routePoints || []),
+        { latitude: visit.latitude, longitude: visit.longitude },
+      ],
+    });
+  };
+
   return (
     <div className="admin-card">
       <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
@@ -79,6 +187,10 @@ export default function ActionMapAdmin({ actionMap, news, token, onChange }: Act
           Mapa ativo no site
         </label>
       </div>
+
+      {geocodeMessage && (
+        <p className="mb-4 rounded-lg bg-blue-50 px-3 py-2 text-sm text-[#0071B7]">{geocodeMessage}</p>
+      )}
 
       {actionMap.visits.map((visit, index) => (
         <div key={visit.id} className="border rounded-xl p-4 mb-6 bg-gray-50">
@@ -161,6 +273,21 @@ export default function ActionMapAdmin({ actionMap, news, token, onChange }: Act
                 value={visit.longitude}
                 onChange={(e) => updateVisit(index, { longitude: Number(e.target.value) })}
               />
+            </div>
+            <div className="md:col-span-2">
+              <button
+                type="button"
+                onClick={() => geocodeCity(index)}
+                disabled={geocodingIndex === index}
+                className="admin-btn inline-flex items-center gap-2"
+              >
+                {geocodingIndex === index ? (
+                  <Loader2 size={16} className="animate-spin" />
+                ) : (
+                  <MapPin size={16} />
+                )}
+                Buscar coordenadas pela cidade (Mapbox)
+              </button>
             </div>
             <div>
               <label className="admin-label">Categoria</label>
@@ -265,6 +392,166 @@ export default function ActionMapAdmin({ actionMap, news, token, onChange }: Act
                 token={token}
               />
             </div>
+
+            <div className="md:col-span-2 border-t pt-4 mt-2">
+              <h4 className="font-semibold text-gray-800 mb-3">Vídeo e documentos</h4>
+              <div className="grid md:grid-cols-2 gap-4">
+                <div className="md:col-span-2">
+                  <label className="admin-label">URL do vídeo (YouTube ou arquivo)</label>
+                  <input
+                    className="admin-input"
+                    value={visit.videoUrl || ""}
+                    onChange={(e) => updateVisit(index, { videoUrl: e.target.value })}
+                    placeholder="https://youtube.com/watch?v=... ou /uploads/video.mp4"
+                  />
+                </div>
+                <div>
+                  <label className="admin-label">Referência de emenda</label>
+                  <input
+                    className="admin-input"
+                    value={visit.emendaRef || ""}
+                    onChange={(e) => updateVisit(index, { emendaRef: e.target.value })}
+                    placeholder="Ex.: Emenda nº 123/2026"
+                  />
+                </div>
+                <div>
+                  <label className="admin-label">Referência de projeto</label>
+                  <input
+                    className="admin-input"
+                    value={visit.projectRef || ""}
+                    onChange={(e) => updateVisit(index, { projectRef: e.target.value })}
+                    placeholder="Ex.: Projeto de lei 456/2026"
+                  />
+                </div>
+              </div>
+
+              <div className="mt-4 space-y-3">
+                <h5 className="admin-label">Documentos (PDF)</h5>
+                {(visit.documents || []).map((doc, docIndex) => (
+                  <div key={`${visit.id}-doc-${docIndex}`} className="grid md:grid-cols-2 gap-3 rounded-lg border p-3 bg-white">
+                    <div>
+                      <label className="admin-label">Título</label>
+                      <input
+                        className="admin-input"
+                        value={doc.title}
+                        onChange={(e) => updateDocument(index, docIndex, "title", e.target.value)}
+                      />
+                    </div>
+                    <div>
+                      <FileUploader
+                        label="Arquivo"
+                        value={doc.url}
+                        onChange={(url) => updateDocument(index, docIndex, "url", url)}
+                        token={token}
+                        folder="uploads/docs"
+                      />
+                    </div>
+                    <div className="md:col-span-2 flex justify-end">
+                      <button
+                        type="button"
+                        className="text-red-500 text-sm"
+                        onClick={() => {
+                          const documents = (visit.documents || []).filter((_, i) => i !== docIndex);
+                          updateVisit(index, { documents: documents.length ? documents : undefined });
+                        }}
+                      >
+                        Remover documento
+                      </button>
+                    </div>
+                  </div>
+                ))}
+                <button type="button" onClick={() => addDocument(index)} className="admin-btn text-sm">
+                  Adicionar documento
+                </button>
+              </div>
+            </div>
+
+            <div className="md:col-span-2 border-t pt-4">
+              <h4 className="font-semibold text-gray-800 mb-3">Indicadores do município</h4>
+              <p className="text-xs text-gray-500 mb-3">
+                Métricas exibidas no painel de detalhes da ação (ex.: unidades visitadas, investimento).
+              </p>
+              {getIndicatorEntries(visit.municipalityIndicators).map((entry, indicatorIndex) => (
+                <div key={`${visit.id}-ind-${indicatorIndex}`} className="grid md:grid-cols-2 gap-3 mb-3">
+                  <input
+                    className="admin-input"
+                    value={entry.label}
+                    onChange={(e) => updateIndicator(index, indicatorIndex, "label", e.target.value)}
+                    placeholder="Nome do indicador"
+                  />
+                  <div className="flex gap-2">
+                    <input
+                      className="admin-input flex-1"
+                      value={entry.value}
+                      onChange={(e) => updateIndicator(index, indicatorIndex, "value", e.target.value)}
+                      placeholder="Valor"
+                    />
+                    <button
+                      type="button"
+                      className="text-red-500 shrink-0"
+                      onClick={() => removeIndicator(index, indicatorIndex)}
+                    >
+                      <Trash2 size={16} />
+                    </button>
+                  </div>
+                </div>
+              ))}
+              <button type="button" onClick={() => addIndicator(index)} className="admin-btn text-sm">
+                Adicionar indicador
+              </button>
+            </div>
+
+            {visit.status === "agendada" && (
+              <div className="md:col-span-2 border-t pt-4">
+                <h4 className="font-semibold text-gray-800 mb-3">Rota prevista (pontos intermediários)</h4>
+                <p className="text-xs text-gray-500 mb-3">
+                  Define a linha tracejada no mapa. O pin da cidade é o destino; adicione pontos de passagem.
+                </p>
+                {(visit.routePoints || []).map((point, pointIndex) => (
+                  <div key={`${visit.id}-route-${pointIndex}`} className="grid md:grid-cols-3 gap-3 mb-3 items-end">
+                    <div>
+                      <label className="admin-label">Latitude</label>
+                      <input
+                        type="number"
+                        step="0.0001"
+                        className="admin-input"
+                        value={point.latitude}
+                        onChange={(e) =>
+                          updateRoutePoint(index, pointIndex, "latitude", Number(e.target.value))
+                        }
+                      />
+                    </div>
+                    <div>
+                      <label className="admin-label">Longitude</label>
+                      <input
+                        type="number"
+                        step="0.0001"
+                        className="admin-input"
+                        value={point.longitude}
+                        onChange={(e) =>
+                          updateRoutePoint(index, pointIndex, "longitude", Number(e.target.value))
+                        }
+                      />
+                    </div>
+                    <button
+                      type="button"
+                      className="text-red-500 text-sm mb-2"
+                      onClick={() => {
+                        const routePoints = (visit.routePoints || []).filter((_, i) => i !== pointIndex);
+                        updateVisit(index, {
+                          routePoints: routePoints.length ? routePoints : undefined,
+                        });
+                      }}
+                    >
+                      Remover ponto
+                    </button>
+                  </div>
+                ))}
+                <button type="button" onClick={() => addRoutePoint(index)} className="admin-btn text-sm">
+                  Adicionar ponto na rota
+                </button>
+              </div>
+            )}
           </div>
         </div>
       ))}

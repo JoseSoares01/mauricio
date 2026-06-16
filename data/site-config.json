@@ -260,7 +260,12 @@
         "relatedLink": "",
         "relatedNewsId": "",
         "displayOrder": 1,
-        "active": true
+        "active": true,
+        "municipalityIndicators": {
+          "Unidades visitadas": 5,
+          "Profissionais ouvidos": 42
+        },
+        "emendaRef": "Emenda para equipamentos de UBS — 2026"
       },
       {
         "id": "am-parnaiba-001",
@@ -298,7 +303,12 @@
         "relatedLink": "",
         "relatedNewsId": "1781279000001",
         "displayOrder": 3,
-        "active": true
+        "active": true,
+        "projectRef": "Projeto de ampliação do ensino médio integral",
+        "municipalityIndicators": {
+          "Escolas participantes": 12,
+          "Estudantes impactados": 840
+        }
       },
       {
         "id": "am-floriano-001",

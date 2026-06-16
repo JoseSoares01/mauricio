@@ -13,6 +13,7 @@ import {
   getActionMapCities,
   getActionMapYears,
   getActionVisitSharePath,
+  getCityActionRanking,
   sortVisitsChronologically,
   visitsToCsv,
 } from "@/lib/action-map";
@@ -23,6 +24,7 @@ import ActionMapDetailPanel from "./ActionMapDetailPanel";
 import ActionMapBottomSheet from "./ActionMapBottomSheet";
 import ActionMapControls from "./ActionMapControls";
 import ActionMapJourneyBar from "./ActionMapJourneyBar";
+import ActionMapHeatmapPanel from "./ActionMapHeatmapPanel";
 
 const JOURNEY_STEP_MS = 4200;
 
@@ -66,6 +68,7 @@ export default function ActionMapPage({ visits, news, siteTitle }: ActionMapPage
   );
 
   const stats = useMemo(() => computeActionMapStats(filteredVisits), [filteredVisits]);
+  const cityRanking = useMemo(() => getCityActionRanking(filteredVisits), [filteredVisits]);
   const years = useMemo(() => getActionMapYears(visits), [visits]);
   const cities = useMemo(() => getActionMapCities(visits), [visits]);
   const categories = useMemo(() => getActionMapCategories(visits), [visits]);
@@ -220,6 +223,11 @@ export default function ActionMapPage({ visits, news, siteTitle }: ActionMapPage
           <aside className="action-map-sidebar hidden md:flex">
             {selectedVisit ? (
               <ActionMapDetailPanel visit={selectedVisit} news={news} onClose={closeVisit} />
+            ) : showHeatmap ? (
+              <ActionMapHeatmapPanel
+                ranking={cityRanking}
+                totalRealizadas={stats.actionsCompleted}
+              />
             ) : (
               <div className="flex h-full flex-col justify-center rounded-l-2xl border border-dashed border-gray-200 bg-white p-8 text-center text-gray-600">
                 <p className="text-lg font-semibold text-gray-800">Selecione uma ação no mapa</p>

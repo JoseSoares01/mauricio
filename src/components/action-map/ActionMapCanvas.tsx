@@ -180,9 +180,9 @@ export default function ActionMapCanvas({
               type="heatmap"
               paint={{
                 "heatmap-weight": ["get", "weight"],
-                "heatmap-intensity": ["interpolate", ["linear"], ["zoom"], 5, 0.8, 9, 1.6],
-                "heatmap-radius": ["interpolate", ["linear"], ["zoom"], 5, 28, 9, 48],
-                "heatmap-opacity": 0.82,
+                "heatmap-intensity": ["interpolate", ["linear"], ["zoom"], 6, 0.6, 9, 1.4],
+                "heatmap-radius": ["interpolate", ["linear"], ["zoom"], 6, 36, 9, 56],
+                "heatmap-opacity": 0.75,
                 "heatmap-color": [
                   "interpolate",
                   ["linear"],
@@ -196,6 +196,41 @@ export default function ActionMapCanvas({
                   1,
                   "rgba(18, 149, 71, 0.95)",
                 ],
+              }}
+            />
+            <Layer
+              id="action-heatmap-cities"
+              type="circle"
+              paint={{
+                "circle-color": ACTION_MAP_COLORS.realizada,
+                "circle-radius": [
+                  "interpolate",
+                  ["linear"],
+                  ["get", "weight"],
+                  1,
+                  14,
+                  4,
+                  28,
+                ],
+                "circle-opacity": 0.55,
+                "circle-stroke-width": 2,
+                "circle-stroke-color": "#ffffff",
+              }}
+            />
+            <Layer
+              id="action-heatmap-labels"
+              type="symbol"
+              layout={{
+                "text-field": ["concat", ["get", "city"], " (", ["to-string", ["get", "weight"]], ")"],
+                "text-font": ["DIN Offc Pro Medium", "Arial Unicode MS Bold"],
+                "text-size": 11,
+                "text-offset": [0, 1.6],
+                "text-anchor": "top",
+              }}
+              paint={{
+                "text-color": "#1f2937",
+                "text-halo-color": "#ffffff",
+                "text-halo-width": 1.5,
               }}
             />
           </Source>

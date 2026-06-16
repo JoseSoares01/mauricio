@@ -1,4 +1,5 @@
 import type { ActionMapConfig, ActionVisit, ActionVisitStatus, NewsItem } from "./types";
+import { extractYoutubeId, isDirectVideoFile } from "./video";
 
 export const ACTION_MAP_COLORS = {
   realizada: "#129547",
@@ -293,6 +294,74 @@ export function visitsToCsv(visits: ActionVisit[]): string {
       .join(",")
   );
   return [header.join(","), ...rows].join("\n");
+}
+
+export interface CityActionRanking {
+  city: string;
+  count: number;
+  realizadas: number;
+  agendadas: number;
+}
+
+export function getCityActionRanking(visits: ActionVisit[]): CityActionRanking[] {
+  const byCity = new Map<string, CityActionRanking>();
+
+  for (const visit of visits) {
+    const current = byCity.get(visit.city) || {
+      city: visit.city,
+      count: 0,
+      realizadas: 0,
+      agendadas: 0,
+    };
+    current.count += 1;
+    if (visit.status === "realizada") current.realizadas += 1;
+    else current.agendadas += 1;
+    byCity.set(visit.city, current);
+  }
+
+  return Array.from(byCity.values()).sort((a, b) => b.count - a.count || a.city.localeCompare(b.city));
+}
+
+export function getVisitVideoEmbed(videoUrl?: string): {
+  type: "youtube" | "file";
+  src: string;
+} | null {
+  const value = videoUrl?.trim();
+  if (!value) return null;
+
+  const youtubeId = extractYoutubeId(value);
+  if (youtubeId) {
+    return { type: "youtube", src: `https://www.youtube.com/embed/${youtubeId}` };
+  }
+
+  if (isDirectVideoFile(value)) {
+    return { type: "file", src: value };
+  }
+
+  return null;
+}
+
+export function getIndicatorEntries(
+  indicators?: Record<string, string | number>
+): Array<{ label: string; value: string }> {
+  if (!indicators) return [];
+  return Object.entries(indicators)
+    .filter(([label]) => label.trim())
+    .map(([label, value]) => ({ label: label.trim(), value: String(value) }));
+}
+
+export function indicatorEntriesToRecord(
+  entries: Array<{ label: string; value: string }>
+): Record<string, string | number> | undefined {
+  const record: Record<string, string | number> = {};
+  for (const entry of entries) {
+    if (!entry.label.trim()) continue;
+    const trimmed = entry.value.trim();
+    const asNumber = Number(trimmed);
+    record[entry.label.trim()] =
+      trimmed !== "" && Number.isFinite(asNumber) ? asNumber : entry.value;
+  }
+  return Object.keys(record).length ? record : undefined;
 }
 
 function clampCoord(value: number, min: number, max: number, fallback: number): number {
