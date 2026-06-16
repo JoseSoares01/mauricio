@@ -5,6 +5,7 @@ import { put, list } from "@vercel/blob";
 import type { SiteConfig } from "./types";
 import defaultConfig from "../../data/site-config.json";
 import { blobAuth, isBlobEnabled } from "./blob-storage";
+import { isGithubStorageEnabled, readTextFileFromGitHub, writeFileToGitHub } from "./github-storage";
 import { normalizeNewsMarkdown, repairMarkdown } from "./format-content";
 import { clampNewsImageFocus, DEFAULT_NEWS_IMAGE_FOCUS } from "./news-image";
 import { normalizeVideos } from "./video";
@@ -39,6 +40,18 @@ async function readFromDisk(): Promise<SiteConfig> {
   }
 }
 
+async function readFromGitHub(): Promise<SiteConfig | null> {
+  if (!isGithubStorageEnabled()) return null;
+  try {
+    const raw = await readTextFileFromGitHub("data/site-config.json");
+    if (!raw) return null;
+    return JSON.parse(raw) as SiteConfig;
+  } catch (error) {
+    console.error("Falha ao ler config do GitHub:", error);
+    return null;
+  }
+}
+
 function applyConfigNormalization(config: SiteConfig): SiteConfig {
   return {
     ...config,
@@ -54,6 +67,8 @@ function applyConfigNormalization(config: SiteConfig): SiteConfig {
 
 export async function getSiteConfig(): Promise<SiteConfig> {
   noStore();
+  const fromGitHub = await readFromGitHub();
+  if (fromGitHub) return applyConfigNormalization(fromGitHub);
   const fromBlob = await readFromBlob();
   if (fromBlob) return applyConfigNormalization(fromBlob);
   return applyConfigNormalization(await readFromDisk());
@@ -62,6 +77,15 @@ export async function getSiteConfig(): Promise<SiteConfig> {
 export async function saveSiteConfig(config: SiteConfig): Promise<void> {
   const normalized = applyConfigNormalization(config);
   const content = `${JSON.stringify(normalized, null, 2)}\n`;
+
+  if (isGithubStorageEnabled()) {
+    await writeFileToGitHub({
+      filePath: "data/site-config.json",
+      content,
+      message: "Atualiza configuração do site pelo painel admin",
+    });
+    return;
+  }
 
   if (isBlobEnabled()) {
     try {

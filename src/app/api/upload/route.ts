@@ -3,6 +3,7 @@ import { writeFile, mkdir } from "fs/promises";
 import path from "path";
 import { put } from "@vercel/blob";
 import { blobAuth, blobPathname, isBlobEnabled } from "@/lib/blob-storage";
+import { getGitHubRawUrl, isGithubStorageEnabled, writeFileToGitHub } from "@/lib/github-storage";
 
 export const dynamic = "force-dynamic";
 
@@ -25,6 +26,20 @@ export async function POST(request: NextRequest) {
     const filename = `${Date.now()}-${Math.random().toString(36).slice(2)}${ext}`;
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
+    const cleanFolder = folder.replace(/^\/+/, "").replace(/\/+$/, "");
+
+    if (isGithubStorageEnabled()) {
+      const filePath = `public/${cleanFolder}/${filename}`;
+      await writeFileToGitHub({
+        filePath,
+        content: buffer,
+        message: `Upload de arquivo (${filename}) pelo painel admin`,
+      });
+      return NextResponse.json({
+        url: getGitHubRawUrl(filePath),
+        filename,
+      });
+    }
 
     if (isBlobEnabled()) {
       const pathname = blobPathname(folder, filename);
@@ -46,11 +61,11 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const uploadDir = path.join(process.cwd(), "public", folder);
+    const uploadDir = path.join(process.cwd(), "public", cleanFolder);
     await mkdir(uploadDir, { recursive: true });
     await writeFile(path.join(uploadDir, filename), buffer);
 
-    const url = `/${folder}/${filename}`;
+    const url = `/${cleanFolder}/${filename}`;
     return NextResponse.json({ url, filename });
   } catch (error) {
     console.error("Erro no upload:", error);
