@@ -1,7 +1,8 @@
 "use client";
 
 import { useRef } from "react";
-import { Bold, Italic, Link, List, Heading2 } from "lucide-react";
+import { Bold, Italic, Link, Heading2 } from "lucide-react";
+import { CUSTOM_BULLETS, type CustomBullet } from "@/lib/format-content";
 
 interface RichTextEditorProps {
   label: string;
@@ -43,7 +44,29 @@ export default function RichTextEditor({
     });
   };
 
-  const insertListItem = () => {
+  const insertHeading2 = () => {
+    const textarea = textareaRef.current;
+    if (!textarea) return;
+
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+    const lineStart = value.lastIndexOf("\n", start - 1) + 1;
+    const lineEndIndex = value.indexOf("\n", end);
+    const lineEnd = lineEndIndex === -1 ? value.length : lineEndIndex;
+    const line = value.slice(lineStart, lineEnd);
+    const body = line.replace(/^#{1,6}\s+/, "").trim();
+    const nextLine = body ? `## ${body}` : "## ";
+
+    onChange(value.slice(0, lineStart) + nextLine + value.slice(lineEnd));
+
+    requestAnimationFrame(() => {
+      const pos = lineStart + nextLine.length;
+      textarea.focus();
+      textarea.setSelectionRange(pos, pos);
+    });
+  };
+
+  const insertListItem = (bullet: CustomBullet) => {
     const textarea = textareaRef.current;
     if (!textarea) return;
 
@@ -52,6 +75,8 @@ export default function RichTextEditor({
     const before = value.slice(0, start);
     const selected = value.slice(start, end);
     const after = value.slice(end);
+    const bulletPrefix = `${bullet} `;
+    const bulletPattern = /^([•◦❖➢➔]|-|\*|\+)\s/;
 
     if (selected) {
       const formatted = selected
@@ -59,7 +84,9 @@ export default function RichTextEditor({
         .map((line) => {
           const trimmed = line.trim();
           if (!trimmed) return "";
-          return /^[-*]\s/.test(trimmed) ? line : `- ${trimmed}`;
+          return bulletPattern.test(trimmed)
+            ? line.replace(bulletPattern, bulletPrefix)
+            : `${bulletPrefix}${trimmed}`;
         })
         .filter(Boolean)
         .join("\n");
@@ -70,7 +97,7 @@ export default function RichTextEditor({
 
     const lineStart = before.lastIndexOf("\n") + 1;
     const currentLine = before.slice(lineStart);
-    const insertion = currentLine.trim() ? "\n- " : "- ";
+    const insertion = currentLine.trim() ? `\n${bulletPrefix}` : bulletPrefix;
 
     onChange(before + insertion + after);
 
@@ -91,19 +118,18 @@ export default function RichTextEditor({
     const url = selected.startsWith("http") ? selected : window.prompt("Cole o link (URL):");
     if (!url) return;
 
-    const label = selected && !selected.startsWith("http")
+    const linkLabel = selected && !selected.startsWith("http")
       ? selected
       : url.replace(/^https?:\/\//, "").slice(0, 48);
 
-    const markdown = `[${label}](${url})`;
+    const markdown = `[${linkLabel}](${url})`;
     onChange(value.slice(0, start) + markdown + value.slice(end));
   };
 
-  const tools = [
+  const textTools = [
     { icon: Bold, label: "Negrito", action: () => wrapSelection("**") },
     { icon: Italic, label: "Itálico", action: () => wrapSelection("_") },
-    { icon: Heading2, label: "Subtítulo", action: () => wrapSelection("\n## ", "\n") },
-    { icon: List, label: "Lista", action: insertListItem },
+    { icon: Heading2, label: "Subtítulo (H2)", action: insertHeading2 },
     { icon: Link, label: "Link", action: insertLink },
   ];
 
@@ -111,7 +137,7 @@ export default function RichTextEditor({
     <div className="space-y-2">
       <label className="admin-label">{label}</label>
       <div className="flex flex-wrap gap-1 p-2 border border-gray-200 rounded-t-lg bg-gray-50">
-        {tools.map(({ icon: Icon, label: toolLabel, action }) => (
+        {textTools.map(({ icon: Icon, label: toolLabel, action }) => (
           <button
             key={toolLabel}
             type="button"
@@ -123,6 +149,19 @@ export default function RichTextEditor({
             <Icon size={16} />
           </button>
         ))}
+        <span className="w-px h-6 bg-gray-200 self-center mx-1" aria-hidden />
+        {CUSTOM_BULLETS.map((bullet) => (
+          <button
+            key={bullet}
+            type="button"
+            onClick={() => insertListItem(bullet)}
+            className="min-w-[34px] px-2 py-1.5 rounded hover:bg-white border border-transparent hover:border-gray-200 text-gray-700 text-base leading-none"
+            title={`Lista ${bullet}`}
+            aria-label={`Lista ${bullet}`}
+          >
+            {bullet}
+          </button>
+        ))}
       </div>
       <textarea
         ref={textareaRef}
@@ -130,7 +169,7 @@ export default function RichTextEditor({
         style={{ minHeight }}
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        placeholder="Digite o texto da notícia. Enter cria nova linha. Linha em branco cria novo parágrafo. URLs viram links automaticamente."
+        placeholder="Digite o texto da notícia. Use os botões para negrito, subtítulo e listas (• ◦ ❖ ➢ ➔)."
       />
       {hint && <p className="text-xs text-gray-500">{hint}</p>}
     </div>

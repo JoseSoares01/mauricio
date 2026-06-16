@@ -443,3 +443,30 @@ h1, h2, h3, h4, h5, h6 {
   padding: 0.25em 0 0.25em 1em;
   color: #4a5568;
 }
+
+.formatted-content .news-list {
+  list-style: none;
+  margin: 0 0 1.1em;
+  padding: 0;
+}
+
+.formatted-content .news-list li {
+  position: relative;
+  padding-left: 1.45em;
+  margin-bottom: 0.45em;
+}
+
+.formatted-content .news-list li::before {
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--color-primary);
+  font-weight: 700;
+  line-height: 1.6;
+}
+
+.formatted-content .news-list-disc li::before { content: "•"; }
+.formatted-content .news-list-circle li::before { content: "◦"; font-size: 1.1em; }
+.formatted-content .news-list-diamond li::before { content: "❖"; }
+.formatted-content .news-list-arrow li::before { content: "➢"; }
+.formatted-content .news-list-arrow-long li::before { content: "➔"; }

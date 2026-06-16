@@ -360,7 +360,7 @@ export default function AdminDashboard({ config: initialConfig, token, onSave, o
                           update("news", news);
                         }}
                         minHeight={280}
-                        hint="Após títulos como PRÉ-CANDIDATOS, as linhas viram lista com - automaticamente ao salvar. Ou use o botão de lista."
+                        hint="Após títulos em negrito ou H2, as linhas seguintes viram lista com • automaticamente. Use os botões • ◦ ❖ ➢ ➔ para outros estilos."
                       />
                     </div>
                   </div>

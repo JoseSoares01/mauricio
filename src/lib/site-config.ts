@@ -5,7 +5,7 @@ import { put, list } from "@vercel/blob";
 import type { SiteConfig } from "./types";
 import defaultConfig from "../../data/site-config.json";
 import { blobAuth, isBlobEnabled } from "./blob-storage";
-import { normalizeNewsMarkdown } from "./format-content";
+import { normalizeNewsMarkdown, repairMarkdown } from "./format-content";
 import { clampNewsImageFocus, DEFAULT_NEWS_IMAGE_FOCUS } from "./news-image";
 import { normalizeVideos } from "./video";
 
@@ -45,7 +45,7 @@ function applyConfigNormalization(config: SiteConfig): SiteConfig {
     videos: normalizeVideos(config.videos),
     news: config.news.map((item) => ({
       ...item,
-      content: normalizeNewsMarkdown(item.content),
+      content: repairMarkdown(normalizeNewsMarkdown(item.content)),
       imageFocusX: clampNewsImageFocus(item.imageFocusX ?? DEFAULT_NEWS_IMAGE_FOCUS.x),
       imageFocusY: clampNewsImageFocus(item.imageFocusY ?? DEFAULT_NEWS_IMAGE_FOCUS.y),
     })),
