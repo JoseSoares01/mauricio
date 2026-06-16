@@ -363,6 +363,59 @@ h1, h2, h3, h4, h5, h6 {
   height: 22px;
 }
 
+.action-map-layout {
+  display: flex;
+  min-height: min(72vh, 760px);
+  gap: 0;
+  border-radius: 1rem;
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  background: #f3f4f6;
+}
+
+.action-map-canvas-wrap {
+  flex: 1 1 70%;
+  min-height: 360px;
+  padding: 0.75rem;
+}
+
+.action-map-sidebar {
+  flex: 0 0 30%;
+  min-width: 300px;
+  max-width: 420px;
+  min-height: 0;
+}
+
+@media (max-width: 767px) {
+  .action-map-layout {
+    min-height: calc(100vh - 280px);
+    border: none;
+    border-radius: 0;
+    background: transparent;
+  }
+
+  .action-map-canvas-wrap {
+    padding: 0;
+    min-height: calc(100vh - 300px);
+  }
+
+  .action-map-page .container-site {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+.mapboxgl-popup-content {
+  border-radius: 12px;
+  padding: 10px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+}
+
+.mapboxgl-popup-close-button {
+  font-size: 18px;
+  padding: 4px 8px;
+}
+
 @media (max-width: 767px) {
   .instagram-grid {
     grid-template-columns: repeat(2, 1fr);

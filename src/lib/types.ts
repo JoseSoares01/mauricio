@@ -68,6 +68,46 @@ export interface AgendaEvent {
   type: string;
 }
 
+export type ActionVisitStatus = "realizada" | "agendada";
+
+/** Documento anexo — preparado para fase futura */
+export interface ActionVisitDocument {
+  title: string;
+  url: string;
+}
+
+export interface ActionVisit {
+  id: string;
+  slug: string;
+  city: string;
+  latitude: number;
+  longitude: number;
+  date: string;
+  title: string;
+  excerpt: string;
+  content: string;
+  category: string;
+  status: ActionVisitStatus;
+  image: string;
+  gallery: string[];
+  relatedLink?: string;
+  relatedNewsId?: string;
+  displayOrder: number;
+  active: boolean;
+  routePoints?: Array<{ latitude: number; longitude: number }>;
+  /** Campos opcionais para expansão futura */
+  videoUrl?: string;
+  documents?: ActionVisitDocument[];
+  emendaRef?: string;
+  projectRef?: string;
+  municipalityIndicators?: Record<string, string | number>;
+}
+
+export interface ActionMapConfig {
+  enabled: boolean;
+  visits: ActionVisit[];
+}
+
 export interface SiteConfig {
   site: {
     title: string;
@@ -114,6 +154,7 @@ export interface SiteConfig {
     posts: InstagramPost[];
   };
   agenda: AgendaEvent[];
+  actionMap: ActionMapConfig;
   admin: {
     password: string;
   };

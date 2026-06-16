@@ -1,0 +1,202 @@
+import type { ActionMapConfig, ActionVisit, ActionVisitStatus, NewsItem } from "./types";
+
+export const ACTION_MAP_COLORS = {
+  realizada: "#129547",
+  agendada: "#0071B7",
+  cluster: "#6E8B3D",
+} as const;
+
+export const PIAUI_VIEW = {
+  longitude: -43.2,
+  latitude: -7.2,
+  zoom: 6.2,
+  pitch: 48,
+  bearing: -12,
+};
+
+export const DEFAULT_ACTION_MAP: ActionMapConfig = {
+  enabled: true,
+  visits: [],
+};
+
+export function slugifyActionVisit(parts: {
+  city: string;
+  title: string;
+  date: string;
+}): string {
+  const raw = `${parts.city}-${parts.title}-${parts.date}`;
+  return raw
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+export function normalizeActionVisit(visit: ActionVisit, index: number): ActionVisit {
+  const slug =
+    visit.slug?.trim() ||
+    slugifyActionVisit({ city: visit.city, title: visit.title, date: visit.date });
+
+  return {
+    ...visit,
+    id: visit.id || String(Date.now() + index),
+    slug,
+    city: visit.city?.trim() || "Cidade",
+    latitude: clampCoord(visit.latitude, -90, 90, PIAUI_VIEW.latitude),
+    longitude: clampCoord(visit.longitude, -180, 180, PIAUI_VIEW.longitude),
+    date: visit.date || new Date().toISOString().slice(0, 10),
+    title: visit.title?.trim() || "Ação sem título",
+    excerpt: visit.excerpt?.trim() || "",
+    content: visit.content?.trim() || "",
+    category: visit.category?.trim() || "Geral",
+    status: visit.status === "agendada" ? "agendada" : "realizada",
+    image: visit.image || "",
+    gallery: Array.isArray(visit.gallery) ? visit.gallery.filter(Boolean) : [],
+    relatedLink: visit.relatedLink?.trim() || "",
+    relatedNewsId: visit.relatedNewsId?.trim() || "",
+    displayOrder: Number.isFinite(visit.displayOrder) ? visit.displayOrder : index + 1,
+    active: visit.active !== false,
+    routePoints: visit.routePoints?.length ? visit.routePoints : undefined,
+    videoUrl: visit.videoUrl?.trim() || undefined,
+    documents: visit.documents?.length ? visit.documents : undefined,
+    emendaRef: visit.emendaRef?.trim() || undefined,
+    projectRef: visit.projectRef?.trim() || undefined,
+    municipalityIndicators: visit.municipalityIndicators,
+  };
+}
+
+export function normalizeActionMap(actionMap?: ActionMapConfig): ActionMapConfig {
+  if (!actionMap) return { ...DEFAULT_ACTION_MAP };
+  const visits = (actionMap.visits || []).map(normalizeActionVisit);
+  visits.sort((a, b) => a.displayOrder - b.displayOrder || b.date.localeCompare(a.date));
+  return {
+    enabled: actionMap.enabled !== false,
+    visits,
+  };
+}
+
+export function getActiveVisits(actionMap: ActionMapConfig): ActionVisit[] {
+  return normalizeActionMap(actionMap).visits.filter((v) => v.active);
+}
+
+export interface ActionMapFilters {
+  year: string;
+  city: string;
+  category: string;
+  status: "" | ActionVisitStatus;
+}
+
+export const EMPTY_ACTION_MAP_FILTERS: ActionMapFilters = {
+  year: "",
+  city: "",
+  category: "",
+  status: "",
+};
+
+export function filterActionVisits(
+  visits: ActionVisit[],
+  filters: ActionMapFilters
+): ActionVisit[] {
+  return visits.filter((visit) => {
+    if (filters.year && !visit.date.startsWith(filters.year)) return false;
+    if (filters.city && visit.city !== filters.city) return false;
+    if (filters.category && visit.category !== filters.category) return false;
+    if (filters.status && visit.status !== filters.status) return false;
+    return true;
+  });
+}
+
+export function getActionMapYears(visits: ActionVisit[]): string[] {
+  return [...new Set(visits.map((v) => v.date.slice(0, 4)))].sort((a, b) => b.localeCompare(a));
+}
+
+export function getActionMapCities(visits: ActionVisit[]): string[] {
+  return [...new Set(visits.map((v) => v.city))].sort((a, b) => a.localeCompare(b, "pt-BR"));
+}
+
+export function getActionMapCategories(visits: ActionVisit[]): string[] {
+  return [...new Set(visits.map((v) => v.category))].sort((a, b) => a.localeCompare(b, "pt-BR"));
+}
+
+export interface ActionMapStats {
+  citiesVisited: number;
+  actionsCompleted: number;
+  upcomingAgendas: number;
+  totalRecords: number;
+}
+
+export function computeActionMapStats(visits: ActionVisit[]): ActionMapStats {
+  const completed = visits.filter((v) => v.status === "realizada");
+  const upcoming = visits.filter((v) => v.status === "agendada");
+  return {
+    citiesVisited: new Set(completed.map((v) => v.city)).size,
+    actionsCompleted: completed.length,
+    upcomingAgendas: upcoming.length,
+    totalRecords: visits.length,
+  };
+}
+
+export function visitsToGeoJSON(visits: ActionVisit[]): {
+  type: "FeatureCollection";
+  features: Array<{
+    type: "Feature";
+    geometry: { type: "Point"; coordinates: [number, number] };
+    properties: Record<string, string>;
+  }>;
+} {
+  return {
+    type: "FeatureCollection",
+    features: visits.map((visit) => ({
+      type: "Feature",
+      geometry: {
+        type: "Point",
+        coordinates: [visit.longitude, visit.latitude],
+      },
+      properties: {
+        visitId: visit.id,
+        slug: visit.slug,
+        status: visit.status,
+        city: visit.city,
+        title: visit.title,
+        date: visit.date,
+        category: visit.category,
+      },
+    })),
+  };
+}
+
+export function findVisitBySlug(visits: ActionVisit[], slug: string): ActionVisit | undefined {
+  const normalized = slug.trim().toLowerCase();
+  return visits.find((v) => v.slug.toLowerCase() === normalized);
+}
+
+export function getActionVisitSharePath(slug: string): string {
+  return `/mapa-de-atuacao?visita=${encodeURIComponent(slug)}`;
+}
+
+export function getRelatedNews(
+  visit: ActionVisit,
+  news: NewsItem[]
+): NewsItem | undefined {
+  if (!visit.relatedNewsId) return undefined;
+  return news.find((item) => item.id === visit.relatedNewsId);
+}
+
+export function formatActionDate(dateStr: string): string {
+  const date = new Date(`${dateStr}T12:00:00`);
+  return date.toLocaleDateString("pt-BR", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+}
+
+export function statusLabel(status: ActionVisitStatus): string {
+  return status === "agendada" ? "Agendada" : "Realizada";
+}
+
+function clampCoord(value: number, min: number, max: number, fallback: number): number {
+  if (!Number.isFinite(value)) return fallback;
+  return Math.min(max, Math.max(min, value));
+}

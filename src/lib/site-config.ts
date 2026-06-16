@@ -10,6 +10,7 @@ import { deleteRemovedUploadsFromGitHub } from "./upload-cleanup";
 import { normalizeNewsMarkdown, repairMarkdown } from "./format-content";
 import { clampNewsImageFocus, DEFAULT_NEWS_IMAGE_FOCUS } from "./news-image";
 import { normalizeVideos } from "./video";
+import { normalizeActionMap } from "./action-map";
 
 const CONFIG_PATH = path.join(process.cwd(), "data", "site-config.json");
 const BLOB_PATHNAME = "mauricio/site-config.json";
@@ -68,6 +69,7 @@ function applyConfigNormalization(config: SiteConfig): SiteConfig {
       imageFocusX: clampNewsImageFocus(item.imageFocusX ?? DEFAULT_NEWS_IMAGE_FOCUS.x),
       imageFocusY: clampNewsImageFocus(item.imageFocusY ?? DEFAULT_NEWS_IMAGE_FOCUS.y),
     })),
+    actionMap: normalizeActionMap(config.actionMap),
   };
 }
 

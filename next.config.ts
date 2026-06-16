@@ -13,6 +13,7 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "*.public.blob.vercel-storage.com" },
       { protocol: "https", hostname: "*.cdninstagram.com" },
       { protocol: "https", hostname: "*.fbcdn.net" },
+      { protocol: "https", hostname: "raw.githubusercontent.com" },
     ],
   },
 };

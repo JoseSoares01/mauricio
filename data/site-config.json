@@ -36,6 +36,10 @@
       "href": "/agenda"
     },
     {
+      "label": "Mapa de Atuação",
+      "href": "/mapa-de-atuacao"
+    },
+    {
       "label": "Contato",
       "href": "/contato"
     }
@@ -236,6 +240,156 @@
       "type": "caminhada"
     }
   ],
+  "actionMap": {
+    "enabled": true,
+    "visits": [
+      {
+        "id": "am-teresina-001",
+        "slug": "teresina-saude-junho-2026",
+        "city": "Teresina",
+        "latitude": -5.0892,
+        "longitude": -42.8019,
+        "date": "2026-06-10",
+        "title": "Visita à rede municipal de saúde",
+        "excerpt": "Diálogo com profissionais e acompanhamento das unidades básicas de Teresina.",
+        "content": "O deputado Maurício Soares percorreu unidades de saúde em Teresina para ouvir demandas de profissionais e usuários, reforçando compromissos com investimentos em atenção primária e equipamentos.",
+        "category": "Saúde",
+        "status": "realizada",
+        "image": "/uploads/banner-mmbus.png",
+        "gallery": ["/uploads/instagram-mauricio.jpg"],
+        "relatedLink": "",
+        "relatedNewsId": "",
+        "displayOrder": 1,
+        "active": true
+      },
+      {
+        "id": "am-parnaiba-001",
+        "slug": "parnaiba-litoral-maio-2026",
+        "city": "Parnaíba",
+        "latitude": -2.9048,
+        "longitude": -41.7767,
+        "date": "2026-05-18",
+        "title": "Encontro com lideranças do litoral",
+        "excerpt": "Reunião com representantes da comunidade portuária e pescadores artesanais.",
+        "content": "Em Parnaíba, foram discutidas pautas de infraestrutura portuária, geração de emprego e apoio à economia do litoral piauiense.",
+        "category": "Desenvolvimento",
+        "status": "realizada",
+        "image": "/uploads/news-agronegocio.jpg",
+        "gallery": [],
+        "relatedLink": "",
+        "relatedNewsId": "",
+        "displayOrder": 2,
+        "active": true
+      },
+      {
+        "id": "am-picos-001",
+        "slug": "picos-educacao-abril-2026",
+        "city": "Picos",
+        "latitude": -7.077,
+        "longitude": -41.467,
+        "date": "2026-04-22",
+        "title": "Fórum regional de educação",
+        "excerpt": "Debate sobre ensino médio, tecnologia e oportunidades para jovens do centro-sul.",
+        "content": "O encontro em Picos reuniu gestores escolares e estudantes para apresentar propostas de ampliação de acesso à educação de qualidade na região.",
+        "category": "Educação",
+        "status": "realizada",
+        "image": "/uploads/instagram-partido-liberal.jpg",
+        "gallery": [],
+        "relatedLink": "",
+        "relatedNewsId": "1781279000001",
+        "displayOrder": 3,
+        "active": true
+      },
+      {
+        "id": "am-floriano-001",
+        "slug": "floriano-agronegocio-marco-2026",
+        "city": "Floriano",
+        "latitude": -6.7667,
+        "longitude": -43.0167,
+        "date": "2026-03-15",
+        "title": "Visita técnica ao agronegócio",
+        "excerpt": "Acompanhamento de cooperativas e produtores rurais do médio Parnaíba.",
+        "content": "Em Floriano, foram apresentadas demandas de crédito rural, logística e fortalecimento das cadeias produtivas locais.",
+        "category": "Agronegócio",
+        "status": "realizada",
+        "image": "/uploads/news-agronegocio.jpg",
+        "gallery": [],
+        "relatedLink": "",
+        "relatedNewsId": "",
+        "displayOrder": 4,
+        "active": true
+      },
+      {
+        "id": "am-piripiri-001",
+        "slug": "piripiri-transporte-julho-2026",
+        "city": "Piripiri",
+        "latitude": -4.2736,
+        "longitude": -41.7769,
+        "date": "2026-07-08",
+        "title": "Agenda de mobilidade urbana",
+        "excerpt": "Visita agendada para discutir transporte público e acessibilidade.",
+        "content": "A ação em Piripiri focará em melhorias no transporte coletivo e integração com projetos de mobilidade sustentável.",
+        "category": "Infraestrutura",
+        "status": "agendada",
+        "image": "/uploads/banner-mmbus.png",
+        "gallery": [],
+        "relatedLink": "",
+        "relatedNewsId": "",
+        "displayOrder": 5,
+        "active": true,
+        "routePoints": [
+          { "latitude": -5.0892, "longitude": -42.8019 },
+          { "latitude": -4.2736, "longitude": -41.7769 }
+        ]
+      },
+      {
+        "id": "am-campo-maior-001",
+        "slug": "campo-maior-seguranca-julho-2026",
+        "city": "Campo Maior",
+        "latitude": -4.8278,
+        "longitude": -42.1683,
+        "date": "2026-07-20",
+        "title": "Reunião sobre segurança pública",
+        "excerpt": "Encontro agendado com forças de segurança e lideranças comunitárias.",
+        "content": "A visita a Campo Maior abordará políticas de prevenção, inteligência e apoio às forças locais.",
+        "category": "Segurança",
+        "status": "agendada",
+        "image": "/uploads/instagram-clube-news.jpg",
+        "gallery": [],
+        "relatedLink": "",
+        "relatedNewsId": "",
+        "displayOrder": 6,
+        "active": true,
+        "routePoints": [
+          { "latitude": -4.2736, "longitude": -41.7769 },
+          { "latitude": -4.8278, "longitude": -42.1683 }
+        ]
+      },
+      {
+        "id": "am-srn-001",
+        "slug": "sao-raimundo-nonato-turismo-agosto-2026",
+        "city": "São Raimundo Nonato",
+        "latitude": -9.0164,
+        "longitude": -42.6994,
+        "date": "2026-08-05",
+        "title": "Fomento ao turismo cultural",
+        "excerpt": "Agenda no Sítio Arqueológico da Serra da Capivara e entorno.",
+        "content": "A visita a São Raimundo Nonato valorizará o turismo cultural e a economia criativa da região, com foco em geração de emprego.",
+        "category": "Turismo",
+        "status": "agendada",
+        "image": "/uploads/about-bg-new.jpg",
+        "gallery": [],
+        "relatedLink": "",
+        "relatedNewsId": "",
+        "displayOrder": 7,
+        "active": true,
+        "routePoints": [
+          { "latitude": -7.077, "longitude": -41.467 },
+          { "latitude": -9.0164, "longitude": -42.6994 }
+        ]
+      }
+    ]
+  },
   "admin": {
     "password": "mauricio2026"
   }

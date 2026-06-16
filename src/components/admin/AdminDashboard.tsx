@@ -15,8 +15,9 @@ import VideoUploader from "./VideoUploader";
 import RichTextEditor from "./RichTextEditor";
 import NewsImagePositionEditor from "./NewsImagePositionEditor";
 import {
-  Palette, Image, Menu, FileText, Video, Calendar, Share2, Settings, Save, LogOut, ExternalLink, Plus, Trash2,
+  Palette, Image, Menu, FileText, Video, Calendar, Share2, Settings, Save, LogOut, ExternalLink, Plus, Trash2, MapPin,
 } from "lucide-react";
+import ActionMapAdmin from "./ActionMapAdmin";
 
 interface AdminDashboardProps {
   config: SiteConfig;
@@ -25,7 +26,7 @@ interface AdminDashboardProps {
   onLogout: () => void;
 }
 
-type Tab = "theme" | "images" | "menu" | "content" | "news" | "videos" | "agenda" | "social" | "settings";
+type Tab = "theme" | "images" | "menu" | "content" | "news" | "videos" | "agenda" | "actionMap" | "social" | "settings";
 
 const TABS: { id: Tab; label: string; icon: React.ReactNode }[] = [
   { id: "theme", label: "Cores & Tema", icon: <Palette size={18} /> },
@@ -35,6 +36,7 @@ const TABS: { id: Tab; label: string; icon: React.ReactNode }[] = [
   { id: "news", label: "Notícias", icon: <FileText size={18} /> },
   { id: "videos", label: "Vídeos", icon: <Video size={18} /> },
   { id: "agenda", label: "Agenda", icon: <Calendar size={18} /> },
+  { id: "actionMap", label: "Mapa de Atuação", icon: <MapPin size={18} /> },
   { id: "social", label: "Redes Sociais", icon: <Share2 size={18} /> },
   { id: "settings", label: "Configurações", icon: <Settings size={18} /> },
 ];
@@ -544,6 +546,15 @@ export default function AdminDashboard({ config: initialConfig, token, onSave, o
                 <Plus size={16} /> Adicionar Evento
               </button>
             </div>
+          )}
+
+          {tab === "actionMap" && (
+            <ActionMapAdmin
+              actionMap={config.actionMap}
+              news={config.news}
+              token={token}
+              onChange={(actionMap) => update("actionMap", actionMap)}
+            />
           )}
 
           {tab === "social" && (
