@@ -1,6 +1,6 @@
 import Image from "next/image";
 import type { SiteConfig } from "@/lib/types";
-import { getInstagramPosts, isInstagramLiveEnabled } from "@/lib/instagram";
+import { getInstagramPosts } from "@/lib/instagram";
 
 interface InstagramSectionProps {
   config: SiteConfig;
@@ -25,9 +25,6 @@ export default async function InstagramSection({ config }: InstagramSectionProps
       <h3 className="text-center text-xl mb-6" style={{ color: "var(--color-primary)" }}>
         @{config.instagram.username}
       </h3>
-      {isInstagramLiveEnabled() && (
-        <p className="text-center text-sm text-gray-500 mb-4">Feed atualizado automaticamente do Instagram</p>
-      )}
       <div className="instagram-grid max-w-3xl mx-auto">
         {posts.map((post) => (
           <a

@@ -13,6 +13,7 @@ import {
 import ImageUploader from "./ImageUploader";
 import VideoUploader from "./VideoUploader";
 import RichTextEditor from "./RichTextEditor";
+import NewsImagePositionEditor from "./NewsImagePositionEditor";
 import {
   Palette, Image, Menu, FileText, Video, Calendar, Share2, Settings, Save, LogOut, ExternalLink, Plus, Trash2,
 } from "lucide-react";
@@ -335,6 +336,20 @@ export default function AdminDashboard({ config: initialConfig, token, onSave, o
                         update("news", news);
                       }} token={token} />
                     </div>
+                    {item.image && (
+                      <div className="md:col-span-2">
+                        <NewsImagePositionEditor
+                          image={item.image}
+                          focusX={item.imageFocusX}
+                          focusY={item.imageFocusY}
+                          onChange={(focus) => {
+                            const news = [...config.news];
+                            news[i] = { ...news[i], ...focus };
+                            update("news", news);
+                          }}
+                        />
+                      </div>
+                    )}
                     <div className="md:col-span-2">
                       <RichTextEditor
                         label="Conteúdo Completo"

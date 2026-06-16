@@ -6,6 +6,7 @@ import type { SiteConfig } from "./types";
 import defaultConfig from "../../data/site-config.json";
 import { blobAuth, isBlobEnabled } from "./blob-storage";
 import { normalizeNewsMarkdown } from "./format-content";
+import { clampNewsImageFocus, DEFAULT_NEWS_IMAGE_FOCUS } from "./news-image";
 import { normalizeVideos } from "./video";
 
 const CONFIG_PATH = path.join(process.cwd(), "data", "site-config.json");
@@ -45,6 +46,8 @@ function applyConfigNormalization(config: SiteConfig): SiteConfig {
     news: config.news.map((item) => ({
       ...item,
       content: normalizeNewsMarkdown(item.content),
+      imageFocusX: clampNewsImageFocus(item.imageFocusX ?? DEFAULT_NEWS_IMAGE_FOCUS.x),
+      imageFocusY: clampNewsImageFocus(item.imageFocusY ?? DEFAULT_NEWS_IMAGE_FOCUS.y),
     })),
   };
 }

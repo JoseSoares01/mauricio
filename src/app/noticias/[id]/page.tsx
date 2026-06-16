@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import PageLayout from "@/components/PageLayout";
+import NewsImage from "@/components/NewsImage";
 import FormattedContent from "@/components/FormattedContent";
 import { getSiteConfig, formatDate } from "@/lib/site-config";
 import { getAbsoluteUrl, getSiteUrl } from "@/lib/site-url";
@@ -95,7 +95,7 @@ export default async function NoticiaPage({ params }: { params: Promise<{ id: st
           {news.title}
         </h1>
         <div className="relative h-64 md:h-96 rounded-xl overflow-hidden mb-8">
-          <Image src={news.image} alt={news.title} fill className="object-cover" />
+          <NewsImage item={news} alt={news.title} />
         </div>
         <FormattedContent
           content={news.content}

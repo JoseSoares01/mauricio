@@ -38,6 +38,8 @@ export interface NewsItem {
   date: string;
   category: string;
   image: string;
+  imageFocusX?: number;
+  imageFocusY?: number;
   content: string;
 }
 

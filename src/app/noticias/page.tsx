@@ -1,6 +1,6 @@
 import Link from "next/link";
-import Image from "next/image";
 import PageLayout from "@/components/PageLayout";
+import NewsImage from "@/components/NewsImage";
 import { getSiteConfig, formatDate } from "@/lib/site-config";
 
 export default async function NoticiasPage() {
@@ -24,7 +24,7 @@ export default async function NoticiasPage() {
           {config.news.map((item) => (
             <article key={item.id} className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow">
               <div className="relative h-48">
-                <Image src={item.image} alt={item.title} fill className="object-cover" />
+                <NewsImage item={item} alt={item.title} />
               </div>
               <div className="p-6">
                 <span className="text-xs font-medium px-2 py-1 rounded" style={{ backgroundColor: "var(--color-accent)", color: "var(--color-primary)" }}>

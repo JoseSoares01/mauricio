@@ -15,6 +15,10 @@ interface IgMedia {
 
 type GraphHost = "facebook" | "instagram";
 
+function graphHostsForToken(token: string): GraphHost[] {
+  return token.startsWith("IG") ? ["instagram", "facebook"] : ["facebook", "instagram"];
+}
+
 async function graphFetch(path: string, token: string, host: GraphHost) {
   const base = host === "facebook" ? FB_GRAPH : IG_GRAPH;
   return fetch(`${base}${path}${path.includes("?") ? "&" : "?"}access_token=${token}`, {
@@ -88,11 +92,12 @@ export async function getInstagramPosts(config: SiteConfig): Promise<InstagramPo
   try {
     const igUserId = await resolveInstagramUserId(token, userId);
 
-    let host: GraphHost = "facebook";
+    let host: GraphHost = graphHostsForToken(token)[0];
     let res = await fetchMediaList(token, igUserId, host);
 
     if (!res.ok) {
-      host = "instagram";
+      const fallback = graphHostsForToken(token)[1];
+      host = fallback;
       res = await fetchMediaList(token, igUserId, host);
     }
 
