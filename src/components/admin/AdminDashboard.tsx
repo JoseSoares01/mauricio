@@ -540,15 +540,7 @@ export default function AdminDashboard({ config: initialConfig, token, onSave, o
                   </div>
                 ))}
               </div>
-              <div className="mt-6 p-4 bg-blue-50 rounded-lg text-sm text-gray-700 space-y-2">
-                <p className="font-semibold">Feed real do Instagram</p>
-                <p>
-                  Para mostrar as publicações reais da conta, configure na Vercel as variáveis{" "}
-                  <code className="bg-white px-1 rounded">INSTAGRAM_ACCESS_TOKEN</code> e{" "}
-                  <code className="bg-white px-1 rounded">INSTAGRAM_USER_ID</code>.
-                </p>
-                <p>Sem essas variáveis, o site usa a grade manual abaixo como reserva.</p>
-              </div>
+              
               <div className="mt-6">
                 <label className="admin-label">Username do Instagram (sem @)</label>
                 <input
