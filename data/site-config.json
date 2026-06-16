@@ -56,7 +56,7 @@
     "aboutPhoto": "/uploads/logo-mauricio-sergio-blue.png",
     "aboutBg": "/uploads/about-bg-new.jpg",
     "senadoBg": "/uploads/senado-bg-new.jpg",
-    "banner": "/uploads/banner-mmbus.png",
+    "banner": "https://raw.githubusercontent.com/JoseSoares01/mauricio/main/public/uploads/1781625358314-e21ya04w4c8.jpeg",
     "bannerSecondary": "/uploads/banner-new.jpg",
     "favicon": "/uploads/favicon-192.png"
   },
