@@ -23,12 +23,18 @@ import {
   journeyPathToGeoJSON,
   visitsToGeoJSON,
 } from "@/lib/action-map";
+import {
+  createPiauiOutsideMaskGeoJSON,
+  getPiauiBorderGeoJSON,
+  getPiauiBBox,
+} from "@/lib/piaui-boundary";
 import type { ActionVisit } from "@/lib/types";
 
 const MAPBOX_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN || "";
 
 const CLUSTER_LAYER_ID = "action-clusters";
 const POINT_LAYER_ID = "action-unclustered-point";
+const PIAUI_MASK_COLOR = "#f8f7f4";
 
 function routesToGeoJSON(visits: ActionVisit[]) {
   return {
@@ -72,6 +78,9 @@ export default function ActionMapCanvas({
   onPopupVisit,
 }: ActionMapCanvasProps) {
   const mapRef = useRef<MapRef>(null);
+  const piauiMaskGeojson = useMemo(() => createPiauiOutsideMaskGeoJSON(), []);
+  const piauiBorderGeojson = useMemo(() => getPiauiBorderGeoJSON(), []);
+  const piauiFitBounds = useMemo(() => getPiauiBBox(0.04), []);
   const geojson = useMemo(() => visitsToGeoJSON(visits), [visits]);
   const heatmapGeojson = useMemo(() => citiesHeatmapToGeoJSON(visits), [visits]);
   const routesGeojson = useMemo(() => routesToGeoJSON(visits), [visits]);
@@ -83,13 +92,13 @@ export default function ActionMapCanvas({
   const journeyVisit = journeyActive ? chronologyVisits[journeyIndex] : null;
 
   const fitPiauiBounds = useCallback(() => {
-    mapRef.current?.fitBounds(PIAUI_BOUNDS, {
-      padding: { top: 28, bottom: 28, left: 28, right: 28 },
+    mapRef.current?.fitBounds(piauiFitBounds, {
+      padding: { top: 20, bottom: 20, left: 20, right: 20 },
       pitch: PIAUI_VIEW.pitch,
       bearing: PIAUI_VIEW.bearing,
       duration: 0,
     });
-  }, []);
+  }, [piauiFitBounds]);
 
   useEffect(() => {
     if (!focusVisit) return;
@@ -163,15 +172,28 @@ export default function ActionMapCanvas({
         mapStyle="mapbox://styles/mapbox/light-v11"
         style={{ width: "100%", height: "100%" }}
         maxBounds={PIAUI_BOUNDS}
-        minZoom={6.9}
+        minZoom={7.15}
         maxZoom={12}
+        dragRotate={false}
+        touchPitch={false}
         interactiveLayerIds={showHeatmap || journeyActive ? [] : [CLUSTER_LAYER_ID, POINT_LAYER_ID]}
         onClick={handleMapClick}
         onLoad={fitPiauiBounds}
         attributionControl={false}
         reuseMaps
       >
-        <NavigationControl position="top-right" visualizePitch />
+        <NavigationControl position="top-right" showCompass={false} />
+
+        <Source id="piaui-mask" type="geojson" data={piauiMaskGeojson}>
+          <Layer
+            id="piaui-outside-mask"
+            type="fill"
+            paint={{
+              "fill-color": PIAUI_MASK_COLOR,
+              "fill-opacity": 1,
+            }}
+          />
+        </Source>
 
         {showHeatmap && (
           <Source id="action-heatmap" type="geojson" data={heatmapGeojson}>
@@ -324,6 +346,18 @@ export default function ActionMapCanvas({
             />
           </Source>
         )}
+
+        <Source id="piaui-border" type="geojson" data={piauiBorderGeojson}>
+          <Layer
+            id="piaui-border-line"
+            type="line"
+            paint={{
+              "line-color": ACTION_MAP_COLORS.realizada,
+              "line-width": 2.5,
+              "line-opacity": 0.9,
+            }}
+          />
+        </Source>
 
         {journeyVisit && (
           <Marker longitude={journeyVisit.longitude} latitude={journeyVisit.latitude} anchor="center">

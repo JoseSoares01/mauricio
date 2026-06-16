@@ -1,5 +1,6 @@
 import type { ActionMapConfig, ActionVisit, ActionVisitStatus, NewsItem } from "./types";
 import { extractYoutubeId, isDirectVideoFile } from "./video";
+import { getPiauiBBox } from "./piaui-boundary";
 
 export const ACTION_MAP_COLORS = {
   realizada: "#129547",
@@ -7,11 +8,8 @@ export const ACTION_MAP_COLORS = {
   cluster: "#6E8B3D",
 } as const;
 
-/** Limites aproximados do estado do Piauí (SW → NE). */
-export const PIAUI_BOUNDS: [[number, number], [number, number]] = [
-  [-46.05, -11.05],
-  [-39.85, -2.35],
-];
+/** Limites do Piauí derivados do contorno oficial (IBGE). */
+export const PIAUI_BOUNDS = getPiauiBBox(0.08);
 
 export const PIAUI_VIEW = {
   longitude: -42.95,
