@@ -273,5 +273,8 @@
       "location": "Bairro São José",
       "type": "caminhada"
     }
-  ]
+  ],
+  "admin": {
+    "password": "mauricio2026"
+  }
 }

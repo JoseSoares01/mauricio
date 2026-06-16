@@ -52,9 +52,14 @@ async function readFromGitHub(): Promise<SiteConfig | null> {
   }
 }
 
+const DEFAULT_ADMIN_PASSWORD = "mauricio2026";
+
 function applyConfigNormalization(config: SiteConfig): SiteConfig {
   return {
     ...config,
+    admin: {
+      password: config.admin?.password || DEFAULT_ADMIN_PASSWORD,
+    },
     videos: normalizeVideos(config.videos),
     news: config.news.map((item) => ({
       ...item,
