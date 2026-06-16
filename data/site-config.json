@@ -38,14 +38,6 @@
     {
       "label": "Contato",
       "href": "/contato"
-    },
-    {
-      "label": "Novo",
-      "href": "/novo"
-    },
-    {
-      "label": "Novo",
-      "href": "/"
     }
   ],
   "social": {
