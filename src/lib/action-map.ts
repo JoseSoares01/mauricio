@@ -6,10 +6,16 @@ export const ACTION_MAP_COLORS = {
   cluster: "#6E8B3D",
 } as const;
 
+/** Limites aproximados do estado do Piauí (SW → NE). */
+export const PIAUI_BOUNDS: [[number, number], [number, number]] = [
+  [-46.05, -11.05],
+  [-39.85, -2.35],
+];
+
 export const PIAUI_VIEW = {
-  longitude: -43.2,
-  latitude: -7.2,
-  zoom: 6.2,
+  longitude: -42.95,
+  latitude: -7.0,
+  zoom: 7.9,
   pitch: 48,
   bearing: -12,
 };
@@ -194,6 +200,99 @@ export function formatActionDate(dateStr: string): string {
 
 export function statusLabel(status: ActionVisitStatus): string {
   return status === "agendada" ? "Agendada" : "Realizada";
+}
+
+export function sortVisitsChronologically(visits: ActionVisit[]): ActionVisit[] {
+  return [...visits].sort((a, b) => {
+    const byDate = a.date.localeCompare(b.date);
+    if (byDate !== 0) return byDate;
+    return a.displayOrder - b.displayOrder;
+  });
+}
+
+export function citiesHeatmapToGeoJSON(visits: ActionVisit[]) {
+  const byCity = new Map<string, { latitude: number; longitude: number; count: number }>();
+
+  for (const visit of visits.filter((item) => item.status === "realizada")) {
+    const current = byCity.get(visit.city);
+    if (current) {
+      current.count += 1;
+    } else {
+      byCity.set(visit.city, {
+        latitude: visit.latitude,
+        longitude: visit.longitude,
+        count: 1,
+      });
+    }
+  }
+
+  return {
+    type: "FeatureCollection" as const,
+    features: Array.from(byCity.entries()).map(([city, entry]) => ({
+      type: "Feature" as const,
+      geometry: {
+        type: "Point" as const,
+        coordinates: [entry.longitude, entry.latitude] as [number, number],
+      },
+      properties: {
+        city,
+        weight: entry.count,
+      },
+    })),
+  };
+}
+
+export function journeyPathToGeoJSON(visits: ActionVisit[], endIndexInclusive: number) {
+  const slice = visits.slice(0, endIndexInclusive + 1);
+  if (slice.length < 2) {
+    return { type: "FeatureCollection" as const, features: [] };
+  }
+
+  return {
+    type: "FeatureCollection" as const,
+    features: [
+      {
+        type: "Feature" as const,
+        geometry: {
+          type: "LineString" as const,
+          coordinates: slice.map((visit) => [visit.longitude, visit.latitude] as [number, number]),
+        },
+        properties: {},
+      },
+    ],
+  };
+}
+
+export function visitsToCsv(visits: ActionVisit[]): string {
+  const header = [
+    "id",
+    "slug",
+    "cidade",
+    "data",
+    "titulo",
+    "categoria",
+    "status",
+    "latitude",
+    "longitude",
+    "resumo",
+  ];
+  const rows = visits.map((visit) =>
+    [
+      visit.id,
+      visit.slug,
+      visit.city,
+      visit.date,
+      visit.title,
+      visit.category,
+      visit.status,
+      visit.latitude,
+      visit.longitude,
+      visit.excerpt.replace(/"/g, '""'),
+    ]
+      .map((value) => `"${String(value).replace(/"/g, '""')}"`)
+      .join(",")
+  );
+  return [header.join(","), ...rows].join("\n");
 }
 
 function clampCoord(value: number, min: number, max: number, fallback: number): number {
