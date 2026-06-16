@@ -97,6 +97,37 @@ export async function writeFileToGitHub(params: {
   }
 }
 
+export async function deleteFileFromGitHub(params: {
+  filePath: string;
+  message: string;
+}): Promise<void> {
+  const { filePath, message } = params;
+  const { branch } = getGithubConfig();
+  const getResponse = await githubFetch(buildApiUrl(filePath, branch));
+
+  if (getResponse.status === 404) return;
+  if (!getResponse.ok) {
+    const body = await getResponse.text();
+    throw new Error(`Falha ao verificar ${filePath} no GitHub: ${getResponse.status} ${body}`);
+  }
+
+  const data = (await getResponse.json()) as GitHubFileResponse;
+  const deleteResponse = await githubFetch(buildApiUrl(filePath), {
+    method: "DELETE",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      message,
+      sha: data.sha,
+      branch,
+    }),
+  });
+
+  if (!deleteResponse.ok && deleteResponse.status !== 404) {
+    const body = await deleteResponse.text();
+    throw new Error(`Falha ao apagar ${filePath} no GitHub: ${deleteResponse.status} ${body}`);
+  }
+}
+
 export function getGitHubRawUrl(filePath: string): string {
   const { owner, repo, branch } = getGithubConfig();
   const normalized = filePath.replace(/^\/+/, "");

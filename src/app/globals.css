@@ -160,8 +160,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .social-icon {
-  width: 32px;
-  height: 32px;
+  width: 38px;
+  height: 38px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -181,8 +181,8 @@ h1, h2, h3, h4, h5, h6 {
 
 @media (max-width: 767px) {
   .social-icon {
-    width: 28px;
-    height: 28px;
+    width: 32px;
+    height: 32px;
   }
 }
 

@@ -6,6 +6,7 @@ import type { SiteConfig } from "./types";
 import defaultConfig from "../../data/site-config.json";
 import { blobAuth, isBlobEnabled } from "./blob-storage";
 import { isGithubStorageEnabled, readTextFileFromGitHub, writeFileToGitHub } from "./github-storage";
+import { deleteRemovedUploadsFromGitHub } from "./upload-cleanup";
 import { normalizeNewsMarkdown, repairMarkdown } from "./format-content";
 import { clampNewsImageFocus, DEFAULT_NEWS_IMAGE_FOCUS } from "./news-image";
 import { normalizeVideos } from "./video";
@@ -80,6 +81,7 @@ export async function getSiteConfig(): Promise<SiteConfig> {
 }
 
 export async function saveSiteConfig(config: SiteConfig): Promise<void> {
+  const previousConfig = isGithubStorageEnabled() ? await getSiteConfig() : null;
   const normalized = applyConfigNormalization(config);
   const content = `${JSON.stringify(normalized, null, 2)}\n`;
 
@@ -89,6 +91,9 @@ export async function saveSiteConfig(config: SiteConfig): Promise<void> {
       content,
       message: "Atualiza configuração do site pelo painel admin",
     });
+    if (previousConfig) {
+      await deleteRemovedUploadsFromGitHub(previousConfig, normalized);
+    }
     return;
   }
 
