@@ -197,9 +197,26 @@ export default function AdminDashboard({ config: initialConfig, token, onSave, o
                     <label className="admin-label">Subtítulo</label>
                     <input className="admin-input" value={config.site.subtitle} onChange={(e) => update("site", { ...config.site, subtitle: e.target.value })} />
                   </div>
+                </div>
+              </div>
+
+              <div className="admin-card">
+                <h2 className="text-xl font-bold mb-4">Rodapé</h2>
+                <p className="text-sm text-gray-500 mb-4">
+                  O logo do rodapé usa a imagem &quot;Logo Fundo Azul&quot; na aba Imagens.
+                </p>
+                <div className="grid md:grid-cols-2 gap-4">
                   <div className="md:col-span-2">
-                    <label className="admin-label">Copyright</label>
+                    <label className="admin-label">Direitos reservados (copyright)</label>
                     <input className="admin-input" value={config.site.copyright} onChange={(e) => update("site", { ...config.site, copyright: e.target.value })} />
+                  </div>
+                  <div className="md:col-span-2">
+                    <label className="admin-label">Endereço no rodapé</label>
+                    <input className="admin-input" value={config.contact.address} onChange={(e) => update("contact", { ...config.contact, address: e.target.value })} />
+                  </div>
+                  <div className="md:col-span-2">
+                    <label className="admin-label">Telefone(s) no rodapé</label>
+                    <input className="admin-input" value={config.contact.phone} onChange={(e) => update("contact", { ...config.contact, phone: e.target.value })} placeholder="Ex: (86) 99999-0000 / (86) 3333-0000" />
                   </div>
                 </div>
               </div>
