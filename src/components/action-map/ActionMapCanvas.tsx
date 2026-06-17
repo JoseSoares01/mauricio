@@ -1,10 +1,9 @@
 "use client";
 
-import { useMemo, useRef } from "react";
+import { useMemo } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import {
-  ACTION_MAP_COLORS,
   ACTION_MAP_IMAGE_ASPECT,
   formatActionDate,
   resolveVisitCanvasPosition,
@@ -40,7 +39,6 @@ export default function ActionMapCanvas({
   onPopupVisit,
   onMapBackgroundClick,
 }: ActionMapCanvasProps) {
-  const wrapRef = useRef<HTMLDivElement>(null);
   const plottedVisits = useMemo(
     () =>
       visits.map((visit) => ({
@@ -52,17 +50,10 @@ export default function ActionMapCanvas({
   const journeyVisitId = journeyActive ? chronologyVisits[journeyIndex]?.id : null;
 
   return (
-    <div
-      ref={wrapRef}
-      className="relative flex h-full min-h-[min(86vh,960px)] w-full flex-1 items-center justify-center overflow-hidden rounded-xl bg-white md:rounded-2xl"
-    >
+    <div className="relative w-full bg-white md:rounded-2xl">
       <div
-        className="relative mx-auto h-full w-full max-h-full max-w-full cursor-default bg-white"
-        style={{
-          aspectRatio: ACTION_MAP_IMAGE_ASPECT,
-          width: "auto",
-          height: "100%",
-        }}
+        className="relative w-full cursor-default bg-white"
+        style={{ aspectRatio: ACTION_MAP_IMAGE_ASPECT }}
         onClick={() => {
           if (popupVisit) onMapBackgroundClick();
         }}
@@ -72,21 +63,24 @@ export default function ActionMapCanvas({
           src={mapImage}
           alt="Mapa institucional do Piauí"
           fill
-          className="pointer-events-none object-contain"
-          sizes="(max-width: 768px) 100vw, 85vw"
+          className="pointer-events-none object-cover"
+          sizes="100vw"
           priority
           unoptimized
         />
 
         {plottedVisits.map(({ visit, point }) => {
           const isSelected = selectedVisitId === visit.id || journeyVisitId === visit.id;
-          const isFuture = visit.status === "agendada";
           return (
             <button
               key={visit.id}
               type="button"
-              className="group absolute z-10 flex -translate-x-1/2 -translate-y-1/2 items-center justify-center p-0 leading-none"
-              style={{ left: `${point.x}%`, top: `${point.y}%` }}
+              className="group absolute z-10 flex -translate-x-1/2 items-center justify-center p-0 leading-none"
+              style={{
+                left: `${point.x}%`,
+                top: `${point.y}%`,
+                transform: "translate(-50%, calc(-100% + 2px))",
+              }}
               onClick={(event) => {
                 event.stopPropagation();
                 onPopupVisit(visit);
@@ -96,38 +90,25 @@ export default function ActionMapCanvas({
             >
               {isSelected && (
                 <motion.span
-                  className="pointer-events-none absolute left-1/2 top-1/2 h-8 w-8 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#0071B7]/20"
+                  className="pointer-events-none absolute left-1/2 top-full h-8 w-8 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#0071B7]/20"
                   animate={{ scale: [1, 1.6, 1], opacity: [0.6, 0.1, 0.6] }}
                   transition={{ duration: 1.4, repeat: Infinity }}
                 />
               )}
-              {isFuture ? (
-                <span
-                  className="relative block rounded-full border-2 border-white shadow-[0_1px_4px_rgba(0,0,0,0.35)] transition-transform group-hover:scale-125"
-                  style={{
-                    width: isSelected ? 14 : 12,
-                    height: isSelected ? 14 : 12,
-                    backgroundColor: ACTION_MAP_COLORS.agendada,
-                    transform: isSelected ? "scale(1.15)" : undefined,
-                  }}
-                  aria-hidden
-                />
-              ) : (
-                <span
-                  className="relative block select-none text-[22px] leading-none drop-shadow-[0_1px_2px_rgba(0,0,0,0.35)] transition-transform group-hover:scale-110 md:text-2xl"
-                  style={{ transform: isSelected ? "scale(1.2)" : undefined }}
-                  aria-hidden
-                >
-                  📍
-                </span>
-              )}
+              <span
+                className="relative block select-none text-xl leading-none drop-shadow-[0_1px_2px_rgba(0,0,0,0.35)] transition-transform group-hover:scale-110 md:text-2xl"
+                style={{ transform: isSelected ? "scale(1.2)" : undefined }}
+                aria-hidden
+              >
+                📍
+              </span>
             </button>
           );
         })}
 
         {popupVisit && !journeyActive && !showHeatmap && (
           <div
-            className="absolute z-20 w-[240px] -translate-x-1/2 rounded-xl border border-gray-200 bg-white p-3 text-gray-900 shadow-2xl"
+            className="absolute z-20 w-[min(240px,calc(100vw-2rem))] -translate-x-1/2 rounded-xl border border-gray-200 bg-white p-3 text-gray-900 shadow-2xl"
             style={{
               left: `${resolveVisitCanvasPosition(popupVisit).x}%`,
               top: `calc(${resolveVisitCanvasPosition(popupVisit).y}% - 56px)`,
@@ -156,29 +137,14 @@ export default function ActionMapCanvas({
           </div>
         )}
 
-        <div className="pointer-events-none absolute bottom-3 left-3 rounded-lg border border-gray-200 bg-white/95 px-3 py-2 text-xs text-gray-700 shadow-md backdrop-blur">
-          {showHeatmap ? (
+        {!showHeatmap && (
+          <div className="pointer-events-none absolute bottom-3 left-3 rounded-lg border border-gray-200 bg-white/95 px-3 py-2 text-xs text-gray-700 shadow-md backdrop-blur">
             <span className="inline-flex items-center gap-1">
-              <span className="h-2.5 w-8 rounded-full bg-gradient-to-r from-green-200 to-green-700" />
-              Maior concentração de ações realizadas
+              <span aria-hidden>📍</span>
+              Ação realizada
             </span>
-          ) : (
-            <>
-              <span className="mr-3 inline-flex items-center gap-1">
-                <span aria-hidden>📍</span>
-                Realizada
-              </span>
-              <span className="inline-flex items-center gap-1">
-                <span
-                  className="inline-block h-2.5 w-2.5 rounded-full border border-white shadow-sm"
-                  style={{ backgroundColor: ACTION_MAP_COLORS.agendada }}
-                  aria-hidden
-                />
-                Agendada
-              </span>
-            </>
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </div>
   );

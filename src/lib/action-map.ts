@@ -1,4 +1,4 @@
-import type { ActionMapConfig, ActionVisit, ActionVisitStatus, NewsItem } from "./types";
+import type { ActionMapConfig, ActionVisit, NewsItem } from "./types";
 import { extractYoutubeId, isDirectVideoFile } from "./video";
 import { getPiauiBBox } from "./piaui-boundary";
 
@@ -122,7 +122,7 @@ export function normalizeActionVisit(visit: ActionVisit, index: number): ActionV
     excerpt: visit.excerpt?.trim() || "",
     content: visit.content?.trim() || "",
     category: visit.category?.trim() || "Geral",
-    status: visit.status === "agendada" ? "agendada" : "realizada",
+    status: "realizada",
     image: visit.image || "",
     gallery: Array.isArray(visit.gallery) ? visit.gallery.filter(Boolean) : [],
     relatedLink: visit.relatedLink?.trim() || "",
@@ -165,21 +165,19 @@ export function normalizeActionMap(actionMap?: ActionMapConfig): ActionMapConfig
 }
 
 export function getActiveVisits(actionMap: ActionMapConfig): ActionVisit[] {
-  return normalizeActionMap(actionMap).visits.filter((v) => v.active);
+  return normalizeActionMap(actionMap).visits.filter((v) => v.active && v.status === "realizada");
 }
 
 export interface ActionMapFilters {
   year: string;
   city: string;
   category: string;
-  status: "" | ActionVisitStatus;
 }
 
 export const EMPTY_ACTION_MAP_FILTERS: ActionMapFilters = {
   year: "",
   city: "",
   category: "",
-  status: "",
 };
 
 export function filterActionVisits(
@@ -190,7 +188,6 @@ export function filterActionVisits(
     if (filters.year && !visit.date.startsWith(filters.year)) return false;
     if (filters.city && visit.city !== filters.city) return false;
     if (filters.category && visit.category !== filters.category) return false;
-    if (filters.status && visit.status !== filters.status) return false;
     return true;
   });
 }
@@ -210,17 +207,13 @@ export function getActionMapCategories(visits: ActionVisit[]): string[] {
 export interface ActionMapStats {
   citiesVisited: number;
   actionsCompleted: number;
-  upcomingAgendas: number;
   totalRecords: number;
 }
 
 export function computeActionMapStats(visits: ActionVisit[]): ActionMapStats {
-  const completed = visits.filter((v) => v.status === "realizada");
-  const upcoming = visits.filter((v) => v.status === "agendada");
   return {
-    citiesVisited: new Set(completed.map((v) => v.city)).size,
-    actionsCompleted: completed.length,
-    upcomingAgendas: upcoming.length,
+    citiesVisited: new Set(visits.map((v) => v.city)).size,
+    actionsCompleted: visits.length,
     totalRecords: visits.length,
   };
 }
@@ -280,8 +273,8 @@ export function formatActionDate(dateStr: string): string {
   });
 }
 
-export function statusLabel(status: ActionVisitStatus): string {
-  return status === "agendada" ? "Agendada" : "Realizada";
+export function statusLabel(): string {
+  return "Realizada";
 }
 
 export function sortVisitsChronologically(visits: ActionVisit[]): ActionVisit[] {
@@ -398,7 +391,6 @@ export interface CityActionRanking {
   city: string;
   count: number;
   realizadas: number;
-  agendadas: number;
 }
 
 export function getCityActionRanking(visits: ActionVisit[]): CityActionRanking[] {
@@ -409,11 +401,9 @@ export function getCityActionRanking(visits: ActionVisit[]): CityActionRanking[]
       city: visit.city,
       count: 0,
       realizadas: 0,
-      agendadas: 0,
     };
     current.count += 1;
-    if (visit.status === "realizada") current.realizadas += 1;
-    else current.agendadas += 1;
+    current.realizadas += 1;
     byCity.set(visit.city, current);
   }
 

@@ -1,7 +1,6 @@
 "use client";
 
 import type { ActionMapFilters as Filters } from "@/lib/action-map";
-import type { ActionVisitStatus } from "@/lib/types";
 
 interface ActionMapFiltersProps {
   filters: Filters;
@@ -21,7 +20,7 @@ export default function ActionMapFilters({
   const set = (patch: Partial<Filters>) => onChange({ ...filters, ...patch });
 
   return (
-    <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+    <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
       <label className="flex flex-col gap-1 text-sm">
         <span className="font-medium text-gray-700">Ano</span>
         <select
@@ -67,19 +66,6 @@ export default function ActionMapFilters({
               {category}
             </option>
           ))}
-        </select>
-      </label>
-
-      <label className="flex flex-col gap-1 text-sm">
-        <span className="font-medium text-gray-700">Status</span>
-        <select
-          className="rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm"
-          value={filters.status}
-          onChange={(e) => set({ status: e.target.value as "" | ActionVisitStatus })}
-        >
-          <option value="">Todos</option>
-          <option value="realizada">Realizadas</option>
-          <option value="agendada">Agendadas</option>
         </select>
       </label>
     </div>

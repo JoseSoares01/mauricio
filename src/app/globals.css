@@ -375,10 +375,10 @@ h1, h2, h3, h4, h5, h6 {
 
 .action-map-canvas-wrap {
   flex: 1 1 82%;
-  min-height: min(86vh, 960px);
+  min-height: 0;
   padding: 0;
   display: flex;
-  align-items: stretch;
+  align-items: flex-start;
 }
 
 .action-map-sidebar {
@@ -391,7 +391,7 @@ h1, h2, h3, h4, h5, h6 {
 
 @media (max-width: 767px) {
   .action-map-layout {
-    min-height: calc(100vh - 240px);
+    min-height: 0;
     border: none;
     border-radius: 0;
     background: #fff;
@@ -399,7 +399,7 @@ h1, h2, h3, h4, h5, h6 {
 
   .action-map-canvas-wrap {
     padding: 0;
-    min-height: calc(100vh - 260px);
+    min-height: 0;
   }
 
   .action-map-page .container-site {

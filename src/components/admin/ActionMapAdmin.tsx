@@ -117,30 +117,13 @@ export default function ActionMapAdmin({ actionMap, news, token, onChange }: Act
     });
   };
 
-  const updateRoutePoint = (index: number, pointIndex: number, field: "x" | "y", value: number) => {
-    const visit = actionMap.visits[index];
-    const routePoints = [...(visit.routePoints || [])];
-    routePoints[pointIndex] = { ...routePoints[pointIndex], [field]: value };
-    updateVisit(index, { routePoints });
-  };
-
-  const addRoutePoint = (index: number) => {
-    const visit = actionMap.visits[index];
-    updateVisit(index, {
-      routePoints: [
-        ...(visit.routePoints || []),
-        { x: visit.mapX || 50, y: visit.mapY || 50 },
-      ],
-    });
-  };
-
   return (
     <div className="admin-card">
       <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
         <div>
           <h2 className="text-xl font-bold">Mapa de Atuação</h2>
           <p className="text-sm text-gray-500 mt-1">
-            Gerencie visitas realizadas e agendas futuras exibidas no mapa público.
+            Gerencie as ações realizadas exibidas no mapa público.
           </p>
         </div>
         <label className="inline-flex items-center gap-2 text-sm">
@@ -254,19 +237,6 @@ export default function ActionMapAdmin({ actionMap, news, token, onChange }: Act
                 value={visit.category}
                 onChange={(e) => updateVisit(index, { category: e.target.value })}
               />
-            </div>
-            <div>
-              <label className="admin-label">Status</label>
-              <select
-                className="admin-input"
-                value={visit.status}
-                onChange={(e) =>
-                  updateVisit(index, { status: e.target.value as ActionVisit["status"] })
-                }
-              >
-                <option value="realizada">Realizada</option>
-                <option value="agendada">Agendada</option>
-              </select>
             </div>
             <div>
               <label className="admin-label">Ordem de exibição</label>
@@ -458,58 +428,6 @@ export default function ActionMapAdmin({ actionMap, news, token, onChange }: Act
                 Adicionar indicador
               </button>
             </div>
-
-            {visit.status === "agendada" && (
-              <div className="md:col-span-2 border-t pt-4">
-                <h4 className="font-semibold text-gray-800 mb-3">Rota prevista (pontos intermediários)</h4>
-                <p className="text-xs text-gray-500 mb-3">
-                  Define a linha tracejada no mapa. O pin da cidade é o destino; adicione pontos de passagem.
-                </p>
-                {(visit.routePoints || []).map((point, pointIndex) => (
-                  <div key={`${visit.id}-route-${pointIndex}`} className="grid md:grid-cols-3 gap-3 mb-3 items-end">
-                    <div>
-                      <label className="admin-label">Ponto X</label>
-                      <input
-                        type="number"
-                        step="0.1"
-                        className="admin-input"
-                        value={point.x ?? 50}
-                        onChange={(e) =>
-                          updateRoutePoint(index, pointIndex, "x", Number(e.target.value))
-                        }
-                      />
-                    </div>
-                    <div>
-                      <label className="admin-label">Ponto Y</label>
-                      <input
-                        type="number"
-                        step="0.1"
-                        className="admin-input"
-                        value={point.y ?? 50}
-                        onChange={(e) =>
-                          updateRoutePoint(index, pointIndex, "y", Number(e.target.value))
-                        }
-                      />
-                    </div>
-                    <button
-                      type="button"
-                      className="text-red-500 text-sm mb-2"
-                      onClick={() => {
-                        const routePoints = (visit.routePoints || []).filter((_, i) => i !== pointIndex);
-                        updateVisit(index, {
-                          routePoints: routePoints.length ? routePoints : undefined,
-                        });
-                      }}
-                    >
-                      Remover ponto
-                    </button>
-                  </div>
-                ))}
-                <button type="button" onClick={() => addRoutePoint(index)} className="admin-btn text-sm">
-                  Adicionar ponto na rota
-                </button>
-              </div>
-            )}
           </div>
         </div>
       ))}

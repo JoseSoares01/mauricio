@@ -33,8 +33,7 @@ export default function ActionMapDetailPanel({
   const relatedNews = getRelatedNews(visit, news);
   const videoEmbed = getVisitVideoEmbed(visit.videoUrl);
   const indicators = getIndicatorEntries(visit.municipalityIndicators);
-  const statusColor =
-    visit.status === "agendada" ? ACTION_MAP_COLORS.agendada : ACTION_MAP_COLORS.realizada;
+  const statusColor = ACTION_MAP_COLORS.realizada;
 
   const handleShare = async () => {
     const url =
@@ -68,7 +67,7 @@ export default function ActionMapDetailPanel({
             className="inline-block rounded-full px-2.5 py-1 text-xs font-semibold text-white"
             style={{ backgroundColor: statusColor }}
           >
-            {statusLabel(visit.status)}
+            {statusLabel()}
           </span>
           <h2 className="mt-2 text-lg font-bold leading-snug text-gray-900 md:text-xl">{visit.title}</h2>
           <div className="mt-2 flex flex-wrap gap-3 text-sm text-gray-600">

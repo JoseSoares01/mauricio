@@ -44,8 +44,6 @@ export default function ActionMapHeatmapPanel({ ranking, totalRealizadas }: Acti
                     </p>
                     <p className="mt-0.5 text-xs text-gray-600">
                       {entry.realizadas} realizada{entry.realizadas === 1 ? "" : "s"}
-                      {entry.agendadas > 0 &&
-                        ` · ${entry.agendadas} agendada${entry.agendadas === 1 ? "" : "s"}`}
                     </p>
                   </div>
                   <span

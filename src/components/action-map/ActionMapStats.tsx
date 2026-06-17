@@ -9,13 +9,12 @@ interface ActionMapStatsProps {
 const ITEMS: Array<{ key: keyof Stats; label: string }> = [
   { key: "citiesVisited", label: "Cidades visitadas" },
   { key: "actionsCompleted", label: "Ações realizadas" },
-  { key: "upcomingAgendas", label: "Agendas futuras" },
   { key: "totalRecords", label: "Registros no mapa" },
 ];
 
 export default function ActionMapStats({ stats }: ActionMapStatsProps) {
   return (
-    <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+    <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
       {ITEMS.map((item) => (
         <div
           key={item.key}

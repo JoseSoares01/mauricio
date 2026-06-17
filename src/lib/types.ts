@@ -68,7 +68,7 @@ export interface AgendaEvent {
   type: string;
 }
 
-export type ActionVisitStatus = "realizada" | "agendada";
+export type ActionVisitStatus = "realizada";
 
 /** Documento anexo — preparado para fase futura */
 export interface ActionVisitDocument {
