@@ -8,10 +8,10 @@ export const ACTION_MAP_COLORS = {
   cluster: "#6E8B3D",
 } as const;
 
-export const DEFAULT_ACTION_MAP_IMAGE = "/uploads/piaui-3d-map.png";
+export const DEFAULT_ACTION_MAP_IMAGE = "/uploads/piaui-3d-map-premium.png";
 
-/** Proporção da arte institucional (largura / altura). */
-export const ACTION_MAP_IMAGE_ASPECT = 819 / 1024;
+/** Proporção da arte institucional premium (largura / altura). */
+export const ACTION_MAP_IMAGE_ASPECT = 1024 / 911;
 
 /** Limites do Piauí derivados do contorno oficial (IBGE). */
 export const PIAUI_BOUNDS = getPiauiBBox(0.08);
@@ -30,30 +30,30 @@ export const DEFAULT_ACTION_MAP: ActionMapConfig = {
   visits: [],
 };
 
-/** Posições calibradas sobre a arte 3D (819×1024) — alinhadas aos pontos brancos. */
+/** Posições calibradas sobre a arte premium 1024×911. */
 const CITY_CANVAS_POSITIONS: Record<string, { x: number; y: number }> = {
-  teresina: { x: 49.9, y: 48.8 },
-  parnaiba: { x: 66.5, y: 17.5 },
-  picos: { x: 88.5, y: 59.7 },
-  floriano: { x: 37.8, y: 51.1 },
-  piripiri: { x: 60.3, y: 30.4 },
-  "campo maior": { x: 66.7, y: 42.7 },
-  "sao raimundo nonato": { x: 31.1, y: 83.8 },
-  oeiras: { x: 18.0, y: 60.0 },
-  corrente: { x: 12.5, y: 83.4 },
-  altos: { x: 45.5, y: 33.8 },
-  barras: { x: 49.4, y: 22.3 },
-  uniao: { x: 52.9, y: 22.5 },
-  pedroii: { x: 75.9, y: 27.1 },
-  "pedro ii": { x: 75.9, y: 27.1 },
-  regeneracao: { x: 42.1, y: 42.3 },
-  valenca: { x: 71.9, y: 45.0 },
-  "valenca do piaui": { x: 71.9, y: 45.0 },
-  fronteiras: { x: 83.0, y: 52.1 },
-  paulistana: { x: 78.6, y: 60.4 },
-  bomjesus: { x: 26.6, y: 71.2 },
-  "bom jesus": { x: 26.6, y: 71.2 },
-  guadalupe: { x: 5.7, y: 69.9 },
+  teresina: { x: 47.0, y: 50.5 },
+  parnaiba: { x: 68.0, y: 16.5 },
+  picos: { x: 76.0, y: 47.0 },
+  floriano: { x: 30.0, y: 54.0 },
+  piripiri: { x: 62.0, y: 28.0 },
+  "campo maior": { x: 58.5, y: 40.0 },
+  "sao raimundo nonato": { x: 54.0, y: 77.5 },
+  oeiras: { x: 12.0, y: 58.0 },
+  corrente: { x: 10.5, y: 83.5 },
+  altos: { x: 44.5, y: 36.0 },
+  barras: { x: 48.5, y: 22.0 },
+  uniao: { x: 52.5, y: 22.5 },
+  pedroii: { x: 72.0, y: 28.5 },
+  "pedro ii": { x: 72.0, y: 28.5 },
+  regeneracao: { x: 36.5, y: 44.0 },
+  valenca: { x: 56.0, y: 52.0 },
+  "valenca do piaui": { x: 56.0, y: 52.0 },
+  fronteiras: { x: 83.0, y: 52.0 },
+  paulistana: { x: 72.5, y: 58.5 },
+  bomjesus: { x: 24.0, y: 71.0 },
+  "bom jesus": { x: 24.0, y: 71.0 },
+  guadalupe: { x: 5.5, y: 65.0 },
 };
 
 export function normalizeCityKey(city: string): string {

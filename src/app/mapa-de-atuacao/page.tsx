@@ -27,7 +27,7 @@ export default async function MapaDeAtuacaoPage() {
           visits={visits}
           news={config.news}
           siteTitle={config.site.title}
-          mapImage={config.actionMap.mapImage || "/uploads/piaui-3d-map.png"}
+          mapImage={config.actionMap.mapImage || "/uploads/piaui-3d-map-premium.png"}
         />
       </Suspense>
     </PageLayout>

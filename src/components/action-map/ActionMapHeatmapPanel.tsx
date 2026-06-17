@@ -11,7 +11,7 @@ interface ActionMapHeatmapPanelProps {
 export default function ActionMapHeatmapPanel({ ranking, totalRealizadas }: ActionMapHeatmapPanelProps) {
   if (ranking.length === 0) {
     return (
-      <div className="flex h-full flex-col justify-center rounded-l-2xl border border-dashed border-gray-200 bg-white p-8 text-center text-gray-600">
+      <div className="flex h-full flex-col justify-center rounded-[20px] border border-dashed border-slate-200 bg-white p-8 text-center text-slate-600">
         <p className="text-lg font-semibold text-gray-800">Nenhuma ação realizada</p>
         <p className="mt-2 text-sm">Ajuste os filtros ou aguarde novas visitas registradas.</p>
       </div>
@@ -21,7 +21,7 @@ export default function ActionMapHeatmapPanel({ ranking, totalRealizadas }: Acti
   const maxCount = ranking[0]?.count || 1;
 
   return (
-    <div className="flex h-full flex-col overflow-hidden rounded-l-2xl border border-gray-100 bg-white shadow-xl">
+    <div className="flex h-full flex-col overflow-hidden rounded-[20px] border border-slate-200/80 bg-white shadow-sm">
       <div className="border-b border-gray-100 px-4 py-4">
         <h2 className="text-lg font-bold text-gray-900">Regiões atendidas</h2>
         <p className="mt-1 text-sm text-gray-600">

@@ -11,6 +11,9 @@ interface ActionMapControlsProps {
   onExportCsv: () => void;
 }
 
+const btnBase =
+  "inline-flex items-center gap-2 rounded-[14px] px-4 py-2.5 text-sm font-semibold transition-all duration-200";
+
 export default function ActionMapControls({
   showHeatmap,
   journeyActive,
@@ -24,10 +27,10 @@ export default function ActionMapControls({
       <button
         type="button"
         onClick={onToggleHeatmap}
-        className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-colors ${
+        className={`${btnBase} ${
           showHeatmap
-            ? "bg-[#129547] text-white"
-            : "border border-gray-200 bg-white text-gray-700 hover:bg-gray-50"
+            ? "bg-[#129547] text-white shadow-md shadow-emerald-500/20"
+            : "border border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50"
         }`}
       >
         <Flame size={16} />
@@ -38,7 +41,7 @@ export default function ActionMapControls({
         <button
           type="button"
           onClick={onStopJourney}
-          className="inline-flex items-center gap-2 rounded-full bg-[#0071B7] px-4 py-2 text-sm font-medium text-white"
+          className={`${btnBase} bg-[#0071B7] text-white shadow-md shadow-blue-500/20`}
         >
           <Route size={16} />
           Parar trajetória
@@ -47,17 +50,17 @@ export default function ActionMapControls({
         <button
           type="button"
           onClick={onStartJourney}
-          className="inline-flex items-center gap-2 rounded-full border border-[#0071B7] bg-white px-4 py-2 text-sm font-medium text-[#0071B7] hover:bg-blue-50"
+          className={`${btnBase} border border-[#0071B7]/30 bg-white text-[#0071B7] hover:bg-blue-50`}
         >
           <Route size={16} />
-          Ver trajetória do deputado
+          Ver trajetória
         </button>
       )}
 
       <button
         type="button"
         onClick={onExportCsv}
-        className="inline-flex items-center gap-2 rounded-full border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+        className={`${btnBase} border border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50`}
       >
         <Download size={16} />
         Exportar CSV

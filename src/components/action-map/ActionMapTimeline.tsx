@@ -1,5 +1,7 @@
 "use client";
 
+import { Clock3 } from "lucide-react";
+
 interface ActionMapTimelineProps {
   years: string[];
   selectedYear: string;
@@ -11,12 +13,17 @@ export default function ActionMapTimeline({ years, selectedYear, onSelect }: Act
 
   return (
     <div className="flex items-center gap-2 overflow-x-auto pb-1">
-      <span className="shrink-0 text-sm font-medium text-gray-600">Linha do tempo:</span>
+      <span className="inline-flex shrink-0 items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-slate-500">
+        <Clock3 size={14} />
+        Linha do tempo
+      </span>
       <button
         type="button"
         onClick={() => onSelect("")}
-        className={`shrink-0 rounded-full px-3 py-1.5 text-sm transition-colors ${
-          !selectedYear ? "bg-[#0071B7] text-white" : "bg-white text-gray-700 border border-gray-200"
+        className={`shrink-0 rounded-full px-3.5 py-1.5 text-sm font-medium transition ${
+          !selectedYear
+            ? "bg-[#0071B7] text-white shadow-sm"
+            : "border border-slate-200 bg-white text-slate-700 hover:bg-slate-50"
         }`}
       >
         Todos
@@ -26,10 +33,10 @@ export default function ActionMapTimeline({ years, selectedYear, onSelect }: Act
           key={year}
           type="button"
           onClick={() => onSelect(year)}
-          className={`shrink-0 rounded-full px-3 py-1.5 text-sm transition-colors ${
+          className={`shrink-0 rounded-full px-3.5 py-1.5 text-sm font-medium transition ${
             selectedYear === year
-              ? "bg-[#0071B7] text-white"
-              : "bg-white text-gray-700 border border-gray-200"
+              ? "bg-[#0071B7] text-white shadow-sm"
+              : "border border-slate-200 bg-white text-slate-700 hover:bg-slate-50"
           }`}
         >
           {year}
