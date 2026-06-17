@@ -242,11 +242,14 @@
   ],
   "actionMap": {
     "enabled": true,
+    "mapImage": "/uploads/piaui-3d-map.png",
     "visits": [
       {
         "id": "am-teresina-001",
         "slug": "teresina-saude-junho-2026",
         "city": "Teresina",
+        "mapX": 49.9,
+        "mapY": 48.8,
         "latitude": -5.0892,
         "longitude": -42.8019,
         "date": "2026-06-10",
@@ -271,6 +274,8 @@
         "id": "am-parnaiba-001",
         "slug": "parnaiba-litoral-maio-2026",
         "city": "Parnaíba",
+        "mapX": 66.5,
+        "mapY": 17.5,
         "latitude": -2.9048,
         "longitude": -41.7767,
         "date": "2026-05-18",
@@ -290,6 +295,8 @@
         "id": "am-picos-001",
         "slug": "picos-educacao-abril-2026",
         "city": "Picos",
+        "mapX": 88.5,
+        "mapY": 59.7,
         "latitude": -7.077,
         "longitude": -41.467,
         "date": "2026-04-22",
@@ -314,6 +321,8 @@
         "id": "am-floriano-001",
         "slug": "floriano-agronegocio-marco-2026",
         "city": "Floriano",
+        "mapX": 37.8,
+        "mapY": 51.1,
         "latitude": -6.7667,
         "longitude": -43.0167,
         "date": "2026-03-15",
@@ -333,6 +342,8 @@
         "id": "am-piripiri-001",
         "slug": "piripiri-transporte-julho-2026",
         "city": "Piripiri",
+        "mapX": 60.3,
+        "mapY": 30.4,
         "latitude": -4.2736,
         "longitude": -41.7769,
         "date": "2026-07-08",
@@ -348,14 +359,17 @@
         "displayOrder": 5,
         "active": true,
         "routePoints": [
-          { "latitude": -5.0892, "longitude": -42.8019 },
-          { "latitude": -4.2736, "longitude": -41.7769 }
+          { "x": 49.9, "y": 48.8 },
+          { "x": 55.2, "y": 39.2 },
+          { "x": 60.3, "y": 30.4 }
         ]
       },
       {
         "id": "am-campo-maior-001",
         "slug": "campo-maior-seguranca-julho-2026",
         "city": "Campo Maior",
+        "mapX": 66.7,
+        "mapY": 42.7,
         "latitude": -4.8278,
         "longitude": -42.1683,
         "date": "2026-07-20",
@@ -371,14 +385,17 @@
         "displayOrder": 6,
         "active": true,
         "routePoints": [
-          { "latitude": -4.2736, "longitude": -41.7769 },
-          { "latitude": -4.8278, "longitude": -42.1683 }
+          { "x": 60.3, "y": 30.4 },
+          { "x": 63.5, "y": 36.5 },
+          { "x": 66.7, "y": 42.7 }
         ]
       },
       {
         "id": "am-srn-001",
         "slug": "sao-raimundo-nonato-turismo-agosto-2026",
         "city": "São Raimundo Nonato",
+        "mapX": 31.1,
+        "mapY": 83.8,
         "latitude": -9.0164,
         "longitude": -42.6994,
         "date": "2026-08-05",
@@ -394,8 +411,10 @@
         "displayOrder": 7,
         "active": true,
         "routePoints": [
-          { "latitude": -7.077, "longitude": -41.467 },
-          { "latitude": -9.0164, "longitude": -42.6994 }
+          { "x": 88.5, "y": 59.7 },
+          { "x": 72.0, "y": 68.5 },
+          { "x": 52.0, "y": 78.0 },
+          { "x": 31.1, "y": 83.8 }
         ]
       }
     ]

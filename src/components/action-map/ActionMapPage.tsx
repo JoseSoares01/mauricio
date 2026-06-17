@@ -44,9 +44,10 @@ interface ActionMapPageProps {
   visits: ActionVisit[];
   news: NewsItem[];
   siteTitle: string;
+  mapImage: string;
 }
 
-export default function ActionMapPage({ visits, news, siteTitle }: ActionMapPageProps) {
+export default function ActionMapPage({ visits, news, siteTitle, mapImage }: ActionMapPageProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [filters, setFilters] = useState(EMPTY_ACTION_MAP_FILTERS);
@@ -119,7 +120,7 @@ export default function ActionMapPage({ visits, news, siteTitle }: ActionMapPage
   }, [filteredVisits]);
 
   useEffect(() => {
-    const slug = searchParams.get("visita");
+    const slug = searchParams.get("acao") || searchParams.get("visita");
     if (!slug || journeyActive) return;
     const visit = findVisitBySlug(visits, slug);
     if (visit) openVisit(visit, false);
@@ -208,6 +209,7 @@ export default function ActionMapPage({ visits, news, siteTitle }: ActionMapPage
           <div className="action-map-canvas-wrap">
             <ActionMapCanvas
               visits={filteredVisits}
+              mapImage={mapImage}
               selectedVisitId={selectedVisit?.id || null}
               popupVisit={popupVisit}
               focusVisit={focusVisit}
@@ -217,6 +219,7 @@ export default function ActionMapPage({ visits, news, siteTitle }: ActionMapPage
               chronologyVisits={chronologyVisits}
               onSelectVisit={openVisit}
               onPopupVisit={setPopupVisit}
+              onMapBackgroundClick={closeVisit}
             />
           </div>
 

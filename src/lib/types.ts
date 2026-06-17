@@ -76,6 +76,13 @@ export interface ActionVisitDocument {
   url: string;
 }
 
+export interface ActionRoutePoint {
+  x?: number;
+  y?: number;
+  latitude?: number;
+  longitude?: number;
+}
+
 export interface ActionVisit {
   id: string;
   slug: string;
@@ -94,7 +101,9 @@ export interface ActionVisit {
   relatedNewsId?: string;
   displayOrder: number;
   active: boolean;
-  routePoints?: Array<{ latitude: number; longitude: number }>;
+  mapX?: number;
+  mapY?: number;
+  routePoints?: ActionRoutePoint[];
   /** Campos opcionais para expansão futura */
   videoUrl?: string;
   documents?: ActionVisitDocument[];
@@ -105,6 +114,7 @@ export interface ActionVisit {
 
 export interface ActionMapConfig {
   enabled: boolean;
+  mapImage?: string;
   visits: ActionVisit[];
 }
 

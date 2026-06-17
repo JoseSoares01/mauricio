@@ -8,6 +8,11 @@ export const ACTION_MAP_COLORS = {
   cluster: "#6E8B3D",
 } as const;
 
+export const DEFAULT_ACTION_MAP_IMAGE = "/uploads/piaui-3d-map.png";
+
+/** Proporção da arte institucional (largura / altura). */
+export const ACTION_MAP_IMAGE_ASPECT = 819 / 1024;
+
 /** Limites do Piauí derivados do contorno oficial (IBGE). */
 export const PIAUI_BOUNDS = getPiauiBBox(0.08);
 
@@ -21,8 +26,68 @@ export const PIAUI_VIEW = {
 
 export const DEFAULT_ACTION_MAP: ActionMapConfig = {
   enabled: true,
+  mapImage: DEFAULT_ACTION_MAP_IMAGE,
   visits: [],
 };
+
+/** Posições calibradas sobre a arte 3D (819×1024) — alinhadas aos pontos brancos. */
+const CITY_CANVAS_POSITIONS: Record<string, { x: number; y: number }> = {
+  teresina: { x: 49.9, y: 48.8 },
+  parnaiba: { x: 66.5, y: 17.5 },
+  picos: { x: 88.5, y: 59.7 },
+  floriano: { x: 37.8, y: 51.1 },
+  piripiri: { x: 60.3, y: 30.4 },
+  "campo maior": { x: 66.7, y: 42.7 },
+  "sao raimundo nonato": { x: 31.1, y: 83.8 },
+  oeiras: { x: 18.0, y: 60.0 },
+  corrente: { x: 12.5, y: 83.4 },
+  altos: { x: 45.5, y: 33.8 },
+  barras: { x: 49.4, y: 22.3 },
+  uniao: { x: 52.9, y: 22.5 },
+  pedroii: { x: 75.9, y: 27.1 },
+  "pedro ii": { x: 75.9, y: 27.1 },
+  regeneracao: { x: 42.1, y: 42.3 },
+  valenca: { x: 71.9, y: 45.0 },
+  "valenca do piaui": { x: 71.9, y: 45.0 },
+  fronteiras: { x: 83.0, y: 52.1 },
+  paulistana: { x: 78.6, y: 60.4 },
+  bomjesus: { x: 26.6, y: 71.2 },
+  "bom jesus": { x: 26.6, y: 71.2 },
+  guadalupe: { x: 5.7, y: 69.9 },
+};
+
+export function normalizeCityKey(city: string): string {
+  return city
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .trim()
+    .toLowerCase();
+}
+
+function latLngToCanvas(latitude?: number, longitude?: number): { x: number; y: number } | null {
+  if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) return null;
+  const [[west, south], [east, north]] = PIAUI_BOUNDS;
+  const x = ((longitude! - west) / (east - west)) * 100;
+  const y = ((north - latitude!) / (north - south)) * 100;
+  return { x: clampCoord(x, 0, 100, 50), y: clampCoord(y, 0, 100, 50) };
+}
+
+export function resolveVisitCanvasPosition(visit: ActionVisit): { x: number; y: number } {
+  if (Number.isFinite(visit.mapX) && Number.isFinite(visit.mapY)) {
+    return {
+      x: clampCoord(visit.mapX!, 0, 100, 50),
+      y: clampCoord(visit.mapY!, 0, 100, 50),
+    };
+  }
+
+  const cityMatch = CITY_CANVAS_POSITIONS[normalizeCityKey(visit.city)];
+  if (cityMatch) return cityMatch;
+
+  const fromLatLng = latLngToCanvas(visit.latitude, visit.longitude);
+  if (fromLatLng) return fromLatLng;
+
+  return { x: 50, y: 50 };
+}
 
 export function slugifyActionVisit(parts: {
   city: string;
@@ -43,6 +108,8 @@ export function normalizeActionVisit(visit: ActionVisit, index: number): ActionV
     visit.slug?.trim() ||
     slugifyActionVisit({ city: visit.city, title: visit.title, date: visit.date });
 
+  const mapPosition = resolveVisitCanvasPosition(visit);
+
   return {
     ...visit,
     id: visit.id || String(Date.now() + index),
@@ -62,7 +129,22 @@ export function normalizeActionVisit(visit: ActionVisit, index: number): ActionV
     relatedNewsId: visit.relatedNewsId?.trim() || "",
     displayOrder: Number.isFinite(visit.displayOrder) ? visit.displayOrder : index + 1,
     active: visit.active !== false,
-    routePoints: visit.routePoints?.length ? visit.routePoints : undefined,
+    mapX: mapPosition.x,
+    mapY: mapPosition.y,
+    routePoints: visit.routePoints?.length
+      ? visit.routePoints
+          .map((point) => {
+            if (Number.isFinite(point.x) && Number.isFinite(point.y)) {
+              return {
+                x: clampCoord(point.x!, 0, 100, mapPosition.x),
+                y: clampCoord(point.y!, 0, 100, mapPosition.y),
+              };
+            }
+            const fromLatLng = latLngToCanvas(point.latitude, point.longitude);
+            return fromLatLng ?? null;
+          })
+          .filter((point): point is { x: number; y: number } => Boolean(point))
+      : undefined,
     videoUrl: visit.videoUrl?.trim() || undefined,
     documents: visit.documents?.length ? visit.documents : undefined,
     emendaRef: visit.emendaRef?.trim() || undefined,
@@ -77,6 +159,7 @@ export function normalizeActionMap(actionMap?: ActionMapConfig): ActionMapConfig
   visits.sort((a, b) => a.displayOrder - b.displayOrder || b.date.localeCompare(a.date));
   return {
     enabled: actionMap.enabled !== false,
+    mapImage: actionMap.mapImage || DEFAULT_ACTION_MAP_IMAGE,
     visits,
   };
 }
@@ -177,7 +260,7 @@ export function findVisitBySlug(visits: ActionVisit[], slug: string): ActionVisi
 }
 
 export function getActionVisitSharePath(slug: string): string {
-  return `/mapa-de-atuacao?visita=${encodeURIComponent(slug)}`;
+  return `/mapa-de-atuacao?acao=${encodeURIComponent(slug)}`;
 }
 
 export function getRelatedNews(
@@ -271,8 +354,8 @@ export function visitsToCsv(visits: ActionVisit[]): string {
     "titulo",
     "categoria",
     "status",
-    "latitude",
-    "longitude",
+    "x",
+    "y",
     "resumo",
   ];
   const rows = visits.map((visit) =>
@@ -284,14 +367,31 @@ export function visitsToCsv(visits: ActionVisit[]): string {
       visit.title,
       visit.category,
       visit.status,
-      visit.latitude,
-      visit.longitude,
+      visit.mapX ?? "",
+      visit.mapY ?? "",
       visit.excerpt.replace(/"/g, '""'),
     ]
       .map((value) => `"${String(value).replace(/"/g, '""')}"`)
       .join(",")
   );
   return [header.join(","), ...rows].join("\n");
+}
+
+export function getVisitRouteCanvasPoints(visit: ActionVisit): Array<{ x: number; y: number }> {
+  const start = resolveVisitCanvasPosition(visit);
+  const points = (visit.routePoints || [])
+    .map((point) => {
+      if (Number.isFinite(point.x) && Number.isFinite(point.y)) {
+        return { x: clampCoord(point.x!, 0, 100, start.x), y: clampCoord(point.y!, 0, 100, start.y) };
+      }
+      const fromLatLng = latLngToCanvas(point.latitude, point.longitude);
+      return fromLatLng;
+    })
+    .filter((point): point is { x: number; y: number } => Boolean(point));
+
+  if (!points.length) return [];
+  const hasStart = points[0].x === start.x && points[0].y === start.y;
+  return hasStart ? points : [start, ...points];
 }
 
 export interface CityActionRanking {

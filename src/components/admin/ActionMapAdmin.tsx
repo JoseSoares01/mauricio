@@ -1,7 +1,6 @@
 "use client";
 
-import { useState } from "react";
-import { Loader2, MapPin, Plus, Trash2 } from "lucide-react";
+import { Plus, Trash2 } from "lucide-react";
 import type { ActionMapConfig, ActionVisit, NewsItem } from "@/lib/types";
 import { slugifyActionVisit, getIndicatorEntries, indicatorEntriesToRecord } from "@/lib/action-map";
 import ImageUploader from "./ImageUploader";
@@ -25,6 +24,8 @@ function createEmptyVisit(): ActionVisit {
     city,
     latitude: -5.0892,
     longitude: -42.8019,
+    mapX: 49,
+    mapY: 52,
     date,
     title,
     excerpt: "",
@@ -41,9 +42,6 @@ function createEmptyVisit(): ActionVisit {
 }
 
 export default function ActionMapAdmin({ actionMap, news, token, onChange }: ActionMapAdminProps) {
-  const [geocodingIndex, setGeocodingIndex] = useState<number | null>(null);
-  const [geocodeMessage, setGeocodeMessage] = useState("");
-
   const updateVisit = (index: number, patch: Partial<ActionVisit>) => {
     const visits = [...actionMap.visits];
     const current = visits[index];
@@ -64,34 +62,6 @@ export default function ActionMapAdmin({ actionMap, news, token, onChange }: Act
     const visits = [...actionMap.visits];
     visits[index] = { ...visits[index], gallery: [...visits[index].gallery, url] };
     onChange({ ...actionMap, visits });
-  };
-
-  const geocodeCity = async (index: number) => {
-    const visit = actionMap.visits[index];
-    if (!visit.city.trim()) {
-      setGeocodeMessage("Informe o nome da cidade antes de buscar coordenadas.");
-      return;
-    }
-
-    setGeocodingIndex(index);
-    setGeocodeMessage("");
-    try {
-      const params = new URLSearchParams({ city: visit.city.trim() });
-      const response = await fetch(`/api/geocode?${params}`, {
-        headers: { "x-admin-token": token },
-      });
-      const data = await response.json();
-      if (!response.ok) {
-        setGeocodeMessage(data.error || "Não foi possível localizar a cidade.");
-        return;
-      }
-      updateVisit(index, { latitude: data.latitude, longitude: data.longitude });
-      setGeocodeMessage(`Coordenadas atualizadas: ${data.placeName}`);
-    } catch {
-      setGeocodeMessage("Erro ao buscar coordenadas.");
-    } finally {
-      setGeocodingIndex(null);
-    }
   };
 
   const updateIndicator = (
@@ -147,12 +117,7 @@ export default function ActionMapAdmin({ actionMap, news, token, onChange }: Act
     });
   };
 
-  const updateRoutePoint = (
-    index: number,
-    pointIndex: number,
-    field: "latitude" | "longitude",
-    value: number
-  ) => {
+  const updateRoutePoint = (index: number, pointIndex: number, field: "x" | "y", value: number) => {
     const visit = actionMap.visits[index];
     const routePoints = [...(visit.routePoints || [])];
     routePoints[pointIndex] = { ...routePoints[pointIndex], [field]: value };
@@ -164,7 +129,7 @@ export default function ActionMapAdmin({ actionMap, news, token, onChange }: Act
     updateVisit(index, {
       routePoints: [
         ...(visit.routePoints || []),
-        { latitude: visit.latitude, longitude: visit.longitude },
+        { x: visit.mapX || 50, y: visit.mapY || 50 },
       ],
     });
   };
@@ -187,10 +152,14 @@ export default function ActionMapAdmin({ actionMap, news, token, onChange }: Act
           Mapa ativo no site
         </label>
       </div>
-
-      {geocodeMessage && (
-        <p className="mb-4 rounded-lg bg-blue-50 px-3 py-2 text-sm text-[#0071B7]">{geocodeMessage}</p>
-      )}
+      <div className="mb-6">
+        <ImageUploader
+          label="Imagem base do mapa 3D (dashboard)"
+          value={actionMap.mapImage || ""}
+          onChange={(url) => onChange({ ...actionMap, mapImage: url })}
+          token={token}
+        />
+      </div>
 
       {actionMap.visits.map((visit, index) => (
         <div key={visit.id} className="border rounded-xl p-4 mb-6 bg-gray-50">
@@ -255,39 +224,28 @@ export default function ActionMapAdmin({ actionMap, news, token, onChange }: Act
               />
             </div>
             <div>
-              <label className="admin-label">Latitude</label>
+              <label className="admin-label">Posição X (0-100)</label>
               <input
                 type="number"
-                step="0.0001"
+                min={0}
+                max={100}
+                step="0.1"
                 className="admin-input"
-                value={visit.latitude}
-                onChange={(e) => updateVisit(index, { latitude: Number(e.target.value) })}
+                value={visit.mapX ?? 50}
+                onChange={(e) => updateVisit(index, { mapX: Number(e.target.value) })}
               />
             </div>
             <div>
-              <label className="admin-label">Longitude</label>
+              <label className="admin-label">Posição Y (0-100)</label>
               <input
                 type="number"
-                step="0.0001"
+                min={0}
+                max={100}
+                step="0.1"
                 className="admin-input"
-                value={visit.longitude}
-                onChange={(e) => updateVisit(index, { longitude: Number(e.target.value) })}
+                value={visit.mapY ?? 50}
+                onChange={(e) => updateVisit(index, { mapY: Number(e.target.value) })}
               />
-            </div>
-            <div className="md:col-span-2">
-              <button
-                type="button"
-                onClick={() => geocodeCity(index)}
-                disabled={geocodingIndex === index}
-                className="admin-btn inline-flex items-center gap-2"
-              >
-                {geocodingIndex === index ? (
-                  <Loader2 size={16} className="animate-spin" />
-                ) : (
-                  <MapPin size={16} />
-                )}
-                Buscar coordenadas pela cidade (Mapbox)
-              </button>
             </div>
             <div>
               <label className="admin-label">Categoria</label>
@@ -510,26 +468,26 @@ export default function ActionMapAdmin({ actionMap, news, token, onChange }: Act
                 {(visit.routePoints || []).map((point, pointIndex) => (
                   <div key={`${visit.id}-route-${pointIndex}`} className="grid md:grid-cols-3 gap-3 mb-3 items-end">
                     <div>
-                      <label className="admin-label">Latitude</label>
+                      <label className="admin-label">Ponto X</label>
                       <input
                         type="number"
-                        step="0.0001"
+                        step="0.1"
                         className="admin-input"
-                        value={point.latitude}
+                        value={point.x ?? 50}
                         onChange={(e) =>
-                          updateRoutePoint(index, pointIndex, "latitude", Number(e.target.value))
+                          updateRoutePoint(index, pointIndex, "x", Number(e.target.value))
                         }
                       />
                     </div>
                     <div>
-                      <label className="admin-label">Longitude</label>
+                      <label className="admin-label">Ponto Y</label>
                       <input
                         type="number"
-                        step="0.0001"
+                        step="0.1"
                         className="admin-input"
-                        value={point.longitude}
+                        value={point.y ?? 50}
                         onChange={(e) =>
-                          updateRoutePoint(index, pointIndex, "longitude", Number(e.target.value))
+                          updateRoutePoint(index, pointIndex, "y", Number(e.target.value))
                         }
                       />
                     </div>

@@ -23,7 +23,12 @@ export default async function MapaDeAtuacaoPage() {
   return (
     <PageLayout config={config}>
       <Suspense fallback={<ActionMapFallback />}>
-        <ActionMapPage visits={visits} news={config.news} siteTitle={config.site.title} />
+        <ActionMapPage
+          visits={visits}
+          news={config.news}
+          siteTitle={config.site.title}
+          mapImage={config.actionMap.mapImage || "/uploads/piaui-3d-map.png"}
+        />
       </Suspense>
     </PageLayout>
   );
