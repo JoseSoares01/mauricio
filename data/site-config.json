@@ -1,7 +1,7 @@
 {
   "site": {
     "title": "Mauricío Soares",
-    "subtitle": "Candidato",
+    "subtitle": "Pré-Candidato",
     "description": "Site oficial de Mauricío Soares",
     "copyright": "© 2026 Mauricío Soares – TODOS OS DIREITOS RESERVADOS"
   },
@@ -65,8 +65,8 @@
     "favicon": "/uploads/favicon-192.png"
   },
   "hero": {
-    "titleLine1": "CANDIDATO",
-    "titleLine2": "MAURICÍO",
+    "titleLine1": "PRÉ-CANDIDATO",
+    "titleLine2": "MAURÍCIO",
     "titleLine3": "SOARES"
   },
   "about": {
