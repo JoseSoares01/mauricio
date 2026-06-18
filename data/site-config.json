@@ -45,11 +45,11 @@
     }
   ],
   "social": {
-    "instagram": "https://www.instagram.com/maumau_piaui?igsh=Nmk0bjM1Z2JoODZ0&utm_source=qr  Instragram do maumau",
-    "facebook": "https://www.facebook.com/share/1Cj6xvjAKM/?mibextid=wwXIfr  Faince do maumau",
-    "twitter": "https://x.com/maumau_piaui?s=11  Xvideo do maumau",
+    "instagram": "https://www.instagram.com/maumau_piaui?igsh=Nmk0bjM1Z2JoODZ0&utm_source=qr  ",
+    "facebook": "https://www.facebook.com/share/1Cj6xvjAKM/?mibextid=wwXIfr  ",
+    "twitter": "https://x.com/maumau_piaui?s=11  ",
     "youtube": "https://youtube.com/",
-    "tiktok": "https://www.tiktok.com/@maumau_pi?_r=1&_t=ZS-972pWisdzGO  Tik teko do maumau"
+    "tiktok": "https://www.tiktok.com/@maumau_pi?_r=1&_t=ZS-972pWisdzGO  "
   },
   "images": {
     "heroLogo": "https://raw.githubusercontent.com/JoseSoares01/mauricio/main/public/uploads/1781811341002-mc8glyivex.png",
@@ -188,12 +188,17 @@
     }
   ],
   "instagram": {
-    "username": "mauricisooares",
+    "username": "maumau_piaui",
     "posts": [
       {
         "id": "1",
-        "image": "",
-        "caption": "Quando olho para o futuro, sinto a força e a determinação"
+        "image": "https://raw.githubusercontent.com/JoseSoares01/mauricio/main/public/uploads/1781814332068-lkofwwog6t.jpeg",
+        "caption": "SÉRIE: FAZENDO MAIS DO QUE 99% DOS POLITICOS DO PIAUI - MMBUS"
+      },
+      {
+        "id": "1781814320430",
+        "image": "https://raw.githubusercontent.com/JoseSoares01/mauricio/main/public/uploads/1781814346493-em9ywvmtq68.jpg",
+        "caption": "SÉRIE: FAZENDO MAIS DO QUE 99% DOS POLITICOS DO PIAUI - CURSO BÁSICO DE TEOLOGIA PARA DEPENDENTES QUIMICOS"
       }
     ]
   },
