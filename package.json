@@ -29,10 +29,12 @@
     "@tailwindcss/postcss": "^4.1.8",
     "@types/mapbox-gl": "^3.4.1",
     "@types/node": "^22.15.21",
+    "@types/pngjs": "^6.0.5",
     "@types/react": "^19.1.6",
     "@types/react-dom": "^19.1.5",
     "eslint": "^9.27.0",
     "eslint-config-next": "^15.3.3",
+    "pngjs": "^7.0.0",
     "postcss": "^8.5.4",
     "tailwindcss": "^4.1.8",
     "typescript": "^5.8.3"

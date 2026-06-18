@@ -4,7 +4,8 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import dynamic from "next/dynamic";
 import { PanelRightClose, PanelRightOpen } from "lucide-react";
-import type { ActionVisit, NewsItem } from "@/lib/types";
+import type { ActionVisit, NewsItem, TeresinaVisit } from "@/lib/types";
+import TeresinaMapSection from "./TeresinaMapSection";
 import {
   EMPTY_ACTION_MAP_FILTERS,
   computeActionMapStats,
@@ -41,14 +42,22 @@ const ActionMapCanvas = dynamic(
 
 interface ActionMapPageProps {
   visits: ActionVisit[];
+  teresinaVisits: TeresinaVisit[];
   news: NewsItem[];
   siteTitle: string;
   mapImage: string;
 }
 
-export default function ActionMapPage({ visits, news, siteTitle, mapImage }: ActionMapPageProps) {
+export default function ActionMapPage({
+  visits,
+  teresinaVisits = [],
+  news,
+  siteTitle,
+  mapImage,
+}: ActionMapPageProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const [activeTab, setActiveTab] = useState<"piaui" | "teresina">("piaui");
   const [filters, setFilters] = useState(EMPTY_ACTION_MAP_FILTERS);
   const [selectedVisit, setSelectedVisit] = useState<ActionVisit | null>(null);
   const [popupVisit, setPopupVisit] = useState<ActionVisit | null>(null);
@@ -179,84 +188,120 @@ export default function ActionMapPage({ visits, news, siteTitle, mapImage }: Act
                 Acompanhe as ações e visitas de {siteTitle} pelo estado do Piauí.
               </p>
             </div>
-            <button
-              type="button"
-              className="action-map-icon-btn lg:hidden"
-              onClick={() => setMobilePanelOpen((value) => !value)}
-              aria-label="Abrir painel"
-            >
-              <PanelRightOpen size={18} />
-            </button>
+            {activeTab === "piaui" && (
+              <button
+                type="button"
+                className="action-map-icon-btn lg:hidden"
+                onClick={() => setMobilePanelOpen((value) => !value)}
+                aria-label="Abrir painel"
+              >
+                <PanelRightOpen size={18} />
+              </button>
+            )}
           </div>
 
-          <div className="mt-4 rounded-[20px] border border-slate-200/80 bg-white/90 p-3 shadow-sm backdrop-blur md:p-4">
-            <ActionMapToolbar
-              filters={filters}
-              years={years}
-              cities={cities}
-              categories={categories}
-              selectedYear={filters.year}
-              showHeatmap={showHeatmap}
-              journeyActive={journeyActive}
-              onChangeFilters={setFilters}
-              onSelectYear={(year) => setFilters((current) => ({ ...current, year }))}
-              onToggleHeatmap={() => {
-                setShowHeatmap((value) => !value);
-                stopJourney();
-              }}
-              onStartJourney={startJourney}
-              onStopJourney={stopJourney}
-              onExportCsv={handleExportCsv}
-            />
-            {journeyActive && (
-              <div className="mt-3">
-                <ActionMapJourneyBar
-                  visit={chronologyVisits[journeyIndex] || null}
-                  index={journeyIndex}
-                  total={chronologyVisits.length}
-                />
-              </div>
-            )}
+          {/* Aba de Navegação */}
+          <div className="mt-6 flex border-b border-slate-200">
+            <button
+              onClick={() => setActiveTab("piaui")}
+              className={`pb-3 text-sm font-semibold transition-all border-b-2 px-4 ${
+                activeTab === "piaui"
+                  ? "border-[#0071B7] text-[#0071B7]"
+                  : "border-transparent text-slate-500 hover:text-slate-800"
+              }`}
+            >
+              Atuação no Piauí
+            </button>
+            <button
+              onClick={() => setActiveTab("teresina")}
+              className={`pb-3 text-sm font-semibold transition-all border-b-2 px-4 ${
+                activeTab === "teresina"
+                  ? "border-[#0071B7] text-[#0071B7]"
+                  : "border-transparent text-slate-500 hover:text-slate-800"
+              }`}
+            >
+              Atuação em Teresina
+            </button>
           </div>
         </div>
       </div>
 
-      <section className="mx-auto max-w-[1600px] px-0 md:px-6 md:pb-8">
-        <div className="action-map-layout">
-          <div className="action-map-canvas-wrap">
-            <ActionMapCanvas
-              visits={filteredVisits}
-              mapImage={mapImage}
-              selectedVisitId={selectedVisit?.id || null}
-              popupVisit={popupVisit}
-              focusVisit={focusVisit}
-              showHeatmap={showHeatmap}
-              journeyActive={journeyActive}
-              journeyIndex={journeyIndex}
-              chronologyVisits={chronologyVisits}
-              onSelectVisit={openVisit}
-              onPopupVisit={setPopupVisit}
-              onMapBackgroundClick={closeVisit}
-            />
+      {activeTab === "piaui" ? (
+        <>
+          <div className="mx-auto max-w-[1600px] px-4 md:px-6">
+            <div className="mt-4 rounded-[20px] border border-slate-200/80 bg-white/90 p-3 shadow-sm backdrop-blur md:p-4">
+              <ActionMapToolbar
+                filters={filters}
+                years={years}
+                cities={cities}
+                categories={categories}
+                selectedYear={filters.year}
+                showHeatmap={showHeatmap}
+                journeyActive={journeyActive}
+                onChangeFilters={setFilters}
+                onSelectYear={(year) => setFilters((current) => ({ ...current, year }))}
+                onToggleHeatmap={() => {
+                  setShowHeatmap((value) => !value);
+                  stopJourney();
+                }}
+                onStartJourney={startJourney}
+                onStopJourney={stopJourney}
+                onExportCsv={handleExportCsv}
+              />
+              {journeyActive && (
+                <div className="mt-3">
+                  <ActionMapJourneyBar
+                    visit={chronologyVisits[journeyIndex] || null}
+                    index={journeyIndex}
+                    total={chronologyVisits.length}
+                  />
+                </div>
+              )}
+            </div>
           </div>
 
-          <aside
-            className={`action-map-sidebar hidden lg:flex ${sidebarOpen ? "" : "action-map-sidebar--collapsed"}`}
-          >
-            <button
-              type="button"
-              className="action-map-sidebar-toggle"
-              onClick={() => setSidebarOpen((value) => !value)}
-              aria-label={sidebarOpen ? "Recolher painel" : "Expandir painel"}
-            >
-              {sidebarOpen ? <PanelRightClose size={16} /> : <PanelRightOpen size={16} />}
-            </button>
-            {sidebarOpen && <div className="min-h-0 flex-1 overflow-hidden">{sidebarContent}</div>}
-          </aside>
-        </div>
-      </section>
+          <section className="mx-auto max-w-[1600px] px-0 md:px-6 md:pb-8 mt-6">
+            <div className="action-map-layout">
+              <div className="action-map-canvas-wrap">
+                <ActionMapCanvas
+                  visits={filteredVisits}
+                  mapImage={mapImage}
+                  selectedVisitId={selectedVisit?.id || null}
+                  popupVisit={popupVisit}
+                  focusVisit={focusVisit}
+                  showHeatmap={showHeatmap}
+                  journeyActive={journeyActive}
+                  journeyIndex={journeyIndex}
+                  chronologyVisits={chronologyVisits}
+                  onSelectVisit={openVisit}
+                  onPopupVisit={setPopupVisit}
+                  onMapBackgroundClick={closeVisit}
+                />
+              </div>
 
-      {mobilePanelOpen && !selectedVisit && (
+              <aside
+                className={`action-map-sidebar hidden lg:flex ${sidebarOpen ? "" : "action-map-sidebar--collapsed"}`}
+              >
+                <button
+                  type="button"
+                  className="action-map-sidebar-toggle"
+                  onClick={() => setSidebarOpen((value) => !value)}
+                  aria-label={sidebarOpen ? "Recolher painel" : "Expandir painel"}
+                >
+                  {sidebarOpen ? <PanelRightClose size={16} /> : <PanelRightOpen size={16} />}
+                </button>
+                {sidebarOpen && <div className="min-h-0 flex-1 overflow-hidden">{sidebarContent}</div>}
+              </aside>
+            </div>
+          </section>
+        </>
+      ) : (
+        <section className="mx-auto max-w-[1600px] px-4 md:px-6 md:pb-8 mt-6">
+          <TeresinaMapSection visits={teresinaVisits} />
+        </section>
+      )}
+
+      {activeTab === "piaui" && mobilePanelOpen && !selectedVisit && (
         <>
           <button
             type="button"
@@ -281,7 +326,9 @@ export default function ActionMapPage({ visits, news, siteTitle, mapImage }: Act
         </>
       )}
 
-      <ActionMapBottomSheet visit={selectedVisit} news={news} onClose={closeVisit} />
+      {activeTab === "piaui" && (
+        <ActionMapBottomSheet visit={selectedVisit} news={news} onClose={closeVisit} />
+      )}
     </div>
   );
 }

@@ -112,10 +112,29 @@ export interface ActionVisit {
   municipalityIndicators?: Record<string, string | number>;
 }
 
+export interface TeresinaVisit {
+  id: string;
+  slug: string;
+  neighborhood: string;
+  latitude: number;
+  longitude: number;
+  date: string;
+  title: string;
+  excerpt: string;
+  content: string;
+  category: string;
+  image: string;
+  gallery?: string[];
+  active: boolean;
+  indicators?: Record<string, string | number>;
+  projectRef?: string;
+}
+
 export interface ActionMapConfig {
   enabled: boolean;
   mapImage?: string;
   visits: ActionVisit[];
+  teresinaVisits?: TeresinaVisit[];
 }
 
 export interface SiteConfig {

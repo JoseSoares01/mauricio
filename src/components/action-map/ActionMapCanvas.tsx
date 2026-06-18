@@ -142,21 +142,7 @@ export default function ActionMapCanvas({
                 unoptimized
               />
 
-              {visibleLabels.map((label) => (
-                <span
-                  key={label.name}
-                  className="pointer-events-none absolute z-[1] -translate-x-1/2 -translate-y-1/2 whitespace-nowrap font-semibold text-[10px] text-slate-800 sm:text-[11px] md:text-xs"
-                  style={{
-                    left: `${label.x}%`,
-                    top: `${label.y}%`,
-                    fontFamily: "var(--font-heading)",
-                    textShadow:
-                      "0 0 6px #fff, 0 0 10px #fff, 0 1px 2px rgba(255,255,255,0.95)",
-                  }}
-                >
-                  {label.name}
-                </span>
-              ))}
+
 
               {plottedVisits.map(({ visit, point }) => {
                 const isSelected = selectedVisitId === visit.id || journeyVisitId === visit.id;

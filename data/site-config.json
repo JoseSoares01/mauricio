@@ -248,14 +248,14 @@
         "id": "am-teresina-001",
         "slug": "teresina-saude-junho-2026",
         "city": "Teresina",
-        "mapX": 47.0,
-        "mapY": 50.5,
+        "mapX": 58.6,
+        "mapY": 38.6,
         "latitude": -5.0892,
         "longitude": -42.8019,
         "date": "2026-06-10",
         "title": "Visita à rede municipal de saúde",
         "excerpt": "Diálogo com profissionais e acompanhamento das unidades básicas de Teresina.",
-        "content": "O deputado Maurício Soares percorreu unidades de saúde em Teresina para ouvir demandas de profissionais e usuários, reforçando compromissos com investimentos em atenção primária e equipamentos.",
+        "content": "O deputado Maurício Soares percorreu unidades de saúde em Teresina para ouvir demandas de profissionais e usuários, reforçando compromissos com investimentos in atenção primária e equipamentos.",
         "category": "Saúde",
         "status": "realizada",
         "image": "/uploads/banner-mmbus.png",
@@ -274,8 +274,8 @@
         "id": "am-parnaiba-001",
         "slug": "parnaiba-litoral-maio-2026",
         "city": "Parnaíba",
-        "mapX": 68.0,
-        "mapY": 16.5,
+        "mapX": 71.8,
+        "mapY": 10.4,
         "latitude": -2.9048,
         "longitude": -41.7767,
         "date": "2026-05-18",
@@ -295,8 +295,8 @@
         "id": "am-picos-001",
         "slug": "picos-educacao-abril-2026",
         "city": "Picos",
-        "mapX": 76.0,
-        "mapY": 47.0,
+        "mapX": 70.2,
+        "mapY": 51.8,
         "latitude": -7.077,
         "longitude": -41.467,
         "date": "2026-04-22",
@@ -321,8 +321,8 @@
         "id": "am-floriano-001",
         "slug": "floriano-agronegocio-marco-2026",
         "city": "Floriano",
-        "mapX": 30.0,
-        "mapY": 54.0,
+        "mapX": 48.8,
+        "mapY": 52.8,
         "latitude": -6.7667,
         "longitude": -43.0167,
         "date": "2026-03-15",
@@ -337,6 +337,98 @@
         "relatedNewsId": "",
         "displayOrder": 4,
         "active": true
+      }
+    ],
+    "teresinaVisits": [
+      {
+        "id": "t-mocambinho-001",
+        "slug": "mocambinho-horta-comunitaria-2026",
+        "neighborhood": "Mocambinho",
+        "latitude": -5.0450,
+        "longitude": -42.8250,
+        "date": "2026-06-08",
+        "title": "Apoio à Horta Comunitária do Mocambinho",
+        "excerpt": "Visita e diálogo sobre investimentos na infraestrutura de hortas urbanas na Zona Norte.",
+        "content": "Maurício Soares esteve no Mocambinho reunido com produtores da horta comunitária. O diálogo tratou de demandas de irrigação e infraestrutura para melhorar a produção local.",
+        "category": "Agricultura Urbana",
+        "image": "/uploads/instagram-mauricio.jpg",
+        "active": true,
+        "indicators": {
+          "Famílias beneficiadas": 35,
+          "Área produtiva (m²)": 1200
+        }
+      },
+      {
+        "id": "t-dirceu-001",
+        "slug": "dirceu-pavimentacao-asfaltica-2026",
+        "neighborhood": "Dirceu Arcoverde",
+        "latitude": -5.1100,
+        "longitude": -42.7550,
+        "date": "2026-06-05",
+        "title": "Vistoria de Pavimentação no Grande Dirceu",
+        "excerpt": "Acompanhamento das obras de pavimentação e infraestrutura urbana na Zona Sudeste.",
+        "content": "O deputado acompanhou de perto as frentes de trabalho de pavimentação no Dirceu, conversando com moradores sobre a melhoria na mobilidade e valorização das vias.",
+        "category": "Infraestrutura",
+        "image": "/uploads/1781625934980-w30qtv3qj7s.png",
+        "active": true,
+        "indicators": {
+          "Ruas pavimentadas": 8,
+          "Extensão (km)": 2.4
+        }
+      },
+      {
+        "id": "t-promorar-001",
+        "slug": "promorar-visita-ubs-liderancas-2026",
+        "neighborhood": "Promorar",
+        "latitude": -5.1450,
+        "longitude": -42.8100,
+        "date": "2026-06-02",
+        "title": "Visita à UBS e Lideranças do Promorar",
+        "excerpt": "Conversa sobre o fortalecimento da atenção básica de saúde e demandas da Zona Sul.",
+        "content": "Em visita ao Promorar, Maurício Soares reuniu-se com lideranças locais e profissionais de saúde na Unidade Básica para discutir a ampliação de equipes de atendimento médico.",
+        "category": "Saúde",
+        "image": "/uploads/banner-mmbus.png",
+        "active": true,
+        "indicators": {
+          "Atendimentos/mês": 2500,
+          "Equipes de saúde": 4
+        }
+      },
+      {
+        "id": "t-ininga-001",
+        "slug": "ininga-debate-juventude-ufpi-2026",
+        "neighborhood": "Ininga",
+        "latitude": -5.0680,
+        "longitude": -42.7850,
+        "date": "2026-05-28",
+        "title": "Fórum de Juventude e Educação no Ininga",
+        "excerpt": "Debate sobre oportunidades profissionais e incentivo a projetos na UFPI.",
+        "content": "No bairro Ininga, Maurício Soares debateu propostas com estudantes universitários focadas em bolsas de pesquisa, estágios e inserção dos jovens de Teresina no mercado de trabalho.",
+        "category": "Educação",
+        "image": "/uploads/instagram-partido-liberal.jpg",
+        "active": true,
+        "indicators": {
+          "Estudantes ouvidos": 150,
+          "Propostas de emendas": 2
+        }
+      },
+      {
+        "id": "t-centro-001",
+        "slug": "centro-revitalizacao-comercio-2026",
+        "neighborhood": "Centro",
+        "latitude": -5.0880,
+        "longitude": -42.8120,
+        "date": "2026-05-22",
+        "title": "Revitalização do Comércio do Centro",
+        "excerpt": "Diálogo com lojistas e vendedores ambulantes sobre segurança e infraestrutura no Centro-Sul.",
+        "content": "Caminhada pelas ruas do Centro de Teresina para ouvir demandas sobre segurança pública, iluminação e melhoria dos calçadões para impusionar o comércio varejista.",
+        "category": "Comércio",
+        "image": "/uploads/news-agronegocio.jpg",
+        "active": true,
+        "indicators": {
+          "Comerciantes ouvidos": 48,
+          "Pontos de melhoria": 6
+        }
       }
     ]
   },

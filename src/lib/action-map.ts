@@ -1,4 +1,4 @@
-import type { ActionMapConfig, ActionVisit, NewsItem } from "./types";
+import type { ActionMapConfig, ActionVisit, NewsItem, TeresinaVisit } from "./types";
 import { extractYoutubeId, isDirectVideoFile } from "./video";
 import { getPiauiBBox } from "./piaui-boundary";
 
@@ -32,28 +32,71 @@ export const DEFAULT_ACTION_MAP: ActionMapConfig = {
 
 /** Posições calibradas sobre a arte premium 1024×911. */
 const CITY_CANVAS_POSITIONS: Record<string, { x: number; y: number }> = {
-  teresina: { x: 47.0, y: 50.5 },
-  parnaiba: { x: 68.0, y: 16.5 },
-  picos: { x: 76.0, y: 47.0 },
-  floriano: { x: 30.0, y: 54.0 },
-  piripiri: { x: 62.0, y: 28.0 },
-  "campo maior": { x: 58.5, y: 40.0 },
-  "sao raimundo nonato": { x: 54.0, y: 77.5 },
-  oeiras: { x: 12.0, y: 58.0 },
-  corrente: { x: 10.5, y: 83.5 },
-  altos: { x: 44.5, y: 36.0 },
-  barras: { x: 48.5, y: 22.0 },
-  uniao: { x: 52.5, y: 22.5 },
-  pedroii: { x: 72.0, y: 28.5 },
-  "pedro ii": { x: 72.0, y: 28.5 },
-  regeneracao: { x: 36.5, y: 44.0 },
-  valenca: { x: 56.0, y: 52.0 },
-  "valenca do piaui": { x: 56.0, y: 52.0 },
-  fronteiras: { x: 83.0, y: 52.0 },
-  paulistana: { x: 72.5, y: 58.5 },
-  bomjesus: { x: 24.0, y: 71.0 },
-  "bom jesus": { x: 24.0, y: 71.0 },
-  guadalupe: { x: 5.5, y: 65.0 },
+  teresina: { x: 58.6, y: 38.6 },
+  parnaiba: { x: 71.8, y: 10.4 },
+  picos: { x: 70.2, y: 51.8 },
+  floriano: { x: 48.8, y: 52.8 },
+  piripiri: { x: 67.2, y: 24.5 },
+  "campo maior": { x: 64.8, y: 29.5 },
+  "sao raimundo nonato": { x: 53.0, y: 71.2 },
+  oeiras: { x: 58.8, y: 53.8 },
+  corrente: { x: 20.2, y: 82.5 },
+  altos: { x: 56.8, y: 35.8 },
+  barras: { x: 58.2, y: 25.8 },
+  uniao: { x: 49.3, y: 32.0 },
+  "união": { x: 49.3, y: 32.0 },
+  pedroii: { x: 75.8, y: 28.0 },
+  "pedro ii": { x: 75.8, y: 28.0 },
+  regeneracao: { x: 48.8, y: 47.5 },
+  "regeneração": { x: 48.8, y: 47.5 },
+  valenca: { x: 74.5, y: 45.0 },
+  "valenca do piaui": { x: 74.5, y: 45.0 },
+  "valença do piauí": { x: 74.5, y: 45.0 },
+  fronteiras: { x: 88.5, y: 51.0 },
+  paulistana: { x: 78.5, y: 60.5 },
+  bomjesus: { x: 30.8, y: 65.0 },
+  "bom jesus": { x: 30.8, y: 65.0 },
+  guadalupe: { x: 37.8, y: 52.0 },
+  "buriti dos lopes": { x: 61.5, y: 14.5 },
+  cocal: { x: 68.5, y: 16.0 },
+  esperantina: { x: 58.5, y: 19.0 },
+  piracuruca: { x: 69.5, y: 20.0 },
+  "castelo do piauí": { x: 79.5, y: 35.5 },
+  "castelo do piaui": { x: 79.5, y: 35.5 },
+  "são miguel do tapuio": { x: 74.8, y: 39.5 },
+  "sao miguel do tapuio": { x: 74.8, y: 39.5 },
+  "são pedro do piauí": { x: 48.2, y: 41.5 },
+  "sao pedro do piaui": { x: 48.2, y: 41.5 },
+  "elesbão veloso": { x: 58.2, y: 46.5 },
+  "elesbao veloso": { x: 58.2, y: 46.5 },
+  "jaicós": { x: 83.8, y: 56.0 },
+  jaicos: { x: 83.8, y: 56.0 },
+  "uruçuí": { x: 29.5, y: 56.0 },
+  urucui: { x: 29.5, y: 56.0 },
+  "simplício mendes": { x: 65.2, y: 61.0 },
+  "simplicio mendes": { x: 65.2, y: 61.0 },
+  "são joão do piauí": { x: 59.8, y: 66.5 },
+  "sao joao do piaui": { x: 59.8, y: 66.5 },
+  "queimada nova": { x: 69.2, y: 68.2 },
+  "dom inocêncio": { x: 62.8, y: 72.8 },
+  "dom inocencio": { x: 62.8, y: 72.8 },
+  "monte alegre do piauí": { x: 14.8, y: 73.8 },
+  "monte alegre do piaui": { x: 14.8, y: 73.8 },
+  caracol: { x: 41.2, y: 73.2 },
+  "gilbués": { x: 12.8, y: 77.8 },
+  gilbues: { x: 12.8, y: 77.8 },
+  "curimatá": { x: 25.0, y: 75.8 },
+  curimata: { x: 25.0, y: 75.8 },
+  "parnaguá": { x: 30.5, y: 83.8 },
+  parnagua: { x: 30.5, y: 83.8 },
+  "canto do buriti": { x: 41.2, y: 65.0 },
+  porto: { x: 50.8, y: 22.2 },
+  "baixa grande do ribeiro": { x: 18.2, y: 60.8 },
+  "cristino castro": { x: 30.5, y: 61.0 },
+  "redenção do gurguéia": { x: 24.8, y: 72.0 },
+  "redencao do gurgueia": { x: 24.8, y: 72.0 },
+  "avelino lopes": { x: 37.8, y: 78.8 },
+  itueira: { x: 52.2, y: 60.2 },
 };
 
 export function normalizeCityKey(city: string): string {
@@ -153,19 +196,55 @@ export function normalizeActionVisit(visit: ActionVisit, index: number): ActionV
   };
 }
 
+export function normalizeTeresinaVisit(visit: any, index: number): TeresinaVisit {
+  const slug =
+    visit.slug?.trim() ||
+    visit.neighborhood
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .trim()
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-");
+
+  return {
+    id: visit.id || `t-${String(Date.now() + index)}`,
+    slug,
+    neighborhood: visit.neighborhood?.trim() || "Bairro",
+    latitude: clampCoord(visit.latitude, -90, 90, -5.0892),
+    longitude: clampCoord(visit.longitude, -180, 180, -42.8019),
+    date: visit.date || new Date().toISOString().slice(0, 10),
+    title: visit.title?.trim() || "Ação no bairro",
+    excerpt: visit.excerpt?.trim() || "",
+    content: visit.content?.trim() || "",
+    category: visit.category?.trim() || "Geral",
+    image: visit.image || "",
+    gallery: Array.isArray(visit.gallery) ? visit.gallery.filter(Boolean) : [],
+    active: visit.active !== false,
+    indicators: visit.indicators,
+    projectRef: visit.projectRef?.trim() || undefined,
+  };
+}
+
 export function normalizeActionMap(actionMap?: ActionMapConfig): ActionMapConfig {
   if (!actionMap) return { ...DEFAULT_ACTION_MAP };
   const visits = (actionMap.visits || []).map(normalizeActionVisit);
   visits.sort((a, b) => a.displayOrder - b.displayOrder || b.date.localeCompare(a.date));
+  const teresinaVisits = (actionMap.teresinaVisits || []).map(normalizeTeresinaVisit);
+  teresinaVisits.sort((a, b) => b.date.localeCompare(a.date));
   return {
     enabled: actionMap.enabled !== false,
     mapImage: actionMap.mapImage || DEFAULT_ACTION_MAP_IMAGE,
     visits,
+    teresinaVisits,
   };
 }
 
 export function getActiveVisits(actionMap: ActionMapConfig): ActionVisit[] {
   return normalizeActionMap(actionMap).visits.filter((v) => v.active && v.status === "realizada");
+}
+
+export function getActiveTeresinaVisits(actionMap: ActionMapConfig): TeresinaVisit[] {
+  return (normalizeActionMap(actionMap).teresinaVisits || []).filter((v) => v.active);
 }
 
 export interface ActionMapFilters {

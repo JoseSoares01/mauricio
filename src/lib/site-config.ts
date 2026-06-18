@@ -38,7 +38,7 @@ async function readFromDisk(): Promise<SiteConfig> {
     const raw = await fs.readFile(CONFIG_PATH, "utf-8");
     return JSON.parse(raw) as SiteConfig;
   } catch {
-    return defaultConfig as SiteConfig;
+    return defaultConfig as unknown as SiteConfig;
   }
 }
 

@@ -670,3 +670,30 @@ h1, h2, h3, h4, h5, h6 {
 .formatted-content .news-list-diamond li::before { content: "❖"; }
 .formatted-content .news-list-arrow li::before { content: "➢"; }
 .formatted-content .news-list-arrow-long li::before { content: "➔"; }
+
+/* Teresina Map Airbnb style customizations */
+.scrollbar-thin::-webkit-scrollbar {
+  width: 5px;
+}
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 99px;
+}
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+@keyframes dash {
+  to {
+    stroke-dashoffset: -40;
+  }
+}
+
+path.animate-\[dash_10s_linear_infinite\] {
+  stroke-dasharray: 6 3;
+  animation: dash 8s linear infinite;
+}
+
