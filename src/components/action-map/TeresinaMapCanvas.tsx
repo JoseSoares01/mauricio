@@ -3,8 +3,9 @@
 import React, { useMemo, useState, useRef, useEffect } from "react";
 import Map, { Marker, Popup, MapRef } from "react-map-gl/mapbox";
 import { motion, AnimatePresence } from "framer-motion";
-import { Info, MapPin } from "lucide-react";
+import { Info } from "lucide-react";
 import type { TeresinaVisit } from "@/lib/types";
+import ActionMapPinMarker from "./ActionMapPinMarker";
 import "mapbox-gl/dist/mapbox-gl.css";
 
 interface TeresinaMapCanvasProps {
@@ -185,28 +186,12 @@ export default function TeresinaMapCanvas({
                     e.stopPropagation();
                     onSelectVisit(visit);
                   }}
-                  className="group relative flex flex-col items-center"
+                  className="group relative flex flex-col items-center border-0 bg-transparent p-0"
                 >
-                  <motion.div
-                    animate={{
-                      scale: isSelected ? 1.15 : 1,
-                      y: isSelected ? -4 : 0,
-                    }}
-                    className={`flex items-center gap-1 rounded-full px-2.5 py-1.5 text-[11px] font-semibold shadow-md transition-all border ${
-                      isSelected
-                        ? "bg-[#e11d48] border-[#e11d48] text-white z-20"
-                        : "bg-white/95 border-slate-200/80 text-slate-700 hover:bg-slate-50 hover:scale-105 z-10"
-                    }`}
-                  >
-                    <MapPin size={11} className={isSelected ? "text-white" : "text-[#e11d48]"} />
-                    <span>{visit.neighborhood}</span>
-                  </motion.div>
-                  <div
-                    className={`h-1.5 w-1.5 rotate-45 -mt-1 border-r border-b ${
-                      isSelected
-                        ? "bg-[#e11d48] border-[#e11d48]"
-                        : "bg-white border-slate-200"
-                    }`}
+                  <ActionMapPinMarker
+                    selected={isSelected}
+                    size={isSelected ? 44 : 38}
+                    label={isSelected ? visit.neighborhood : undefined}
                   />
                 </button>
               </div>
@@ -295,28 +280,12 @@ export default function TeresinaMapCanvas({
                       e.stopPropagation();
                       onSelectVisit(visit);
                     }}
-                    className="group relative flex flex-col items-center"
+                    className="group relative flex flex-col items-center border-0 bg-transparent p-0"
                   >
-                    <motion.div
-                      animate={{
-                        scale: isSelected ? 1.18 : 1,
-                        y: isSelected ? -4 : 0,
-                      }}
-                      className={`flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-semibold shadow-md transition-colors border ${
-                        isSelected
-                          ? "bg-[#e11d48] border-[#e11d48] text-white z-20"
-                          : "bg-white border-slate-200 text-slate-800 hover:bg-slate-50 z-10"
-                      }`}
-                    >
-                      <MapPin size={12} className={isSelected ? "text-white" : "text-[#e11d48]"} />
-                      <span>{visit.neighborhood}</span>
-                    </motion.div>
-                    <div
-                      className={`h-2 w-2 rotate-45 -mt-1 border-r border-b shadow-sm ${
-                        isSelected
-                          ? "bg-[#e11d48] border-[#e11d48]"
-                          : "bg-white border-slate-200"
-                      }`}
+                    <ActionMapPinMarker
+                      selected={isSelected}
+                      size={isSelected ? 48 : 42}
+                      label={isSelected ? visit.neighborhood : undefined}
                     />
                   </button>
                 </Marker>

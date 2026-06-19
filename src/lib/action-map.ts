@@ -10,6 +10,10 @@ export const ACTION_MAP_COLORS = {
 
 export const DEFAULT_ACTION_MAP_IMAGE = "/uploads/piaui-3d-map-premium.png";
 
+/** Pin personalizado (MS) exibido nos mapas de atuação. */
+export const ACTION_MAP_PIN_SRC = "/uploads/mauricio-map-pin.png";
+export const ACTION_MAP_PIN_IMAGE_ID = "mauricio-action-pin";
+
 /** Proporção da arte institucional premium (largura / altura). */
 export const ACTION_MAP_IMAGE_ASPECT = 1024 / 911;
 
