@@ -72,6 +72,13 @@ export interface PropostaItem {
   id: string;
   title: string;
   description: string;
+  link?: string;
+  documents?: PropostaDocument[];
+}
+
+export interface PropostaDocument {
+  title: string;
+  url: string;
 }
 
 export interface AboutMetric {

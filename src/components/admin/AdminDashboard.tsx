@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import ActionMapAdmin from "./ActionMapAdmin";
 import NewsAdmin from "./NewsAdmin";
+import PropostasAdmin from "./PropostasAdmin";
 
 interface AdminDashboardProps {
   config: SiteConfig;
@@ -25,7 +26,7 @@ interface AdminDashboardProps {
   onLogout: () => void;
 }
 
-type Tab = "theme" | "images" | "menu" | "content" | "news" | "videos" | "agenda" | "actionMap" | "social" | "settings";
+type Tab = "theme" | "images" | "menu" | "content" | "news" | "propostas" | "videos" | "agenda" | "actionMap" | "social" | "settings";
 
 const TABS: { id: Tab; label: string; icon: React.ReactNode }[] = [
   { id: "theme", label: "Cores & Tema", icon: <Palette size={18} /> },
@@ -33,6 +34,7 @@ const TABS: { id: Tab; label: string; icon: React.ReactNode }[] = [
   { id: "menu", label: "Menus", icon: <Menu size={18} /> },
   { id: "content", label: "Conteúdo", icon: <FileText size={18} /> },
   { id: "news", label: "Notícias", icon: <FileText size={18} /> },
+  { id: "propostas", label: "Propostas", icon: <FileText size={18} /> },
   { id: "videos", label: "Vídeos", icon: <Video size={18} /> },
   { id: "agenda", label: "Agenda", icon: <Calendar size={18} /> },
   { id: "actionMap", label: "Mapa de Atuação", icon: <MapPin size={18} /> },
@@ -376,6 +378,14 @@ export default function AdminDashboard({ config: initialConfig, token, onSave, o
               news={config.news}
               token={token}
               onChange={(news) => update("news", news)}
+            />
+          )}
+
+          {tab === "propostas" && (
+            <PropostasAdmin
+              propostas={config.propostas}
+              token={token}
+              onChange={(propostas) => update("propostas", propostas)}
             />
           )}
 

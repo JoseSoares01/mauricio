@@ -753,3 +753,28 @@ path.animate-\[dash_10s_linear_infinite\] {
   font-weight: 700;
 }
 
+.proposta-docs-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.proposta-doc-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+
+.proposta-doc-link:hover {
+  opacity: 0.8;
+  text-decoration: underline;
+}
+
