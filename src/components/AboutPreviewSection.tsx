@@ -18,20 +18,19 @@ function formatMetricValue(value: number): string {
 
 function AnimatedMetric({
   metric,
-  active,
+  animate,
   delayMs,
 }: {
   metric: AboutMetric;
-  active: boolean;
+  animate: boolean;
   delayMs: number;
 }) {
   const [value, setValue] = useState(0);
+  const hasRunRef = useRef(false);
 
   useEffect(() => {
-    if (!active) {
-      setValue(0);
-      return;
-    }
+    if (!animate || hasRunRef.current) return;
+    hasRunRef.current = true;
 
     const duration = 1800;
     let frame = 0;
@@ -53,7 +52,7 @@ function AnimatedMetric({
       clearTimeout(timer);
       cancelAnimationFrame(frame);
     };
-  }, [active, metric.value, delayMs]);
+  }, [animate, metric.value, delayMs]);
 
   return (
     <li className="about-metric-item">
@@ -72,7 +71,8 @@ export default function AboutPreviewSection({
   metrics,
 }: AboutPreviewSectionProps) {
   const sectionRef = useRef<HTMLElement>(null);
-  const [inView, setInView] = useState(false);
+  const hasAnimatedRef = useRef(false);
+  const [animate, setAnimate] = useState(false);
   const [typedText, setTypedText] = useState("");
   const [typingDone, setTypingDone] = useState(false);
 
@@ -81,7 +81,12 @@ export default function AboutPreviewSection({
     if (!el) return;
 
     const observer = new IntersectionObserver(
-      ([entry]) => setInView(entry.isIntersecting),
+      ([entry]) => {
+        if (entry.isIntersecting && !hasAnimatedRef.current) {
+          hasAnimatedRef.current = true;
+          setAnimate(true);
+        }
+      },
       { threshold: 0.35 }
     );
 
@@ -90,11 +95,7 @@ export default function AboutPreviewSection({
   }, []);
 
   useEffect(() => {
-    if (!inView) {
-      setTypedText("");
-      setTypingDone(false);
-      return;
-    }
+    if (!animate) return;
 
     const text = shortText.trim();
     if (!text) return;
@@ -113,7 +114,7 @@ export default function AboutPreviewSection({
     }, 28);
 
     return () => clearInterval(interval);
-  }, [inView, shortText]);
+  }, [animate, shortText]);
 
   return (
     <section
@@ -133,7 +134,7 @@ export default function AboutPreviewSection({
           />
           <p className="text-white text-[17px] leading-relaxed mb-6 min-h-[5.5rem]">
             {typedText}
-            {!typingDone && inView && <span className="about-typewriter-cursor" aria-hidden="true">|</span>}
+            {!typingDone && animate && <span className="about-typewriter-cursor" aria-hidden="true">|</span>}
           </p>
 
           <ul className="about-metrics-list mb-6">
@@ -141,7 +142,7 @@ export default function AboutPreviewSection({
               <AnimatedMetric
                 key={metric.id}
                 metric={metric}
-                active={inView}
+                animate={animate}
                 delayMs={i * 120}
               />
             ))}
