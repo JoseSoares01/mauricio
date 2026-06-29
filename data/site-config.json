@@ -77,12 +77,42 @@
     "shortText": "Oficial R/2 do Exército Brasileiro da Arma de Engenharia, Professor, Servidor Público Federal, autor de diversos projetos de Lei, desenvolvedor de programas em prol da sociedade, cristão. Doutor em melhoramento genético, Biólogo e jovem da periferia. ",
     "fullText": "Oficial R/2 do Exército Brasileiro da Arma de Engenharia, Professor, Servidor Público Federal, autor de diversos projetos de Lei, desenvolvedor de programas em prol da sociedade, cristão. Doutor em melhoramento genético, Biólogo e jovem da periferia. \n\nNasci e fui criado na pobreza, através dos estudos servi meu país, já contribui de diversas formas para o povo e a direita piauiense. Preciso agora do seu apoio.\n\n\nMaurício (MauMau) trabalha na educação pública e com tecnologia cientifica, trabalhou na segurança nacional e também na saúde pública. \n\nPrincipais pautas:\n\n• Soberania Nacional.\n\n• Contra o aborto e comunismo.\n\n• Segurança Nacional e Valorização do Policial.\n\n• Salário Digno para Professores.\n\n• Doação de metade da remuneração para instituições de caridade, se eleito.\n\n• Amparo aos pobres e necessitados.\n\n• Desburocratização da maquina pública.\n\n• Defesa do meio ambiente e causa animal\n\n• Proteção as pessoas com necessidades específicas (PcDs)\n\n• IPVA 1% nacional\n\n• Agronegócio",
     "metrics": [
-      { "id": "1", "icon": "📍", "value": 150, "label": "cidades visitadas" },
-      { "id": "2", "icon": "👥", "value": 10500, "label": "pessoas atendidas" },
-      { "id": "3", "icon": "📄", "value": 52, "label": "projetos" },
-      { "id": "4", "icon": "🎓", "value": 130, "label": "palestras" },
-      { "id": "5", "icon": "🧪", "value": 17, "label": "artigos científicos" },
-      { "id": "6", "icon": "🏛", "value": 12, "label": "audiências públicas" }
+      {
+        "id": "1",
+        "icon": "https://raw.githubusercontent.com/JoseSoares01/mauricio/main/public/uploads/icons/1782751031443-x946kymv89k.png",
+        "value": 150,
+        "label": "cidades visitadas"
+      },
+      {
+        "id": "2",
+        "icon": "👥",
+        "value": 10500,
+        "label": "pessoas atendidas"
+      },
+      {
+        "id": "3",
+        "icon": "📄",
+        "value": 52,
+        "label": "projetos"
+      },
+      {
+        "id": "4",
+        "icon": "🎓",
+        "value": 130,
+        "label": "palestras"
+      },
+      {
+        "id": "5",
+        "icon": "🧪",
+        "value": 17,
+        "label": "artigos científicos"
+      },
+      {
+        "id": "6",
+        "icon": "🏛",
+        "value": 12,
+        "label": "audiências públicas"
+      }
     ]
   },
   "senado": {
