@@ -3,6 +3,7 @@ import Link from "next/link";
 import PageLayout from "@/components/PageLayout";
 import SocialIcons from "@/components/SocialIcons";
 import InstagramSection from "@/components/InstagramSection";
+import AboutPreviewSection from "@/components/AboutPreviewSection";
 import ViewCounter from "@/components/ViewCounter";
 import VideoCard from "@/components/VideoCard";
 import { getSiteConfig, formatDate } from "@/lib/site-config";
@@ -50,31 +51,12 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* About Preview */}
-      <section style={{ backgroundColor: "var(--color-primary)" }} className="min-h-[660px]">
-        <div className="container-site grid md:grid-cols-2 items-center min-h-[660px]">
-          <div className="py-12 md:pr-12">
-            <Image
-              src={config.images.logoBlue}
-              alt="Logo"
-              width={500}
-              height={500}
-              className="w-[75%] md:w-[65%] max-w-[340px] mb-6"
-              unoptimized
-            />
-            <p className="text-white text-[17px] leading-relaxed mb-6">
-              {config.about.shortText}
-            </p>
-            <Link href="/sobre" className="btn-primary">
-              Saiba mais
-            </Link>
-          </div>
-          <div
-            className="min-h-[400px] md:min-h-[660px] bg-cover bg-center"
-            style={{ backgroundImage: `url(${config.images.aboutBg})` }}
-          />
-        </div>
-      </section>
+      <AboutPreviewSection
+        logoBlue={config.images.logoBlue}
+        aboutBg={config.images.aboutBg}
+        shortText={config.about.shortText}
+        metrics={config.about.metrics}
+      />
 
       {/* Banners */}
       <section className="container-site py-12">

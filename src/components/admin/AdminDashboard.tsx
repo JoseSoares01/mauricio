@@ -244,12 +244,83 @@ export default function AdminDashboard({ config: initialConfig, token, onSave, o
                 <h2 className="text-xl font-bold mb-4">Sobre</h2>
                 <div className="space-y-4">
                   <div>
-                    <label className="admin-label">Texto Curto (Home)</label>
+                    <label className="admin-label">Texto Curto (Home — efeito digitação)</label>
                     <textarea className="admin-input min-h-[100px]" value={config.about.shortText} onChange={(e) => update("about", { ...config.about, shortText: e.target.value })} />
                   </div>
                   <div>
                     <label className="admin-label">Texto Completo (Página Sobre)</label>
                     <textarea className="admin-input min-h-[200px]" value={config.about.fullText} onChange={(e) => update("about", { ...config.about, fullText: e.target.value })} />
+                  </div>
+                  <div>
+                    <label className="admin-label">Números da seção Sobre (Home)</label>
+                    <p className="text-sm text-gray-500 mb-3">Ícone, valor numérico e descrição de cada estatística.</p>
+                    {(config.about.metrics ?? []).map((metric, i) => (
+                      <div key={metric.id} className="border rounded-lg p-3 mb-3 grid md:grid-cols-[80px_120px_1fr_auto] gap-3 items-end">
+                        <div>
+                          <label className="admin-label">Ícone</label>
+                          <input
+                            className="admin-input text-center"
+                            value={metric.icon}
+                            onChange={(e) => {
+                              const metrics = [...(config.about.metrics ?? [])];
+                              metrics[i] = { ...metrics[i], icon: e.target.value };
+                              update("about", { ...config.about, metrics });
+                            }}
+                          />
+                        </div>
+                        <div>
+                          <label className="admin-label">Número</label>
+                          <input
+                            type="number"
+                            className="admin-input"
+                            value={metric.value}
+                            onChange={(e) => {
+                              const metrics = [...(config.about.metrics ?? [])];
+                              metrics[i] = { ...metrics[i], value: Number(e.target.value) || 0 };
+                              update("about", { ...config.about, metrics });
+                            }}
+                          />
+                        </div>
+                        <div>
+                          <label className="admin-label">Descrição</label>
+                          <input
+                            className="admin-input"
+                            value={metric.label}
+                            onChange={(e) => {
+                              const metrics = [...(config.about.metrics ?? [])];
+                              metrics[i] = { ...metrics[i], label: e.target.value };
+                              update("about", { ...config.about, metrics });
+                            }}
+                          />
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            const metrics = (config.about.metrics ?? []).filter((m) => m.id !== metric.id);
+                            update("about", { ...config.about, metrics });
+                          }}
+                          className="text-red-500 p-2"
+                          aria-label="Remover estatística"
+                        >
+                          <Trash2 size={16} />
+                        </button>
+                      </div>
+                    ))}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const metrics = [...(config.about.metrics ?? []), {
+                          id: String(Date.now()),
+                          icon: "📍",
+                          value: 0,
+                          label: "nova estatística",
+                        }];
+                        update("about", { ...config.about, metrics });
+                      }}
+                      className="admin-btn flex items-center gap-2"
+                    >
+                      <Plus size={16} /> Adicionar estatística
+                    </button>
                   </div>
                 </div>
               </div>

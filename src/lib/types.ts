@@ -74,6 +74,13 @@ export interface PropostaItem {
   description: string;
 }
 
+export interface AboutMetric {
+  id: string;
+  icon: string;
+  value: number;
+  label: string;
+}
+
 export type ActionVisitStatus = "realizada";
 
 /** Documento anexo — preparado para fase futura */
@@ -168,6 +175,7 @@ export interface SiteConfig {
   about: {
     shortText: string;
     fullText: string;
+    metrics: AboutMetric[];
   };
   senado: {
     title: string;

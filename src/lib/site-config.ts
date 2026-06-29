@@ -56,6 +56,8 @@ async function readFromGitHub(): Promise<SiteConfig | null> {
 
 const DEFAULT_ADMIN_PASSWORD = "mauricio2026";
 
+const DEFAULT_ABOUT_METRICS = (defaultConfig as unknown as SiteConfig).about?.metrics ?? [];
+
 function applyConfigNormalization(config: SiteConfig): SiteConfig {
   return {
     ...config,
@@ -69,6 +71,10 @@ function applyConfigNormalization(config: SiteConfig): SiteConfig {
       imageFocusX: clampNewsImageFocus(item.imageFocusX ?? DEFAULT_NEWS_IMAGE_FOCUS.x),
       imageFocusY: clampNewsImageFocus(item.imageFocusY ?? DEFAULT_NEWS_IMAGE_FOCUS.y),
     })),
+    about: {
+      ...config.about,
+      metrics: config.about?.metrics?.length ? config.about.metrics : DEFAULT_ABOUT_METRICS,
+    },
     actionMap: normalizeActionMap(config.actionMap),
     propostas: config.propostas ?? (defaultConfig as unknown as SiteConfig).propostas ?? [],
   };
