@@ -10,9 +10,19 @@ interface ImageUploaderProps {
   onChange: (url: string) => void;
   token: string;
   folder?: string;
+  accept?: string;
+  uploadLabel?: string;
 }
 
-export default function ImageUploader({ label, value, onChange, token, folder = "uploads" }: ImageUploaderProps) {
+export default function ImageUploader({
+  label,
+  value,
+  onChange,
+  token,
+  folder = "uploads",
+  accept = "image/*",
+  uploadLabel = "Upload de Imagem",
+}: ImageUploaderProps) {
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
@@ -74,9 +84,9 @@ export default function ImageUploader({ label, value, onChange, token, folder = 
             className="admin-btn flex items-center gap-2 text-sm"
           >
             <Upload size={16} />
-            {uploading ? "Enviando..." : "Upload de Imagem"}
+            {uploading ? "Enviando..." : uploadLabel}
           </button>
-          <input ref={inputRef} type="file" accept="image/*" className="hidden" onChange={handleUpload} />
+          <input ref={inputRef} type="file" accept={accept} className="hidden" onChange={handleUpload} />
           {error && <p className="text-sm text-red-600 mt-2">{error}</p>}
         </div>
       </div>

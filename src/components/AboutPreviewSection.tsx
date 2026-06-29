@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import type { AboutMetric } from "@/lib/types";
+import { AboutMetricIconDisplay } from "@/lib/about-metric-icon";
 
 interface AboutPreviewSectionProps {
   logoBlue: string;
@@ -56,7 +57,7 @@ function AnimatedMetric({
 
   return (
     <li className="about-metric-item">
-      <span className="about-metric-icon" aria-hidden="true">{metric.icon}</span>
+      <AboutMetricIconDisplay icon={metric.icon} />
       <span className="about-metric-text">
         <strong>{formatMetricValue(value)}</strong> {metric.label}
       </span>

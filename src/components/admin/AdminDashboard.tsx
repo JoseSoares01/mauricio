@@ -18,6 +18,7 @@ import {
 import ActionMapAdmin from "./ActionMapAdmin";
 import NewsAdmin from "./NewsAdmin";
 import PropostasAdmin from "./PropostasAdmin";
+import AboutMetricIconField from "./AboutMetricIconField";
 
 interface AdminDashboardProps {
   config: SiteConfig;
@@ -255,21 +256,19 @@ export default function AdminDashboard({ config: initialConfig, token, onSave, o
                   </div>
                   <div>
                     <label className="admin-label">Números da seção Sobre (Home)</label>
-                    <p className="text-sm text-gray-500 mb-3">Ícone, valor numérico e descrição de cada estatística.</p>
+                    <p className="text-sm text-gray-500 mb-3">Emoji, upload de SVG ou código SVG inline para cada estatística.</p>
                     {(config.about.metrics ?? []).map((metric, i) => (
-                      <div key={metric.id} className="border rounded-lg p-3 mb-3 grid md:grid-cols-[80px_120px_1fr_auto] gap-3 items-end">
-                        <div>
-                          <label className="admin-label">Ícone</label>
-                          <input
-                            className="admin-input text-center"
-                            value={metric.icon}
-                            onChange={(e) => {
-                              const metrics = [...(config.about.metrics ?? [])];
-                              metrics[i] = { ...metrics[i], icon: e.target.value };
-                              update("about", { ...config.about, metrics });
-                            }}
-                          />
-                        </div>
+                      <div key={metric.id} className="border rounded-lg p-3 mb-3 space-y-3">
+                        <AboutMetricIconField
+                          value={metric.icon}
+                          token={token}
+                          onChange={(icon) => {
+                            const metrics = [...(config.about.metrics ?? [])];
+                            metrics[i] = { ...metrics[i], icon };
+                            update("about", { ...config.about, metrics });
+                          }}
+                        />
+                        <div className="grid md:grid-cols-[120px_1fr_auto] gap-3 items-end">
                         <div>
                           <label className="admin-label">Número</label>
                           <input
@@ -306,6 +305,7 @@ export default function AdminDashboard({ config: initialConfig, token, onSave, o
                         >
                           <Trash2 size={16} />
                         </button>
+                        </div>
                       </div>
                     ))}
                     <button

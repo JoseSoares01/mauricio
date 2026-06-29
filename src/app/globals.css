@@ -746,6 +746,29 @@ path.animate-\[dash_10s_linear_infinite\] {
 .about-metric-icon {
   font-size: 1.1rem;
   flex-shrink: 0;
+  color: #fff;
+}
+
+.about-metric-icon-svg {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  line-height: 0;
+}
+
+.about-metric-icon-svg svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  display: block;
+}
+
+.about-metric-icon-img {
+  width: 1.25rem;
+  height: 1.25rem;
+  object-fit: contain;
+  display: block;
 }
 
 .about-metric-text strong {
