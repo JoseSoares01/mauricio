@@ -14,6 +14,7 @@ const MENU_ACCENTS: Record<string, string> = {
   "/sobre": "color-mix(in srgb, var(--color-accent) 60%, transparent)",
   "/noticias": "color-mix(in srgb, var(--color-primary) 55%, transparent)",
   "/agenda": "color-mix(in srgb, var(--color-secondary) 55%, transparent)",
+  "/propostas": "color-mix(in srgb, var(--color-accent) 60%, transparent)",
   "/mapa-de-atuacao": "color-mix(in srgb, var(--color-primary) 55%, transparent)",
   "/contato": "color-mix(in srgb, var(--color-accent) 60%, transparent)",
 };

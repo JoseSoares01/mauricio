@@ -68,6 +68,12 @@ export interface AgendaEvent {
   type: string;
 }
 
+export interface PropostaItem {
+  id: string;
+  title: string;
+  description: string;
+}
+
 export type ActionVisitStatus = "realizada";
 
 /** Documento anexo — preparado para fase futura */
@@ -183,6 +189,7 @@ export interface SiteConfig {
     posts: InstagramPost[];
   };
   agenda: AgendaEvent[];
+  propostas: PropostaItem[];
   actionMap: ActionMapConfig;
   admin: {
     password: string;

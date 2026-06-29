@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import type { SiteConfig, MenuItem, NewsItem, VideoItem, AgendaEvent, InstagramPost } from "@/lib/types";
+import type { SiteConfig, MenuItem, VideoItem, AgendaEvent, InstagramPost } from "@/lib/types";
 import {
   getVideoHref,
   getYoutubeInputValue,
@@ -12,12 +12,11 @@ import {
 } from "@/lib/video";
 import ImageUploader from "./ImageUploader";
 import VideoUploader from "./VideoUploader";
-import RichTextEditor from "./RichTextEditor";
-import NewsImagePositionEditor from "./NewsImagePositionEditor";
 import {
   Palette, Image, Menu, FileText, Video, Calendar, Share2, Settings, Save, LogOut, ExternalLink, Plus, Trash2, MapPin,
 } from "lucide-react";
 import ActionMapAdmin from "./ActionMapAdmin";
+import NewsAdmin from "./NewsAdmin";
 
 interface AdminDashboardProps {
   config: SiteConfig;
@@ -302,101 +301,11 @@ export default function AdminDashboard({ config: initialConfig, token, onSave, o
           )}
 
           {tab === "news" && (
-            <div className="admin-card">
-              <h2 className="text-xl font-bold mb-2">Notícias</h2>
-              <p className="text-sm text-gray-500 mb-6">
-                Use o editor para negrito, listas e links. Quebras de linha e URLs são formatadas automaticamente no site.
-              </p>
-              {config.news.map((item, i) => (
-                <div key={item.id} className="border rounded-lg p-4 mb-4">
-                  <div className="flex justify-between mb-3">
-                    <span className="font-semibold text-sm text-gray-500">Notícia #{i + 1}</span>
-                    <button onClick={() => update("news", config.news.filter((n) => n.id !== item.id))} className="text-red-500">
-                      <Trash2 size={16} />
-                    </button>
-                  </div>
-                  <div className="grid md:grid-cols-2 gap-3">
-                    <div className="md:col-span-2">
-                      <label className="admin-label">Título</label>
-                      <input className="admin-input" value={item.title} onChange={(e) => {
-                        const news = [...config.news];
-                        news[i] = { ...news[i], title: e.target.value };
-                        update("news", news);
-                      }} />
-                    </div>
-                    <div>
-                      <label className="admin-label">Data</label>
-                      <input type="date" className="admin-input" value={item.date} onChange={(e) => {
-                        const news = [...config.news];
-                        news[i] = { ...news[i], date: e.target.value };
-                        update("news", news);
-                      }} />
-                    </div>
-                    <div>
-                      <label className="admin-label">Categoria</label>
-                      <input className="admin-input" value={item.category} onChange={(e) => {
-                        const news = [...config.news];
-                        news[i] = { ...news[i], category: e.target.value };
-                        update("news", news);
-                      }} />
-                    </div>
-                    <div className="md:col-span-2">
-                      <label className="admin-label">Resumo</label>
-                      <textarea className="admin-input" value={item.excerpt} onChange={(e) => {
-                        const news = [...config.news];
-                        news[i] = { ...news[i], excerpt: e.target.value };
-                        update("news", news);
-                      }} />
-                    </div>
-                    <div className="md:col-span-2">
-                      <ImageUploader label="Imagem" value={item.image} onChange={(v) => {
-                        const news = [...config.news];
-                        news[i] = { ...news[i], image: v };
-                        update("news", news);
-                      }} token={token} />
-                    </div>
-                    {item.image && (
-                      <div className="md:col-span-2">
-                        <NewsImagePositionEditor
-                          image={item.image}
-                          focusX={item.imageFocusX}
-                          focusY={item.imageFocusY}
-                          onChange={(focus) => {
-                            const news = [...config.news];
-                            news[i] = { ...news[i], ...focus };
-                            update("news", news);
-                          }}
-                        />
-                      </div>
-                    )}
-                    <div className="md:col-span-2">
-                      <RichTextEditor
-                        label="Conteúdo Completo"
-                        value={item.content}
-                        onChange={(content) => {
-                          const news = [...config.news];
-                          news[i] = { ...news[i], content };
-                          update("news", news);
-                        }}
-                        minHeight={280}
-                        hint="Após títulos em negrito ou H2, as linhas seguintes viram lista com • automaticamente. Use os botões • ◦ ❖ ➢ ➔ para outros estilos."
-                      />
-                    </div>
-                  </div>
-                </div>
-              ))}
-              <button onClick={() => update("news", [{
-                id: String(Date.now()),
-                title: "Nova Notícia",
-                excerpt: "",
-                date: new Date().toISOString().split("T")[0],
-                category: "Geral",
-                image: "/uploads/banner.jpg",
-                content: "",
-              }, ...config.news])} className="admin-btn flex items-center gap-2">
-                <Plus size={16} /> Adicionar Notícia
-              </button>
-            </div>
+            <NewsAdmin
+              news={config.news}
+              token={token}
+              onChange={(news) => update("news", news)}
+            />
           )}
 
           {tab === "videos" && (

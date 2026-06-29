@@ -36,6 +36,10 @@
       "href": "/agenda"
     },
     {
+      "label": "Propostas",
+      "href": "/propostas"
+    },
+    {
       "label": "Mapa de Atuação",
       "href": "/mapa-de-atuacao"
     },
@@ -78,8 +82,65 @@
     "buttonAccess": "Acessar",
     "buttonProposicoes": "Proposições",
     "accessUrl": "#",
-    "proposicoesUrl": "#"
+    "proposicoesUrl": "/propostas"
   },
+  "propostas": [
+    {
+      "id": "1",
+      "title": "Soberania Nacional",
+      "description": "Defesa da independência e dos interesses nacionais, com políticas que priorizem o Brasil e o povo piauiense em decisões estratégicas."
+    },
+    {
+      "id": "2",
+      "title": "Contra o aborto e o comunismo",
+      "description": "Compromisso com a defesa da vida desde a concepção e com valores que protejam a família, a liberdade e o modelo democrático."
+    },
+    {
+      "id": "3",
+      "title": "Segurança Nacional e Valorização do Policial",
+      "description": "Fortalecimento das forças de segurança, mais recursos, inteligência e condições dignas de trabalho para quem protege a sociedade."
+    },
+    {
+      "id": "4",
+      "title": "Salário Digno para Professores",
+      "description": "Valorização da carreira docente com remuneração compatível com a importância dos educadores na formação das novas gerações."
+    },
+    {
+      "id": "5",
+      "title": "Doação de metade da remuneração para instituições de caridade",
+      "description": "Compromisso de destinar 50% da remuneração como deputado federal a instituições de caridade, se eleito."
+    },
+    {
+      "id": "6",
+      "title": "Amparo aos pobres e necessitados",
+      "description": "Políticas de assistência e inclusão para famílias em situação de vulnerabilidade, com foco em dignidade e oportunidades."
+    },
+    {
+      "id": "7",
+      "title": "Desburocratização da máquina pública",
+      "description": "Simplificação de processos, redução de trâmites e uso de tecnologia para tornar o Estado mais ágil e acessível ao cidadão."
+    },
+    {
+      "id": "8",
+      "title": "Defesa do meio ambiente e causa animal",
+      "description": "Preservação ambiental, sustentabilidade e proteção dos animais, equilibrando desenvolvimento e responsabilidade ecológica."
+    },
+    {
+      "id": "9",
+      "title": "Proteção às pessoas com necessidades específicas (PcDs)",
+      "description": "Garantia de acessibilidade, inclusão e políticas públicas que assegurem direitos e oportunidades para pessoas com deficiência."
+    },
+    {
+      "id": "10",
+      "title": "IPVA 1% nacional",
+      "description": "Proposta de redução do IPVA para 1% em nível nacional, aliviando o custo para famílias e pequenos proprietários de veículos."
+    },
+    {
+      "id": "11",
+      "title": "Agronegócio",
+      "description": "Fortalecimento do setor agrícola com crédito, infraestrutura, escoamento da produção e valorização do produtor rural piauiense."
+    }
+  ],
   "contact": {
     "title": "Fale comigo",
     "email": "maumau.br22@gmail.com",
