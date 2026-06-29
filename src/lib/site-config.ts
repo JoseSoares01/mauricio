@@ -56,6 +56,14 @@ async function readFromGitHub(): Promise<SiteConfig | null> {
 
 const DEFAULT_ADMIN_PASSWORD = "mauricio2026";
 
+function sortNewsByDate(news: SiteConfig["news"]): SiteConfig["news"] {
+  return [...news].sort((a, b) => {
+    const byDate = b.date.localeCompare(a.date);
+    if (byDate !== 0) return byDate;
+    return Number(b.id) - Number(a.id);
+  });
+}
+
 function applyConfigNormalization(config: SiteConfig): SiteConfig {
   return {
     ...config,
@@ -63,7 +71,7 @@ function applyConfigNormalization(config: SiteConfig): SiteConfig {
       password: config.admin?.password || DEFAULT_ADMIN_PASSWORD,
     },
     videos: normalizeVideos(config.videos),
-    news: config.news.map((item) => ({
+    news: sortNewsByDate(config.news).map((item) => ({
       ...item,
       content: repairMarkdown(normalizeNewsMarkdown(item.content)),
       imageFocusX: clampNewsImageFocus(item.imageFocusX ?? DEFAULT_NEWS_IMAGE_FOCUS.x),

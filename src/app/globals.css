@@ -299,6 +299,21 @@ h1, h2, h3, h4, h5, h6 {
   color: #1388FD;
 }
 
+.view-counter {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-heading);
+  font-size: 12px;
+  color: #9ca3af;
+  line-height: 1;
+}
+
+.view-counter svg {
+  flex-shrink: 0;
+  opacity: 0.85;
+}
+
 .video-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);

@@ -3,11 +3,13 @@ import Link from "next/link";
 import PageLayout from "@/components/PageLayout";
 import SocialIcons from "@/components/SocialIcons";
 import InstagramSection from "@/components/InstagramSection";
+import ViewCounter from "@/components/ViewCounter";
+import VideoCard from "@/components/VideoCard";
 import { getSiteConfig, formatDate } from "@/lib/site-config";
-import { getVideoHref, getVideoThumbnail, isDirectVideoFile, isVideoClickable } from "@/lib/video";
+import { getViews, getViewCount } from "@/lib/views";
 
 export default async function HomePage() {
-  const config = await getSiteConfig();
+  const [config, views] = await Promise.all([getSiteConfig(), getViews()]);
 
   return (
     <PageLayout config={config}>
@@ -102,7 +104,10 @@ export default async function HomePage() {
         <div className="max-w-4xl mx-auto">
           {config.news.slice(0, 3).map((item) => (
             <article key={item.id} className="news-card">
-              <p className="date">{formatDate(item.date)}</p>
+              <div className="flex items-center gap-3 mb-1">
+                <p className="date mb-0">{formatDate(item.date)}</p>
+                <ViewCounter count={getViewCount(views, "news", item.id)} />
+              </div>
               <h3>
                 <Link href={`/noticias/${item.id}`}>{item.title}</Link>
               </h3>
@@ -154,72 +159,13 @@ export default async function HomePage() {
           </h2>
         </div>
         <div className="video-grid">
-          {config.videos.map((video) => {
-            const thumbnail = getVideoThumbnail(video);
-            const href = getVideoHref(video);
-            const clickable = isVideoClickable(video);
-            const directVideo = video.videoFile && isDirectVideoFile(video.videoFile);
-
-            const card = (
-              <>
-                <div className="relative aspect-video rounded-lg overflow-hidden bg-gray-200">
-                  {thumbnail ? (
-                    <Image
-                      src={thumbnail}
-                      alt={video.title}
-                      fill
-                      className="object-cover group-hover:scale-105 transition-transform"
-                      unoptimized={thumbnail.startsWith("http")}
-                    />
-                  ) : directVideo ? (
-                    <video
-                      src={video.videoFile}
-                      preload="metadata"
-                      muted
-                      playsInline
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <div className="w-full h-full bg-gray-300" />
-                  )}
-                  <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/40 transition-colors pointer-events-none">
-                    <div className="w-14 h-14 rounded-full bg-red-600 flex items-center justify-center">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="white" aria-hidden="true">
-                        <path d="M8 5v14l11-7z"/>
-                      </svg>
-                    </div>
-                  </div>
-                </div>
-                <p
-                  className="mt-2 text-sm font-medium group-hover:underline"
-                  style={{ color: "var(--color-primary)" }}
-                >
-                  {video.title}
-                </p>
-              </>
-            );
-
-            if (!clickable) {
-              return (
-                <div key={video.id} className="block opacity-60">
-                  {card}
-                </div>
-              );
-            }
-
-            return (
-              <a
-                key={video.id}
-                href={href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group block cursor-pointer"
-                aria-label={`Abrir vídeo: ${video.title}`}
-              >
-                {card}
-              </a>
-            );
-          })}
+          {config.videos.map((video) => (
+            <VideoCard
+              key={video.id}
+              video={video}
+              initialCount={getViewCount(views, "video", video.id)}
+            />
+          ))}
         </div>
         <div className="text-center mt-8">
           <a href={config.social.youtube} target="_blank" rel="noopener noreferrer" className="btn-primary">

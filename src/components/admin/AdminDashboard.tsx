@@ -385,7 +385,7 @@ export default function AdminDashboard({ config: initialConfig, token, onSave, o
                   </div>
                 </div>
               ))}
-              <button onClick={() => update("news", [...config.news, {
+              <button onClick={() => update("news", [{
                 id: String(Date.now()),
                 title: "Nova Notícia",
                 excerpt: "",
@@ -393,7 +393,7 @@ export default function AdminDashboard({ config: initialConfig, token, onSave, o
                 category: "Geral",
                 image: "/uploads/banner.jpg",
                 content: "",
-              }])} className="admin-btn flex items-center gap-2">
+              }, ...config.news])} className="admin-btn flex items-center gap-2">
                 <Plus size={16} /> Adicionar Notícia
               </button>
             </div>
@@ -453,12 +453,12 @@ export default function AdminDashboard({ config: initialConfig, token, onSave, o
                   </div>
                 </div>
               ))}
-              <button onClick={() => update("videos", [...config.videos, {
+              <button onClick={() => update("videos", [{
                 id: String(Date.now()),
                 title: "Novo Vídeo",
                 youtubeId: "",
                 thumbnail: "",
-              }])} className="admin-btn flex items-center gap-2">
+              }, ...config.videos])} className="admin-btn flex items-center gap-2">
                 <Plus size={16} /> Adicionar Vídeo
               </button>
             </div>

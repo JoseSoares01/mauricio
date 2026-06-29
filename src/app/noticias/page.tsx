@@ -1,10 +1,12 @@
 import Link from "next/link";
 import PageLayout from "@/components/PageLayout";
 import NewsImage from "@/components/NewsImage";
+import ViewCounter from "@/components/ViewCounter";
 import { getSiteConfig, formatDate } from "@/lib/site-config";
+import { getViews, getViewCount } from "@/lib/views";
 
 export default async function NoticiasPage() {
-  const config = await getSiteConfig();
+  const [config, views] = await Promise.all([getSiteConfig(), getViews()]);
 
   return (
     <PageLayout config={config}>
@@ -30,7 +32,10 @@ export default async function NoticiasPage() {
                 <span className="text-xs font-medium px-2 py-1 rounded" style={{ backgroundColor: "var(--color-accent)", color: "var(--color-primary)" }}>
                   {item.category}
                 </span>
-                <p className="text-xs text-gray-400 mt-2">{formatDate(item.date)}</p>
+                <div className="flex items-center gap-3 mt-2">
+                  <p className="text-xs text-gray-400">{formatDate(item.date)}</p>
+                  <ViewCounter count={getViewCount(views, "news", item.id)} />
+                </div>
                 <h3 className="text-lg font-semibold mt-2 mb-2" style={{ color: "var(--color-primary)" }}>
                   <Link href={`/noticias/${item.id}`}>{item.title}</Link>
                 </h3>

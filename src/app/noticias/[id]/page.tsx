@@ -4,7 +4,9 @@ import { notFound } from "next/navigation";
 import PageLayout from "@/components/PageLayout";
 import NewsImage from "@/components/NewsImage";
 import FormattedContent from "@/components/FormattedContent";
+import TrackNewsView from "@/components/TrackNewsView";
 import { getSiteConfig, formatDate } from "@/lib/site-config";
+import { getViews, getViewCount } from "@/lib/views";
 import { getAbsoluteUrl, getSiteUrl } from "@/lib/site-url";
 
 function getNewsDescription(excerpt: string, content: string): string {
@@ -66,7 +68,7 @@ export async function generateMetadata({
 
 export default async function NoticiaPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const config = await getSiteConfig();
+  const [config, views] = await Promise.all([getSiteConfig(), getViews()]);
   const news = config.news.find((n) => n.id === id);
 
   if (!news) notFound();
@@ -90,7 +92,10 @@ export default async function NoticiaPage({ params }: { params: Promise<{ id: st
         <span className="text-xs font-medium px-2 py-1 rounded" style={{ backgroundColor: "var(--color-accent)" }}>
           {news.category}
         </span>
-        <p className="text-sm text-gray-400 mt-3">{formatDate(news.date)}</p>
+        <div className="flex items-center gap-3 mt-3">
+          <p className="text-sm text-gray-400">{formatDate(news.date)}</p>
+          <TrackNewsView id={news.id} initialCount={getViewCount(views, "news", news.id)} />
+        </div>
         <h1 className="text-3xl font-bold mt-4 mb-6" style={{ color: "var(--color-primary)" }}>
           {news.title}
         </h1>

@@ -206,7 +206,14 @@ export function normalizeVideoItem(video: VideoItem): VideoItem {
 }
 
 export function normalizeVideos(videos: VideoItem[]): VideoItem[] {
-  return videos.map(normalizeVideoItem);
+  return [...videos]
+    .map(normalizeVideoItem)
+    .sort((a, b) => {
+      const idA = Number(a.id);
+      const idB = Number(b.id);
+      if (!Number.isNaN(idA) && !Number.isNaN(idB)) return idB - idA;
+      return b.id.localeCompare(a.id);
+    });
 }
 
 export function isVideoClickable(video: VideoItem): boolean {
