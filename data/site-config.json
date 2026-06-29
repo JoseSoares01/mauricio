@@ -91,25 +91,25 @@
       },
       {
         "id": "3",
-        "icon": "📄",
+        "icon": "https://raw.githubusercontent.com/JoseSoares01/mauricio/main/public/uploads/icons/1782751228443-1iybvckztdb.png",
         "value": 52,
         "label": "projetos"
       },
       {
         "id": "4",
-        "icon": "🎓",
+        "icon": "https://raw.githubusercontent.com/JoseSoares01/mauricio/main/public/uploads/icons/1782751278383-gquy27t22k.png",
         "value": 130,
         "label": "palestras"
       },
       {
         "id": "5",
-        "icon": "🧪",
+        "icon": "https://raw.githubusercontent.com/JoseSoares01/mauricio/main/public/uploads/icons/1782751313336-8k83z4eo6wa.png",
         "value": 17,
         "label": "artigos científicos"
       },
       {
         "id": "6",
-        "icon": "🏛",
+        "icon": "https://raw.githubusercontent.com/JoseSoares01/mauricio/main/public/uploads/icons/1782751363212-lvsvi4li31.png",
         "value": 12,
         "label": "audiências públicas"
       }
