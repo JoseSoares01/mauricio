@@ -244,6 +244,12 @@
   ],
   "videos": [
     {
+      "id": "1782949565601",
+      "title": "Novo Vídeo",
+      "youtubeId": "",
+      "thumbnail": ""
+    },
+    {
       "id": "6",
       "title": "MAURICIO SOARES, KIM PAIM E HEBERTH PASSOS - 5 ELEMENTO ",
       "youtubeId": "ValOmCvgD7U",
@@ -280,10 +286,10 @@
     },
     {
       "id": "1",
-      "title": "BATE PAPO COM MAURÍCIO SOARES / pré-candidato a deputado federal (PL)",
+      "title": "O churrasco virou luxo? Deabte",
       "youtubeId": "3fhHqnEhzzk",
       "thumbnail": "https://img.youtube.com/vi/3fhHqnEhzzk/hqdefault.jpg",
-      "videoFile": "https://www.youtube.com/watch?v=3fhHqnEhzzk"
+      "videoFile": "https://www.youtube.com/live/ValOmCvgD7U?is=Y-RDYMzMjnwF1R4u https://www.youtube.com/watch?v=3fhHqnEhzzk"
     }
   ],
   "instagram": {
