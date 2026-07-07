@@ -6,11 +6,13 @@ import InstagramSection from "@/components/InstagramSection";
 import AboutPreviewSection from "@/components/AboutPreviewSection";
 import ViewCounter from "@/components/ViewCounter";
 import VideoCard from "@/components/VideoCard";
-import { getSiteConfig, formatDate } from "@/lib/site-config";
+import { getSiteConfig, formatDate, getConfiguredImageUrl } from "@/lib/site-config";
 import { getViews, getViewCount } from "@/lib/views";
 
 export default async function HomePage() {
   const [config, views] = await Promise.all([getSiteConfig(), getViews()]);
+  const bannerLeft = getConfiguredImageUrl(config.images.banner);
+  const bannerRight = getConfiguredImageUrl(config.images.bannerSecondary);
 
   return (
     <PageLayout config={config}>
@@ -59,26 +61,36 @@ export default async function HomePage() {
       />
 
       {/* Banners */}
-      <section className="container-site py-12">
-        <div className="grid md:grid-cols-2 gap-4">
-          <Image
-            src={config.images.banner}
-            alt="Banner MMBus"
-            width={512}
-            height={1024}
-            className="w-full h-auto rounded-lg"
-            unoptimized
-          />
-          <Image
-            src={config.images.bannerSecondary || config.images.aboutBg}
-            alt="Banner 2"
-            width={900}
-            height={300}
-            className="w-full rounded-lg object-cover"
-            unoptimized
-          />
-        </div>
-      </section>
+      {(bannerLeft || bannerRight) && (
+        <section className="container-site py-12">
+          <div
+            className={`grid gap-4 ${
+              bannerLeft && bannerRight ? "md:grid-cols-2" : "max-w-3xl mx-auto"
+            }`}
+          >
+            {bannerLeft && (
+              <Image
+                src={bannerLeft}
+                alt="Banner MMBus"
+                width={512}
+                height={1024}
+                className="w-full h-auto rounded-lg"
+                unoptimized
+              />
+            )}
+            {bannerRight && (
+              <Image
+                src={bannerRight}
+                alt="Banner 2"
+                width={900}
+                height={300}
+                className="w-full rounded-lg object-cover"
+                unoptimized
+              />
+            )}
+          </div>
+        </section>
+      )}
 
       {/* News */}
       <section className="container-site py-16">
