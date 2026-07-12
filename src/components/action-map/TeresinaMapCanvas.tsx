@@ -1,11 +1,18 @@
 "use client";
 
-import React, { useMemo, useState, useRef, useEffect } from "react";
-import Map, { Marker, Popup, MapRef } from "react-map-gl/mapbox";
+import React, { useMemo, useState, useRef, useEffect, useCallback } from "react";
+import Map, { Marker, Popup, MapRef, Source, Layer } from "react-map-gl/mapbox";
 import { motion, AnimatePresence } from "framer-motion";
 import { Info } from "lucide-react";
 import type { TeresinaVisit } from "@/lib/types";
 import ActionMapPinMarker from "./ActionMapPinMarker";
+import MapActionPopup from "./MapActionPopup";
+import {
+  CLUSTER_LAYER_IDS,
+  CLUSTER_PAINT,
+  CLUSTER_SOURCE_ID,
+  visitsToClusterGeoJSON,
+} from "@/lib/map-cluster";
 import "mapbox-gl/dist/mapbox-gl.css";
 
 interface TeresinaMapCanvasProps {
@@ -86,6 +93,42 @@ export default function TeresinaMapCanvas({
   const selectedVisit = useMemo(
     () => visits.find((v) => v.id === selectedVisitId) || null,
     [visits, selectedVisitId]
+  );
+
+  const [popupVisit, setPopupVisit] = useState<TeresinaVisit | null>(null);
+  const clusterGeojson = useMemo(() => visitsToClusterGeoJSON(visits), [visits]);
+
+  const handleMapClick = useCallback(
+    (event: mapboxgl.MapMouseEvent & { features?: mapboxgl.MapboxGeoJSONFeature[] }) => {
+      const feature = event.features?.[0];
+      if (!feature) {
+        setPopupVisit(null);
+        onCloseVisit();
+        return;
+      }
+
+      if (feature.properties?.cluster) {
+        const clusterId = feature.properties.cluster_id as number;
+        const source = mapRef.current?.getSource(CLUSTER_SOURCE_ID) as mapboxgl.GeoJSONSource;
+        source?.getClusterExpansionZoom(clusterId, (err, zoom) => {
+          if (err || zoom == null) return;
+          mapRef.current?.easeTo({
+            center: (feature.geometry as GeoJSON.Point).coordinates as [number, number],
+            zoom,
+            duration: 500,
+          });
+        });
+        return;
+      }
+
+      const visitId = feature.properties?.visitId as string;
+      const visit = visits.find((v) => v.id === visitId);
+      if (visit) {
+        setPopupVisit(visit);
+        onSelectVisit(visit);
+      }
+    },
+    [onCloseVisit, onSelectVisit, visits]
   );
 
   // Mapeamento lat/lng para coordenadas percentuais SVG
@@ -264,62 +307,80 @@ export default function TeresinaMapCanvas({
             mapboxAccessToken={token}
             mapStyle="mapbox://styles/mapbox/light-v11"
             style={{ width: "100%", height: "100%" }}
+            interactiveLayerIds={[...CLUSTER_LAYER_IDS]}
+            onClick={handleMapClick}
+            cursor="pointer"
           >
-            {visits.map((visit) => {
-              const isSelected = visit.id === selectedVisitId;
-              return (
-                <Marker
-                  key={visit.id}
-                  latitude={visit.latitude}
-                  longitude={visit.longitude}
-                  anchor="bottom"
-                >
-                  <button
-                    type="button"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      onSelectVisit(visit);
-                    }}
-                    className="group relative flex flex-col items-center border-0 bg-transparent p-0"
-                  >
-                    <ActionMapPinMarker
-                      selected={isSelected}
-                      size={isSelected ? 48 : 42}
-                      label={isSelected ? visit.neighborhood : undefined}
-                    />
-                  </button>
-                </Marker>
-              );
-            })}
+            <Source
+              id={CLUSTER_SOURCE_ID}
+              type="geojson"
+              data={clusterGeojson}
+              cluster
+              clusterMaxZoom={14}
+              clusterRadius={45}
+            >
+              <Layer
+                id="acoes-clusters"
+                type="circle"
+                filter={["has", "point_count"]}
+                paint={{
+                  "circle-color": CLUSTER_PAINT.clusterColor,
+                  "circle-radius": CLUSTER_PAINT.clusterRadius,
+                  "circle-opacity": CLUSTER_PAINT.clusterOpacity,
+                  "circle-stroke-width": 2,
+                  "circle-stroke-color": "#ffffff",
+                }}
+              />
+              <Layer
+                id="acoes-cluster-count"
+                type="symbol"
+                filter={["has", "point_count"]}
+                layout={{
+                  "text-field": "{point_count_abbreviated}",
+                  "text-font": ["DIN Offc Pro Medium", "Arial Unicode MS Bold"],
+                  "text-size": 13,
+                }}
+                paint={{ "text-color": "#ffffff" }}
+              />
+              <Layer
+                id="acoes-unclustered-point"
+                type="circle"
+                filter={["!", ["has", "point_count"]]}
+                paint={{
+                  "circle-color": CLUSTER_PAINT.pointColor,
+                  "circle-radius": CLUSTER_PAINT.pointRadius,
+                  "circle-stroke-width": 2,
+                  "circle-stroke-color": "#ffffff",
+                }}
+              />
+            </Source>
 
-            {selectedVisit && (
+            {(popupVisit || selectedVisit) && (
               <Popup
-                latitude={selectedVisit.latitude}
-                longitude={selectedVisit.longitude}
+                longitude={(popupVisit || selectedVisit)!.longitude}
+                latitude={(popupVisit || selectedVisit)!.latitude}
                 anchor="top"
                 offset={10}
-                onClose={onCloseVisit}
+                onClose={() => {
+                  setPopupVisit(null);
+                  onCloseVisit();
+                }}
                 closeButton={false}
                 className="z-30 w-72 rounded-2xl"
               >
-                <div className="p-1.5" onClick={(e) => e.stopPropagation()}>
-                  <img
-                    src={selectedVisit.image}
-                    alt={selectedVisit.title}
-                    className="h-28 w-full rounded-xl object-cover"
-                  />
-                  <div className="mt-2.5">
-                    <span className="inline-block rounded-md bg-slate-100 px-2 py-0.5 text-[10px] font-semibold text-slate-600">
-                      {selectedVisit.category}
-                    </span>
-                    <h3 className="mt-1 text-sm font-bold text-slate-900 leading-tight">
-                      {selectedVisit.title}
-                    </h3>
-                    <p className="mt-1 text-[11px] text-slate-500 line-clamp-2">
-                      {selectedVisit.excerpt}
-                    </p>
-                  </div>
-                </div>
+                <MapActionPopup
+                  data={{
+                    title: (popupVisit || selectedVisit)!.title,
+                    category: (popupVisit || selectedVisit)!.category,
+                    description:
+                      (popupVisit || selectedVisit)!.excerpt ||
+                      (popupVisit || selectedVisit)!.content,
+                    date: (popupVisit || selectedVisit)!.date,
+                    image: (popupVisit || selectedVisit)!.image || undefined,
+                    cityLabel: (popupVisit || selectedVisit)!.neighborhood,
+                    onDetails: () => onSelectVisit((popupVisit || selectedVisit)!),
+                  }}
+                />
               </Popup>
             )}
           </Map>

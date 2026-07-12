@@ -17,9 +17,15 @@ import {
   PIAUI_BOUNDS,
   PIAUI_VIEW,
   citiesHeatmapToGeoJSON,
-  formatActionDate,
   journeyPathToGeoJSON,
 } from "@/lib/action-map";
+import {
+  CLUSTER_LAYER_IDS,
+  CLUSTER_PAINT,
+  CLUSTER_SOURCE_ID,
+  visitsToClusterGeoJSON,
+} from "@/lib/map-cluster";
+import MapActionPopup from "./MapActionPopup";
 import {
   createPiauiOutsideMaskGeoJSON,
   getPiauiBorderGeoJSON,
@@ -65,6 +71,8 @@ export default function ActionMapCanvas({
   const piauiBorderGeojson = useMemo(() => getPiauiBorderGeoJSON(), []);
   const piauiFitBounds = useMemo(() => getPiauiBBox(0.04), []);
   const heatmapGeojson = useMemo(() => citiesHeatmapToGeoJSON(visits), [visits]);
+  const clusterGeojson = useMemo(() => visitsToClusterGeoJSON(visits), [visits]);
+  const useClusterMode = !showHeatmap && !journeyActive;
   const journeyGeojson = useMemo(
     () => journeyPathToGeoJSON(chronologyVisits, journeyIndex),
     [chronologyVisits, journeyIndex]
@@ -107,11 +115,48 @@ export default function ActionMapCanvas({
     return () => window.clearTimeout(timer);
   }, []);
 
-  const handleMapClick = useCallback(() => {
-    if (journeyActive || showHeatmap) return;
-    if (popupVisit) onMapBackgroundClick();
-    else onPopupVisit(null);
-  }, [journeyActive, onMapBackgroundClick, onPopupVisit, popupVisit, showHeatmap]);
+  const handleMapClick = useCallback(
+    (event: mapboxgl.MapMouseEvent & { features?: mapboxgl.MapboxGeoJSONFeature[] }) => {
+      if (journeyActive || showHeatmap) return;
+
+      const feature = event.features?.[0];
+      if (!feature) {
+        if (popupVisit) onMapBackgroundClick();
+        else onPopupVisit(null);
+        return;
+      }
+
+      if (feature.properties?.cluster) {
+        const clusterId = feature.properties.cluster_id as number;
+        const source = mapRef.current?.getSource(CLUSTER_SOURCE_ID) as mapboxgl.GeoJSONSource;
+        source?.getClusterExpansionZoom(clusterId, (err, zoom) => {
+          if (err || zoom == null) return;
+          mapRef.current?.easeTo({
+            center: (feature.geometry as GeoJSON.Point).coordinates as [number, number],
+            zoom,
+            duration: 500,
+          });
+        });
+        return;
+      }
+
+      const visitId = feature.properties?.visitId as string;
+      const visit = visits.find((v) => v.id === visitId);
+      if (visit) {
+        onPopupVisit(visit);
+        onSelectVisit(visit);
+      }
+    },
+    [
+      journeyActive,
+      onMapBackgroundClick,
+      onPopupVisit,
+      onSelectVisit,
+      popupVisit,
+      showHeatmap,
+      visits,
+    ]
+  );
 
   if (!MAPBOX_TOKEN) {
     return (
@@ -142,8 +187,9 @@ export default function ActionMapCanvas({
         maxZoom={12}
         dragRotate={false}
         touchPitch={false}
-        interactiveLayerIds={[]}
+        interactiveLayerIds={useClusterMode ? [...CLUSTER_LAYER_IDS] : []}
         onClick={handleMapClick}
+        cursor={useClusterMode ? "pointer" : undefined}
         onLoad={handleMapLoad}
         attributionControl={false}
         reuseMaps
@@ -224,7 +270,53 @@ export default function ActionMapCanvas({
           </Source>
         )}
 
-        {!showHeatmap &&
+        {!showHeatmap && useClusterMode && (
+          <Source
+            id={CLUSTER_SOURCE_ID}
+            type="geojson"
+            data={clusterGeojson}
+            cluster
+            clusterMaxZoom={13}
+            clusterRadius={52}
+          >
+            <Layer
+              id="acoes-clusters"
+              type="circle"
+              filter={["has", "point_count"]}
+              paint={{
+                "circle-color": CLUSTER_PAINT.clusterColor,
+                "circle-radius": CLUSTER_PAINT.clusterRadius,
+                "circle-opacity": CLUSTER_PAINT.clusterOpacity,
+                "circle-stroke-width": 2,
+                "circle-stroke-color": "#ffffff",
+              }}
+            />
+            <Layer
+              id="acoes-cluster-count"
+              type="symbol"
+              filter={["has", "point_count"]}
+              layout={{
+                "text-field": "{point_count_abbreviated}",
+                "text-font": ["DIN Offc Pro Medium", "Arial Unicode MS Bold"],
+                "text-size": 13,
+              }}
+              paint={{ "text-color": "#ffffff" }}
+            />
+            <Layer
+              id="acoes-unclustered-point"
+              type="circle"
+              filter={["!", ["has", "point_count"]]}
+              paint={{
+                "circle-color": CLUSTER_PAINT.pointColor,
+                "circle-radius": CLUSTER_PAINT.pointRadius,
+                "circle-stroke-width": 2,
+                "circle-stroke-color": "#ffffff",
+              }}
+            />
+          </Source>
+        )}
+
+        {!showHeatmap && !useClusterMode &&
           visits.map((visit) => {
             const isSelected = visit.id === selectedVisitId;
             const isJourneyCurrent = journeyActive && journeyVisit?.id === visit.id;
@@ -306,33 +398,19 @@ export default function ActionMapCanvas({
             closeOnClick={false}
             onClose={() => onMapBackgroundClick()}
             className="action-map-popup"
-            maxWidth="280px"
+            maxWidth="300px"
           >
-            <div className="p-1">
-              {popupVisit.image && (
-                <div className="relative mb-2 h-28 w-full overflow-hidden rounded-lg">
-                  <Image
-                    src={popupVisit.image}
-                    alt={popupVisit.title}
-                    fill
-                    className="object-cover"
-                    sizes="280px"
-                    unoptimized
-                  />
-                </div>
-              )}
-              <p className="text-xs font-semibold uppercase text-[#0071B7]">{popupVisit.city}</p>
-              <p className="text-sm font-bold text-gray-900">{popupVisit.title}</p>
-              <p className="mt-1 text-xs text-gray-600">{formatActionDate(popupVisit.date)}</p>
-              <p className="mt-2 line-clamp-2 text-xs text-gray-700">{popupVisit.excerpt}</p>
-              <button
-                type="button"
-                className="mt-3 w-full rounded-lg bg-[#0071B7] px-3 py-2 text-xs font-semibold text-white"
-                onClick={() => onSelectVisit(popupVisit)}
-              >
-                Ver detalhes
-              </button>
-            </div>
+            <MapActionPopup
+              data={{
+                title: popupVisit.title,
+                category: popupVisit.category,
+                description: popupVisit.excerpt || popupVisit.content,
+                date: popupVisit.date,
+                image: popupVisit.image || undefined,
+                cityLabel: popupVisit.city,
+                onDetails: () => onSelectVisit(popupVisit),
+              }}
+            />
           </Popup>
         )}
       </Map>

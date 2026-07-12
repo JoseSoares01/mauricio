@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import type { Metadata } from "next";
 import PageLayout from "@/components/PageLayout";
 import ActionMapPage from "@/components/action-map/ActionMapPage";
-import { getActiveTeresinaVisits, getActiveVisits } from "@/lib/action-map";
+import { getAcoesMapVisits } from "@/lib/acoes-data";
 import { getSiteConfig } from "@/lib/site-config";
 
 export const metadata: Metadata = {
@@ -18,8 +18,7 @@ function ActionMapFallback() {
 
 export default async function MapaDeAtuacaoPage() {
   const config = await getSiteConfig();
-  const visits = getActiveVisits(config.actionMap);
-  const teresinaVisits = getActiveTeresinaVisits(config.actionMap);
+  const { visits, teresinaVisits } = await getAcoesMapVisits();
 
   return (
     <PageLayout config={config}>
