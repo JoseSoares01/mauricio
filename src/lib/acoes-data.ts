@@ -9,7 +9,8 @@ import defaultProcessed from "../../data/acoes-processed.json";
 const PROCESSED_PATH = path.join(process.cwd(), "data", "acoes-processed.json");
 const SOURCE_PATH = path.join(process.cwd(), "scripts", "acoes.json");
 
-function excerptFromDescription(text: string, max = 220): string {
+function excerptFromDescription(text: string | null | undefined, max = 220): string {
+  if (!text) return "";
   const clean = text.replace(/\*\*/g, "").replace(/\s+/g, " ").trim();
   if (clean.length <= max) return clean;
   return `${clean.slice(0, max).trim()}…`;
@@ -30,7 +31,7 @@ function toActionVisit(record: AcaoProcessed, index: number): ActionVisit {
       date: record.data,
       title: record.titulo,
       excerpt: excerptFromDescription(record.descricao),
-      content: record.descricao,
+      content: record.descricao || "",
       category: record.categoria,
       status: "realizada",
       image: record.imagem || "",
@@ -58,7 +59,7 @@ function toTeresinaVisit(record: AcaoProcessed, index: number): TeresinaVisit {
       date: record.data,
       title: record.titulo,
       excerpt: excerptFromDescription(record.descricao),
-      content: record.descricao,
+      content: record.descricao || "",
       category: record.categoria,
       image: record.imagem || "",
       gallery: record.imagem ? [record.imagem] : [],
