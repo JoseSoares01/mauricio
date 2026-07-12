@@ -25,7 +25,9 @@ import {
   CLUSTER_SOURCE_ID,
   visitsToClusterGeoJSON,
 } from "@/lib/map-cluster";
+import { getVisitDisplayCoordinate, spreadVisitCoordinates } from "@/lib/map-pin-spread";
 import MapActionPopup from "./MapActionPopup";
+import MapClusterPinMarkers from "./MapClusterPinMarkers";
 import {
   createPiauiOutsideMaskGeoJSON,
   getPiauiBorderGeoJSON,
@@ -71,7 +73,11 @@ export default function ActionMapCanvas({
   const piauiBorderGeojson = useMemo(() => getPiauiBorderGeoJSON(), []);
   const piauiFitBounds = useMemo(() => getPiauiBBox(0.04), []);
   const heatmapGeojson = useMemo(() => citiesHeatmapToGeoJSON(visits), [visits]);
-  const clusterGeojson = useMemo(() => visitsToClusterGeoJSON(visits), [visits]);
+  const spreadCoords = useMemo(() => spreadVisitCoordinates(visits), [visits]);
+  const clusterGeojson = useMemo(
+    () => visitsToClusterGeoJSON(visits, spreadCoords),
+    [visits, spreadCoords]
+  );
   const useClusterMode = !showHeatmap && !journeyActive;
   const journeyGeojson = useMemo(
     () => journeyPathToGeoJSON(chronologyVisits, journeyIndex),
@@ -129,11 +135,12 @@ export default function ActionMapCanvas({
       if (feature.properties?.cluster) {
         const clusterId = feature.properties.cluster_id as number;
         const source = mapRef.current?.getSource(CLUSTER_SOURCE_ID) as mapboxgl.GeoJSONSource;
+        const map = mapRef.current?.getMap();
         source?.getClusterExpansionZoom(clusterId, (err, zoom) => {
-          if (err || zoom == null) return;
-          mapRef.current?.easeTo({
+          if (err || zoom == null || !map) return;
+          map.easeTo({
             center: (feature.geometry as GeoJSON.Point).coordinates as [number, number],
-            zoom,
+            zoom: Math.min(zoom + 0.5, map.getMaxZoom()),
             duration: 500,
           });
         });
@@ -276,8 +283,8 @@ export default function ActionMapCanvas({
             type="geojson"
             data={clusterGeojson}
             cluster
-            clusterMaxZoom={13}
-            clusterRadius={52}
+            clusterMaxZoom={10}
+            clusterRadius={38}
           >
             <Layer
               id="acoes-clusters"
@@ -302,18 +309,21 @@ export default function ActionMapCanvas({
               }}
               paint={{ "text-color": "#ffffff" }}
             />
-            <Layer
-              id="acoes-unclustered-point"
-              type="circle"
-              filter={["!", ["has", "point_count"]]}
-              paint={{
-                "circle-color": CLUSTER_PAINT.pointColor,
-                "circle-radius": CLUSTER_PAINT.pointRadius,
-                "circle-stroke-width": 2,
-                "circle-stroke-color": "#ffffff",
-              }}
-            />
           </Source>
+        )}
+
+        {!showHeatmap && useClusterMode && (
+          <MapClusterPinMarkers
+            mapRef={mapRef}
+            visits={visits}
+            spreadCoords={spreadCoords}
+            selectedVisitId={selectedVisitId}
+            getLabel={(visit, isSelected) => (isSelected ? visit.city : undefined)}
+            onVisitClick={(visit) => {
+              onPopupVisit(visit);
+              onSelectVisit(visit);
+            }}
+          />
         )}
 
         {!showHeatmap && !useClusterMode &&
@@ -392,8 +402,8 @@ export default function ActionMapCanvas({
 
         {popupVisit && !journeyActive && !showHeatmap && (
           <Popup
-            longitude={popupVisit.longitude}
-            latitude={popupVisit.latitude}
+            longitude={getVisitDisplayCoordinate(popupVisit, spreadCoords).longitude}
+            latitude={getVisitDisplayCoordinate(popupVisit, spreadCoords).latitude}
             anchor="bottom"
             closeOnClick={false}
             onClose={() => onMapBackgroundClick()}

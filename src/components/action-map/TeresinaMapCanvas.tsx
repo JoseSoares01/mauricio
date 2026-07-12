@@ -13,6 +13,8 @@ import {
   CLUSTER_SOURCE_ID,
   visitsToClusterGeoJSON,
 } from "@/lib/map-cluster";
+import { getVisitDisplayCoordinate, spreadVisitCoordinates } from "@/lib/map-pin-spread";
+import MapClusterPinMarkers from "./MapClusterPinMarkers";
 import "mapbox-gl/dist/mapbox-gl.css";
 
 interface TeresinaMapCanvasProps {
@@ -96,7 +98,17 @@ export default function TeresinaMapCanvas({
   );
 
   const [popupVisit, setPopupVisit] = useState<TeresinaVisit | null>(null);
-  const clusterGeojson = useMemo(() => visitsToClusterGeoJSON(visits), [visits]);
+  const spreadCoords = useMemo(() => spreadVisitCoordinates(visits), [visits]);
+  const clusterGeojson = useMemo(
+    () => visitsToClusterGeoJSON(visits, spreadCoords),
+    [visits, spreadCoords]
+  );
+
+  const activePopupVisit = popupVisit || selectedVisit;
+  const activePopupCoords = useMemo(
+    () => (activePopupVisit ? getVisitDisplayCoordinate(activePopupVisit, spreadCoords) : null),
+    [activePopupVisit, spreadCoords]
+  );
 
   const handleMapClick = useCallback(
     (event: mapboxgl.MapMouseEvent & { features?: mapboxgl.MapboxGeoJSONFeature[] }) => {
@@ -110,11 +122,12 @@ export default function TeresinaMapCanvas({
       if (feature.properties?.cluster) {
         const clusterId = feature.properties.cluster_id as number;
         const source = mapRef.current?.getSource(CLUSTER_SOURCE_ID) as mapboxgl.GeoJSONSource;
+        const map = mapRef.current?.getMap();
         source?.getClusterExpansionZoom(clusterId, (err, zoom) => {
-          if (err || zoom == null) return;
-          mapRef.current?.easeTo({
+          if (err || zoom == null || !map) return;
+          map.easeTo({
             center: (feature.geometry as GeoJSON.Point).coordinates as [number, number],
-            zoom,
+            zoom: Math.min(zoom + 0.5, map.getMaxZoom()),
             duration: 500,
           });
         });
@@ -307,6 +320,7 @@ export default function TeresinaMapCanvas({
             mapboxAccessToken={token}
             mapStyle="mapbox://styles/mapbox/light-v11"
             style={{ width: "100%", height: "100%" }}
+            maxZoom={16}
             interactiveLayerIds={[...CLUSTER_LAYER_IDS]}
             onClick={handleMapClick}
             cursor="pointer"
@@ -316,8 +330,8 @@ export default function TeresinaMapCanvas({
               type="geojson"
               data={clusterGeojson}
               cluster
-              clusterMaxZoom={14}
-              clusterRadius={45}
+              clusterMaxZoom={13}
+              clusterRadius={38}
             >
               <Layer
                 id="acoes-clusters"
@@ -342,23 +356,24 @@ export default function TeresinaMapCanvas({
                 }}
                 paint={{ "text-color": "#ffffff" }}
               />
-              <Layer
-                id="acoes-unclustered-point"
-                type="circle"
-                filter={["!", ["has", "point_count"]]}
-                paint={{
-                  "circle-color": CLUSTER_PAINT.pointColor,
-                  "circle-radius": CLUSTER_PAINT.pointRadius,
-                  "circle-stroke-width": 2,
-                  "circle-stroke-color": "#ffffff",
-                }}
-              />
             </Source>
 
-            {(popupVisit || selectedVisit) && (
+            <MapClusterPinMarkers
+              mapRef={mapRef}
+              visits={visits}
+              spreadCoords={spreadCoords}
+              selectedVisitId={selectedVisitId}
+              getLabel={(visit, isSelected) => (isSelected ? visit.neighborhood : undefined)}
+              onVisitClick={(visit) => {
+                setPopupVisit(visit);
+                onSelectVisit(visit);
+              }}
+            />
+
+            {activePopupVisit && activePopupCoords && (
               <Popup
-                longitude={(popupVisit || selectedVisit)!.longitude}
-                latitude={(popupVisit || selectedVisit)!.latitude}
+                longitude={activePopupCoords.longitude}
+                latitude={activePopupCoords.latitude}
                 anchor="top"
                 offset={10}
                 onClose={() => {
@@ -370,15 +385,13 @@ export default function TeresinaMapCanvas({
               >
                 <MapActionPopup
                   data={{
-                    title: (popupVisit || selectedVisit)!.title,
-                    category: (popupVisit || selectedVisit)!.category,
-                    description:
-                      (popupVisit || selectedVisit)!.excerpt ||
-                      (popupVisit || selectedVisit)!.content,
-                    date: (popupVisit || selectedVisit)!.date,
-                    image: (popupVisit || selectedVisit)!.image || undefined,
-                    cityLabel: (popupVisit || selectedVisit)!.neighborhood,
-                    onDetails: () => onSelectVisit((popupVisit || selectedVisit)!),
+                    title: activePopupVisit.title,
+                    category: activePopupVisit.category,
+                    description: activePopupVisit.excerpt || activePopupVisit.content,
+                    date: activePopupVisit.date,
+                    image: activePopupVisit.image || undefined,
+                    cityLabel: activePopupVisit.neighborhood,
+                    onDetails: () => onSelectVisit(activePopupVisit),
                   }}
                 />
               </Popup>
