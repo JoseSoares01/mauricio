@@ -165,3 +165,9 @@ export function formatDate(dateStr: string): string {
     year: "numeric",
   });
 }
+
+/** Retorna a URL só se houver imagem configurada (evita fallback indevido no front). */
+export function getConfiguredImageUrl(url?: string | null): string | null {
+  const trimmed = url?.trim();
+  return trimmed ? trimmed : null;
+}
