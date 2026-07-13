@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useMemo, useState, useRef, useEffect, useCallback } from "react";
-import Map, { Marker, Popup, MapRef, Source, Layer } from "react-map-gl/mapbox";
+import Map, { Marker, Popup, MapRef, Source, Layer, NavigationControl } from "react-map-gl/mapbox";
 import { motion, AnimatePresence } from "framer-motion";
 import { Info } from "lucide-react";
 import type { TeresinaVisit } from "@/lib/types";
@@ -13,7 +13,7 @@ import {
   CLUSTER_SOURCE_ID,
   visitsToClusterGeoJSON,
 } from "@/lib/map-cluster";
-import { getVisitDisplayCoordinate, spreadVisitCoordinates, getTeresinaFitBounds, TERESINA_MAP_BOUNDS } from "@/lib/map-pin-spread";
+import { getVisitDisplayCoordinate, spreadVisitCoordinates, getTeresinaFitBounds } from "@/lib/map-pin-spread";
 import MapClusterPinMarkers from "./MapClusterPinMarkers";
 import "mapbox-gl/dist/mapbox-gl.css";
 
@@ -83,8 +83,7 @@ export default function TeresinaMapCanvas({
 }: TeresinaMapCanvasProps) {
   const token = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN;
   const mapRef = useRef<MapRef>(null);
-
-  const [viewState, setViewState] = useState(TERESINA_INITIAL_VIEW);
+  const hasInitialFitRef = useRef(false);
 
   const spreadCoords = useMemo(() => spreadVisitCoordinates(visits), [visits]);
   const teresinaFitBounds = useMemo(
@@ -95,22 +94,32 @@ export default function TeresinaMapCanvas({
   const fitTeresinaBounds = useCallback(() => {
     mapRef.current?.fitBounds(teresinaFitBounds, {
       padding: { top: 40, bottom: 40, left: 40, right: 40 },
-      maxZoom: 13.5,
-      duration: 0,
+      maxZoom: 13,
+      duration: 600,
     });
   }, [teresinaFitBounds]);
 
   const handleMapLoad = useCallback(() => {
+    if (hasInitialFitRef.current) return;
+    hasInitialFitRef.current = true;
     fitTeresinaBounds();
   }, [fitTeresinaBounds]);
 
-  // Foco em Teresina ao abrir a aba ou alternar para o mapa no mobile
+  // Redimensiona ao exibir a aba/mapa; foco inicial apenas na primeira vez
   useEffect(() => {
-    if (!isActive) return;
+    if (!isActive) {
+      hasInitialFitRef.current = false;
+      return;
+    }
+
     const timer = window.setTimeout(() => {
       mapRef.current?.resize();
-      fitTeresinaBounds();
+      if (!hasInitialFitRef.current) {
+        hasInitialFitRef.current = true;
+        fitTeresinaBounds();
+      }
     }, mobileView === "map" ? 80 : 150);
+
     return () => window.clearTimeout(timer);
   }, [isActive, mobileView, fitTeresinaBounds]);
 
@@ -336,19 +345,20 @@ export default function TeresinaMapCanvas({
         <div className="relative h-full w-full overflow-hidden rounded-2xl bg-slate-100 shadow-inner">
           <Map
             ref={mapRef}
-            {...viewState}
-            onMove={(evt) => setViewState(evt.viewState)}
+            initialViewState={TERESINA_INITIAL_VIEW}
             mapboxAccessToken={token}
             mapStyle="mapbox://styles/mapbox/light-v11"
             style={{ width: "100%", height: "100%" }}
-            minZoom={11.2}
+            minZoom={10}
             maxZoom={16}
-            maxBounds={TERESINA_MAP_BOUNDS}
+            scrollZoom
+            dragPan
             onLoad={handleMapLoad}
             interactiveLayerIds={[...CLUSTER_LAYER_IDS]}
             onClick={handleMapClick}
             cursor="pointer"
           >
+            <NavigationControl position="bottom-right" showCompass={false} />
             <Source
               id={CLUSTER_SOURCE_ID}
               type="geojson"
