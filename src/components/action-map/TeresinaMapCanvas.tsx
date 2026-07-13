@@ -22,8 +22,8 @@ interface TeresinaMapCanvasProps {
   selectedVisitId: string | null;
   onSelectVisit: (visit: TeresinaVisit) => void;
   onCloseVisit: () => void;
-  mobileView?: "list" | "map";
   isActive?: boolean;
+  focusVisitId?: string | null;
 }
 
 const TERESINA_CENTER = {
@@ -78,8 +78,8 @@ export default function TeresinaMapCanvas({
   selectedVisitId,
   onSelectVisit,
   onCloseVisit,
-  mobileView,
   isActive = true,
+  focusVisitId,
 }: TeresinaMapCanvasProps) {
   const token = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN;
   const mapRef = useRef<MapRef>(null);
@@ -93,8 +93,8 @@ export default function TeresinaMapCanvas({
 
   const fitTeresinaBounds = useCallback(() => {
     mapRef.current?.fitBounds(teresinaFitBounds, {
-      padding: { top: 40, bottom: 40, left: 40, right: 40 },
-      maxZoom: 13,
+      padding: { top: 48, bottom: 48, left: 32, right: 32 },
+      maxZoom: 12.5,
       duration: 600,
     });
   }, [teresinaFitBounds]);
@@ -118,10 +118,26 @@ export default function TeresinaMapCanvas({
         hasInitialFitRef.current = true;
         fitTeresinaBounds();
       }
-    }, mobileView === "map" ? 80 : 150);
+    }, 120);
 
     return () => window.clearTimeout(timer);
-  }, [isActive, mobileView, fitTeresinaBounds]);
+  }, [isActive, fitTeresinaBounds]);
+
+  const focusVisit = useMemo(
+    () => visits.find((v) => v.id === focusVisitId) || null,
+    [visits, focusVisitId]
+  );
+
+  useEffect(() => {
+    if (!focusVisit) return;
+    const coords = getVisitDisplayCoordinate(focusVisit, spreadCoords);
+    mapRef.current?.flyTo({
+      center: [coords.longitude, coords.latitude],
+      zoom: 14.2,
+      duration: 900,
+      essential: true,
+    });
+  }, [focusVisit, spreadCoords]);
 
   const selectedVisit = useMemo(
     () => visits.find((v) => v.id === selectedVisitId) || null,
@@ -342,7 +358,8 @@ export default function TeresinaMapCanvas({
   if (token) {
     return (
       <MapErrorBoundary fallback={renderSvgFallback(true)}>
-        <div className="relative h-full w-full overflow-hidden rounded-2xl bg-slate-100 shadow-inner">
+        <div className="action-map-stage relative h-full min-h-[min(72vh,820px)] w-full overflow-hidden">
+          <div className="action-map-topo absolute inset-0" aria-hidden />
           <Map
             ref={mapRef}
             initialViewState={TERESINA_INITIAL_VIEW}
@@ -364,8 +381,8 @@ export default function TeresinaMapCanvas({
               type="geojson"
               data={clusterGeojson}
               cluster
-              clusterMaxZoom={13}
-              clusterRadius={38}
+              clusterMaxZoom={15}
+              clusterRadius={26}
             >
               <Layer
                 id="acoes-clusters"
@@ -431,6 +448,13 @@ export default function TeresinaMapCanvas({
               </Popup>
             )}
           </Map>
+
+          <div className="pointer-events-none absolute bottom-4 right-4 z-10 rounded-[14px] border border-slate-200/70 bg-white/90 px-3 py-2 text-[11px] text-slate-600 shadow-md backdrop-blur">
+            <span className="inline-flex items-center gap-1.5 font-medium">
+              <ActionMapPinMarker size={18} />
+              Ação em Teresina
+            </span>
+          </div>
         </div>
       </MapErrorBoundary>
     );

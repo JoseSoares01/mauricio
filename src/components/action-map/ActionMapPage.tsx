@@ -300,7 +300,7 @@ export default function ActionMapPage({
           </section>
         </>
       ) : (
-        <section className="mx-auto max-w-[1600px] px-4 md:px-6 md:pb-8 mt-6">
+        <section className="mx-auto max-w-[1600px] px-0 md:px-6 md:pb-8 mt-6">
           <TeresinaMapSection visits={teresinaVisits} isActive={activeTab === "teresina"} />
         </section>
       )}
