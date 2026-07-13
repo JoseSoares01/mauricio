@@ -213,7 +213,11 @@ export default function ActionMapPage({
               Atuação no Piauí
             </button>
             <button
-              onClick={() => setActiveTab("teresina")}
+              onClick={() => {
+                setActiveTab("teresina");
+                closeVisit();
+                stopJourney();
+              }}
               className={`pb-3 text-sm font-semibold transition-all border-b-2 px-4 ${
                 activeTab === "teresina"
                   ? "border-[#0071B7] text-[#0071B7]"
@@ -297,7 +301,7 @@ export default function ActionMapPage({
         </>
       ) : (
         <section className="mx-auto max-w-[1600px] px-4 md:px-6 md:pb-8 mt-6">
-          <TeresinaMapSection visits={teresinaVisits} />
+          <TeresinaMapSection visits={teresinaVisits} isActive={activeTab === "teresina"} />
         </section>
       )}
 

@@ -21,12 +21,12 @@ const TeresinaMapCanvas = dynamic(
 
 interface TeresinaMapSectionProps {
   visits: TeresinaVisit[];
+  isActive?: boolean;
 }
 
-export default function TeresinaMapSection({ visits }: TeresinaMapSectionProps) {
-  console.log("=== DEBUG TERESINA VISITS ===", visits?.length, visits);
+export default function TeresinaMapSection({ visits, isActive = true }: TeresinaMapSectionProps) {
   const [selectedVisitId, setSelectedVisitId] = useState<string | null>(null);
-  const [mobileView, setMobileView] = useState<"list" | "map">("list");
+  const [mobileView, setMobileView] = useState<"list" | "map">("map");
 
   const selectedVisit = useMemo(
     () => visits.find((v) => v.id === selectedVisitId) || null,
@@ -151,6 +151,7 @@ export default function TeresinaMapSection({ visits }: TeresinaMapSectionProps) 
           onSelectVisit={(visit) => setSelectedVisitId(visit.id)}
           onCloseVisit={() => setSelectedVisitId(null)}
           mobileView={mobileView}
+          isActive={isActive}
         />
 
         {/* Card deslizante inferior no celular quando uma visita é selecionada */}
