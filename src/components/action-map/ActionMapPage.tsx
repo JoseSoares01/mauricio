@@ -89,6 +89,7 @@ export default function ActionMapPage({
       setSelectedVisit(visit);
       setPopupVisit(journeyActive ? null : visit);
       setFocusVisit(visit);
+      setSidebarOpen(true);
       if (updateUrl && !journeyActive) {
         router.replace(getActionVisitSharePath(visit.slug), { scroll: false });
       }

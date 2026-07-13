@@ -21,6 +21,7 @@ interface TeresinaMapCanvasProps {
   visits: TeresinaVisit[];
   selectedVisitId: string | null;
   onSelectVisit: (visit: TeresinaVisit) => void;
+  onOpenDetails: (visit: TeresinaVisit) => void;
   onCloseVisit: () => void;
   isActive?: boolean;
   focusVisitId?: string | null;
@@ -77,6 +78,7 @@ export default function TeresinaMapCanvas({
   visits,
   selectedVisitId,
   onSelectVisit,
+  onOpenDetails,
   onCloseVisit,
   isActive = true,
   focusVisitId,
@@ -442,7 +444,7 @@ export default function TeresinaMapCanvas({
                     date: activePopupVisit.date,
                     image: activePopupVisit.image || undefined,
                     cityLabel: activePopupVisit.neighborhood,
-                    onDetails: () => onSelectVisit(activePopupVisit),
+                    onDetails: () => onOpenDetails(activePopupVisit),
                   }}
                 />
               </Popup>

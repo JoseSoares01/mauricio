@@ -5,6 +5,8 @@ import { Calendar, PanelRightClose, PanelRightOpen } from "lucide-react";
 import dynamic from "next/dynamic";
 import type { TeresinaVisit } from "@/lib/types";
 import { formatActionDate } from "@/lib/action-map";
+import TeresinaMapDetailPanel from "./TeresinaMapDetailPanel";
+import TeresinaMapBottomSheet from "./TeresinaMapBottomSheet";
 
 const TeresinaMapCanvas = dynamic(() => import("./TeresinaMapCanvas"), {
   ssr: false,
@@ -107,6 +109,7 @@ function TeresinaSidebarList({
 
 export default function TeresinaMapSection({ visits, isActive = true }: TeresinaMapSectionProps) {
   const [selectedVisitId, setSelectedVisitId] = useState<string | null>(null);
+  const [detailVisit, setDetailVisit] = useState<TeresinaVisit | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [mobilePanelOpen, setMobilePanelOpen] = useState(false);
 
@@ -124,7 +127,20 @@ export default function TeresinaMapSection({ visits, isActive = true }: Teresina
     setMobilePanelOpen(false);
   };
 
-  const sidebarContent = (
+  const handleOpenDetails = (visit: TeresinaVisit) => {
+    setSelectedVisitId(visit.id);
+    setDetailVisit(visit);
+    setSidebarOpen(true);
+    setMobilePanelOpen(false);
+  };
+
+  const handleCloseDetails = () => {
+    setDetailVisit(null);
+  };
+
+  const sidebarContent = detailVisit ? (
+    <TeresinaMapDetailPanel visit={detailVisit} onClose={handleCloseDetails} />
+  ) : (
     <TeresinaSidebarList
       visits={visits}
       stats={stats}
@@ -150,7 +166,11 @@ export default function TeresinaMapSection({ visits, isActive = true }: Teresina
             visits={visits}
             selectedVisitId={selectedVisitId}
             onSelectVisit={handleSelectVisit}
-            onCloseVisit={() => setSelectedVisitId(null)}
+            onOpenDetails={handleOpenDetails}
+            onCloseVisit={() => {
+              setSelectedVisitId(null);
+              setDetailVisit(null);
+            }}
             isActive={isActive}
             focusVisitId={selectedVisitId}
           />
@@ -193,6 +213,8 @@ export default function TeresinaMapSection({ visits, isActive = true }: Teresina
           </aside>
         </>
       )}
+
+      <TeresinaMapBottomSheet visit={detailVisit} onClose={handleCloseDetails} />
     </>
   );
 }

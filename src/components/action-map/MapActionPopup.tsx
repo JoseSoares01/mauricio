@@ -49,7 +49,11 @@ export default function MapActionPopup({
         <button
           type="button"
           className="mt-3 w-full rounded-lg bg-[#0071B7] px-3 py-2 text-xs font-semibold text-white hover:opacity-90"
-          onClick={data.onDetails}
+          onClick={(event) => {
+            event.stopPropagation();
+            event.preventDefault();
+            data.onDetails?.();
+          }}
         >
           Ver detalhes
         </button>
