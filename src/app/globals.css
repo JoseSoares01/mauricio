@@ -785,19 +785,130 @@ path.animate-\[dash_10s_linear_infinite\] {
   gap: 0.5rem;
 }
 
-.proposta-doc-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
+.proposta-card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+  background: #fff;
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08);
+  padding: 1.5rem;
+  transition: box-shadow 0.2s ease;
+}
+
+.proposta-card:hover {
+  box-shadow: 0 10px 24px -4px rgba(0, 0, 0, 0.1);
+}
+
+.proposta-card-title {
+  font-family: var(--font-heading);
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--color-primary);
+  margin: 0 0 0.75rem;
+}
+
+.proposta-card-intro {
   font-family: var(--font-body);
   font-size: 0.875rem;
+  line-height: 1.65;
+  color: var(--color-text);
+  margin: 0 0 1rem;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.proposta-doc-link {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  width: 100%;
+  min-width: 0;
+  padding: 0.625rem 0.75rem;
+  border-radius: 0.625rem;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  background: rgba(110, 139, 61, 0.05);
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1.45;
   color: var(--color-primary);
   text-decoration: none;
-  transition: opacity 0.2s;
+  transition: background-color 0.2s, border-color 0.2s;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.proposta-doc-link-text {
+  flex: 1;
+  min-width: 0;
 }
 
 .proposta-doc-link:hover {
-  opacity: 0.8;
-  text-decoration: underline;
+  background: rgba(110, 139, 61, 0.1);
+  border-color: rgba(110, 139, 61, 0.25);
+  text-decoration: none;
+}
+
+.proposta-details {
+  margin-top: 1rem;
+  border-top: 1px solid rgba(15, 23, 42, 0.08);
+  padding-top: 0.75rem;
+}
+
+.proposta-details-summary {
+  cursor: pointer;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  list-style: none;
+  user-select: none;
+}
+
+.proposta-details-summary::-webkit-details-marker {
+  display: none;
+}
+
+.proposta-details[open] .proposta-details-summary {
+  margin-bottom: 0.75rem;
+}
+
+.proposta-body {
+  max-height: 20rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 0.25rem;
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  color: var(--color-text);
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.proposta-block-heading {
+  margin: 0.875rem 0 0.375rem;
+  font-family: var(--font-heading);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  line-height: 1.45;
+  color: var(--color-primary);
+}
+
+.proposta-block-heading:first-child {
+  margin-top: 0;
+}
+
+.proposta-block-text {
+  margin: 0 0 0.625rem;
+}
+
+.proposta-block-list {
+  margin: 0 0 0.375rem;
+  padding-left: 0.75rem;
+  border-left: 2px solid rgba(110, 139, 61, 0.35);
+  color: var(--color-text-light);
+  font-size: 0.8rem;
 }
 
