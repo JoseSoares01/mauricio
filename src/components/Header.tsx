@@ -43,7 +43,7 @@ export default function Header({ menu }: HeaderProps) {
               <li key={item.href}>
                 <Link
                   href={item.href}
-                  className="relative inline-flex flex-col items-center text-white font-medium text-[15px] hover:opacity-80 transition-opacity drop-shadow pb-2"
+                  className="site-nav-link relative inline-flex flex-col items-center text-white font-medium text-[15px] hover:opacity-80 transition-opacity pb-2"
                 >
                   {item.label}
                   <span

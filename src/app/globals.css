@@ -186,6 +186,15 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
+/* Menu desktop: sombra leve para leitura sobre fundos claros */
+@media (min-width: 768px) {
+  .site-nav-link {
+    text-shadow:
+      0 1px 2px rgba(0, 0, 0, 0.55),
+      0 2px 8px rgba(0, 0, 0, 0.35);
+  }
+}
+
 .hamburger-btn {
   width: 46px;
   height: 46px;
