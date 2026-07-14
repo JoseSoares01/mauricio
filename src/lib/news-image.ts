@@ -1,19 +1,23 @@
 import type { NewsItem } from "./types";
+import {
+  clampImageFocusAxis,
+  DEFAULT_IMAGE_FOCUS,
+  getImageObjectPosition,
+  normalizeImageFocus,
+} from "./image-focus";
 
-export const DEFAULT_NEWS_IMAGE_FOCUS = { x: 50, y: 50 };
+export const DEFAULT_NEWS_IMAGE_FOCUS = { x: DEFAULT_IMAGE_FOCUS.x, y: DEFAULT_IMAGE_FOCUS.y };
 
-export function getNewsImageFocus(item: Pick<NewsItem, "imageFocusX" | "imageFocusY">) {
-  return {
-    x: item.imageFocusX ?? DEFAULT_NEWS_IMAGE_FOCUS.x,
-    y: item.imageFocusY ?? DEFAULT_NEWS_IMAGE_FOCUS.y,
-  };
+export function getNewsImageFocus(item: Pick<NewsItem, "imageFocusX" | "imageFocusY" | "imageZoom">) {
+  return normalizeImageFocus(item);
 }
 
-export function getNewsImageObjectPosition(item: Pick<NewsItem, "imageFocusX" | "imageFocusY">): string {
-  const { x, y } = getNewsImageFocus(item);
-  return `${x}% ${y}%`;
+export function getNewsImageObjectPosition(
+  item: Pick<NewsItem, "imageFocusX" | "imageFocusY" | "imageZoom">
+): string {
+  return getImageObjectPosition(item);
 }
 
 export function clampNewsImageFocus(value: number): number {
-  return Math.min(100, Math.max(0, Math.round(value)));
+  return clampImageFocusAxis(value);
 }

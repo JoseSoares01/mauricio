@@ -1,8 +1,8 @@
 "use client";
 
-import Image from "next/image";
 import { X, MapPin, Calendar } from "lucide-react";
 import FormattedContent from "@/components/FormattedContent";
+import FocusedImage from "@/components/FocusedImage";
 import { ACTION_MAP_COLORS, formatActionDate, getIndicatorEntries, statusLabel } from "@/lib/action-map";
 import type { TeresinaVisit } from "@/lib/types";
 
@@ -58,10 +58,11 @@ export default function TeresinaMapDetailPanel({
       <div className="flex-1 overflow-y-auto px-4 py-4">
         {visit.image && (
           <div className="relative mb-4 aspect-video overflow-hidden rounded-xl bg-gray-100">
-            <Image
+            <FocusedImage
               src={visit.image}
               alt={visit.title}
               fill
+              focus={visit}
               className="object-cover"
               sizes="(max-width: 768px) 100vw, 400px"
               unoptimized
@@ -83,9 +84,18 @@ export default function TeresinaMapDetailPanel({
           <div className="mt-6">
             <h3 className="mb-3 text-sm font-semibold text-gray-800">Galeria</h3>
             <div className="grid grid-cols-2 gap-2">
-              {gallery.map((src) => (
-                <div key={src} className="relative aspect-square overflow-hidden rounded-lg bg-gray-100">
-                  <Image src={src} alt="" fill className="object-cover" sizes="200px" loading="lazy" unoptimized />
+              {gallery.map((src, galleryIndex) => (
+                <div key={`${src}-${galleryIndex}`} className="relative aspect-square overflow-hidden rounded-lg bg-gray-100">
+                  <FocusedImage
+                    src={src}
+                    alt=""
+                    fill
+                    focus={visit.galleryFocus?.[galleryIndex]}
+                    className="object-cover"
+                    sizes="200px"
+                    loading="lazy"
+                    unoptimized
+                  />
                 </div>
               ))}
             </div>

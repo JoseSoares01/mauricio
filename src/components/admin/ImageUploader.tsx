@@ -3,6 +3,9 @@
 import { useState, useRef } from "react";
 import Image from "next/image";
 import { Upload, X } from "lucide-react";
+import ImagePositionEditor from "./ImagePositionEditor";
+import { getImageFocusStyles } from "@/lib/image-focus";
+import type { ImageFocus } from "@/lib/types";
 
 interface ImageUploaderProps {
   label: string;
@@ -12,6 +15,12 @@ interface ImageUploaderProps {
   folder?: string;
   accept?: string;
   uploadLabel?: string;
+  focus?: ImageFocus | null;
+  onFocusChange?: (focus: ImageFocus) => void;
+  enableFocusEditor?: boolean;
+  focusPreviewLabel?: string;
+  focusPreviewAspect?: "square" | "wide" | "tall";
+  focusObjectFit?: "cover" | "contain";
 }
 
 export default function ImageUploader({
@@ -22,10 +31,17 @@ export default function ImageUploader({
   folder = "uploads",
   accept = "image/*",
   uploadLabel = "Upload de Imagem",
+  focus,
+  onFocusChange,
+  enableFocusEditor = true,
+  focusPreviewLabel,
+  focusPreviewAspect = "wide",
+  focusObjectFit = "cover",
 }: ImageUploaderProps) {
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
+  const showFocusEditor = enableFocusEditor && Boolean(value) && Boolean(onFocusChange);
 
   const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -59,7 +75,14 @@ export default function ImageUploader({
       <div className="flex items-start gap-4">
         {value && (
           <div className="relative w-24 h-24 rounded-lg overflow-hidden border flex-shrink-0">
-            <Image src={value} alt={label} fill className="object-cover" unoptimized />
+            <Image
+              src={value}
+              alt={label}
+              fill
+              className={focusObjectFit === "contain" ? "object-contain" : "object-cover"}
+              style={onFocusChange ? getImageFocusStyles(focus, focusObjectFit) : undefined}
+              unoptimized
+            />
             <button
               type="button"
               onClick={() => onChange("")}
@@ -90,6 +113,17 @@ export default function ImageUploader({
           {error && <p className="text-sm text-red-600 mt-2">{error}</p>}
         </div>
       </div>
+
+      {showFocusEditor && onFocusChange && (
+        <ImagePositionEditor
+          image={value}
+          focus={focus}
+          onChange={onFocusChange}
+          previewLabel={focusPreviewLabel || label || "Preview"}
+          previewAspect={focusPreviewAspect}
+          objectFit={focusObjectFit}
+        />
+      )}
     </div>
   );
 }

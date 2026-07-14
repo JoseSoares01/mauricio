@@ -3,12 +3,15 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import type { AboutMetric } from "@/lib/types";
+import type { AboutMetric, ImageFocus } from "@/lib/types";
 import { AboutMetricIconDisplay } from "@/lib/about-metric-icon";
+import { getBackgroundFocusStyles, getImageFocusStyles } from "@/lib/image-focus";
 
 interface AboutPreviewSectionProps {
   logoBlue: string;
+  logoBlueFocus?: ImageFocus;
   aboutBg: string;
+  aboutBgFocus?: ImageFocus;
   shortText: string;
   metrics: AboutMetric[];
 }
@@ -67,7 +70,9 @@ function AnimatedMetric({
 
 export default function AboutPreviewSection({
   logoBlue,
+  logoBlueFocus,
   aboutBg,
+  aboutBgFocus,
   shortText,
   metrics,
 }: AboutPreviewSectionProps) {
@@ -131,6 +136,7 @@ export default function AboutPreviewSection({
             width={500}
             height={500}
             className="w-[75%] md:w-[65%] max-w-[340px] mb-6"
+            style={getImageFocusStyles(logoBlueFocus, "contain")}
             unoptimized
           />
           <p className="text-white text-[17px] leading-relaxed mb-6 min-h-[5.5rem]">
@@ -155,7 +161,7 @@ export default function AboutPreviewSection({
         </div>
         <div
           className="min-h-[400px] md:min-h-[660px] bg-cover bg-center"
-          style={{ backgroundImage: `url(${aboutBg})` }}
+          style={getBackgroundFocusStyles(aboutBg, aboutBgFocus)}
         />
       </div>
     </section>

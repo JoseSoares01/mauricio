@@ -1,6 +1,7 @@
 import Image from "next/image";
 import type { SiteConfig } from "@/lib/types";
 import { getInstagramPosts } from "@/lib/instagram";
+import FocusedImage from "@/components/FocusedImage";
 
 interface InstagramSectionProps {
   config: SiteConfig;
@@ -36,10 +37,11 @@ export default async function InstagramSection({ config }: InstagramSectionProps
             rel="noopener noreferrer"
             className="relative aspect-square group overflow-hidden"
           >
-            <Image
+            <FocusedImage
               src={post.image}
               alt={post.caption || "Post do Instagram"}
               fill
+              focus={post}
               className="object-cover group-hover:scale-110 transition-transform"
               unoptimized
             />

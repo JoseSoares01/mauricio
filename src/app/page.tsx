@@ -6,8 +6,10 @@ import InstagramSection from "@/components/InstagramSection";
 import AboutPreviewSection from "@/components/AboutPreviewSection";
 import ViewCounter from "@/components/ViewCounter";
 import VideoCard from "@/components/VideoCard";
+import FocusedImage from "@/components/FocusedImage";
 import { getSiteConfig, formatDate, getConfiguredImageUrl } from "@/lib/site-config";
 import { getViews, getViewCount } from "@/lib/views";
+import { getBackgroundFocusStyles, getImageFocusStyles } from "@/lib/image-focus";
 
 export default async function HomePage() {
   const [config, views] = await Promise.all([getSiteConfig(), getViews()]);
@@ -31,6 +33,7 @@ export default async function HomePage() {
               width={700}
               height={400}
               className="w-full max-w-[88%] sm:max-w-[82%] md:max-w-[80%] object-contain"
+              style={getImageFocusStyles(config.images.focus?.heroLogo, "contain")}
               priority
               unoptimized
             />
@@ -42,6 +45,7 @@ export default async function HomePage() {
           width={609}
           height={887}
           className="absolute bottom-0 left-1/2 z-[1] h-[min(54vh,480px)] sm:h-[min(58vh,520px)] w-auto max-w-[95%] -translate-x-1/2 object-contain object-bottom pointer-events-none md:left-auto md:right-[6vw] lg:right-[10vw] md:translate-x-0 md:h-[min(96vh,920px)] md:max-w-none"
+          style={getImageFocusStyles(config.images.focus?.heroPhoto, "contain")}
           priority
           unoptimized
         />
@@ -55,7 +59,9 @@ export default async function HomePage() {
 
       <AboutPreviewSection
         logoBlue={config.images.logoBlue}
+        logoBlueFocus={config.images.focus?.logoBlue}
         aboutBg={config.images.aboutBg}
+        aboutBgFocus={config.images.focus?.aboutBg}
         shortText={config.about.shortText}
         metrics={config.about.metrics}
       />
@@ -69,24 +75,29 @@ export default async function HomePage() {
             }`}
           >
             {bannerLeft && (
-              <Image
-                src={bannerLeft}
-                alt="Banner MMBus"
-                width={512}
-                height={1024}
-                className="w-full h-auto rounded-lg"
-                unoptimized
-              />
+              <div className="overflow-hidden rounded-lg">
+                <Image
+                  src={bannerLeft}
+                  alt="Banner MMBus"
+                  width={512}
+                  height={1024}
+                  className="w-full h-auto rounded-lg"
+                  style={getImageFocusStyles(config.images.focus?.banner, "cover")}
+                  unoptimized
+                />
+              </div>
             )}
             {bannerRight && (
-              <Image
-                src={bannerRight}
-                alt="Banner 2"
-                width={900}
-                height={300}
-                className="w-full rounded-lg object-cover"
-                unoptimized
-              />
+              <div className="relative aspect-[3/1] overflow-hidden rounded-lg">
+                <FocusedImage
+                  src={bannerRight}
+                  alt="Banner 2"
+                  fill
+                  focus={config.images.focus?.bannerSecondary}
+                  className="object-cover"
+                  unoptimized
+                />
+              </div>
             )}
           </div>
         </section>
@@ -122,7 +133,7 @@ export default async function HomePage() {
       {/* Senado / Ação */}
       <section
         className="relative min-h-[569px] flex items-center bg-cover bg-center"
-        style={{ backgroundImage: `url(${config.images.senadoBg})` }}
+        style={getBackgroundFocusStyles(config.images.senadoBg, config.images.focus?.senadoBg)}
       >
         <div className="absolute inset-0 bg-black/35" />
         <div className="container-site relative z-10 py-16">

@@ -1,4 +1,5 @@
 import type { ActionMapConfig, ActionVisit, NewsItem, TeresinaVisit } from "./types";
+import { clampImageFocusAxis, clampImageZoom, DEFAULT_IMAGE_FOCUS, normalizeImageFocus } from "./image-focus";
 import { extractYoutubeId, isDirectVideoFile } from "./video";
 import { getPiauiBBox } from "./piaui-boundary";
 
@@ -171,7 +172,15 @@ export function normalizeActionVisit(visit: ActionVisit, index: number): ActionV
     category: visit.category?.trim() || "Geral",
     status: "realizada",
     image: visit.image || "",
+    imageFocusX: clampImageFocusAxis(visit.imageFocusX ?? DEFAULT_IMAGE_FOCUS.x),
+    imageFocusY: clampImageFocusAxis(visit.imageFocusY ?? DEFAULT_IMAGE_FOCUS.y),
+    imageZoom: clampImageZoom(visit.imageZoom ?? DEFAULT_IMAGE_FOCUS.zoom),
     gallery: Array.isArray(visit.gallery) ? visit.gallery.filter(Boolean) : [],
+    galleryFocus: Array.isArray(visit.gallery)
+      ? visit.gallery.map((_: string, galleryIndex: number) =>
+          normalizeImageFocus(visit.galleryFocus?.[galleryIndex])
+        )
+      : [],
     relatedLink: visit.relatedLink?.trim() || "",
     relatedNewsId: visit.relatedNewsId?.trim() || "",
     displayOrder: Number.isFinite(visit.displayOrder) ? visit.displayOrder : index + 1,
@@ -222,7 +231,15 @@ export function normalizeTeresinaVisit(visit: any, index: number): TeresinaVisit
     content: visit.content?.trim() || "",
     category: visit.category?.trim() || "Geral",
     image: visit.image || "",
+    imageFocusX: clampImageFocusAxis(visit.imageFocusX ?? DEFAULT_IMAGE_FOCUS.x),
+    imageFocusY: clampImageFocusAxis(visit.imageFocusY ?? DEFAULT_IMAGE_FOCUS.y),
+    imageZoom: clampImageZoom(visit.imageZoom ?? DEFAULT_IMAGE_FOCUS.zoom),
     gallery: Array.isArray(visit.gallery) ? visit.gallery.filter(Boolean) : [],
+    galleryFocus: Array.isArray(visit.gallery)
+      ? visit.gallery.map((_: string, galleryIndex: number) =>
+          normalizeImageFocus(visit.galleryFocus?.[galleryIndex])
+        )
+      : [],
     active: visit.active !== false,
     indicators: visit.indicators,
     projectRef: visit.projectRef?.trim() || undefined,
@@ -238,6 +255,9 @@ export function normalizeActionMap(actionMap?: ActionMapConfig): ActionMapConfig
   return {
     enabled: actionMap.enabled !== false,
     mapImage: actionMap.mapImage || DEFAULT_ACTION_MAP_IMAGE,
+    mapImageFocusX: clampImageFocusAxis(actionMap.mapImageFocusX ?? DEFAULT_IMAGE_FOCUS.x),
+    mapImageFocusY: clampImageFocusAxis(actionMap.mapImageFocusY ?? DEFAULT_IMAGE_FOCUS.y),
+    mapImageZoom: clampImageZoom(actionMap.mapImageZoom ?? DEFAULT_IMAGE_FOCUS.zoom),
     visits,
     teresinaVisits,
   };

@@ -48,6 +48,7 @@ export default function AboutMetricIconField({ value, onChange, token }: AboutMe
           folder="uploads/icons"
           accept="image/svg+xml,.svg"
           uploadLabel="Upload de SVG"
+          enableFocusEditor={false}
         />
         <div>
           <label className="admin-label">Ou cole o código SVG</label>

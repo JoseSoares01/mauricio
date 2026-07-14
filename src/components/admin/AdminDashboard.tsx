@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import type { SiteConfig, MenuItem, VideoItem, AgendaEvent, InstagramPost } from "@/lib/types";
+import type { SiteConfig, MenuItem, VideoItem, AgendaEvent, InstagramPost, ImageFocus, SiteImageFocusKey } from "@/lib/types";
 import {
   getVideoHref,
   getYoutubeInputValue,
@@ -52,6 +52,32 @@ export default function AdminDashboard({ config: initialConfig, token, onSave, o
   const update = <K extends keyof SiteConfig>(key: K, value: SiteConfig[K]) => {
     setConfig((prev) => ({ ...prev, [key]: value }));
   };
+
+  const updateSiteImageFocus = (key: SiteImageFocusKey, focus: ImageFocus) => {
+    update("images", {
+      ...config.images,
+      focus: { ...(config.images.focus ?? {}), [key]: focus },
+    });
+  };
+
+  const renderSiteImageUploader = (
+    key: SiteImageFocusKey,
+    label: string,
+    value: string,
+    onUrlChange: (url: string) => void,
+    options?: { focusObjectFit?: "cover" | "contain"; focusPreviewAspect?: "square" | "wide" | "tall" }
+  ) => (
+    <ImageUploader
+      label={label}
+      value={value}
+      onChange={onUrlChange}
+      token={token}
+      focus={config.images.focus?.[key]}
+      onFocusChange={(focus) => updateSiteImageFocus(key, focus)}
+      focusObjectFit={options?.focusObjectFit ?? "cover"}
+      focusPreviewAspect={options?.focusPreviewAspect ?? "wide"}
+    />
+  );
 
   const handleSave = async () => {
     setSaving(true);
@@ -141,17 +167,69 @@ export default function AdminDashboard({ config: initialConfig, token, onSave, o
           {tab === "images" && (
             <div className="admin-card">
               <h2 className="text-xl font-bold mb-6">Gerenciar Imagens</h2>
-              <p className="text-sm text-gray-500 mb-6">Faça upload de novas imagens para substituir as atuais do site.</p>
+              <p className="text-sm text-gray-500 mb-6">
+                Faça upload de novas imagens e ajuste zoom, posição horizontal e vertical de cada uma.
+              </p>
               <div className="space-y-6">
-                <ImageUploader label="Logo Hero — fundo claro (página inicial)" value={config.images.heroLogo} onChange={(v) => update("images", { ...config.images, heroLogo: v })} token={token} />
-                <ImageUploader label="Logo Fundo Azul (seções azuis)" value={config.images.logoBlue} onChange={(v) => update("images", { ...config.images, logoBlue: v, aboutPhoto: v })} token={token} />
-                <ImageUploader label="Logo do Menu (topo)" value={config.images.headerLogo || ""} onChange={(v) => update("images", { ...config.images, headerLogo: v })} token={token} />
-                <ImageUploader label="Foto Hero (Principal)" value={config.images.heroPhoto} onChange={(v) => update("images", { ...config.images, heroPhoto: v })} token={token} />
-                <ImageUploader label="Fundo Seção Sobre" value={config.images.aboutBg} onChange={(v) => update("images", { ...config.images, aboutBg: v })} token={token} />
-                <ImageUploader label="Fundo Seção Ação" value={config.images.senadoBg} onChange={(v) => update("images", { ...config.images, senadoBg: v })} token={token} />
-                <ImageUploader label="Banner (esquerda)" value={config.images.banner} onChange={(v) => update("images", { ...config.images, banner: v })} token={token} />
-                <ImageUploader label="Banner (direita)" value={config.images.bannerSecondary || ""} onChange={(v) => update("images", { ...config.images, bannerSecondary: v })} token={token} />
-                <ImageUploader label="Favicon" value={config.images.favicon} onChange={(v) => update("images", { ...config.images, favicon: v })} token={token} />
+                {renderSiteImageUploader(
+                  "heroLogo",
+                  "Logo Hero — fundo claro (página inicial)",
+                  config.images.heroLogo,
+                  (v) => update("images", { ...config.images, heroLogo: v }),
+                  { focusObjectFit: "contain", focusPreviewAspect: "wide" }
+                )}
+                {renderSiteImageUploader(
+                  "logoBlue",
+                  "Logo Fundo Azul (seções azuis)",
+                  config.images.logoBlue,
+                  (v) => update("images", { ...config.images, logoBlue: v, aboutPhoto: v }),
+                  { focusObjectFit: "contain", focusPreviewAspect: "wide" }
+                )}
+                {renderSiteImageUploader(
+                  "headerLogo",
+                  "Logo do Menu (topo)",
+                  config.images.headerLogo || "",
+                  (v) => update("images", { ...config.images, headerLogo: v }),
+                  { focusObjectFit: "contain", focusPreviewAspect: "wide" }
+                )}
+                {renderSiteImageUploader(
+                  "heroPhoto",
+                  "Foto Hero (Principal)",
+                  config.images.heroPhoto,
+                  (v) => update("images", { ...config.images, heroPhoto: v }),
+                  { focusObjectFit: "contain", focusPreviewAspect: "tall" }
+                )}
+                {renderSiteImageUploader(
+                  "aboutBg",
+                  "Fundo Seção Sobre",
+                  config.images.aboutBg,
+                  (v) => update("images", { ...config.images, aboutBg: v })
+                )}
+                {renderSiteImageUploader(
+                  "senadoBg",
+                  "Fundo Seção Ação",
+                  config.images.senadoBg,
+                  (v) => update("images", { ...config.images, senadoBg: v })
+                )}
+                {renderSiteImageUploader(
+                  "banner",
+                  "Banner (esquerda)",
+                  config.images.banner,
+                  (v) => update("images", { ...config.images, banner: v })
+                )}
+                {renderSiteImageUploader(
+                  "bannerSecondary",
+                  "Banner (direita)",
+                  config.images.bannerSecondary || "",
+                  (v) => update("images", { ...config.images, bannerSecondary: v })
+                )}
+                {renderSiteImageUploader(
+                  "favicon",
+                  "Favicon",
+                  config.images.favicon,
+                  (v) => update("images", { ...config.images, favicon: v }),
+                  { focusPreviewAspect: "square" }
+                )}
               </div>
             </div>
           )}
@@ -572,11 +650,32 @@ export default function AdminDashboard({ config: initialConfig, token, onSave, o
                 {config.instagram.posts.map((post, i) => (
                   <div key={post.id} className="border rounded-lg p-3 mb-3 flex gap-3 items-start">
                     <div className="flex-1 space-y-2">
-                      <ImageUploader label="" value={post.image} onChange={(v) => {
-                        const posts = [...config.instagram.posts];
-                        posts[i] = { ...posts[i], image: v };
-                        update("instagram", { ...config.instagram, posts });
-                      }} token={token} />
+                      <ImageUploader
+                        label=""
+                        value={post.image}
+                        onChange={(v) => {
+                          const posts = [...config.instagram.posts];
+                          posts[i] = { ...posts[i], image: v };
+                          update("instagram", { ...config.instagram, posts });
+                        }}
+                        token={token}
+                        focus={{
+                          x: post.imageFocusX,
+                          y: post.imageFocusY,
+                          zoom: post.imageZoom,
+                        }}
+                        onFocusChange={(focus) => {
+                          const posts = [...config.instagram.posts];
+                          posts[i] = {
+                            ...posts[i],
+                            imageFocusX: focus.x,
+                            imageFocusY: focus.y,
+                            imageZoom: focus.zoom,
+                          };
+                          update("instagram", { ...config.instagram, posts });
+                        }}
+                        focusPreviewAspect="square"
+                      />
                       <input className="admin-input" value={post.caption} placeholder="Legenda" onChange={(e) => {
                         const posts = [...config.instagram.posts];
                         posts[i] = { ...posts[i], caption: e.target.value };

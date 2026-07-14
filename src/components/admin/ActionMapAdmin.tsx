@@ -211,9 +211,27 @@ export default function ActionMapAdmin({ actionMap, news, token, onChange }: Act
 
   const addGalleryImage = (index: number, url: string) => {
     if (!url) return;
-    const visits = [...actionMap.visits];
-    visits[index] = { ...visits[index], gallery: [...visits[index].gallery, url] };
-    onChange({ ...actionMap, visits });
+    const visit = actionMap.visits[index];
+    updateVisit(index, {
+      gallery: [...visit.gallery, url],
+      galleryFocus: [...(visit.galleryFocus || []), {}],
+    });
+  };
+
+  const updateGalleryFocus = (visitIndex: number, galleryIndex: number, focus: { x?: number; y?: number; zoom?: number }) => {
+    const visit = actionMap.visits[visitIndex];
+    const galleryFocus = [...(visit.galleryFocus || [])];
+    while (galleryFocus.length < visit.gallery.length) galleryFocus.push({});
+    galleryFocus[galleryIndex] = focus;
+    updateVisit(visitIndex, { galleryFocus });
+  };
+
+  const removeGalleryImage = (visitIndex: number, galleryIndex: number) => {
+    const visit = actionMap.visits[visitIndex];
+    updateVisit(visitIndex, {
+      gallery: visit.gallery.filter((_, i) => i !== galleryIndex),
+      galleryFocus: (visit.galleryFocus || []).filter((_, i) => i !== galleryIndex),
+    });
   };
 
   const updateIndicator = (
@@ -579,23 +597,47 @@ export default function ActionMapAdmin({ actionMap, news, token, onChange }: Act
                           value={visit.image}
                           onChange={(url) => updateVisit(index, { image: url })}
                           token={token}
+                          focus={{
+                            x: visit.imageFocusX,
+                            y: visit.imageFocusY,
+                            zoom: visit.imageZoom,
+                          }}
+                          onFocusChange={(focus) =>
+                            updateVisit(index, {
+                              imageFocusX: focus.x,
+                              imageFocusY: focus.y,
+                              imageZoom: focus.zoom,
+                            })
+                          }
                         />
                         <div>
                           <h4 className="admin-label">Galeria de imagens</h4>
-                          <div className="mb-3 grid gap-3 sm:grid-cols-2">
+                          <div className="mb-3 grid gap-4">
                             {visit.gallery.map((src, galleryIndex) => (
-                              <div key={`${src}-${galleryIndex}`} className="flex items-center gap-2">
-                                <input className="admin-input" value={src} readOnly />
-                                <button
-                                  type="button"
-                                  className="shrink-0 text-red-500"
-                                  onClick={() => {
-                                    const gallery = visit.gallery.filter((_, i) => i !== galleryIndex);
+                              <div key={`${src}-${galleryIndex}`} className="rounded-lg border border-gray-200 p-3">
+                                <div className="mb-2 flex items-center justify-between gap-2">
+                                  <p className="text-xs font-medium text-gray-500">Imagem {galleryIndex + 1}</p>
+                                  <button
+                                    type="button"
+                                    className="shrink-0 text-red-500"
+                                    onClick={() => removeGalleryImage(index, galleryIndex)}
+                                  >
+                                    <Trash2 size={16} />
+                                  </button>
+                                </div>
+                                <ImageUploader
+                                  label=""
+                                  value={src}
+                                  onChange={(url) => {
+                                    const gallery = [...visit.gallery];
+                                    gallery[galleryIndex] = url;
                                     updateVisit(index, { gallery });
                                   }}
-                                >
-                                  <Trash2 size={16} />
-                                </button>
+                                  token={token}
+                                  focus={visit.galleryFocus?.[galleryIndex]}
+                                  onFocusChange={(focus) => updateGalleryFocus(index, galleryIndex, focus)}
+                                  focusPreviewAspect="square"
+                                />
                               </div>
                             ))}
                           </div>
@@ -604,6 +646,7 @@ export default function ActionMapAdmin({ actionMap, news, token, onChange }: Act
                             value=""
                             onChange={(url) => addGalleryImage(index, url)}
                             token={token}
+                            enableFocusEditor={false}
                           />
                         </div>
                         <div>
@@ -879,6 +922,18 @@ export default function ActionMapAdmin({ actionMap, news, token, onChange }: Act
                           value={visit.image}
                           onChange={(url) => updateTeresinaVisit(index, { image: url })}
                           token={token}
+                          focus={{
+                            x: visit.imageFocusX,
+                            y: visit.imageFocusY,
+                            zoom: visit.imageZoom,
+                          }}
+                          onFocusChange={(focus) =>
+                            updateTeresinaVisit(index, {
+                              imageFocusX: focus.x,
+                              imageFocusY: focus.y,
+                              imageZoom: focus.zoom,
+                            })
+                          }
                         />
                         <div>
                           <label className="admin-label">Referência de projeto</label>

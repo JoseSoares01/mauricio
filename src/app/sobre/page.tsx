@@ -1,6 +1,7 @@
 import Image from "next/image";
 import PageLayout from "@/components/PageLayout";
 import { getSiteConfig } from "@/lib/site-config";
+import { getImageFocusStyles } from "@/lib/image-focus";
 
 export default async function SobrePage() {
   const config = await getSiteConfig();
@@ -27,7 +28,8 @@ export default async function SobrePage() {
               alt={config.site.title}
               width={500}
               height={625}
-              className="rounded-lg w-full"
+              className="rounded-lg w-full object-cover"
+              style={getImageFocusStyles(config.images.focus?.heroPhoto, "cover")}
               unoptimized
             />
           </div>

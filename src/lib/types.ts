@@ -17,6 +17,23 @@ export interface Theme {
   fontBody: string;
 }
 
+export interface ImageFocus {
+  x?: number;
+  y?: number;
+  zoom?: number;
+}
+
+export type SiteImageFocusKey =
+  | "heroLogo"
+  | "logoBlue"
+  | "headerLogo"
+  | "heroPhoto"
+  | "aboutBg"
+  | "senadoBg"
+  | "banner"
+  | "bannerSecondary"
+  | "favicon";
+
 export interface Images {
   heroLogo: string;
   logoBlue: string;
@@ -29,6 +46,7 @@ export interface Images {
   banner: string;
   bannerSecondary?: string;
   favicon: string;
+  focus?: Partial<Record<SiteImageFocusKey, ImageFocus>>;
 }
 
 export interface NewsItem {
@@ -40,6 +58,7 @@ export interface NewsItem {
   image: string;
   imageFocusX?: number;
   imageFocusY?: number;
+  imageZoom?: number;
   content: string;
 }
 
@@ -54,6 +73,9 @@ export interface VideoItem {
 export interface InstagramPost {
   id: string;
   image: string;
+  imageFocusX?: number;
+  imageFocusY?: number;
+  imageZoom?: number;
   caption: string;
   permalink?: string;
 }
@@ -116,7 +138,11 @@ export interface ActionVisit {
   category: string;
   status: ActionVisitStatus;
   image: string;
+  imageFocusX?: number;
+  imageFocusY?: number;
+  imageZoom?: number;
   gallery: string[];
+  galleryFocus?: ImageFocus[];
   relatedLink?: string;
   relatedNewsId?: string;
   displayOrder: number;
@@ -144,7 +170,11 @@ export interface TeresinaVisit {
   content: string;
   category: string;
   image: string;
+  imageFocusX?: number;
+  imageFocusY?: number;
+  imageZoom?: number;
   gallery?: string[];
+  galleryFocus?: ImageFocus[];
   active: boolean;
   indicators?: Record<string, string | number>;
   projectRef?: string;
@@ -153,6 +183,9 @@ export interface TeresinaVisit {
 export interface ActionMapConfig {
   enabled: boolean;
   mapImage?: string;
+  mapImageFocusX?: number;
+  mapImageFocusY?: number;
+  mapImageZoom?: number;
   visits: ActionVisit[];
   teresinaVisits?: TeresinaVisit[];
 }

@@ -6,7 +6,6 @@ import { ChevronDown, GripVertical, Plus, Trash2 } from "lucide-react";
 import type { NewsItem } from "@/lib/types";
 import ImageUploader from "./ImageUploader";
 import RichTextEditor from "./RichTextEditor";
-import NewsImagePositionEditor from "./NewsImagePositionEditor";
 
 interface NewsAdminProps {
   news: NewsItem[];
@@ -129,18 +128,21 @@ function NewsAdminItem({
                 value={item.image}
                 onChange={(v) => onUpdate({ ...item, image: v })}
                 token={token}
+                focus={{
+                  x: item.imageFocusX,
+                  y: item.imageFocusY,
+                  zoom: item.imageZoom,
+                }}
+                onFocusChange={(focus) =>
+                  onUpdate({
+                    ...item,
+                    imageFocusX: focus.x,
+                    imageFocusY: focus.y,
+                    imageZoom: focus.zoom,
+                  })
+                }
               />
             </div>
-            {item.image && (
-              <div className="md:col-span-2">
-                <NewsImagePositionEditor
-                  image={item.image}
-                  focusX={item.imageFocusX}
-                  focusY={item.imageFocusY}
-                  onChange={(focus) => onUpdate({ ...item, ...focus })}
-                />
-              </div>
-            )}
             <div className="md:col-span-2">
               <RichTextEditor
                 label="Conteúdo Completo"

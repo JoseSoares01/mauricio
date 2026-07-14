@@ -8,7 +8,7 @@ import { blobAuth, isBlobEnabled } from "./blob-storage";
 import { isGithubStorageEnabled, readTextFileFromGitHub, writeFileToGitHub } from "./github-storage";
 import { deleteRemovedUploadsFromGitHub } from "./upload-cleanup";
 import { normalizeNewsMarkdown, repairMarkdown } from "./format-content";
-import { clampNewsImageFocus, DEFAULT_NEWS_IMAGE_FOCUS } from "./news-image";
+import { clampImageFocusAxis, clampImageZoom, DEFAULT_IMAGE_FOCUS, normalizeImageFocus } from "./image-focus";
 import { normalizeVideos } from "./video";
 import { normalizeActionMap } from "./action-map";
 
@@ -68,9 +68,28 @@ function applyConfigNormalization(config: SiteConfig): SiteConfig {
     news: config.news.map((item) => ({
       ...item,
       content: repairMarkdown(normalizeNewsMarkdown(item.content)),
-      imageFocusX: clampNewsImageFocus(item.imageFocusX ?? DEFAULT_NEWS_IMAGE_FOCUS.x),
-      imageFocusY: clampNewsImageFocus(item.imageFocusY ?? DEFAULT_NEWS_IMAGE_FOCUS.y),
+      imageFocusX: clampImageFocusAxis(item.imageFocusX ?? DEFAULT_IMAGE_FOCUS.x),
+      imageFocusY: clampImageFocusAxis(item.imageFocusY ?? DEFAULT_IMAGE_FOCUS.y),
+      imageZoom: clampImageZoom(item.imageZoom ?? DEFAULT_IMAGE_FOCUS.zoom),
     })),
+    instagram: {
+      ...config.instagram,
+      posts: (config.instagram?.posts ?? []).map((post) => ({
+        ...post,
+        imageFocusX: clampImageFocusAxis(post.imageFocusX ?? DEFAULT_IMAGE_FOCUS.x),
+        imageFocusY: clampImageFocusAxis(post.imageFocusY ?? DEFAULT_IMAGE_FOCUS.y),
+        imageZoom: clampImageZoom(post.imageZoom ?? DEFAULT_IMAGE_FOCUS.zoom),
+      })),
+    },
+    images: {
+      ...config.images,
+      focus: Object.fromEntries(
+        Object.entries(config.images?.focus ?? {}).map(([key, value]) => [
+          key,
+          normalizeImageFocus(value),
+        ])
+      ),
+    },
     about: {
       ...config.about,
       metrics: config.about?.metrics?.length ? config.about.metrics : DEFAULT_ABOUT_METRICS,

@@ -1,21 +1,20 @@
-import Image from "next/image";
+import FocusedImage from "@/components/FocusedImage";
 import type { NewsItem } from "@/lib/types";
-import { getNewsImageObjectPosition } from "@/lib/news-image";
 
 interface NewsImageProps {
-  item: Pick<NewsItem, "image" | "imageFocusX" | "imageFocusY">;
+  item: Pick<NewsItem, "image" | "imageFocusX" | "imageFocusY" | "imageZoom">;
   alt: string;
   className?: string;
 }
 
 export default function NewsImage({ item, alt, className = "" }: NewsImageProps) {
   return (
-    <Image
+    <FocusedImage
       src={item.image}
       alt={alt}
       fill
+      focus={item}
       className={`object-cover ${className}`.trim()}
-      style={{ objectPosition: getNewsImageObjectPosition(item) }}
       unoptimized
     />
   );
