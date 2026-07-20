@@ -1155,10 +1155,11 @@ path.animate-\[dash_10s_linear_infinite\] {
 .about-gallery {
   position: relative;
   isolation: isolate;
+  /* Base verde: completa qualquer área que a foto não preencher */
   background-color: var(--color-primary);
   background-image: url("/uploads/about-gallery-bg.png");
   background-size: cover;
-  background-position: center center;
+  background-position: 68% center;
   background-repeat: no-repeat;
   padding: 2.75rem 0 4rem;
   overflow: hidden;
@@ -1171,18 +1172,29 @@ path.animate-\[dash_10s_linear_infinite\] {
   z-index: 0;
   pointer-events: none;
   background:
+    /* Esfumaçado vertical (marca) */
     linear-gradient(
       180deg,
-      color-mix(in srgb, var(--color-primary) 88%, transparent) 0%,
-      color-mix(in srgb, var(--color-primary) 72%, transparent) 42%,
-      color-mix(in srgb, var(--color-secondary) 78%, transparent) 100%
+      color-mix(in srgb, var(--color-primary) 86%, transparent) 0%,
+      color-mix(in srgb, var(--color-primary) 68%, transparent) 40%,
+      color-mix(in srgb, var(--color-secondary) 76%, transparent) 100%
+    ),
+    /* Laterais esfumadas: funde a foto no verde se sobrar espaço */
+    linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--color-primary) 82%, transparent) 0%,
+      color-mix(in srgb, var(--color-primary) 35%, transparent) 18%,
+      transparent 38%,
+      transparent 62%,
+      color-mix(in srgb, var(--color-primary) 40%, transparent) 82%,
+      color-mix(in srgb, var(--color-primary) 85%, transparent) 100%
     ),
     radial-gradient(
-      ellipse 90% 70% at 50% 45%,
-      color-mix(in srgb, var(--color-secondary) 35%, transparent) 0%,
-      transparent 68%
+      ellipse 85% 65% at 62% 48%,
+      color-mix(in srgb, var(--color-secondary) 28%, transparent) 0%,
+      transparent 70%
     ),
-    color-mix(in srgb, var(--color-primary) 55%, transparent);
+    color-mix(in srgb, var(--color-primary) 48%, transparent);
 }
 
 .about-gallery::after {
@@ -1193,16 +1205,45 @@ path.animate-\[dash_10s_linear_infinite\] {
   pointer-events: none;
   background: linear-gradient(
     to bottom,
-    rgba(0, 0, 0, 0.18) 0%,
-    transparent 28%,
-    transparent 72%,
-    rgba(0, 0, 0, 0.22) 100%
+    rgba(0, 0, 0, 0.16) 0%,
+    transparent 26%,
+    transparent 74%,
+    rgba(0, 0, 0, 0.2) 100%
   );
 }
 
 .about-gallery > * {
   position: relative;
   z-index: 1;
+}
+
+@media (max-width: 767px) {
+  .about-gallery {
+    /* Proporção mobile: enquadra um pouco mais à direita e um pouco mais alto */
+    background-position: 78% 38%;
+    background-size: cover;
+    min-height: 28rem;
+  }
+
+  .about-gallery::before {
+    background:
+      linear-gradient(
+        180deg,
+        color-mix(in srgb, var(--color-primary) 90%, transparent) 0%,
+        color-mix(in srgb, var(--color-primary) 72%, transparent) 45%,
+        color-mix(in srgb, var(--color-secondary) 80%, transparent) 100%
+      ),
+      linear-gradient(
+        90deg,
+        color-mix(in srgb, var(--color-primary) 88%, transparent) 0%,
+        color-mix(in srgb, var(--color-primary) 45%, transparent) 22%,
+        transparent 45%,
+        transparent 70%,
+        color-mix(in srgb, var(--color-primary) 50%, transparent) 88%,
+        color-mix(in srgb, var(--color-primary) 90%, transparent) 100%
+      ),
+      color-mix(in srgb, var(--color-primary) 55%, transparent);
+  }
 }
 
 .about-gallery-header {
