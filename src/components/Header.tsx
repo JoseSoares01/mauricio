@@ -60,17 +60,27 @@ export default function Header({ menu }: HeaderProps) {
           })}
         </ul>
 
-        <button
-          type="button"
-          className={`hamburger-btn md:hidden ${open ? "is-active" : ""}`}
-          onClick={() => setOpen(!open)}
-          aria-label={open ? "Fechar menu" : "Abrir menu"}
-          aria-expanded={open}
-        >
-          <span className="hamburger-bar hamburger-bar--top" />
-          <span className="hamburger-bar hamburger-bar--mid" />
-          <span className="hamburger-bar hamburger-bar--bot" />
-        </button>
+        <div className="mobile-nav-actions md:hidden">
+          <Link
+            href="/sobre"
+            className={`about-me-btn ${isMenuActive(pathname, "/sobre") ? "is-active" : ""}`}
+          >
+            <span className="about-me-btn-shine" aria-hidden />
+            <span className="about-me-btn-label">Sobre mim</span>
+          </Link>
+
+          <button
+            type="button"
+            className={`hamburger-btn ${open ? "is-active" : ""}`}
+            onClick={() => setOpen(!open)}
+            aria-label={open ? "Fechar menu" : "Abrir menu"}
+            aria-expanded={open}
+          >
+            <span className="hamburger-bar hamburger-bar--top" />
+            <span className="hamburger-bar hamburger-bar--mid" />
+            <span className="hamburger-bar hamburger-bar--bot" />
+          </button>
+        </div>
       </nav>
 
       {open && (

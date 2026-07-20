@@ -248,21 +248,96 @@ h1, h2, h3, h4, h5, h6 {
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.65);
   border-radius: 10px;
-  display: none;
+  display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 5px;
   padding: 0;
-  margin-left: auto;
+  flex-shrink: 0;
   cursor: pointer;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-@media (max-width: 767px) {
-  .hamburger-btn {
-    display: flex;
+.mobile-nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin-left: auto;
+}
+
+.about-me-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 46px;
+  padding: 0 0.95rem;
+  overflow: hidden;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+  text-decoration: none;
+  flex-shrink: 0;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.about-me-btn:hover,
+.about-me-btn.is-active {
+  transform: scale(1.03);
+  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.16);
+}
+
+.about-me-btn-shine {
+  position: absolute;
+  inset: -120% -40%;
+  background: linear-gradient(
+    105deg,
+    transparent 28%,
+    rgba(18, 149, 71, 0.18) 38%,
+    rgba(253, 206, 39, 0.72) 50%,
+    rgba(18, 149, 71, 0.28) 62%,
+    transparent 72%
+  );
+  animation: aboutMeShine 2.6s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.about-me-btn-label {
+  position: relative;
+  z-index: 1;
+  font-family: var(--font-heading);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: #2d3748;
+  white-space: nowrap;
+}
+
+@keyframes aboutMeShine {
+  0% {
+    transform: translateX(-55%) translateY(8%) rotate(8deg);
+  }
+  100% {
+    transform: translateX(55%) translateY(-8%) rotate(8deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about-me-btn-shine {
+    animation: none;
+    opacity: 0.35;
+    inset: 0;
+    background: linear-gradient(
+      105deg,
+      rgba(18, 149, 71, 0.12),
+      rgba(253, 206, 39, 0.28),
+      rgba(18, 149, 71, 0.12)
+    );
   }
 }
 
@@ -775,6 +850,58 @@ path.animate-\[dash_10s_linear_infinite\] {
 @keyframes aboutCursorBlink {
   50% {
     opacity: 0;
+  }
+}
+
+/* ========== Scroll reveal (site inteiro) ========== */
+.reveal-block {
+  opacity: 0;
+  transform: translate3d(0, 28px, 0);
+  transition:
+    opacity 0.85s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+
+.reveal-block.is-revealed {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+.reveal-block.reveal-instant,
+.reveal-text.reveal-instant {
+  transition: none;
+}
+
+.reveal-text .reveal-word {
+  display: inline-block;
+  opacity: 0;
+  transform: translate3d(0, 0.45em, 0);
+  filter: blur(3px);
+  transition:
+    opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.55s ease;
+  will-change: opacity, transform, filter;
+}
+
+.reveal-text .reveal-word.is-shown {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+  filter: blur(0);
+}
+
+.reveal-text.reveal-instant .reveal-word {
+  transition: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-block,
+  .reveal-text .reveal-word {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    transition: none !important;
   }
 }
 

@@ -125,6 +125,7 @@ export default function AboutPreviewSection({
   return (
     <section
       ref={sectionRef}
+      data-reveal-skip
       style={{ backgroundColor: "var(--color-primary)" }}
       className="min-h-[660px]"
     >

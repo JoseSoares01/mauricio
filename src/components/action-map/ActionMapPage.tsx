@@ -174,7 +174,7 @@ export default function ActionMapPage({
   );
 
   return (
-    <div className="action-map-page min-h-screen">
+    <div className="action-map-page min-h-screen" data-reveal-skip>
       <div className="action-map-shell border-b border-slate-200/70 px-4 pb-4 pt-28 md:px-6 md:pt-32">
         <div className="mx-auto max-w-[1600px]">
           <div className="flex flex-wrap items-end justify-between gap-3">

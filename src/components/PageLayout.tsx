@@ -1,5 +1,6 @@
 import Header from "./Header";
 import Footer from "./Footer";
+import SiteScrollEffects from "./SiteScrollEffects";
 import type { SiteConfig } from "@/lib/types";
 
 interface PageLayoutProps {
@@ -13,6 +14,7 @@ export default function PageLayout({ config, children, showFlagBar = true }: Pag
     <>
       {showFlagBar && <div className="flag-bar fixed top-0 left-0 right-0 z-[60]" />}
       <Header menu={config.menu} />
+      <SiteScrollEffects />
       <main>{children}</main>
       <Footer config={config} />
     </>
