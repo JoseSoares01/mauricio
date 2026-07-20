@@ -9,6 +9,7 @@ import { isGithubStorageEnabled, readTextFileFromGitHub, writeFileToGitHub } fro
 import { deleteRemovedUploadsFromGitHub } from "./upload-cleanup";
 import { normalizeNewsMarkdown, repairMarkdown } from "./format-content";
 import { clampImageFocusAxis, clampImageZoom, DEFAULT_IMAGE_FOCUS, normalizeImageFocus } from "./image-focus";
+import { normalizeAboutSection } from "./about-page";
 import { normalizeVideos } from "./video";
 import { normalizeActionMap } from "./action-map";
 
@@ -56,7 +57,7 @@ async function readFromGitHub(): Promise<SiteConfig | null> {
 
 const DEFAULT_ADMIN_PASSWORD = "mauricio2026";
 
-const DEFAULT_ABOUT_METRICS = (defaultConfig as unknown as SiteConfig).about?.metrics ?? [];
+const DEFAULT_ABOUT = (defaultConfig as unknown as SiteConfig).about;
 
 function applyConfigNormalization(config: SiteConfig): SiteConfig {
   return {
@@ -90,10 +91,7 @@ function applyConfigNormalization(config: SiteConfig): SiteConfig {
         ])
       ),
     },
-    about: {
-      ...config.about,
-      metrics: config.about?.metrics?.length ? config.about.metrics : DEFAULT_ABOUT_METRICS,
-    },
+    about: normalizeAboutSection(config.about, config.images, DEFAULT_ABOUT),
     actionMap: normalizeActionMap(config.actionMap),
     propostas: config.propostas ?? (defaultConfig as unknown as SiteConfig).propostas ?? [],
   };

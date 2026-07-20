@@ -110,6 +110,28 @@ export interface AboutMetric {
   label: string;
 }
 
+export interface AboutGalleryItem {
+  id: string;
+  image: string;
+  tag?: string;
+  title: string;
+  text: string;
+  imageFocusX?: number;
+  imageFocusY?: number;
+  imageZoom?: number;
+}
+
+export interface AboutTimelineItem {
+  id: string;
+  image?: string;
+  year?: string;
+  title: string;
+  text: string;
+  imageFocusX?: number;
+  imageFocusY?: number;
+  imageZoom?: number;
+}
+
 export type ActionVisitStatus = "realizada";
 
 /** Documento anexo — preparado para fase futura */
@@ -216,6 +238,10 @@ export interface SiteConfig {
     shortText: string;
     fullText: string;
     metrics: AboutMetric[];
+    gallery?: AboutGalleryItem[];
+    timeline?: AboutTimelineItem[];
+    timelineEyebrow?: string;
+    timelineTitle?: string;
   };
   senado: {
     title: string;

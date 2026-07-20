@@ -402,6 +402,237 @@ export default function AdminDashboard({ config: initialConfig, token, onSave, o
                       <Plus size={16} /> Adicionar estatística
                     </button>
                   </div>
+
+                  <div className="pt-4 border-t">
+                    <label className="admin-label">Galeria horizontal (página Sobre)</label>
+                    <p className="text-sm text-gray-500 mb-3">
+                      Cards com foto + texto em scroll horizontal.
+                    </p>
+                    {(config.about.gallery ?? []).map((item, i) => (
+                      <div key={item.id} className="border rounded-lg p-3 mb-3 space-y-3">
+                        <ImageUploader
+                          label="Foto"
+                          value={item.image}
+                          token={token}
+                          focus={{
+                            x: item.imageFocusX,
+                            y: item.imageFocusY,
+                            zoom: item.imageZoom,
+                          }}
+                          onChange={(image) => {
+                            const gallery = [...(config.about.gallery ?? [])];
+                            gallery[i] = { ...gallery[i], image };
+                            update("about", { ...config.about, gallery });
+                          }}
+                          onFocusChange={(focus) => {
+                            const gallery = [...(config.about.gallery ?? [])];
+                            gallery[i] = {
+                              ...gallery[i],
+                              imageFocusX: focus.x,
+                              imageFocusY: focus.y,
+                              imageZoom: focus.zoom,
+                            };
+                            update("about", { ...config.about, gallery });
+                          }}
+                          focusPreviewAspect="tall"
+                        />
+                        <div className="grid md:grid-cols-2 gap-3">
+                          <div>
+                            <label className="admin-label">Tag</label>
+                            <input
+                              className="admin-input"
+                              value={item.tag || ""}
+                              onChange={(e) => {
+                                const gallery = [...(config.about.gallery ?? [])];
+                                gallery[i] = { ...gallery[i], tag: e.target.value };
+                                update("about", { ...config.about, gallery });
+                              }}
+                            />
+                          </div>
+                          <div>
+                            <label className="admin-label">Título</label>
+                            <input
+                              className="admin-input"
+                              value={item.title}
+                              onChange={(e) => {
+                                const gallery = [...(config.about.gallery ?? [])];
+                                gallery[i] = { ...gallery[i], title: e.target.value };
+                                update("about", { ...config.about, gallery });
+                              }}
+                            />
+                          </div>
+                        </div>
+                        <div>
+                          <label className="admin-label">Texto</label>
+                          <textarea
+                            className="admin-input min-h-[80px]"
+                            value={item.text}
+                            onChange={(e) => {
+                              const gallery = [...(config.about.gallery ?? [])];
+                              gallery[i] = { ...gallery[i], text: e.target.value };
+                              update("about", { ...config.about, gallery });
+                            }}
+                          />
+                        </div>
+                        <button
+                          type="button"
+                          className="text-red-500 text-sm"
+                          onClick={() => {
+                            const gallery = (config.about.gallery ?? []).filter((g) => g.id !== item.id);
+                            update("about", { ...config.about, gallery });
+                          }}
+                        >
+                          Remover card
+                        </button>
+                      </div>
+                    ))}
+                    <button
+                      type="button"
+                      className="admin-btn flex items-center gap-2"
+                      onClick={() => {
+                        const gallery = [
+                          ...(config.about.gallery ?? []),
+                          {
+                            id: String(Date.now()),
+                            image: config.images.aboutBg || config.images.heroPhoto,
+                            tag: "Novo",
+                            title: "Novo card",
+                            text: "",
+                          },
+                        ];
+                        update("about", { ...config.about, gallery });
+                      }}
+                    >
+                      <Plus size={16} /> Adicionar card da galeria
+                    </button>
+                  </div>
+
+                  <div className="pt-4 border-t">
+                    <label className="admin-label">Linha do tempo (página Sobre)</label>
+                    <p className="text-sm text-gray-500 mb-3">
+                      Blocos alternados de texto e foto, como uma trajetória.
+                    </p>
+                    <div className="grid md:grid-cols-2 gap-3 mb-4">
+                      <div>
+                        <label className="admin-label">Rótulo</label>
+                        <input
+                          className="admin-input"
+                          value={config.about.timelineEyebrow || ""}
+                          onChange={(e) =>
+                            update("about", { ...config.about, timelineEyebrow: e.target.value })
+                          }
+                          placeholder="Sobre"
+                        />
+                      </div>
+                      <div>
+                        <label className="admin-label">Título da seção</label>
+                        <input
+                          className="admin-input"
+                          value={config.about.timelineTitle || ""}
+                          onChange={(e) =>
+                            update("about", { ...config.about, timelineTitle: e.target.value })
+                          }
+                          placeholder="A trajetória"
+                        />
+                      </div>
+                    </div>
+                    {(config.about.timeline ?? []).map((item, i) => (
+                      <div key={item.id} className="border rounded-lg p-3 mb-3 space-y-3">
+                        <ImageUploader
+                          label="Foto"
+                          value={item.image || ""}
+                          token={token}
+                          focus={{
+                            x: item.imageFocusX,
+                            y: item.imageFocusY,
+                            zoom: item.imageZoom,
+                          }}
+                          onChange={(image) => {
+                            const timeline = [...(config.about.timeline ?? [])];
+                            timeline[i] = { ...timeline[i], image };
+                            update("about", { ...config.about, timeline });
+                          }}
+                          onFocusChange={(focus) => {
+                            const timeline = [...(config.about.timeline ?? [])];
+                            timeline[i] = {
+                              ...timeline[i],
+                              imageFocusX: focus.x,
+                              imageFocusY: focus.y,
+                              imageZoom: focus.zoom,
+                            };
+                            update("about", { ...config.about, timeline });
+                          }}
+                        />
+                        <div className="grid md:grid-cols-2 gap-3">
+                          <div>
+                            <label className="admin-label">Ano / etapa</label>
+                            <input
+                              className="admin-input"
+                              value={item.year || ""}
+                              onChange={(e) => {
+                                const timeline = [...(config.about.timeline ?? [])];
+                                timeline[i] = { ...timeline[i], year: e.target.value };
+                                update("about", { ...config.about, timeline });
+                              }}
+                            />
+                          </div>
+                          <div>
+                            <label className="admin-label">Título</label>
+                            <input
+                              className="admin-input"
+                              value={item.title}
+                              onChange={(e) => {
+                                const timeline = [...(config.about.timeline ?? [])];
+                                timeline[i] = { ...timeline[i], title: e.target.value };
+                                update("about", { ...config.about, timeline });
+                              }}
+                            />
+                          </div>
+                        </div>
+                        <div>
+                          <label className="admin-label">Texto</label>
+                          <textarea
+                            className="admin-input min-h-[90px]"
+                            value={item.text}
+                            onChange={(e) => {
+                              const timeline = [...(config.about.timeline ?? [])];
+                              timeline[i] = { ...timeline[i], text: e.target.value };
+                              update("about", { ...config.about, timeline });
+                            }}
+                          />
+                        </div>
+                        <button
+                          type="button"
+                          className="text-red-500 text-sm"
+                          onClick={() => {
+                            const timeline = (config.about.timeline ?? []).filter((t) => t.id !== item.id);
+                            update("about", { ...config.about, timeline });
+                          }}
+                        >
+                          Remover marco
+                        </button>
+                      </div>
+                    ))}
+                    <button
+                      type="button"
+                      className="admin-btn flex items-center gap-2"
+                      onClick={() => {
+                        const timeline = [
+                          ...(config.about.timeline ?? []),
+                          {
+                            id: String(Date.now()),
+                            image: config.images.heroPhoto,
+                            year: "",
+                            title: "Novo marco",
+                            text: "",
+                          },
+                        ];
+                        update("about", { ...config.about, timeline });
+                      }}
+                    >
+                      <Plus size={16} /> Adicionar marco da linha do tempo
+                    </button>
+                  </div>
                 </div>
               </div>
 

@@ -120,6 +120,61 @@
         "value": 12,
         "label": "audiências públicas"
       }
+    ],
+    "timelineEyebrow": "Sobre",
+    "timelineTitle": "A trajetória",
+    "gallery": [
+      {
+        "id": "g1",
+        "image": "https://raw.githubusercontent.com/JoseSoares01/mauricio/main/public/uploads/1783959602619-3e2465rh36k.png",
+        "tag": "Trajetória",
+        "title": "Da periferia à vida pública",
+        "text": "Jovem da periferia que transformou estudo e fé em serviço ao povo piauiense."
+      },
+      {
+        "id": "g2",
+        "image": "https://raw.githubusercontent.com/JoseSoares01/mauricio/main/public/uploads/1781811382721-f8c2cru914v.jpg",
+        "tag": "Ação",
+        "title": "Presente no Piauí",
+        "text": "Atuação em cidades, comunidades e causas que aproximam a política das pessoas."
+      },
+      {
+        "id": "g3",
+        "image": "https://raw.githubusercontent.com/JoseSoares01/mauricio/main/public/uploads/1781625358314-e21ya04w4c8.jpeg",
+        "tag": "Compromisso",
+        "title": "Educação, ciência e segurança",
+        "text": "Experiência na educação pública, tecnologia científica, segurança e saúde."
+      }
+    ],
+    "timeline": [
+      {
+        "id": "t1",
+        "year": "Origem",
+        "title": "Raízes e formação",
+        "text": "Nasci e fui criado na pobreza. Através dos estudos servi meu país e construí uma trajetória marcada pela fé, disciplina e compromisso com o próximo.",
+        "image": "/uploads/hero-mauricio-original.png"
+      },
+      {
+        "id": "t2",
+        "year": "Carreira",
+        "title": "Serviço ao Brasil",
+        "text": "Oficial R/2 do Exército Brasileiro da Arma de Engenharia, professor, servidor público federal, biólogo e doutor em melhoramento genético.",
+        "image": "https://raw.githubusercontent.com/JoseSoares01/mauricio/main/public/uploads/1783959602619-3e2465rh36k.png"
+      },
+      {
+        "id": "t3",
+        "year": "Causas",
+        "title": "Principais pautas",
+        "text": "Soberania nacional, valorização do policial e dos professores, amparo aos necessitados, desburocratização, defesa do meio ambiente e proteção às PcDs.",
+        "image": "https://raw.githubusercontent.com/JoseSoares01/mauricio/main/public/uploads/1781811382721-f8c2cru914v.jpg"
+      },
+      {
+        "id": "t4",
+        "year": "Hoje",
+        "title": "Pronto para representar o Piauí",
+        "text": "Já contribui de diversas formas para o povo e a direita piauiense. Agora precisa do seu apoio para continuar essa luta no Congresso Nacional.",
+        "image": "https://raw.githubusercontent.com/JoseSoares01/mauricio/main/public/uploads/1781625358314-e21ya04w4c8.jpeg"
+      }
     ]
   },
   "senado": {

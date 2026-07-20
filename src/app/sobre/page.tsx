@@ -1,47 +1,62 @@
 import Image from "next/image";
 import PageLayout from "@/components/PageLayout";
+import AboutGallery from "@/components/AboutGallery";
+import AboutTimeline from "@/components/AboutTimeline";
 import { getSiteConfig } from "@/lib/site-config";
 import { getImageFocusStyles } from "@/lib/image-focus";
 
 export default async function SobrePage() {
   const config = await getSiteConfig();
+  const introParagraphs = config.about.fullText
+    .split(/\n\n+/)
+    .map((p) => p.trim())
+    .filter(Boolean)
+    .slice(0, 2);
 
   return (
     <PageLayout config={config}>
       <section
-        className="pt-32 pb-16"
+        className="about-hero pt-32 pb-14"
         style={{
           background: `radial-gradient(at top center, var(--color-hero-start) 0%, var(--color-hero-end) 100%)`,
         }}
       >
         <div className="container-site text-center">
+          <p className="about-hero-eyebrow">Conheça</p>
           <h1 className="section-title">{config.site.title}</h1>
-          <h2 className="text-2xl mt-4" style={{ color: "var(--color-primary)" }}>Sobre</h2>
+          <h2 className="about-hero-subtitle">Sobre</h2>
         </div>
       </section>
 
-      <section className="py-16">
-        <div className="container-site grid lg:grid-cols-[minmax(320px,38%)_1fr] gap-10 lg:gap-16 items-start">
-          <div className="lg:-ml-5">
+      <section className="about-intro">
+        <div className="container-site about-intro-grid">
+          <div className="about-intro-photo">
             <Image
               src={config.images.heroPhotoOriginal || config.images.heroPhoto}
               alt={config.site.title}
-              width={500}
-              height={625}
-              className="rounded-lg w-full object-cover"
+              width={560}
+              height={700}
+              className="w-full h-full object-cover"
               style={getImageFocusStyles(config.images.focus?.heroPhoto, "cover")}
               unoptimized
+              priority
             />
           </div>
-          <div>
-            {config.about.fullText.split("\n\n").map((paragraph, i) => (
-              <p key={i} className="text-[17px] leading-relaxed mb-4" style={{ color: "var(--color-text)" }}>
-                {paragraph}
-              </p>
+          <div className="about-intro-text">
+            {introParagraphs.map((paragraph, i) => (
+              <p key={i}>{paragraph}</p>
             ))}
           </div>
         </div>
       </section>
+
+      <AboutGallery items={config.about.gallery ?? []} />
+
+      <AboutTimeline
+        eyebrow={config.about.timelineEyebrow}
+        title={config.about.timelineTitle}
+        items={config.about.timeline ?? []}
+      />
     </PageLayout>
   );
 }
