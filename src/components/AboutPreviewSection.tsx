@@ -155,8 +155,8 @@ export default function AboutPreviewSection({
             ))}
           </ul>
 
-          <Link href="/sobre" className="btn-primary">
-            Saiba mais
+          <Link href="/mapa-de-atuacao" className="btn-primary">
+            Mapa de Atuação
           </Link>
         </div>
         <div

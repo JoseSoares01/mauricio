@@ -7,6 +7,7 @@ import AboutPreviewSection from "@/components/AboutPreviewSection";
 import ViewCounter from "@/components/ViewCounter";
 import VideoCard from "@/components/VideoCard";
 import FocusedImage from "@/components/FocusedImage";
+import MobileScrollNudge from "@/components/MobileScrollNudge";
 import { getSiteConfig, formatDate, getConfiguredImageUrl } from "@/lib/site-config";
 import { getViews, getViewCount } from "@/lib/views";
 import { getBackgroundFocusStyles, getImageFocusStyles } from "@/lib/image-focus";
@@ -18,6 +19,7 @@ export default async function HomePage() {
 
   return (
     <PageLayout config={config}>
+      <MobileScrollNudge />
       {/* Hero */}
       <section
         className="relative min-h-[98vh] overflow-hidden"
