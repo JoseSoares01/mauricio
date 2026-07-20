@@ -123,6 +123,15 @@
     ],
     "timelineEyebrow": "Sobre",
     "timelineTitle": "A trajetória",
+    "pageEyebrow": "Conheça",
+    "pageHeading": "",
+    "pageSubtitle": "Sobre",
+    "introImage": "/uploads/hero-mauricio-original.png",
+    "introText": "Oficial R/2 do Exército Brasileiro da Arma de Engenharia, Professor, Servidor Público Federal, autor de diversos projetos de Lei, desenvolvedor de programas em prol da sociedade, cristão. Doutor em melhoramento genético, Biólogo e jovem da periferia.\n\nNasci e fui criado na pobreza, através dos estudos servi meu país, já contribui de diversas formas para o povo e a direita piauiense. Preciso agora do seu apoio.",
+    "showGallery": true,
+    "showTimeline": true,
+    "galleryEyebrow": "",
+    "galleryTitle": "",
     "gallery": [
       {
         "id": "g1",

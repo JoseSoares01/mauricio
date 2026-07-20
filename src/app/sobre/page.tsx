@@ -7,11 +7,16 @@ import { getImageFocusStyles } from "@/lib/image-focus";
 
 export default async function SobrePage() {
   const config = await getSiteConfig();
-  const introParagraphs = config.about.fullText
+  const about = config.about;
+  const heading = about.pageHeading?.trim() || config.site.title;
+  const introImage =
+    about.introImage?.trim() ||
+    config.images.heroPhotoOriginal ||
+    config.images.heroPhoto;
+  const introParagraphs = (about.introText || about.fullText || "")
     .split(/\n\n+/)
     .map((p) => p.trim())
-    .filter(Boolean)
-    .slice(0, 2);
+    .filter(Boolean);
 
   return (
     <PageLayout config={config}>
@@ -22,41 +27,66 @@ export default async function SobrePage() {
         }}
       >
         <div className="container-site text-center">
-          <p className="about-hero-eyebrow">Conheça</p>
-          <h1 className="section-title">{config.site.title}</h1>
-          <h2 className="about-hero-subtitle">Sobre</h2>
+          {about.pageEyebrow?.trim() && (
+            <p className="about-hero-eyebrow">{about.pageEyebrow}</p>
+          )}
+          <h1 className="section-title">{heading}</h1>
+          {about.pageSubtitle?.trim() && (
+            <h2 className="about-hero-subtitle">{about.pageSubtitle}</h2>
+          )}
         </div>
       </section>
 
-      <section className="about-intro">
-        <div className="container-site about-intro-grid">
-          <div className="about-intro-photo">
-            <Image
-              src={config.images.heroPhotoOriginal || config.images.heroPhoto}
-              alt={config.site.title}
-              width={560}
-              height={700}
-              className="w-full h-full object-cover"
-              style={getImageFocusStyles(config.images.focus?.heroPhoto, "cover")}
-              unoptimized
-              priority
-            />
+      {(introImage || introParagraphs.length > 0) && (
+        <section className="about-intro">
+          <div className="container-site about-intro-grid">
+            {introImage && (
+              <div className="about-intro-photo">
+                <Image
+                  src={introImage}
+                  alt={heading}
+                  width={560}
+                  height={700}
+                  className="w-full h-full object-cover"
+                  style={getImageFocusStyles(
+                    {
+                      imageFocusX: about.introImageFocusX,
+                      imageFocusY: about.introImageFocusY,
+                      imageZoom: about.introImageZoom,
+                    },
+                    "cover"
+                  )}
+                  unoptimized
+                  priority
+                />
+              </div>
+            )}
+            {introParagraphs.length > 0 && (
+              <div className="about-intro-text">
+                {introParagraphs.map((paragraph, i) => (
+                  <p key={i}>{paragraph}</p>
+                ))}
+              </div>
+            )}
           </div>
-          <div className="about-intro-text">
-            {introParagraphs.map((paragraph, i) => (
-              <p key={i}>{paragraph}</p>
-            ))}
-          </div>
-        </div>
-      </section>
+        </section>
+      )}
 
-      <AboutGallery items={config.about.gallery ?? []} />
+      {about.showGallery !== false && (
+        <AboutGallery
+          eyebrow={about.galleryEyebrow}
+          title={about.galleryTitle}
+          items={about.gallery ?? []}
+        />
+      )}
 
-      <AboutTimeline
-        eyebrow={config.about.timelineEyebrow}
-        title={config.about.timelineTitle}
-        items={config.about.timeline ?? []}
-      />
+      {about.showTimeline !== false && (
+        <AboutTimeline
+          eyebrow={about.timelineEyebrow}
+          title={about.timelineTitle}
+          items={about.timeline ?? []}
+        />
+      )}
     </PageLayout>
   );
 }

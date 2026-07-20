@@ -13,12 +13,12 @@ import {
 import ImageUploader from "./ImageUploader";
 import VideoUploader from "./VideoUploader";
 import {
-  Palette, Image, Menu, FileText, Video, Calendar, Share2, Settings, Save, LogOut, ExternalLink, Plus, Trash2, MapPin,
+  Palette, Image, Menu, FileText, Video, Calendar, Share2, Settings, Save, LogOut, ExternalLink, Plus, Trash2, MapPin, User,
 } from "lucide-react";
 import ActionMapAdmin from "./ActionMapAdmin";
 import NewsAdmin from "./NewsAdmin";
 import PropostasAdmin from "./PropostasAdmin";
-import AboutMetricIconField from "./AboutMetricIconField";
+import SobreAdmin from "./SobreAdmin";
 
 interface AdminDashboardProps {
   config: SiteConfig;
@@ -27,13 +27,14 @@ interface AdminDashboardProps {
   onLogout: () => void;
 }
 
-type Tab = "theme" | "images" | "menu" | "content" | "news" | "propostas" | "videos" | "agenda" | "actionMap" | "social" | "settings";
+type Tab = "theme" | "images" | "menu" | "content" | "sobre" | "news" | "propostas" | "videos" | "agenda" | "actionMap" | "social" | "settings";
 
 const TABS: { id: Tab; label: string; icon: React.ReactNode }[] = [
   { id: "theme", label: "Cores & Tema", icon: <Palette size={18} /> },
   { id: "images", label: "Imagens", icon: <Image size={18} /> },
   { id: "menu", label: "Menus", icon: <Menu size={18} /> },
   { id: "content", label: "Conteúdo", icon: <FileText size={18} /> },
+  { id: "sobre", label: "Sobre", icon: <User size={18} /> },
   { id: "news", label: "Notícias", icon: <FileText size={18} /> },
   { id: "propostas", label: "Propostas", icon: <FileText size={18} /> },
   { id: "videos", label: "Vídeos", icon: <Video size={18} /> },
@@ -322,318 +323,11 @@ export default function AdminDashboard({ config: initialConfig, token, onSave, o
               </div>
 
               <div className="admin-card">
-                <h2 className="text-xl font-bold mb-4">Sobre</h2>
-                <div className="space-y-4">
-                  <div>
-                    <label className="admin-label">Texto Curto (Home — efeito digitação)</label>
-                    <textarea className="admin-input min-h-[100px]" value={config.about.shortText} onChange={(e) => update("about", { ...config.about, shortText: e.target.value })} />
-                  </div>
-                  <div>
-                    <label className="admin-label">Texto Completo (Página Sobre)</label>
-                    <textarea className="admin-input min-h-[200px]" value={config.about.fullText} onChange={(e) => update("about", { ...config.about, fullText: e.target.value })} />
-                  </div>
-                  <div>
-                    <label className="admin-label">Números da seção Sobre (Home)</label>
-                    <p className="text-sm text-gray-500 mb-3">Emoji, upload de SVG ou código SVG inline para cada estatística.</p>
-                    {(config.about.metrics ?? []).map((metric, i) => (
-                      <div key={metric.id} className="border rounded-lg p-3 mb-3 space-y-3">
-                        <AboutMetricIconField
-                          value={metric.icon}
-                          token={token}
-                          onChange={(icon) => {
-                            const metrics = [...(config.about.metrics ?? [])];
-                            metrics[i] = { ...metrics[i], icon };
-                            update("about", { ...config.about, metrics });
-                          }}
-                        />
-                        <div className="grid md:grid-cols-[120px_1fr_auto] gap-3 items-end">
-                        <div>
-                          <label className="admin-label">Número</label>
-                          <input
-                            type="number"
-                            className="admin-input"
-                            value={metric.value}
-                            onChange={(e) => {
-                              const metrics = [...(config.about.metrics ?? [])];
-                              metrics[i] = { ...metrics[i], value: Number(e.target.value) || 0 };
-                              update("about", { ...config.about, metrics });
-                            }}
-                          />
-                        </div>
-                        <div>
-                          <label className="admin-label">Descrição</label>
-                          <input
-                            className="admin-input"
-                            value={metric.label}
-                            onChange={(e) => {
-                              const metrics = [...(config.about.metrics ?? [])];
-                              metrics[i] = { ...metrics[i], label: e.target.value };
-                              update("about", { ...config.about, metrics });
-                            }}
-                          />
-                        </div>
-                        <button
-                          type="button"
-                          onClick={() => {
-                            const metrics = (config.about.metrics ?? []).filter((m) => m.id !== metric.id);
-                            update("about", { ...config.about, metrics });
-                          }}
-                          className="text-red-500 p-2"
-                          aria-label="Remover estatística"
-                        >
-                          <Trash2 size={16} />
-                        </button>
-                        </div>
-                      </div>
-                    ))}
-                    <button
-                      type="button"
-                      onClick={() => {
-                        const metrics = [...(config.about.metrics ?? []), {
-                          id: String(Date.now()),
-                          icon: "📍",
-                          value: 0,
-                          label: "nova estatística",
-                        }];
-                        update("about", { ...config.about, metrics });
-                      }}
-                      className="admin-btn flex items-center gap-2"
-                    >
-                      <Plus size={16} /> Adicionar estatística
-                    </button>
-                  </div>
-
-                  <div className="pt-4 border-t">
-                    <label className="admin-label">Galeria horizontal (página Sobre)</label>
-                    <p className="text-sm text-gray-500 mb-3">
-                      Cards com foto + texto em scroll horizontal.
-                    </p>
-                    {(config.about.gallery ?? []).map((item, i) => (
-                      <div key={item.id} className="border rounded-lg p-3 mb-3 space-y-3">
-                        <ImageUploader
-                          label="Foto"
-                          value={item.image}
-                          token={token}
-                          focus={{
-                            x: item.imageFocusX,
-                            y: item.imageFocusY,
-                            zoom: item.imageZoom,
-                          }}
-                          onChange={(image) => {
-                            const gallery = [...(config.about.gallery ?? [])];
-                            gallery[i] = { ...gallery[i], image };
-                            update("about", { ...config.about, gallery });
-                          }}
-                          onFocusChange={(focus) => {
-                            const gallery = [...(config.about.gallery ?? [])];
-                            gallery[i] = {
-                              ...gallery[i],
-                              imageFocusX: focus.x,
-                              imageFocusY: focus.y,
-                              imageZoom: focus.zoom,
-                            };
-                            update("about", { ...config.about, gallery });
-                          }}
-                          focusPreviewAspect="tall"
-                        />
-                        <div className="grid md:grid-cols-2 gap-3">
-                          <div>
-                            <label className="admin-label">Tag</label>
-                            <input
-                              className="admin-input"
-                              value={item.tag || ""}
-                              onChange={(e) => {
-                                const gallery = [...(config.about.gallery ?? [])];
-                                gallery[i] = { ...gallery[i], tag: e.target.value };
-                                update("about", { ...config.about, gallery });
-                              }}
-                            />
-                          </div>
-                          <div>
-                            <label className="admin-label">Título</label>
-                            <input
-                              className="admin-input"
-                              value={item.title}
-                              onChange={(e) => {
-                                const gallery = [...(config.about.gallery ?? [])];
-                                gallery[i] = { ...gallery[i], title: e.target.value };
-                                update("about", { ...config.about, gallery });
-                              }}
-                            />
-                          </div>
-                        </div>
-                        <div>
-                          <label className="admin-label">Texto</label>
-                          <textarea
-                            className="admin-input min-h-[80px]"
-                            value={item.text}
-                            onChange={(e) => {
-                              const gallery = [...(config.about.gallery ?? [])];
-                              gallery[i] = { ...gallery[i], text: e.target.value };
-                              update("about", { ...config.about, gallery });
-                            }}
-                          />
-                        </div>
-                        <button
-                          type="button"
-                          className="text-red-500 text-sm"
-                          onClick={() => {
-                            const gallery = (config.about.gallery ?? []).filter((g) => g.id !== item.id);
-                            update("about", { ...config.about, gallery });
-                          }}
-                        >
-                          Remover card
-                        </button>
-                      </div>
-                    ))}
-                    <button
-                      type="button"
-                      className="admin-btn flex items-center gap-2"
-                      onClick={() => {
-                        const gallery = [
-                          ...(config.about.gallery ?? []),
-                          {
-                            id: String(Date.now()),
-                            image: config.images.aboutBg || config.images.heroPhoto,
-                            tag: "Novo",
-                            title: "Novo card",
-                            text: "",
-                          },
-                        ];
-                        update("about", { ...config.about, gallery });
-                      }}
-                    >
-                      <Plus size={16} /> Adicionar card da galeria
-                    </button>
-                  </div>
-
-                  <div className="pt-4 border-t">
-                    <label className="admin-label">Linha do tempo (página Sobre)</label>
-                    <p className="text-sm text-gray-500 mb-3">
-                      Blocos alternados de texto e foto, como uma trajetória.
-                    </p>
-                    <div className="grid md:grid-cols-2 gap-3 mb-4">
-                      <div>
-                        <label className="admin-label">Rótulo</label>
-                        <input
-                          className="admin-input"
-                          value={config.about.timelineEyebrow || ""}
-                          onChange={(e) =>
-                            update("about", { ...config.about, timelineEyebrow: e.target.value })
-                          }
-                          placeholder="Sobre"
-                        />
-                      </div>
-                      <div>
-                        <label className="admin-label">Título da seção</label>
-                        <input
-                          className="admin-input"
-                          value={config.about.timelineTitle || ""}
-                          onChange={(e) =>
-                            update("about", { ...config.about, timelineTitle: e.target.value })
-                          }
-                          placeholder="A trajetória"
-                        />
-                      </div>
-                    </div>
-                    {(config.about.timeline ?? []).map((item, i) => (
-                      <div key={item.id} className="border rounded-lg p-3 mb-3 space-y-3">
-                        <ImageUploader
-                          label="Foto"
-                          value={item.image || ""}
-                          token={token}
-                          focus={{
-                            x: item.imageFocusX,
-                            y: item.imageFocusY,
-                            zoom: item.imageZoom,
-                          }}
-                          onChange={(image) => {
-                            const timeline = [...(config.about.timeline ?? [])];
-                            timeline[i] = { ...timeline[i], image };
-                            update("about", { ...config.about, timeline });
-                          }}
-                          onFocusChange={(focus) => {
-                            const timeline = [...(config.about.timeline ?? [])];
-                            timeline[i] = {
-                              ...timeline[i],
-                              imageFocusX: focus.x,
-                              imageFocusY: focus.y,
-                              imageZoom: focus.zoom,
-                            };
-                            update("about", { ...config.about, timeline });
-                          }}
-                        />
-                        <div className="grid md:grid-cols-2 gap-3">
-                          <div>
-                            <label className="admin-label">Ano / etapa</label>
-                            <input
-                              className="admin-input"
-                              value={item.year || ""}
-                              onChange={(e) => {
-                                const timeline = [...(config.about.timeline ?? [])];
-                                timeline[i] = { ...timeline[i], year: e.target.value };
-                                update("about", { ...config.about, timeline });
-                              }}
-                            />
-                          </div>
-                          <div>
-                            <label className="admin-label">Título</label>
-                            <input
-                              className="admin-input"
-                              value={item.title}
-                              onChange={(e) => {
-                                const timeline = [...(config.about.timeline ?? [])];
-                                timeline[i] = { ...timeline[i], title: e.target.value };
-                                update("about", { ...config.about, timeline });
-                              }}
-                            />
-                          </div>
-                        </div>
-                        <div>
-                          <label className="admin-label">Texto</label>
-                          <textarea
-                            className="admin-input min-h-[90px]"
-                            value={item.text}
-                            onChange={(e) => {
-                              const timeline = [...(config.about.timeline ?? [])];
-                              timeline[i] = { ...timeline[i], text: e.target.value };
-                              update("about", { ...config.about, timeline });
-                            }}
-                          />
-                        </div>
-                        <button
-                          type="button"
-                          className="text-red-500 text-sm"
-                          onClick={() => {
-                            const timeline = (config.about.timeline ?? []).filter((t) => t.id !== item.id);
-                            update("about", { ...config.about, timeline });
-                          }}
-                        >
-                          Remover marco
-                        </button>
-                      </div>
-                    ))}
-                    <button
-                      type="button"
-                      className="admin-btn flex items-center gap-2"
-                      onClick={() => {
-                        const timeline = [
-                          ...(config.about.timeline ?? []),
-                          {
-                            id: String(Date.now()),
-                            image: config.images.heroPhoto,
-                            year: "",
-                            title: "Novo marco",
-                            text: "",
-                          },
-                        ];
-                        update("about", { ...config.about, timeline });
-                      }}
-                    >
-                      <Plus size={16} /> Adicionar marco da linha do tempo
-                    </button>
-                  </div>
-                </div>
+                <h2 className="text-xl font-bold mb-2">Sobre</h2>
+                <p className="text-sm text-gray-600">
+                  A página Sobre (cabeçalho, introdução, galeria e linha do tempo) agora é editada na aba{" "}
+                  <strong>Sobre</strong> do menu lateral.
+                </p>
               </div>
 
               <div className="admin-card">
@@ -680,6 +374,15 @@ export default function AdminDashboard({ config: initialConfig, token, onSave, o
                 </div>
               </div>
             </div>
+          )}
+
+          {tab === "sobre" && (
+            <SobreAdmin
+              about={config.about}
+              fallbackIntroImage={config.images.heroPhotoOriginal || config.images.heroPhoto}
+              token={token}
+              onChange={(about) => update("about", about)}
+            />
           )}
 
           {tab === "news" && (

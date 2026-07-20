@@ -5,13 +5,21 @@ import type { AboutGalleryItem } from "@/lib/types";
 
 interface AboutGalleryProps {
   items: AboutGalleryItem[];
+  eyebrow?: string;
+  title?: string;
 }
 
-export default function AboutGallery({ items }: AboutGalleryProps) {
+export default function AboutGallery({ items, eyebrow, title }: AboutGalleryProps) {
   if (!items.length) return null;
 
   return (
-    <section className="about-gallery" aria-label="Galeria">
+    <section className="about-gallery" aria-label={title || "Galeria"}>
+      {(eyebrow?.trim() || title?.trim()) && (
+        <div className="container-site about-gallery-header">
+          {eyebrow?.trim() && <p className="about-gallery-eyebrow">{eyebrow}</p>}
+          {title?.trim() && <h2 className="about-gallery-title">{title}</h2>}
+        </div>
+      )}
       <div className="about-gallery-track">
         {items.map((item) => (
           <article key={item.id} className="about-gallery-card">

@@ -238,10 +238,26 @@ export interface SiteConfig {
     shortText: string;
     fullText: string;
     metrics: AboutMetric[];
+    /** Cabeçalho da página /sobre */
+    pageEyebrow?: string;
+    pageHeading?: string;
+    pageSubtitle?: string;
+    /** Bloco introdutório */
+    introImage?: string;
+    introImageFocusX?: number;
+    introImageFocusY?: number;
+    introImageZoom?: number;
+    introText?: string;
+    /** Galeria horizontal */
+    showGallery?: boolean;
+    galleryEyebrow?: string;
+    galleryTitle?: string;
     gallery?: AboutGalleryItem[];
-    timeline?: AboutTimelineItem[];
+    /** Linha do tempo */
+    showTimeline?: boolean;
     timelineEyebrow?: string;
     timelineTitle?: string;
+    timeline?: AboutTimelineItem[];
   };
   senado: {
     title: string;

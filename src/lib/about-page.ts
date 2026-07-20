@@ -71,58 +71,100 @@ export function buildDefaultAboutTimeline(images: Images): AboutTimelineItem[] {
   ];
 }
 
+function resolveList<T>(
+  current: T[] | undefined,
+  fallback: T[] | undefined,
+  buildDefault: () => T[]
+): T[] {
+  if (Array.isArray(current)) return current;
+  if (Array.isArray(fallback) && fallback.length) return fallback;
+  return buildDefault();
+}
+
+function defaultIntroText(fullText?: string): string {
+  if (!fullText?.trim()) return "";
+  return fullText
+    .split(/\n\n+/)
+    .map((p) => p.trim())
+    .filter(Boolean)
+    .slice(0, 2)
+    .join("\n\n");
+}
+
 export function normalizeAboutSection(
   about: SiteConfig["about"] | undefined,
   images: Images,
   defaultsFromFile?: SiteConfig["about"]
 ): SiteConfig["about"] {
   const base = about ?? defaultsFromFile;
-  const gallerySource =
-    about?.gallery?.length
-      ? about.gallery
-      : defaultsFromFile?.gallery?.length
-        ? defaultsFromFile.gallery
-        : buildDefaultAboutGallery(images);
-  const timelineSource =
-    about?.timeline?.length
-      ? about.timeline
-      : defaultsFromFile?.timeline?.length
-        ? defaultsFromFile.timeline
-        : buildDefaultAboutTimeline(images);
+  const gallerySource = resolveList(
+    about?.gallery,
+    defaultsFromFile?.gallery,
+    () => buildDefaultAboutGallery(images)
+  );
+  const timelineSource = resolveList(
+    about?.timeline,
+    defaultsFromFile?.timeline,
+    () => buildDefaultAboutTimeline(images)
+  );
+
+  const introImage =
+    base?.introImage?.trim() ||
+    defaultsFromFile?.introImage?.trim() ||
+    images.heroPhotoOriginal ||
+    images.heroPhoto ||
+    "";
 
   return {
     shortText: base?.shortText ?? "",
     fullText: base?.fullText ?? "",
     metrics: base?.metrics?.length ? base.metrics : defaultsFromFile?.metrics ?? [],
+    pageEyebrow: base?.pageEyebrow ?? defaultsFromFile?.pageEyebrow ?? "Conheça",
+    pageHeading: base?.pageHeading ?? defaultsFromFile?.pageHeading ?? "",
+    pageSubtitle: base?.pageSubtitle ?? defaultsFromFile?.pageSubtitle ?? "Sobre",
+    introImage,
+    introImageFocusX: clampImageFocusAxis(
+      base?.introImageFocusX ?? defaultsFromFile?.introImageFocusX ?? DEFAULT_IMAGE_FOCUS.x
+    ),
+    introImageFocusY: clampImageFocusAxis(
+      base?.introImageFocusY ?? defaultsFromFile?.introImageFocusY ?? DEFAULT_IMAGE_FOCUS.y
+    ),
+    introImageZoom: clampImageZoom(
+      base?.introImageZoom ?? defaultsFromFile?.introImageZoom ?? DEFAULT_IMAGE_FOCUS.zoom
+    ),
+    introText:
+      base?.introText ??
+      defaultsFromFile?.introText ??
+      defaultIntroText(base?.fullText || defaultsFromFile?.fullText),
+    showGallery: base?.showGallery !== false,
+    galleryEyebrow: base?.galleryEyebrow ?? defaultsFromFile?.galleryEyebrow ?? "",
+    galleryTitle: base?.galleryTitle ?? defaultsFromFile?.galleryTitle ?? "",
+    showTimeline: base?.showTimeline !== false,
     timelineEyebrow: base?.timelineEyebrow || defaultsFromFile?.timelineEyebrow || "Sobre",
     timelineTitle: base?.timelineTitle || defaultsFromFile?.timelineTitle || "A trajetória",
-    gallery: gallerySource
-      .filter((item) => item.image || item.title)
-      .map((item) =>
-        withFocus({
-          id: item.id || String(Date.now()),
-          image: item.image || "",
-          tag: item.tag?.trim() || "",
-          title: item.title?.trim() || "Sem título",
-          text: item.text?.trim() || "",
-          imageFocusX: item.imageFocusX,
-          imageFocusY: item.imageFocusY,
-          imageZoom: item.imageZoom,
-        })
-      ) as AboutGalleryItem[],
-    timeline: timelineSource
-      .filter((item) => item.title || item.text)
-      .map((item) =>
-        withFocus({
-          id: item.id || String(Date.now()),
-          image: item.image || "",
-          year: item.year?.trim() || "",
-          title: item.title?.trim() || "Marco",
-          text: item.text?.trim() || "",
-          imageFocusX: item.imageFocusX,
-          imageFocusY: item.imageFocusY,
-          imageZoom: item.imageZoom,
-        })
-      ) as AboutTimelineItem[],
+    gallery: gallerySource.map((item, index) =>
+      withFocus({
+        id: item.id || `g-${index + 1}`,
+        image: item.image || "",
+        tag: item.tag?.trim() || "",
+        title: item.title?.trim() || "Sem título",
+        text: item.text?.trim() || "",
+        imageFocusX: item.imageFocusX,
+        imageFocusY: item.imageFocusY,
+        imageZoom: item.imageZoom,
+      })
+    ) as AboutGalleryItem[],
+    timeline: timelineSource.map((item, index) =>
+      withFocus({
+        id: item.id || `t-${index + 1}`,
+        image: item.image || "",
+        year: item.year?.trim() || "",
+        title: item.title?.trim() || "Marco",
+        text: item.text?.trim() || "",
+        imageFocusX: item.imageFocusX,
+        imageFocusY: item.imageFocusY,
+        imageZoom: item.imageZoom,
+      })
+    ) as AboutTimelineItem[],
   };
 }
