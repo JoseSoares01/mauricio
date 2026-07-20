@@ -261,10 +261,16 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .mobile-nav-actions {
-  display: flex;
+  display: none;
   align-items: center;
   gap: 0.55rem;
   margin-left: auto;
+}
+
+@media (max-width: 767px) {
+  .mobile-nav-actions {
+    display: flex;
+  }
 }
 
 .about-me-btn {
