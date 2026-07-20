@@ -33,7 +33,7 @@ export default function Header({ menu }: HeaderProps) {
 
   return (
     <header className="fixed top-[10px] left-0 right-0 z-50">
-      <nav className="container-site flex items-center justify-end py-3 sm:py-4">
+      <nav className="container-site flex items-center justify-end pt-5 pb-3 md:py-4">
         <ul className="hidden md:flex gap-8 list-none m-0 p-0">
           {menu.map((item) => {
             const active = isMenuActive(pathname, item.href);
