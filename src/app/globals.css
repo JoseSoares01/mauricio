@@ -1148,7 +1148,7 @@ path.animate-\[dash_10s_linear_infinite\] {
 
 .about-gallery {
   background: var(--color-primary);
-  padding: 2.5rem 0 3.5rem;
+  padding: 2.75rem 0 4rem;
   overflow: hidden;
 }
 
@@ -1180,8 +1180,9 @@ path.animate-\[dash_10s_linear_infinite\] {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.35rem;
-  max-width: 1200px;
+  gap: 0.5rem;
+  width: 100%;
+  max-width: 1480px;
   margin: 0 auto;
   padding: 0 0.75rem;
 }
@@ -1189,9 +1190,24 @@ path.animate-\[dash_10s_linear_infinite\] {
 .about-gallery-coverflow {
   position: relative;
   flex: 1;
-  height: min(68vh, 540px);
-  perspective: 1400px;
-  overflow: hidden;
+  height: min(70vh, 560px);
+  perspective: 1600px;
+  overflow: visible;
+  /* Máscara suave nas laterais: sensação de galeria contínua */
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    #000 8%,
+    #000 92%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    #000 8%,
+    #000 92%,
+    transparent 100%
+  );
 }
 
 .about-gallery-nav {
@@ -1210,7 +1226,7 @@ path.animate-\[dash_10s_linear_infinite\] {
   -webkit-backdrop-filter: blur(10px);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
   transition: transform 0.2s ease, background-color 0.2s ease;
-  z-index: 30;
+  z-index: 40;
 }
 
 .about-gallery-nav:hover {
@@ -1222,10 +1238,10 @@ path.animate-\[dash_10s_linear_infinite\] {
   position: absolute;
   left: 50%;
   top: 50%;
-  width: min(72vw, 320px);
-  height: min(68vh, 520px);
-  margin-left: calc(min(72vw, 320px) / -2);
-  margin-top: calc(min(68vh, 520px) / -2);
+  width: min(72vw, 300px);
+  height: min(66vh, 500px);
+  margin-left: calc(min(72vw, 300px) / -2);
+  margin-top: calc(min(66vh, 500px) / -2);
   overflow: hidden;
   border-radius: 18px;
   background: color-mix(in srgb, var(--color-primary) 70%, black);
@@ -1241,7 +1257,26 @@ path.animate-\[dash_10s_linear_infinite\] {
 
 .about-gallery-card.is-active {
   cursor: default;
-  box-shadow: 0 28px 56px rgba(0, 0, 0, 0.42);
+  box-shadow: 0 28px 56px rgba(0, 0, 0, 0.45);
+}
+
+@media (min-width: 1024px) {
+  .about-gallery-stage {
+    max-width: none;
+    padding: 0 1.25rem;
+    gap: 0.75rem;
+  }
+
+  .about-gallery-coverflow {
+    height: min(72vh, 580px);
+  }
+
+  .about-gallery-card {
+    width: min(22vw, 280px);
+    height: min(64vh, 520px);
+    margin-left: calc(min(22vw, 280px) / -2);
+    margin-top: calc(min(64vh, 520px) / -2);
+  }
 }
 
 @media (max-width: 767px) {
@@ -1257,19 +1292,15 @@ path.animate-\[dash_10s_linear_infinite\] {
 
   .about-gallery-coverflow {
     height: min(62vh, 500px);
+    -webkit-mask-image: none;
+    mask-image: none;
+    overflow: hidden;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .about-gallery-card {
     transition: opacity 0.2s ease;
-  }
-}
-
-@media (min-width: 768px) {
-  .about-gallery-card {
-    width: min(36vw, 340px);
-    margin-left: calc(min(36vw, 340px) / -2);
   }
 }
 
