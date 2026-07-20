@@ -52,7 +52,7 @@
     "instagram": "https://www.instagram.com/maumau_piaui?igsh=Nmk0bjM1Z2JoODZ0&utm_source=qr  ",
     "facebook": "https://www.facebook.com/share/1Cj6xvjAKM/?mibextid=wwXIfr  ",
     "twitter": "https://x.com/maumau_piaui?s=11  ",
-    "youtube": "https://youtube.com/",
+    "youtube": "https://www.youtube.com/@maumau_piaui",
     "tiktok": "https://www.tiktok.com/@maumau_pi?_r=1&_t=ZS-972pWisdzGO  "
   },
   "images": {
@@ -66,7 +66,14 @@
     "senadoBg": "https://raw.githubusercontent.com/JoseSoares01/mauricio/main/public/uploads/1781811382721-f8c2cru914v.jpg",
     "banner": "https://raw.githubusercontent.com/JoseSoares01/mauricio/main/public/uploads/1781625358314-e21ya04w4c8.jpeg",
     "bannerSecondary": "",
-    "favicon": "/uploads/favicon-192.png"
+    "favicon": "/uploads/favicon-192.png",
+    "focus": {
+      "aboutBg": {
+        "x": 42,
+        "y": 74,
+        "zoom": 100
+      }
+    }
   },
   "hero": {
     "titleLine1": "PRÉ-CANDIDATO",
@@ -218,7 +225,8 @@
       "image": "https://raw.githubusercontent.com/JoseSoares01/mauricio/main/public/uploads/1781812178493-v0gh64vfjbd.webp",
       "imageFocusX": 50,
       "imageFocusY": 41,
-      "content": "## **Dr. Maurício Soares dispara em enquete pública para Dep. Federal no Piauí**\n\nO portal **Br Hoje** realizou, por meio de seu perfil oficial no Instagram, uma enquete com seguidores para conhecer a preferência do público entre alguns nomes que vêm sendo mencionados no cenário político piauiense como possíveis candidatos a deputado federal nas próximas eleições.\n\nNa consulta, Maurício Soares obteve 56% dos votos, alcançando o melhor desempenho entre os participantes. Também fizeram parte da enquete **Zenaíde Lustosa**, **Gyselle Cajuína** e **Liamara Alencar**. O resultado gerou repercussão entre os seguidores e reforçou a visibilidade que alguns desses nomes vêm conquistando nas redes sociais e nos debates públicos.\n\nVale destacar que essas enquentes, costumam servir como um termômetro do interesse e do engajamento do público que acompanha determinados perfis e veículos de comunicação.\n\nNo caso de **Maurício Soares**, o resultado chama atenção pelo crescimento de sua presença em diferentes espaços de discussão no estado. Conhecido por sua atuação na área científica e acadêmica, o pesquisador tem ampliado sua participação em pautas relacionadas ao desenvolvimento regional, educação, inovação, mobilidade urbana, sustentabilidade e políticas públicas.\n\nAo longo de sua trajetória, **Maurício Soares** construiu reconhecimento em áreas ligadas à pesquisa, produção científica e projetos sociais. Nos últimos meses, sua presença em eventos, entrevistas e encontros com lideranças locais tem contribuído para aumentar a projeção de seu nome junto a diferentes segmentos da sociedade piauiense.\n\nA enquete realizada pelo Br Hoje também evidencia o interesse crescente da população em acompanhar novos nomes que buscam espaço no cenário político estadual. Em um período pré-eleitoral, iniciativas desse tipo costumam gerar debates sobre propostas, prioridades e os desafios enfrentados pelo estado, especialmente em temas como geração de emprego, infraestrutura, educação, saúde e desenvolvimento econômico.\n\nEspecialistas observam que a presença digital tem se tornado cada vez mais relevante para figuras públicas e pré-candidatos. Redes sociais e plataformas online passaram a desempenhar um papel importante na aproximação entre lideranças e cidadãos, permitindo maior interação e participação do público em discussões sobre o futuro do estado.\n\nO desempenho registrado na enquete demonstra que Maurício Soares tem conseguido atrair atenção e engajamento entre os seguidores do portal. O resultado soma-se a outros indicadores de visibilidade pública e contribui para manter seu nome em evidência nas conversas políticas que antecedem o próximo ciclo eleitoral.\n\nA série de enquetes promovida pelo Br Hoje continua ouvindo a opinião dos seguidores sobre diferentes nomes do cenário piauiense, acompanhando tendências de engajamento e estimulando o debate democrático nas redes sociais."
+      "content": "## **Dr. Maurício Soares dispara em enquete pública para Dep. Federal no Piauí**\n\nO portal **Br Hoje** realizou, por meio de seu perfil oficial no Instagram, uma enquete com seguidores para conhecer a preferência do público entre alguns nomes que vêm sendo mencionados no cenário político piauiense como possíveis candidatos a deputado federal nas próximas eleições.\n\nNa consulta, Maurício Soares obteve 56% dos votos, alcançando o melhor desempenho entre os participantes. Também fizeram parte da enquete **Zenaíde Lustosa**, **Gyselle Cajuína** e **Liamara Alencar**. O resultado gerou repercussão entre os seguidores e reforçou a visibilidade que alguns desses nomes vêm conquistando nas redes sociais e nos debates públicos.\n\nVale destacar que essas enquentes, costumam servir como um termômetro do interesse e do engajamento do público que acompanha determinados perfis e veículos de comunicação.\n\nNo caso de **Maurício Soares**, o resultado chama atenção pelo crescimento de sua presença em diferentes espaços de discussão no estado. Conhecido por sua atuação na área científica e acadêmica, o pesquisador tem ampliado sua participação em pautas relacionadas ao desenvolvimento regional, educação, inovação, mobilidade urbana, sustentabilidade e políticas públicas.\n\nAo longo de sua trajetória, **Maurício Soares** construiu reconhecimento em áreas ligadas à pesquisa, produção científica e projetos sociais. Nos últimos meses, sua presença em eventos, entrevistas e encontros com lideranças locais tem contribuído para aumentar a projeção de seu nome junto a diferentes segmentos da sociedade piauiense.\n\nA enquete realizada pelo Br Hoje também evidencia o interesse crescente da população em acompanhar novos nomes que buscam espaço no cenário político estadual. Em um período pré-eleitoral, iniciativas desse tipo costumam gerar debates sobre propostas, prioridades e os desafios enfrentados pelo estado, especialmente em temas como geração de emprego, infraestrutura, educação, saúde e desenvolvimento econômico.\n\nEspecialistas observam que a presença digital tem se tornado cada vez mais relevante para figuras públicas e pré-candidatos. Redes sociais e plataformas online passaram a desempenhar um papel importante na aproximação entre lideranças e cidadãos, permitindo maior interação e participação do público em discussões sobre o futuro do estado.\n\nO desempenho registrado na enquete demonstra que Maurício Soares tem conseguido atrair atenção e engajamento entre os seguidores do portal. O resultado soma-se a outros indicadores de visibilidade pública e contribui para manter seu nome em evidência nas conversas políticas que antecedem o próximo ciclo eleitoral.\n\nA série de enquetes promovida pelo Br Hoje continua ouvindo a opinião dos seguidores sobre diferentes nomes do cenário piauiense, acompanhando tendências de engajamento e estimulando o debate democrático nas redes sociais.",
+      "imageZoom": 100
     },
     {
       "id": "1781279000002",
@@ -229,7 +237,8 @@
       "image": "https://raw.githubusercontent.com/JoseSoares01/mauricio/main/public/uploads/1781812675677-g2f3xaeg80k.jpeg",
       "imageFocusX": 36,
       "imageFocusY": 0,
-      "content": "## **Aplicativo desenvolvido por piauienses promete modernizar transporte público de Teresina com monitoramento de ônibus em tempo real**\n\nUm aplicativo desenvolvido por piauienses promete modernizar o transporte público de Teresina com **monitoramento de ônibus em tempo real**, facilitando o dia a dia de quem depende do transporte coletivo na capital.\n\nA ferramenta **MMBus** foi criada para oferecer mais praticidade, transparência e informação aos usuários, permitindo consultar linhas, trajetos e atualizações diretamente pelo celular.\n\nMaurício Soares, envolvido no projeto, defende que soluções tecnológicas desenvolvidas localmente são fundamentais para melhorar a qualidade de vida da população e modernizar serviços públicos essenciais.\n\n**Aplicativo desenvolvido por piauienses promete modernizar o transporte público de Teresina com monitoramento de ônibus em tempo real**\n\nUma iniciativa criada por piauienses está chamando a atenção pela proposta de transformar a experiência dos usuários do transporte coletivo em Teresina. O aplicativo **MMBus** foi desenvolvido para oferecer mais praticidade, transparência e acesso à informação para quem depende diariamente dos ônibus da capital.\n\nDisponível para smartphones, a plataforma permite que os passageiros acompanhem a localização dos ônibus em tempo real, consultem linhas, trajetos e recebam atualizações diretamente pelo celular. A ferramenta busca reduzir a incerteza nos deslocamentos e proporcionar mais segurança e previsibilidade aos usuários do sistema.\n\nAlém do monitoramento em tempo real, o MMBus apresenta diferenciais importantes em relação às soluções tradicionais. Um deles é a possibilidade de o usuário acompanhar seus **créditos do transporte diretamente pelo aplicativo**, facilitando o controle dos saldos e contribuindo para uma gestão mais prática do dia a dia.\n\nOutro destaque é a identificação dos **ônibus equipados com recursos de acessibilidade**, permitindo que pessoas com deficiência, idosos e usuários com mobilidade reduzida possam planejar suas viagens com mais autonomia e inclusão.\n\nEnvolvido no projeto, **Maurício Soares** destaca a importância de investir em soluções tecnológicas desenvolvidas localmente para enfrentar desafios urbanos.\n\n*\"Acreditamos que a tecnologia pode aproximar o cidadão dos serviços públicos e melhorar a qualidade de vida das pessoas. O MMBus nasce com esse propósito: oferecer informação confiável, facilitar a rotina dos usuários e contribuir para a modernização do transporte público de Teresina\",* afirma.\n\nDesenvolvido por piauienses e pensado para atender às necessidades da população local, o MMBus representa um exemplo de como a inovação regional pode gerar impacto positivo na prestação de serviços essenciais. A expectativa dos idealizadores é que a ferramenta continue evoluindo, incorporando novas funcionalidades e se consolidando como uma aliada dos milhares de teresinenses que utilizam o transporte coletivo todos os dias.\n\nAssista o video: [www.instagram.com/p/DZKy3ymRkDC/](https://www.instagram.com/p/DZKy3ymRkDC/)"
+      "content": "## **Aplicativo desenvolvido por piauienses promete modernizar transporte público de Teresina com monitoramento de ônibus em tempo real**\n\nUm aplicativo desenvolvido por piauienses promete modernizar o transporte público de Teresina com **monitoramento de ônibus em tempo real**, facilitando o dia a dia de quem depende do transporte coletivo na capital.\n\nA ferramenta **MMBus** foi criada para oferecer mais praticidade, transparência e informação aos usuários, permitindo consultar linhas, trajetos e atualizações diretamente pelo celular.\n\nMaurício Soares, envolvido no projeto, defende que soluções tecnológicas desenvolvidas localmente são fundamentais para melhorar a qualidade de vida da população e modernizar serviços públicos essenciais.\n\n**Aplicativo desenvolvido por piauienses promete modernizar o transporte público de Teresina com monitoramento de ônibus em tempo real**\n\nUma iniciativa criada por piauienses está chamando a atenção pela proposta de transformar a experiência dos usuários do transporte coletivo em Teresina. O aplicativo **MMBus** foi desenvolvido para oferecer mais praticidade, transparência e acesso à informação para quem depende diariamente dos ônibus da capital.\n\nDisponível para smartphones, a plataforma permite que os passageiros acompanhem a localização dos ônibus em tempo real, consultem linhas, trajetos e recebam atualizações diretamente pelo celular. A ferramenta busca reduzir a incerteza nos deslocamentos e proporcionar mais segurança e previsibilidade aos usuários do sistema.\n\nAlém do monitoramento em tempo real, o MMBus apresenta diferenciais importantes em relação às soluções tradicionais. Um deles é a possibilidade de o usuário acompanhar seus **créditos do transporte diretamente pelo aplicativo**, facilitando o controle dos saldos e contribuindo para uma gestão mais prática do dia a dia.\n\nOutro destaque é a identificação dos **ônibus equipados com recursos de acessibilidade**, permitindo que pessoas com deficiência, idosos e usuários com mobilidade reduzida possam planejar suas viagens com mais autonomia e inclusão.\n\nEnvolvido no projeto, **Maurício Soares** destaca a importância de investir em soluções tecnológicas desenvolvidas localmente para enfrentar desafios urbanos.\n\n*\"Acreditamos que a tecnologia pode aproximar o cidadão dos serviços públicos e melhorar a qualidade de vida das pessoas. O MMBus nasce com esse propósito: oferecer informação confiável, facilitar a rotina dos usuários e contribuir para a modernização do transporte público de Teresina\",* afirma.\n\nDesenvolvido por piauienses e pensado para atender às necessidades da população local, o MMBus representa um exemplo de como a inovação regional pode gerar impacto positivo na prestação de serviços essenciais. A expectativa dos idealizadores é que a ferramenta continue evoluindo, incorporando novas funcionalidades e se consolidando como uma aliada dos milhares de teresinenses que utilizam o transporte coletivo todos os dias.\n\nAssista o video: [www.instagram.com/p/DZKy3ymRkDC/](https://www.instagram.com/p/DZKy3ymRkDC/)",
+      "imageZoom": 100
     },
     {
       "id": "1781279000003",
@@ -240,7 +249,8 @@
       "image": "https://raw.githubusercontent.com/JoseSoares01/mauricio/main/public/uploads/1781814735944-slq471u0dv9.jpg",
       "imageFocusX": 51,
       "imageFocusY": 46,
-      "content": "**Dr. Maurício Soares** possui um indice de publicações alto em relação a média brasileira de cientistas, fez diversas contribuições e possui em torno de 1320 citações em trabalhos, Doutor em Zootecnia Tropical (PPGZT) na área de Genética, Melhoramento Genético e Reprodução Animal nos Trópicos, Mestre em Genética e Melhoramento (PPGM) na Universidade Federal do Piauí (UFPI), Pós-Graduado em Biologia Molecular (FAUN), Graduado em Licenciatura em Ciências Biológicas pelo Instituto Federal do Piauí (IFPI). Possui experiência em Biologia Forense/Pericial Criminal, Melhoramento Genético e Biologia Molecular, trabalha com marcadores genéticos em galinhas caipiras e suas contribuições e impactos para produção animal, bem como o uso sustentável de animais nos trópicos. Trabalha também com Educação Clássica, Inovação e Sustentabilidade em comunidades voltadas a estudos dependência química e vulnerabilidade social. Realizou estágio na Empresa Brasileira de Pesquisa Agropecuária (EMBRAPA MEIO-NORTE). \n\nEm 2023 foi aprovado em concurso do Instituto Federal do Piauí na área de Biologia, obtendo 1º Lugar entre 322 concorrentes. Onde foi lotado na cidade de Uruçuí-PI. Publicou diversos livros dentre eles Suinocultura e Avicultura: do básico a zootecnia de precisão e Biologia Direcionada (ENEM e Concursos), a obra mais completa do gênero publicada na Amazon, livros voltados a CITOLOGIA. 1. ed. , 2024. 67p . BOTÂNICA. 1. ed. Teresina: , 2024. 76p . FISIOLOGIA E HISTOLOGIA. 01. ed. , 2024. 87p . e ECOLOGIA. 1. ed. , 2024. 163p . Além dos livros possui diversos artigos publicados em revistas cientificas de alto impacto internacional que podem ser verificados em:[lattes.cnpq.br/5008395245035397](http://lattes.cnpq.br/5008395245035397).\n\nFoi 1º Lugar na seleção de doutorado e em 2025 conclui o título no Programa de Zootecnia Tropical da Universidade Federal do Piauí (UFPÌ) na área de Genética, Melhoramento Genético e Reprodução Animal nos Trópicos com a tese considerada a melhor do ano “Polimorfismos Associados a Produção de Ovos em Galinhas Caipiras da Raça Canela Preta”. \n\nFORMAÇÃO:\nDoutor em Zootecnia Tropical, Genética, Melhoramento Genético e\nReprodução Animal nos Trópicos – Universidade Federal do Piauí (UFPI) –\nObtendo 1º Lugar entre os discentes do Programa.\n• Mestre em Génetica e Melhoramento – Universidade Federal do Piauí\n(UFPI). Nesse período ministrou também aulas genética e biologia na\nmesma universidade.\n• Especialista em Biologia Celular e Molecular – Faculdade Única.\n• Licenciado em Ciências Biologicas – Instituto Federal do Piauí (IFPI).\n• Graduado Oficial R/2 – NPOR (Núcleo de Preparação de Oficiais da Reserva)\n- 2º Batalhão de Engenharia de Construção – “Batalhão Hérois do\nJenipapo” Exército Brasileiro. Saindo com Medalha Apollo Miguel Rezk de\nCombatente com a Melhor Aptidão Fisica do NPOR 2014, Exército Brasileiro\ne Assinou do Livro de Ouro do Exército Brasileiro.\n• Logrou concurso do Instituto Federal do Píaui na área de Biologia, obtendo\n1º Lugar entre 322 concorrentes.\n• Logrou concurso da Policia Civil da Paraiba para Perito Oficial Criminal –\nBiologia, e foi aprovado.\n• Logrou concurso para Magistério em Biologia da Prefeitura de Parnaiba-PI,\ne foi aprovado.\n• Também foi aprovado no concurso do CONSELHO REGIONAL DE MEDICINA\nDO ESTADO DO PIAUÍ -CRM-PI\n• Obteve o prêmio de Melhor Apresentação Oral – Tese pela UFPI.\n• Honra Ao Mérito - Olimpiada Nacional De Ciências, Ministério Da Ciência E\nTecnologia.\n• 2º Lugar Hackaton - COINTER, PVDL.\n• Autor dos livros: Suinocultura e Avicultura: do básico a zootecnia de\nprecisão e Biologia Direcionada (ENEM e Concursos), a obra mais completa\ndo genero. Entre outros livros publicados.\n• Fundou o Circulo Monárquico do Píaui, associação voltada a preservação\nhistórica e cultural do estado com dezenas de projetos executados.\n• Foi também membro fundador do Instituto Chapada do Corisco, instituto\nvoltado para realização de eventos conservadores e politicos em Teresina.\n• Foi diretor politico do DCE/IFPI em 2017 e 2018. Perseguido politicamente\ndevido a postura nacionalista.\n• É Certificador pelo INEP.\n• Ministrou cursos na área Policial na comunidade terapeutica Shalom.\n• Possui experiência em Biologia Forense/Pericial Criminal e trabalhou\ntambém com Educação Clássica, Inovação e Sustentabilidade em\ncomunidades voltadas a dependência química e vulnerabilidade social.\n• Possui diversas publicações cientificas e citações, contribuindo com a\nsociedade cientifica desde 2018. "
+      "content": "**Dr. Maurício Soares** possui um indice de publicações alto em relação a média brasileira de cientistas, fez diversas contribuições e possui em torno de 1320 citações em trabalhos, Doutor em Zootecnia Tropical (PPGZT) na área de Genética, Melhoramento Genético e Reprodução Animal nos Trópicos, Mestre em Genética e Melhoramento (PPGM) na Universidade Federal do Piauí (UFPI), Pós-Graduado em Biologia Molecular (FAUN), Graduado em Licenciatura em Ciências Biológicas pelo Instituto Federal do Piauí (IFPI). Possui experiência em Biologia Forense/Pericial Criminal, Melhoramento Genético e Biologia Molecular, trabalha com marcadores genéticos em galinhas caipiras e suas contribuições e impactos para produção animal, bem como o uso sustentável de animais nos trópicos. Trabalha também com Educação Clássica, Inovação e Sustentabilidade em comunidades voltadas a estudos dependência química e vulnerabilidade social. Realizou estágio na Empresa Brasileira de Pesquisa Agropecuária (EMBRAPA MEIO-NORTE). \n\nEm 2023 foi aprovado em concurso do Instituto Federal do Piauí na área de Biologia, obtendo 1º Lugar entre 322 concorrentes. Onde foi lotado na cidade de Uruçuí-PI. Publicou diversos livros dentre eles Suinocultura e Avicultura: do básico a zootecnia de precisão e Biologia Direcionada (ENEM e Concursos), a obra mais completa do gênero publicada na Amazon, livros voltados a CITOLOGIA. 1. ed. , 2024. 67p . BOTÂNICA. 1. ed. Teresina: , 2024. 76p . FISIOLOGIA E HISTOLOGIA. 01. ed. , 2024. 87p . e ECOLOGIA. 1. ed. , 2024. 163p . Além dos livros possui diversos artigos publicados em revistas cientificas de alto impacto internacional que podem ser verificados em:[lattes.cnpq.br/5008395245035397](http://lattes.cnpq.br/5008395245035397).\n\nFoi 1º Lugar na seleção de doutorado e em 2025 conclui o título no Programa de Zootecnia Tropical da Universidade Federal do Piauí (UFPÌ) na área de Genética, Melhoramento Genético e Reprodução Animal nos Trópicos com a tese considerada a melhor do ano “Polimorfismos Associados a Produção de Ovos em Galinhas Caipiras da Raça Canela Preta”. \n\nFORMAÇÃO:\nDoutor em Zootecnia Tropical, Genética, Melhoramento Genético e\nReprodução Animal nos Trópicos – Universidade Federal do Piauí (UFPI) –\nObtendo 1º Lugar entre os discentes do Programa.\n• Mestre em Génetica e Melhoramento – Universidade Federal do Piauí\n(UFPI). Nesse período ministrou também aulas genética e biologia na\nmesma universidade.\n• Especialista em Biologia Celular e Molecular – Faculdade Única.\n• Licenciado em Ciências Biologicas – Instituto Federal do Piauí (IFPI).\n• Graduado Oficial R/2 – NPOR (Núcleo de Preparação de Oficiais da Reserva)\n- 2º Batalhão de Engenharia de Construção – “Batalhão Hérois do\nJenipapo” Exército Brasileiro. Saindo com Medalha Apollo Miguel Rezk de\nCombatente com a Melhor Aptidão Fisica do NPOR 2014, Exército Brasileiro\ne Assinou do Livro de Ouro do Exército Brasileiro.\n• Logrou concurso do Instituto Federal do Píaui na área de Biologia, obtendo\n1º Lugar entre 322 concorrentes.\n• Logrou concurso da Policia Civil da Paraiba para Perito Oficial Criminal –\nBiologia, e foi aprovado.\n• Logrou concurso para Magistério em Biologia da Prefeitura de Parnaiba-PI,\ne foi aprovado.\n• Também foi aprovado no concurso do CONSELHO REGIONAL DE MEDICINA\nDO ESTADO DO PIAUÍ -CRM-PI\n• Obteve o prêmio de Melhor Apresentação Oral – Tese pela UFPI.\n• Honra Ao Mérito - Olimpiada Nacional De Ciências, Ministério Da Ciência E\nTecnologia.\n• 2º Lugar Hackaton - COINTER, PVDL.\n• Autor dos livros: Suinocultura e Avicultura: do básico a zootecnia de\nprecisão e Biologia Direcionada (ENEM e Concursos), a obra mais completa\ndo genero. Entre outros livros publicados.\n• Fundou o Circulo Monárquico do Píaui, associação voltada a preservação\nhistórica e cultural do estado com dezenas de projetos executados.\n• Foi também membro fundador do Instituto Chapada do Corisco, instituto\nvoltado para realização de eventos conservadores e politicos em Teresina.\n• Foi diretor politico do DCE/IFPI em 2017 e 2018. Perseguido politicamente\ndevido a postura nacionalista.\n• É Certificador pelo INEP.\n• Ministrou cursos na área Policial na comunidade terapeutica Shalom.\n• Possui experiência em Biologia Forense/Pericial Criminal e trabalhou\ntambém com Educação Clássica, Inovação e Sustentabilidade em\ncomunidades voltadas a dependência química e vulnerabilidade social.\n• Possui diversas publicações cientificas e citações, contribuindo com a\nsociedade cientifica desde 2018. ",
+      "imageZoom": 100
     },
     {
       "id": "1781277256294",
@@ -251,7 +261,8 @@
       "image": "https://raw.githubusercontent.com/JoseSoares01/mauricio/main/public/uploads/1781812858751-nvzibczo00c.jpeg",
       "imageFocusX": 55,
       "imageFocusY": 18,
-      "content": "O pré-candidato a deputado estadual Maurício Soares (PL) criticou o que classificou como “velha política” e defendeu o engajamento da juventude como elemento central para a mudança do cenário político, durante evento do PL Jovem realizado neste sábado. Segundo ele, o modelo tradicional afastou os jovens do debate público.\n\nMaurício afirmou que a política passou a ser associada à corrupção, hereditariedade de cargos e interesses financeiros, o que teria gerado descrédito entre os mais jovens. “A política deixou de ser princípio para virar dinheiro”, declarou, ao criticar a troca constante de partidos por conveniência financeira.\n\nO pré-candidato também destacou que a juventude tem papel decisivo nas eleições e defendeu a mobilização de jovens em apoio a uma direita liberal e nacionalista, além de partidos que se colocam como oposição ao PT. Para ele, o fortalecimento da consciência política juvenil é essencial para enfrentar práticas tradicionais ainda presentes no cenário político do Piauí.\n\n_“E o jovem também é um fator essencial na eleição. Se nas eleições passadas tivemos um movimento meio tímido de jovens, com eles a gente consegue ter mais ainda um apoio para a direita brasileira. Direita nacionalista, direita liberal e dentre outros partidos aí que se autodeclaram antipetistas de oposição”, afirmou Maurício Soares._\n\nFonte: [www.oitomeia.com.br/colunas/guilherme-freire/202](https://www.oitomeia.com.br/colunas/guilherme-freire/2026/01/18/pre-candidato-pl-critica-velha-politica-aposta-engajamento-jovem-forca-eleitoral/)"
+      "content": "O pré-candidato a deputado estadual Maurício Soares (PL) criticou o que classificou como “velha política” e defendeu o engajamento da juventude como elemento central para a mudança do cenário político, durante evento do PL Jovem realizado neste sábado. Segundo ele, o modelo tradicional afastou os jovens do debate público.\n\nMaurício afirmou que a política passou a ser associada à corrupção, hereditariedade de cargos e interesses financeiros, o que teria gerado descrédito entre os mais jovens. “A política deixou de ser princípio para virar dinheiro”, declarou, ao criticar a troca constante de partidos por conveniência financeira.\n\nO pré-candidato também destacou que a juventude tem papel decisivo nas eleições e defendeu a mobilização de jovens em apoio a uma direita liberal e nacionalista, além de partidos que se colocam como oposição ao PT. Para ele, o fortalecimento da consciência política juvenil é essencial para enfrentar práticas tradicionais ainda presentes no cenário político do Piauí.\n\n_“E o jovem também é um fator essencial na eleição. Se nas eleições passadas tivemos um movimento meio tímido de jovens, com eles a gente consegue ter mais ainda um apoio para a direita brasileira. Direita nacionalista, direita liberal e dentre outros partidos aí que se autodeclaram antipetistas de oposição”, afirmou Maurício Soares._\n\nFonte: [www.oitomeia.com.br/colunas/guilherme-freire/202](https://www.oitomeia.com.br/colunas/guilherme-freire/2026/01/18/pre-candidato-pl-critica-velha-politica-aposta-engajamento-jovem-forca-eleitoral/)",
+      "imageZoom": 100
     },
     {
       "id": "1781279000004",
@@ -262,7 +273,8 @@
       "image": "https://raw.githubusercontent.com/JoseSoares01/mauricio/main/public/uploads/1782564713077-7b2tug9gk22.jpeg",
       "imageFocusX": 38,
       "imageFocusY": 76,
-      "content": "**Entre 1034 propostas, o calçamento para rua da Chesf na comunidade Soturno foi ELEITA, Mauricio Soares esteve contribuindo com divulgação e pedidos de votos nas comunidades.**\n\nA proposta no orçamento popular (OPA) 2026 foi eleita com quase 900 votos. \n\nMaurício Soares nao utilizou nenhum centavo do dinheiro público, mas mesmo assim vem contribuindo com projetos reais para o desenvolvimento social, já tem diversos projetos feitos, e propostas eleitas. Enquanto isso diversos outros políticos que estão a décadas no poder nem sequer pisam na rua e usam milhões do dinheiro do contribuinte."
+      "content": "**Entre 1034 propostas, o calçamento para rua da Chesf na comunidade Soturno foi ELEITA, Mauricio Soares esteve contribuindo com divulgação e pedidos de votos nas comunidades.**\n\nA proposta no orçamento popular (OPA) 2026 foi eleita com quase 900 votos. \n\nMaurício Soares nao utilizou nenhum centavo do dinheiro público, mas mesmo assim vem contribuindo com projetos reais para o desenvolvimento social, já tem diversos projetos feitos, e propostas eleitas. Enquanto isso diversos outros políticos que estão a décadas no poder nem sequer pisam na rua e usam milhões do dinheiro do contribuinte.",
+      "imageZoom": 100
     }
   ],
   "videos": [
@@ -315,12 +327,18 @@
       {
         "id": "1",
         "image": "https://raw.githubusercontent.com/JoseSoares01/mauricio/main/public/uploads/1781814332068-lkofwwog6t.jpeg",
-        "caption": "SÉRIE: FAZENDO MAIS DO QUE 99% DOS POLITICOS DO PIAUI - MMBUS"
+        "caption": "SÉRIE: FAZENDO MAIS DO QUE 99% DOS POLITICOS DO PIAUI - MMBUS",
+        "imageFocusX": 50,
+        "imageFocusY": 50,
+        "imageZoom": 100
       },
       {
         "id": "1781814320430",
         "image": "https://raw.githubusercontent.com/JoseSoares01/mauricio/main/public/uploads/1781814346493-em9ywvmtq68.jpg",
-        "caption": "SÉRIE: FAZENDO MAIS DO QUE 99% DOS POLITICOS DO PIAUI - CURSO BÁSICO DE TEOLOGIA PARA DEPENDENTES QUIMICOS"
+        "caption": "SÉRIE: FAZENDO MAIS DO QUE 99% DOS POLITICOS DO PIAUI - CURSO BÁSICO DE TEOLOGIA PARA DEPENDENTES QUIMICOS",
+        "imageFocusX": 50,
+        "imageFocusY": 50,
+        "imageZoom": 100
       }
     ]
   },
@@ -374,6 +392,9 @@
   "actionMap": {
     "enabled": true,
     "mapImage": "/uploads/piaui-3d-map-premium.png",
+    "mapImageFocusX": 50,
+    "mapImageFocusY": 50,
+    "mapImageZoom": 100,
     "visits": [
       {
         "id": "am-teresina-001",
@@ -401,7 +422,17 @@
           "Unidades visitadas": 5,
           "Profissionais ouvidos": 42
         },
-        "emendaRef": "Emenda para equipamentos de UBS — 2026"
+        "emendaRef": "Emenda para equipamentos de UBS — 2026",
+        "imageFocusX": 50,
+        "imageFocusY": 50,
+        "imageZoom": 100,
+        "galleryFocus": [
+          {
+            "x": 50,
+            "y": 50,
+            "zoom": 100
+          }
+        ]
       },
       {
         "id": "am-parnaiba-001",
@@ -422,7 +453,11 @@
         "relatedLink": "",
         "relatedNewsId": "",
         "displayOrder": 2,
-        "active": true
+        "active": true,
+        "imageFocusX": 50,
+        "imageFocusY": 50,
+        "imageZoom": 100,
+        "galleryFocus": []
       },
       {
         "id": "am-picos-001",
@@ -448,7 +483,11 @@
         "municipalityIndicators": {
           "Escolas participantes": 12,
           "Estudantes impactados": 840
-        }
+        },
+        "imageFocusX": 50,
+        "imageFocusY": 50,
+        "imageZoom": 100,
+        "galleryFocus": []
       },
       {
         "id": "am-floriano-001",
@@ -469,7 +508,11 @@
         "relatedLink": "",
         "relatedNewsId": "",
         "displayOrder": 4,
-        "active": true
+        "active": true,
+        "imageFocusX": 50,
+        "imageFocusY": 50,
+        "imageZoom": 100,
+        "galleryFocus": []
       }
     ],
     "teresinaVisits": [
@@ -485,7 +528,11 @@
         "content": "**Entre 1034 propostas, o calçamento para rua da Chesf na comunidade Soturno foi ELEITA**, Mauricio Soares esteve contribuindo com divulgação e pedidos de votos nas comunidades. A proposta no orçamento popular (OPA) 2026 foi eleita com quase 900 votos. Maurício Soares nao utilizou nenhum centavo do dinheiro público, mas mesmo assim vem contribuindo com projetos reais para o desenvolvimento social, já tem diversos projetos feitos, e propostas eleitas. Enquanto isso diversos outros políticos que estão a décadas no poder nem sequer pisam na rua e usam milhões do dinheiro do contribuinte.",
         "category": "Infraestrutura",
         "image": "https://raw.githubusercontent.com/JoseSoares01/mauricio/main/public/uploads/1783774747494-evzbju8ifmf.jpeg",
+        "imageFocusX": 50,
+        "imageFocusY": 50,
+        "imageZoom": 100,
         "gallery": [],
+        "galleryFocus": [],
         "active": true,
         "indicators": {
           "Famílias beneficiadas": 35,
@@ -504,7 +551,11 @@
         "content": "O deputado acompanhou de perto as frentes de trabalho de pavimentação no Dirceu, conversando com moradores sobre a melhoria na mobilidade e valorização das vias.",
         "category": "Infraestrutura",
         "image": "/uploads/1781625934980-w30qtv3qj7s.png",
+        "imageFocusX": 50,
+        "imageFocusY": 50,
+        "imageZoom": 100,
         "gallery": [],
+        "galleryFocus": [],
         "active": true,
         "indicators": {
           "Ruas pavimentadas": 8,
@@ -523,7 +574,11 @@
         "content": "Em visita ao Promorar, Maurício Soares reuniu-se com lideranças locais e profissionais de saúde na Unidade Básica para discutir a ampliação de equipes de atendimento médico.",
         "category": "Saúde",
         "image": "/uploads/banner-mmbus.png",
+        "imageFocusX": 50,
+        "imageFocusY": 50,
+        "imageZoom": 100,
         "gallery": [],
+        "galleryFocus": [],
         "active": true,
         "indicators": {
           "Atendimentos/mês": 2500,
@@ -542,7 +597,11 @@
         "content": "No bairro Ininga, Maurício Soares debateu propostas com estudantes universitários focadas em bolsas de pesquisa, estágios e inserção dos jovens de Teresina no mercado de trabalho.",
         "category": "Educação",
         "image": "/uploads/instagram-partido-liberal.jpg",
+        "imageFocusX": 50,
+        "imageFocusY": 50,
+        "imageZoom": 100,
         "gallery": [],
+        "galleryFocus": [],
         "active": true,
         "indicators": {
           "Estudantes ouvidos": 150,
@@ -561,7 +620,11 @@
         "content": "Caminhada pelas ruas do Centro de Teresina para ouvir demandas sobre segurança pública, iluminação e melhoria dos calçadões para impusionar o comércio varejista.",
         "category": "Comércio",
         "image": "/uploads/news-agronegocio.jpg",
+        "imageFocusX": 50,
+        "imageFocusY": 50,
+        "imageZoom": 100,
         "gallery": [],
+        "galleryFocus": [],
         "active": true,
         "indicators": {
           "Comerciantes ouvidos": 48,
