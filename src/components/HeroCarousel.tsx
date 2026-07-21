@@ -18,6 +18,7 @@ interface HeroCarouselProps {
 
 const SLIDE_MS = 6500;
 const TRANSITION_MS = 900;
+const DESKTOP_MQ = "(min-width: 768px)";
 
 const PROMO_SLIDES = [
   {
@@ -34,6 +35,50 @@ const PROMO_SLIDES = [
   },
 ] as const;
 
+function HomeHeroSlide({
+  siteTitle,
+  heroLogo,
+  heroLogoFocus,
+  heroPhoto,
+  heroPhotoFocus,
+}: Omit<HeroCarouselProps, "social">) {
+  return (
+    <>
+      <div className="container-site relative pt-24 z-10 h-full">
+        <div className="flex justify-center pt-4 md:justify-start md:items-center md:min-h-[calc(98vh-6rem)] md:max-w-[50%]">
+          <Image
+            src={heroLogo}
+            alt={`${siteTitle} - Deputado Federal`}
+            width={700}
+            height={400}
+            className="w-full max-w-[88%] sm:max-w-[82%] md:max-w-[80%] object-contain"
+            style={getImageFocusStyles(heroLogoFocus, "contain")}
+            priority
+            unoptimized
+          />
+        </div>
+      </div>
+      <div className="hero-photo-fade">
+        <Image
+          src={heroPhoto}
+          alt={siteTitle}
+          width={609}
+          height={887}
+          className="hero-photo-fade-img"
+          style={getImageFocusStyles(heroPhotoFocus, "contain")}
+          priority
+          unoptimized
+        />
+      </div>
+      <span className="hero-photo-page-fade" aria-hidden />
+    </>
+  );
+}
+
+/**
+ * Desktop: carrossel automático (Maurício → Propostas → Mapa).
+ * Mobile: hero estático como antes (só logo + foto).
+ */
 export default function HeroCarousel({
   siteTitle,
   heroLogo,
@@ -45,91 +90,86 @@ export default function HeroCarousel({
   const total = 1 + PROMO_SLIDES.length;
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia(DESKTOP_MQ);
+    const apply = () => {
+      setIsDesktop(mq.matches);
+      if (!mq.matches) setIndex(0);
+    };
+    apply();
+    mq.addEventListener("change", apply);
+    return () => mq.removeEventListener("change", apply);
+  }, []);
 
   const goNext = useCallback(() => {
     setIndex((current) => (current + 1) % total);
   }, [total]);
 
   useEffect(() => {
-    if (paused) return;
+    if (!isDesktop || paused) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const id = window.setInterval(goNext, SLIDE_MS);
     return () => window.clearInterval(id);
-  }, [goNext, paused]);
+  }, [goNext, paused, isDesktop]);
+
+  const homeProps = {
+    siteTitle,
+    heroLogo,
+    heroLogoFocus,
+    heroPhoto,
+    heroPhotoFocus,
+  };
 
   return (
     <section
-      className="hero-carousel"
+      className={`hero-carousel ${isDesktop ? "hero-carousel--desktop" : "hero-carousel--mobile"}`}
       style={{
         background: `radial-gradient(at top center, var(--color-hero-start) 0%, var(--color-hero-end) 100%)`,
       }}
-      onMouseEnter={() => setPaused(true)}
+      onMouseEnter={() => isDesktop && setPaused(true)}
       onMouseLeave={() => setPaused(false)}
-      onFocusCapture={() => setPaused(true)}
-      onBlurCapture={(event) => {
-        if (!event.currentTarget.contains(event.relatedTarget as Node | null)) {
-          setPaused(false);
-        }
-      }}
-      aria-roledescription="carrossel"
-      aria-label="Destaques iniciais"
+      aria-label="Destaque inicial"
     >
-      <div
-        className="hero-carousel-track"
-        style={{
-          transform: `translate3d(-${index * 100}%, 0, 0)`,
-          transitionDuration: `${TRANSITION_MS}ms`,
-        }}
-      >
-        {/* Slide 1 — Maurício + logo */}
-        <div className="hero-carousel-slide hero-carousel-slide--home" aria-hidden={index !== 0}>
-          <div className="container-site relative pt-24 z-10 h-full">
-            <div className="flex justify-center pt-4 md:justify-start md:items-center md:min-h-[calc(98vh-6rem)] md:max-w-[50%]">
-              <Image
-                src={heroLogo}
-                alt={`${siteTitle} - Deputado Federal`}
-                width={700}
-                height={400}
-                className="w-full max-w-[88%] sm:max-w-[82%] md:max-w-[80%] object-contain"
-                style={getImageFocusStyles(heroLogoFocus, "contain")}
-                priority
-                unoptimized
-              />
-            </div>
+      {isDesktop ? (
+        <div
+          className="hero-carousel-track"
+          style={{
+            transform: `translate3d(-${index * 100}%, 0, 0)`,
+            transitionDuration: `${TRANSITION_MS}ms`,
+          }}
+        >
+          <div className="hero-carousel-slide hero-carousel-slide--home" aria-hidden={index !== 0}>
+            <HomeHeroSlide {...homeProps} />
           </div>
-          <Image
-            src={heroPhoto}
-            alt={siteTitle}
-            width={609}
-            height={887}
-            className="absolute bottom-0 left-1/2 z-[1] h-[min(54vh,480px)] sm:h-[min(58vh,520px)] w-auto max-w-[95%] -translate-x-1/2 object-contain object-bottom pointer-events-none md:left-auto md:right-[6vw] lg:right-[10vw] md:translate-x-0 md:h-[min(96vh,920px)] md:max-w-none"
-            style={getImageFocusStyles(heroPhotoFocus, "contain")}
-            priority
-            unoptimized
-          />
-        </div>
 
-        {/* Slides promocionais */}
-        {PROMO_SLIDES.map((slide) => (
-          <div
-            key={slide.id}
-            className="hero-carousel-slide hero-carousel-slide--promo"
-            aria-hidden={index === 0 ? true : undefined}
-          >
-            <Link href={slide.href} className="hero-carousel-promo-link" aria-label={slide.alt}>
-              <Image
-                src={slide.src}
-                alt={slide.alt}
-                fill
-                className="object-contain md:object-cover object-center"
-                sizes="100vw"
-                unoptimized
-                priority={false}
-              />
-            </Link>
-          </div>
-        ))}
-      </div>
+          {PROMO_SLIDES.map((slide) => (
+            <div
+              key={slide.id}
+              className="hero-carousel-slide hero-carousel-slide--promo"
+              aria-hidden={index === 0 ? true : undefined}
+            >
+              <Link href={slide.href} className="hero-carousel-promo-link" aria-label={slide.alt}>
+                <Image
+                  src={slide.src}
+                  alt={slide.alt}
+                  fill
+                  className="object-contain md:object-cover object-center"
+                  sizes="100vw"
+                  unoptimized
+                  priority={false}
+                />
+                <span className="hero-promo-fade-edge" aria-hidden />
+              </Link>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div className="hero-carousel-slide hero-carousel-slide--home hero-carousel-slide--static">
+          <HomeHeroSlide {...homeProps} />
+        </div>
+      )}
 
       <div className="absolute bottom-0 left-0 right-0 z-20 social-bar-wrap">
         <div className="flex justify-center">

@@ -877,12 +877,9 @@ path.animate-\[dash_10s_linear_infinite\] {
   overflow: hidden;
 }
 
-.hero-carousel-slide--home {
-  background: radial-gradient(
-    at top center,
-    var(--color-hero-start) 0%,
-    var(--color-hero-end) 100%
-  );
+.hero-carousel-slide--static {
+  width: 100%;
+  height: 98vh;
 }
 
 .hero-carousel-slide--promo {
@@ -900,9 +897,162 @@ path.animate-\[dash_10s_linear_infinite\] {
   pointer-events: none;
 }
 
+/* Foto do hero: máscara leve só na beirada */
+.hero-photo-fade {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  z-index: 1;
+  height: min(54vh, 480px);
+  width: auto;
+  max-width: 95%;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.hero-photo-fade-img {
+  display: block;
+  height: 100%;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+  object-position: bottom;
+  -webkit-mask-image: linear-gradient(
+    to right,
+    #000 0%,
+    #000 93%,
+    rgba(0, 0, 0, 0.4) 98%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to right,
+    #000 0%,
+    #000 93%,
+    rgba(0, 0, 0, 0.4) 98%,
+    transparent 100%
+  );
+}
+
+/*
+  Esfumaçado branco: começa quase só na beira da foto
+  e vai até o limite direito da página (preenche o vão).
+*/
+.hero-photo-page-fade {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  width: max(12vw, 64px);
+  pointer-events: none;
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    rgba(255, 255, 255, 0.25) 18%,
+    rgba(245, 245, 245, 0.75) 48%,
+    var(--color-hero-end, #d3d3d3) 100%
+  );
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+/* Slides promo: mesmo tratamento na lateral direita */
+.hero-promo-fade-edge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(10%, 80px);
+  z-index: 2;
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    rgba(255, 255, 255, 0.3) 35%,
+    rgba(250, 249, 246, 0.9) 70%,
+    #faf9f6 100%
+  );
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  pointer-events: none;
+}
+
+.hero-carousel-slide--promo .hero-carousel-promo-link img {
+  -webkit-mask-image: linear-gradient(
+    to right,
+    #000 0%,
+    #000 90%,
+    rgba(0, 0, 0, 0.4) 97%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to right,
+    #000 0%,
+    #000 90%,
+    rgba(0, 0, 0, 0.4) 97%,
+    transparent 100%
+  );
+}
+
+@media (min-width: 768px) {
+  .hero-photo-fade {
+    left: auto;
+    right: 6vw;
+    transform: none;
+    height: min(96vh, 920px);
+    max-width: none;
+  }
+
+  /* 6vw de vão + ~28px só encostando na foto */
+  .hero-photo-page-fade {
+    width: calc(6vw + 28px);
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero-photo-fade {
+    right: 10vw;
+  }
+
+  .hero-photo-page-fade {
+    width: calc(10vw + 28px);
+  }
+}
+
 @media (max-width: 767px) {
   .hero-carousel-slide--promo {
     padding-bottom: 5.5rem;
+  }
+
+  .hero-photo-fade {
+    height: min(54vh, 480px);
+  }
+
+  /* Mobile: pouco sobre a foto, cobre até a borda direita */
+  .hero-photo-page-fade {
+    width: max(14vw, 48px);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+
+  .hero-promo-fade-edge {
+    width: min(10%, 40px);
+  }
+
+  .hero-photo-fade-img {
+    -webkit-mask-image: linear-gradient(
+      to right,
+      #000 0%,
+      #000 95%,
+      rgba(0, 0, 0, 0.45) 99%,
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      to right,
+      #000 0%,
+      #000 95%,
+      rgba(0, 0, 0, 0.45) 99%,
+      transparent 100%
+    );
   }
 }
 
