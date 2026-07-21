@@ -1,16 +1,16 @@
-import Image from "next/image";
-import Link from "next/link";
 import PageLayout from "@/components/PageLayout";
-import SocialIcons from "@/components/SocialIcons";
 import InstagramSection from "@/components/InstagramSection";
 import AboutPreviewSection from "@/components/AboutPreviewSection";
 import ViewCounter from "@/components/ViewCounter";
 import VideoCard from "@/components/VideoCard";
 import FocusedImage from "@/components/FocusedImage";
 import MobileScrollNudge from "@/components/MobileScrollNudge";
+import HeroCarousel from "@/components/HeroCarousel";
 import { getSiteConfig, formatDate, getConfiguredImageUrl } from "@/lib/site-config";
 import { getViews, getViewCount } from "@/lib/views";
 import { getBackgroundFocusStyles, getImageFocusStyles } from "@/lib/image-focus";
+import Image from "next/image";
+import Link from "next/link";
 
 export default async function HomePage() {
   const [config, views] = await Promise.all([getSiteConfig(), getViews()]);
@@ -20,44 +20,14 @@ export default async function HomePage() {
   return (
     <PageLayout config={config}>
       <MobileScrollNudge />
-      {/* Hero */}
-      <section
-        className="relative min-h-[98vh] overflow-hidden"
-        style={{
-          background: `radial-gradient(at top center, var(--color-hero-start) 0%, var(--color-hero-end) 100%)`,
-        }}
-      >
-        <div className="container-site relative pt-24 z-10">
-          <div className="flex justify-center pt-4 md:justify-start md:items-center md:min-h-[calc(98vh-6rem)] md:max-w-[50%]">
-            <Image
-              src={config.images.heroLogo}
-              alt={`${config.site.title} - Deputado Federal`}
-              width={700}
-              height={400}
-              className="w-full max-w-[88%] sm:max-w-[82%] md:max-w-[80%] object-contain"
-              style={getImageFocusStyles(config.images.focus?.heroLogo, "contain")}
-              priority
-              unoptimized
-            />
-          </div>
-        </div>
-        <Image
-          src={config.images.heroPhoto}
-          alt={config.site.title}
-          width={609}
-          height={887}
-          className="absolute bottom-0 left-1/2 z-[1] h-[min(54vh,480px)] sm:h-[min(58vh,520px)] w-auto max-w-[95%] -translate-x-1/2 object-contain object-bottom pointer-events-none md:left-auto md:right-[6vw] lg:right-[10vw] md:translate-x-0 md:h-[min(96vh,920px)] md:max-w-none"
-          style={getImageFocusStyles(config.images.focus?.heroPhoto, "contain")}
-          priority
-          unoptimized
-        />
-        <div className="absolute bottom-0 left-0 right-0 z-20 social-bar-wrap">
-          <div className="flex justify-center">
-            <SocialIcons social={config.social} />
-          </div>
-          <div className="flag-bar w-full shrink-0" aria-hidden />
-        </div>
-      </section>
+      <HeroCarousel
+        siteTitle={config.site.title}
+        heroLogo={config.images.heroLogo}
+        heroLogoFocus={config.images.focus?.heroLogo}
+        heroPhoto={config.images.heroPhoto}
+        heroPhotoFocus={config.images.focus?.heroPhoto}
+        social={config.social}
+      />
 
       <AboutPreviewSection
         logoBlue={config.images.logoBlue}

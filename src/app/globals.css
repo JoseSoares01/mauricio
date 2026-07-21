@@ -853,6 +853,65 @@ path.animate-\[dash_10s_linear_infinite\] {
   animation: aboutCursorBlink 0.8s step-end infinite;
 }
 
+/* ========== Hero carousel (home) ========== */
+.hero-carousel {
+  position: relative;
+  min-height: 98vh;
+  overflow: hidden;
+}
+
+.hero-carousel-track {
+  display: flex;
+  width: 100%;
+  height: 98vh;
+  transition-property: transform;
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+.hero-carousel-slide {
+  position: relative;
+  flex: 0 0 100%;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.hero-carousel-slide--home {
+  background: radial-gradient(
+    at top center,
+    var(--color-hero-start) 0%,
+    var(--color-hero-end) 100%
+  );
+}
+
+.hero-carousel-slide--promo {
+  background: color-mix(in srgb, var(--color-background) 88%, var(--color-primary) 12%);
+}
+
+.hero-carousel-promo-link {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+
+.hero-carousel-promo-link img,
+.hero-carousel-promo-link span {
+  pointer-events: none;
+}
+
+@media (max-width: 767px) {
+  .hero-carousel-slide--promo {
+    padding-bottom: 5.5rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-carousel-track {
+    transition: none;
+  }
+}
+
 @keyframes aboutCursorBlink {
   50% {
     opacity: 0;
