@@ -903,7 +903,7 @@ path.animate-\[dash_10s_linear_infinite\] {
   bottom: 0;
   left: 50%;
   z-index: 1;
-  height: min(54vh, 480px);
+  height: min(72vh, 620px);
   width: auto;
   max-width: 95%;
   transform: translateX(-50%);
@@ -1024,7 +1024,7 @@ path.animate-\[dash_10s_linear_infinite\] {
   }
 
   .hero-photo-fade {
-    height: min(54vh, 480px);
+    height: min(72vh, 620px);
   }
 
   /* Mobile: pouco sobre a foto, cobre até a borda direita */
