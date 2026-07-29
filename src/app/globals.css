@@ -1027,7 +1027,7 @@ path.animate-\[dash_10s_linear_infinite\] {
   .hero-photo-fade {
     height: min(54vh, 480px);
     bottom: -6.5rem;
-    transform: translateX(-50%) scale(1.45);
+    transform: translateX(-50%) scale(1.65);
     transform-origin: bottom center;
   }
 
