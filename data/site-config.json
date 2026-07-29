@@ -169,11 +169,21 @@
       {
         "id": "1784553066540",
         "image": "https://raw.githubusercontent.com/JoseSoares01/mauricio/main/public/uploads/1784553272893-6kbsm55vsfg.png",
-        "tag": "Dia Das Mães",
+        "tag": "Dia da Mulher",
         "title": "2013",
-        "text": "2 Batalhão de Engenharia de Construção (2BEC) como Aspirante a Oficial - Comemoro o dia das Mães. Lembranças da juventude",
+        "text": "2 Batalhão de Engenharia de Construção (2BEC) como Aspirante a Oficial - Comemoro o dia das Mulheres. Lembranças da juventude",
         "imageFocusX": 50,
         "imageFocusY": 43,
+        "imageZoom": 100
+      },
+      {
+        "id": "1784659329039",
+        "image": "https://raw.githubusercontent.com/JoseSoares01/mauricio/main/public/uploads/1784659335991-rx8drwxwons.png",
+        "tag": "Vivenciando",
+        "title": "Visita ao Terminal Rodoviário no Mocambinho",
+        "text": "Visita ao Terminal Rodoviário do Mocambinho\nHoje estive no Terminal Rodoviário do Mocambinho para acompanhar de perto a realidade de quem depende diariamente do transporte público.",
+        "imageFocusX": 50,
+        "imageFocusY": 50,
         "imageZoom": 100
       }
     ],
@@ -378,10 +388,10 @@
   "videos": [
     {
       "id": "1783424758866",
-      "title": "Mauricio Soares - Business Cast - Episódio 74",
-      "youtubeId": "nZDCf3wsIcI",
-      "thumbnail": "https://img.youtube.com/vi/nZDCf3wsIcI/hqdefault.jpg",
-      "videoFile": "https://www.youtube.com/watch?v=nZDCf3wsIcI"
+      "title": "Brasil Grande: Dr. Maurício Soares e Biologo Henrique",
+      "youtubeId": "5HJWnKVpdTY",
+      "thumbnail": "https://img.youtube.com/vi/5HJWnKVpdTY/hqdefault.jpg",
+      "videoFile": "https://www.youtube.com/live/5HJWnKVpdTY?is=Y_dCCO2AIbwIl23U"
     },
     {
       "id": "6",
