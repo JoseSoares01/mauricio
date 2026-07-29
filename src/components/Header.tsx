@@ -1,9 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
-import { usePathname } from "next/navigation";
+import { useRef, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import type { MenuItem } from "@/lib/types";
+import {
+  SOBRE_SLIDE_KEY,
+  SOBRE_SLIDE_MS,
+  canUseSobreSlide,
+} from "@/lib/mobile-sobre-slide";
 
 interface HeaderProps {
   menu: MenuItem[];
@@ -30,6 +35,28 @@ function isMenuActive(pathname: string, href: string) {
 export default function Header({ menu }: HeaderProps) {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
+  const slidingRef = useRef(false);
+
+  const handleSobreMimClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (isMenuActive(pathname, "/sobre")) return;
+    if (!canUseSobreSlide()) return;
+
+    e.preventDefault();
+    if (slidingRef.current) return;
+    slidingRef.current = true;
+
+    const html = document.documentElement;
+    html.classList.add("page-sliding", "page-slide-out-left");
+    sessionStorage.setItem(SOBRE_SLIDE_KEY, "1");
+
+    window.setTimeout(() => {
+      router.push("/sobre");
+      window.setTimeout(() => {
+        slidingRef.current = false;
+      }, SOBRE_SLIDE_MS);
+    }, SOBRE_SLIDE_MS - 40);
+  };
 
   return (
     <header className="fixed top-[10px] left-0 right-0 z-50">
@@ -44,6 +71,7 @@ export default function Header({ menu }: HeaderProps) {
                 <Link
                   href={item.href}
                   className="site-nav-link relative inline-flex flex-col items-center text-white font-medium text-[15px] hover:opacity-80 transition-opacity pb-2"
+                  onClick={item.href === "/sobre" ? handleSobreMimClick : undefined}
                 >
                   {item.label}
                   <span
@@ -64,6 +92,7 @@ export default function Header({ menu }: HeaderProps) {
           <Link
             href="/sobre"
             className={`about-me-btn ${isMenuActive(pathname, "/sobre") ? "is-active" : ""}`}
+            onClick={handleSobreMimClick}
           >
             <span className="about-me-btn-shine" aria-hidden />
             <span className="about-me-btn-label">Sobre mim</span>
@@ -95,7 +124,10 @@ export default function Header({ menu }: HeaderProps) {
                   <Link
                     href={item.href}
                     className="relative inline-flex flex-col text-white font-medium py-2 pb-3"
-                    onClick={() => setOpen(false)}
+                    onClick={(e) => {
+                      setOpen(false);
+                      if (item.href === "/sobre") handleSobreMimClick(e);
+                    }}
                   >
                     {item.label}
                     <span

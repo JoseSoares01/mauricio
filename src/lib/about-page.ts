@@ -121,7 +121,7 @@ export function normalizeAboutSection(
     metrics: base?.metrics?.length ? base.metrics : defaultsFromFile?.metrics ?? [],
     pageEyebrow: base?.pageEyebrow ?? defaultsFromFile?.pageEyebrow ?? "Conheça",
     pageHeading: base?.pageHeading ?? defaultsFromFile?.pageHeading ?? "",
-    pageSubtitle: base?.pageSubtitle ?? defaultsFromFile?.pageSubtitle ?? "Sobre",
+    pageSubtitle: base?.pageSubtitle ?? defaultsFromFile?.pageSubtitle ?? "",
     introImage,
     introImageFocusX: clampImageFocusAxis(
       base?.introImageFocusX ?? defaultsFromFile?.introImageFocusX ?? DEFAULT_IMAGE_FOCUS.x
