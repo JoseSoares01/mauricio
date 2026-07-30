@@ -69,8 +69,8 @@
     "favicon": "/uploads/favicon-192.png",
     "focus": {
       "aboutBg": {
-        "x": 42,
-        "y": 74,
+        "x": 17,
+        "y": 95,
         "zoom": 100
       }
     }
