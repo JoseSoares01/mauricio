@@ -753,7 +753,7 @@
     "profileImage": "/uploads/hero-mauricio-original.png",
     "desktopHeroImage": "/uploads/hero-mauricio-original.png",
     "displayName": "DR. MAURÍCIO SOARES",
-    "roleLine": "PRÉ-CANDIDATO · DEPUTADO FEDERAL · PIAUÍ",
+    "roleLine": "CANDIDATO · DEPUTADO FEDERAL · PIAUÍ",
     "headlineBefore": "VENHA FAZER PARTE DO MEU",
     "headlineHighlight": "GRUPO DE APOIO",
     "headlineAfter": "NA SUA CIDADE.",
@@ -765,59 +765,15 @@
     "defaultGroupUrl": "https://chat.whatsapp.com/GNtAll5zdmk2fBPWABUn6e?s=cl&p=i&mlu=4&amv=0",
     "cities": [
       {
-        "name": "Altos",
+        "name": "Outra",
         "groupUrl": ""
       },
       {
-        "name": "Barras",
-        "groupUrl": ""
+        "name": "Teresina",
+        "groupUrl": "https://chat.whatsapp.com/ISoZnNSyU2wHoIvV8V3111?s=cl&p=i&mlu=4&amv=0"
       },
       {
-        "name": "Bom Jesus",
-        "groupUrl": ""
-      },
-      {
-        "name": "Buriti dos Lopes",
-        "groupUrl": ""
-      },
-      {
-        "name": "Campo Maior",
-        "groupUrl": ""
-      },
-      {
-        "name": "Canto do Buriti",
-        "groupUrl": ""
-      },
-      {
-        "name": "Caracol",
-        "groupUrl": ""
-      },
-      {
-        "name": "Castelo do Piauí",
-        "groupUrl": ""
-      },
-      {
-        "name": "Cocal",
-        "groupUrl": ""
-      },
-      {
-        "name": "Corrente",
-        "groupUrl": ""
-      },
-      {
-        "name": "Curimatá",
-        "groupUrl": ""
-      },
-      {
-        "name": "Dom Inocêncio",
-        "groupUrl": ""
-      },
-      {
-        "name": "Elesbão Veloso",
-        "groupUrl": ""
-      },
-      {
-        "name": "Esperantina",
+        "name": "Parnaíba",
         "groupUrl": ""
       },
       {
@@ -825,87 +781,7 @@
         "groupUrl": ""
       },
       {
-        "name": "Fronteiras",
-        "groupUrl": ""
-      },
-      {
-        "name": "Gilbués",
-        "groupUrl": ""
-      },
-      {
-        "name": "Guadalupe",
-        "groupUrl": ""
-      },
-      {
-        "name": "Jaicós",
-        "groupUrl": ""
-      },
-      {
-        "name": "Monte Alegre do Piauí",
-        "groupUrl": ""
-      },
-      {
-        "name": "Oeiras",
-        "groupUrl": ""
-      },
-      {
-        "name": "Parnaguá",
-        "groupUrl": ""
-      },
-      {
-        "name": "Parnaíba",
-        "groupUrl": ""
-      },
-      {
-        "name": "Paulistana",
-        "groupUrl": ""
-      },
-      {
-        "name": "Pedro II",
-        "groupUrl": ""
-      },
-      {
-        "name": "Picos",
-        "groupUrl": ""
-      },
-      {
-        "name": "Piracuruca",
-        "groupUrl": ""
-      },
-      {
-        "name": "Piripiri",
-        "groupUrl": ""
-      },
-      {
-        "name": "Queimada Nova",
-        "groupUrl": ""
-      },
-      {
-        "name": "Regeneração",
-        "groupUrl": ""
-      },
-      {
-        "name": "Simplício Mendes",
-        "groupUrl": ""
-      },
-      {
-        "name": "São João do Piauí",
-        "groupUrl": ""
-      },
-      {
-        "name": "São Miguel do Tapuio",
-        "groupUrl": ""
-      },
-      {
-        "name": "São Pedro do Piauí",
-        "groupUrl": ""
-      },
-      {
-        "name": "São Raimundo Nonato",
-        "groupUrl": ""
-      },
-      {
-        "name": "Teresina",
+        "name": "Campo Maior",
         "groupUrl": ""
       },
       {
@@ -913,15 +789,19 @@
         "groupUrl": ""
       },
       {
-        "name": "Uruçuí",
+        "name": "Esperantina",
         "groupUrl": ""
       },
       {
-        "name": "Valença do Piauí",
+        "name": "Barras",
         "groupUrl": ""
       },
       {
-        "name": "Outra",
+        "name": "Pedro II",
+        "groupUrl": ""
+      },
+      {
+        "name": "Bom Jesus",
         "groupUrl": ""
       }
     ],
