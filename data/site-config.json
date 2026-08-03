@@ -753,7 +753,7 @@
     "profileImage": "/uploads/hero-mauricio-original.png",
     "desktopHeroImage": "/uploads/hero-mauricio-original.png",
     "displayName": "DR. MAURÍCIO SOARES",
-    "roleLine": "PRÉ-CANDIDATO · DEPUTADO FEDERAL · PIAUÍ",
+    "roleLine": "CANDIDATO · DEPUTADO FEDERAL · PIAUÍ",
     "headlineBefore": "VENHA FAZER PARTE DO MEU",
     "headlineHighlight": "GRUPO DE APOIO",
     "headlineAfter": "NA SUA CIDADE.",
@@ -765,12 +765,12 @@
     "defaultGroupUrl": "https://chat.whatsapp.com/GNtAll5zdmk2fBPWABUn6e?s=cl&p=i&mlu=4&amv=0",
     "cities": [
       {
-        "name": "Outras",
+        "name": "Outra",
         "groupUrl": ""
       },
       {
         "name": "Teresina",
-        "groupUrl": ""
+        "groupUrl": "https://chat.whatsapp.com/ISoZnNSyU2wHoIvV8V3111?s=cl&p=i&mlu=4&amv=0"
       },
       {
         "name": "Parnaíba",
@@ -802,10 +802,6 @@
       },
       {
         "name": "Bom Jesus",
-        "groupUrl": ""
-      },
-      {
-        "name": "Outra",
         "groupUrl": ""
       }
     ],
