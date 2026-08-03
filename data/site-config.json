@@ -765,7 +765,7 @@
     "defaultGroupUrl": "https://chat.whatsapp.com/GNtAll5zdmk2fBPWABUn6e?s=cl&p=i&mlu=4&amv=0",
     "cities": [
       {
-        "name": "Outra",
+        "name": "Outras",
         "groupUrl": ""
       },
       {
@@ -802,6 +802,10 @@
       },
       {
         "name": "Bom Jesus",
+        "groupUrl": ""
+      },
+      {
+        "name": "Outra",
         "groupUrl": ""
       }
     ],
