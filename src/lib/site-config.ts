@@ -12,6 +12,7 @@ import { clampImageFocusAxis, clampImageZoom, DEFAULT_IMAGE_FOCUS, normalizeImag
 import { normalizeAboutSection } from "./about-page";
 import { normalizeVideos } from "./video";
 import { normalizeActionMap } from "./action-map";
+import { normalizeWhatsappGroup } from "./whatsapp-group";
 
 const CONFIG_PATH = path.join(process.cwd(), "data", "site-config.json");
 const BLOB_PATHNAME = "mauricio/site-config.json";
@@ -93,6 +94,7 @@ function applyConfigNormalization(config: SiteConfig): SiteConfig {
     },
     about: normalizeAboutSection(config.about, config.images, DEFAULT_ABOUT),
     actionMap: normalizeActionMap(config.actionMap),
+    whatsappGroup: normalizeWhatsappGroup(config.whatsappGroup, config.images),
     propostas: config.propostas ?? (defaultConfig as unknown as SiteConfig).propostas ?? [],
   };
 }

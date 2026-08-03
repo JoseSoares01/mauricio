@@ -1,3 +1,5 @@
+import type { WhatsappGroupConfig } from "./whatsapp-group";
+
 export interface MenuItem {
   label: string;
   href: string;
@@ -281,6 +283,7 @@ export interface SiteConfig {
   agenda: AgendaEvent[];
   propostas: PropostaItem[];
   actionMap: ActionMapConfig;
+  whatsappGroup?: WhatsappGroupConfig;
   admin: {
     password: string;
   };

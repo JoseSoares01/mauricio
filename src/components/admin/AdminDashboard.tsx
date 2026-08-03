@@ -13,12 +13,14 @@ import {
 import ImageUploader from "./ImageUploader";
 import VideoUploader from "./VideoUploader";
 import {
-  Palette, Image, Menu, FileText, Video, Calendar, Share2, Settings, Save, LogOut, ExternalLink, Plus, Trash2, MapPin, User,
+  Palette, Image, Menu, FileText, Video, Calendar, Share2, Settings, Save, LogOut, ExternalLink, Plus, Trash2, MapPin, User, MessageCircle,
 } from "lucide-react";
 import ActionMapAdmin from "./ActionMapAdmin";
 import NewsAdmin from "./NewsAdmin";
 import PropostasAdmin from "./PropostasAdmin";
 import SobreAdmin from "./SobreAdmin";
+import WhatsappGroupAdmin from "./WhatsappGroupAdmin";
+import { defaultWhatsappGroupConfig } from "@/lib/whatsapp-group";
 
 interface AdminDashboardProps {
   config: SiteConfig;
@@ -27,7 +29,7 @@ interface AdminDashboardProps {
   onLogout: () => void;
 }
 
-type Tab = "theme" | "images" | "menu" | "content" | "sobre" | "news" | "propostas" | "videos" | "agenda" | "actionMap" | "social" | "settings";
+type Tab = "theme" | "images" | "menu" | "content" | "sobre" | "news" | "propostas" | "videos" | "agenda" | "actionMap" | "grupo" | "social" | "settings";
 
 const TABS: { id: Tab; label: string; icon: React.ReactNode }[] = [
   { id: "theme", label: "Cores & Tema", icon: <Palette size={18} /> },
@@ -40,6 +42,7 @@ const TABS: { id: Tab; label: string; icon: React.ReactNode }[] = [
   { id: "videos", label: "Vídeos", icon: <Video size={18} /> },
   { id: "agenda", label: "Agenda", icon: <Calendar size={18} /> },
   { id: "actionMap", label: "Mapa de Atuação", icon: <MapPin size={18} /> },
+  { id: "grupo", label: "Grupo WhatsApp", icon: <MessageCircle size={18} /> },
   { id: "social", label: "Redes Sociais", icon: <Share2 size={18} /> },
   { id: "settings", label: "Configurações", icon: <Settings size={18} /> },
 ];
@@ -556,6 +559,14 @@ export default function AdminDashboard({ config: initialConfig, token, onSave, o
               news={config.news}
               token={token}
               onChange={(actionMap) => update("actionMap", actionMap)}
+            />
+          )}
+
+          {tab === "grupo" && (
+            <WhatsappGroupAdmin
+              value={config.whatsappGroup ?? defaultWhatsappGroupConfig(config.images)}
+              token={token}
+              onChange={(whatsappGroup) => update("whatsappGroup", whatsappGroup)}
             />
           )}
 
