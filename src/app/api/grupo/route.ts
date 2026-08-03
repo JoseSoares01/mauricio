@@ -62,14 +62,11 @@ export async function POST(request: Request) {
       createdAt: new Date().toISOString(),
     };
 
+    // Não bloquear o redirect se a gravação do lead falhar
     try {
       await appendGrupoLead(lead);
     } catch (error) {
       console.error("Falha ao gravar lead do grupo:", error);
-      return NextResponse.json(
-        { error: "Não foi possível salvar o cadastro. Tente novamente." },
-        { status: 500 }
-      );
     }
 
     const notifyTo = (grupo.notifyEmail || config.contact.email || "").trim();
@@ -87,6 +84,7 @@ export async function POST(request: Request) {
             `Nome: ${name}`,
             `WhatsApp: ${phone}`,
             `Cidade: ${city}`,
+            `Opção: ${cityOption}`,
             `Data: ${lead.createdAt}`,
           ].join("\n"),
         });
@@ -95,7 +93,7 @@ export async function POST(request: Request) {
       }
     }
 
-    return NextResponse.json({ ok: true, redirectUrl });
+    return NextResponse.json({ ok: true, redirectUrl, cityOption });
   } catch (error) {
     console.error("Grupo API error:", error);
     return NextResponse.json({ error: "Erro interno." }, { status: 500 });

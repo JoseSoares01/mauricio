@@ -23,9 +23,13 @@ export default function GrupoLeadForm({ config }: GrupoLeadFormProps) {
     const sorted = [...config.cities].sort((a, b) =>
       a.name.localeCompare(b.name, "pt-BR")
     );
+    const outra = sorted.find((c) => c.name.toLowerCase() === "outra");
     const withoutOutra = sorted.filter((c) => c.name.toLowerCase() !== "outra");
-    return [...withoutOutra, { name: "Outra", groupUrl: "" }];
-  }, [config.cities]);
+    return [
+      ...withoutOutra,
+      outra ?? { name: "Outra", groupUrl: config.defaultGroupUrl || "" },
+    ];
+  }, [config.cities, config.defaultGroupUrl]);
 
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -37,6 +41,17 @@ export default function GrupoLeadForm({ config }: GrupoLeadFormProps) {
   const [loading, setLoading] = useState(false);
 
   const isOtherCity = city.trim().toLowerCase() === "outra";
+
+  const resolveClientGroupUrl = (cityOption: string) => {
+    const selected = cities.find(
+      (item) => item.name.toLowerCase() === cityOption.toLowerCase()
+    );
+    return (
+      selected?.groupUrl?.trim() ||
+      config.defaultGroupUrl.trim() ||
+      ""
+    );
+  };
 
   const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -62,6 +77,14 @@ export default function GrupoLeadForm({ config }: GrupoLeadFormProps) {
       return;
     }
 
+    const clientRedirectUrl = resolveClientGroupUrl(cityOption);
+    if (!clientRedirectUrl) {
+      setError(
+        "Link do grupo ainda não configurado para esta cidade. Tente outra ou avise a equipe."
+      );
+      return;
+    }
+
     setLoading(true);
     try {
       const res = await fetch("/api/grupo", {
@@ -77,16 +100,19 @@ export default function GrupoLeadForm({ config }: GrupoLeadFormProps) {
       });
       const data = (await res.json()) as { error?: string; redirectUrl?: string };
 
-      if (!res.ok || !data.redirectUrl) {
+      const redirectUrl = data.redirectUrl?.trim() || clientRedirectUrl;
+
+      // Mesmo se a API falhar ao salvar, redireciona para o grupo certo
+      if (!redirectUrl) {
         setError(data.error || "Não foi possível entrar no grupo. Tente novamente.");
         setLoading(false);
         return;
       }
 
-      window.location.href = data.redirectUrl;
+      window.location.assign(redirectUrl);
     } catch {
-      setError("Erro de conexão. Tente novamente.");
-      setLoading(false);
+      // Fallback: ainda assim abre o grupo da cidade
+      window.location.assign(clientRedirectUrl);
     }
   };
 

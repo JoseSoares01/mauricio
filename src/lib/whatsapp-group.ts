@@ -108,10 +108,21 @@ export function resolveGroupUrl(
   config: WhatsappGroupConfig,
   cityName: string
 ): string {
-  const key = cityName.trim().toLowerCase();
-  const city = config.cities.find((c) => c.name.toLowerCase() === key);
-  if (city?.groupUrl?.trim()) return city.groupUrl.trim();
+  const key = normalizeCityKey(cityName);
+  if (!key) return config.defaultGroupUrl.trim();
+
+  const city = config.cities.find((c) => normalizeCityKey(c.name) === key);
+  const cityUrl = city?.groupUrl?.trim() || "";
+  if (cityUrl) return cityUrl;
   return config.defaultGroupUrl.trim();
+}
+
+function normalizeCityKey(value: string): string {
+  return value
+    .trim()
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
 }
 
 export function formatWhatsappPhone(value: string): string {
