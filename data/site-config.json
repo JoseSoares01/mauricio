@@ -766,15 +766,15 @@
     "cities": [
       {
         "name": "Teresina e Região",
-        "groupUrl": ""
+        "groupUrl": "https://chat.whatsapp.com/ISoZnNSyU2wHoIvV8V3111?s=cl&p=i&mlu=4&amv=0"
       },
       {
         "name": "Parnaíba e Região",
-        "groupUrl": ""
+        "groupUrl": "https://chat.whatsapp.com/I3fCx3Os83A9RBaL5mKCxx?s=cl&p=i&mlu=4&amv=0"
       },
       {
         "name": "Floriano e Região",
-        "groupUrl": ""
+        "groupUrl": "https://chat.whatsapp.com/L17D7wOh6VpGVXFmwgHIBR?s=cl&p=i&mlu=4&amv=0"
       },
       {
         "name": "Campo Maior e Região",
@@ -798,6 +798,14 @@
       },
       {
         "name": "Bom Jesus e Região",
+        "groupUrl": ""
+      },
+      {
+        "name": "Picos e Região",
+        "groupUrl": ""
+      },
+      {
+        "name": "Piripiri e Região",
         "groupUrl": ""
       },
       {
