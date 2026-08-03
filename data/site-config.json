@@ -753,11 +753,11 @@
     "profileImage": "/uploads/hero-mauricio-original.png",
     "desktopHeroImage": "/uploads/hero-mauricio-original.png",
     "displayName": "DR. MAURÍCIO SOARES",
-    "roleLine": "PRÉ-CANDIDATO · DEPUTADO FEDERAL · PIAUÍ",
+    "roleLine": "CANDIDATO · DEPUTADO FEDERAL · PIAUÍ",
     "headlineBefore": "VENHA FAZER PARTE DO MEU",
     "headlineHighlight": "GRUPO DE APOIO",
     "headlineAfter": "NA SUA CIDADE/REGIÃO",
-    "subtitle": "Preencha os dados, escolha sua cidade e entre agora no grupo do WhatsApp do Piauí.",
+    "subtitle": "Preencha os dados, escolha sua cidade e entre agora no grupo do WhatsApp do Piauí. Faça Parte da Transformação do Piauí.",
     "ctaLabel": "ENTRAR NO GRUPO",
     "footerNote": "Ao entrar você passa a receber comunicações da pré-campanha. Você pode sair do grupo a qualquer momento.",
     "privacyUrl": "https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2018/lei/l13709.htm",
@@ -765,43 +765,39 @@
     "defaultGroupUrl": "https://chat.whatsapp.com/GNtAll5zdmk2fBPWABUn6e?s=cl&p=i&mlu=4&amv=0",
     "cities": [
       {
-        "name": "Outras",
+        "name": "Teresina e Região",
         "groupUrl": ""
       },
       {
-        "name": "Teresina",
+        "name": "Parnaíba e Região",
         "groupUrl": ""
       },
       {
-        "name": "Parnaíba",
+        "name": "Floriano e Região",
         "groupUrl": ""
       },
       {
-        "name": "Floriano",
+        "name": "Campo Maior e Região",
         "groupUrl": ""
       },
       {
-        "name": "Campo Maior",
+        "name": "União e Região",
         "groupUrl": ""
       },
       {
-        "name": "União",
+        "name": "Esperantina e Região",
         "groupUrl": ""
       },
       {
-        "name": "Esperantina",
+        "name": "Barras e Região",
         "groupUrl": ""
       },
       {
-        "name": "Barras",
+        "name": "Pedro II e Região",
         "groupUrl": ""
       },
       {
-        "name": "Pedro II",
-        "groupUrl": ""
-      },
-      {
-        "name": "Bom Jesus",
+        "name": "Bom Jesus e Região",
         "groupUrl": ""
       },
       {
