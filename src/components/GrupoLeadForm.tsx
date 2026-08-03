@@ -42,14 +42,15 @@ export default function GrupoLeadForm({ config }: GrupoLeadFormProps) {
     e.preventDefault();
     setError("");
 
-    const resolvedCity = isOtherCity ? otherCity.trim() : city.trim();
+    const cityOption = city.trim();
+    const resolvedCity = isOtherCity ? otherCity.trim() : cityOption;
 
-    if (!name.trim() || !phone.trim() || !resolvedCity) {
-      setError(
-        isOtherCity
-          ? "Preencha nome, WhatsApp e informe a cidade."
-          : "Preencha nome, WhatsApp e cidade."
-      );
+    if (!name.trim() || !phone.trim() || !cityOption) {
+      setError("Preencha nome, WhatsApp e cidade.");
+      return;
+    }
+    if (isOtherCity && !otherCity.trim()) {
+      setError("Informe o nome da cidade.");
       return;
     }
     if (digitsOnlyPhone(phone).length < 10) {
@@ -70,6 +71,7 @@ export default function GrupoLeadForm({ config }: GrupoLeadFormProps) {
           name: name.trim(),
           phone: digitsOnlyPhone(phone),
           city: resolvedCity,
+          cityOption,
           website: honeypot,
         }),
       });
@@ -128,25 +130,25 @@ export default function GrupoLeadForm({ config }: GrupoLeadFormProps) {
 
       <label className="grupo-field">
         <span>Cidade</span>
-        <input
-          type="text"
-          list="grupo-cidades"
-          value={city}
-          onChange={(e) => {
-            setCity(e.target.value);
-            if (e.target.value.trim().toLowerCase() !== "outra") {
-              setOtherCity("");
-            }
-          }}
-          placeholder="Digite ou escolha sua cidade"
-          autoComplete="address-level2"
-          required
-        />
-        <datalist id="grupo-cidades">
-          {cities.map((item) => (
-            <option key={item.name} value={item.name} />
-          ))}
-        </datalist>
+        <div className="grupo-select-wrap">
+          <select
+            value={city}
+            onChange={(e) => {
+              setCity(e.target.value);
+              if (e.target.value.trim().toLowerCase() !== "outra") {
+                setOtherCity("");
+              }
+            }}
+            required
+          >
+            <option value="">Selecione sua cidade...</option>
+            {cities.map((item) => (
+              <option key={item.name} value={item.name}>
+                {item.name}
+              </option>
+            ))}
+          </select>
+        </div>
       </label>
 
       {isOtherCity && (

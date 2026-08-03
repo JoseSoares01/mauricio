@@ -108,11 +108,10 @@ export function resolveGroupUrl(
   config: WhatsappGroupConfig,
   cityName: string
 ): string {
-  const city = config.cities.find(
-    (c) => c.name.toLowerCase() === cityName.trim().toLowerCase()
-  );
-  const url = city?.groupUrl?.trim() || config.defaultGroupUrl.trim();
-  return url;
+  const key = cityName.trim().toLowerCase();
+  const city = config.cities.find((c) => c.name.toLowerCase() === key);
+  if (city?.groupUrl?.trim()) return city.groupUrl.trim();
+  return config.defaultGroupUrl.trim();
 }
 
 export function formatWhatsappPhone(value: string): string {

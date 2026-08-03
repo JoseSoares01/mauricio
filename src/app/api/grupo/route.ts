@@ -10,6 +10,7 @@ export async function POST(request: Request) {
       name?: string;
       phone?: string;
       city?: string;
+      cityOption?: string;
       website?: string;
     };
 
@@ -20,6 +21,7 @@ export async function POST(request: Request) {
     const name = body.name?.trim() || "";
     const phone = (body.phone || "").replace(/\D/g, "");
     const city = body.city?.trim() || "";
+    const cityOption = body.cityOption?.trim() || city;
 
     if (!name || !phone || !city) {
       return NextResponse.json(
@@ -41,7 +43,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Página indisponível." }, { status: 503 });
     }
 
-    const redirectUrl = resolveGroupUrl(grupo, city);
+    const redirectUrl = resolveGroupUrl(grupo, cityOption);
     if (!redirectUrl) {
       return NextResponse.json(
         {
