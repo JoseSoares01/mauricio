@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { getSiteConfig } from "@/lib/site-config";
+import Header from "@/components/Header";
 import GrupoLeadForm, { GrupoBrandHeader } from "@/components/GrupoLeadForm";
 import type { Metadata } from "next";
 
@@ -17,46 +18,52 @@ export default async function GrupoPage() {
 
   if (!grupo.enabled) {
     return (
-      <main className="grupo-page" data-reveal-skip>
-        <div className="grupo-page-inner grupo-page-disabled">
-          <p>Esta página está temporariamente indisponível.</p>
-        </div>
-      </main>
+      <>
+        <Header menu={config.menu} />
+        <main className="grupo-page" data-reveal-skip>
+          <div className="grupo-page-inner grupo-page-disabled">
+            <p>Esta página está temporariamente indisponível.</p>
+          </div>
+        </main>
+      </>
     );
   }
 
   return (
-    <main className="grupo-page" data-reveal-skip>
-      <div className="grupo-page-inner">
-        <section className="grupo-content">
-          <GrupoBrandHeader config={grupo} />
+    <>
+      <Header menu={config.menu} />
+      <main className="grupo-page" data-reveal-skip>
+        <div className="grupo-page-inner">
+          <section className="grupo-content">
+            <GrupoBrandHeader config={grupo} />
 
-          <h1 className="grupo-headline">
-            <span className="grupo-headline-line">{grupo.headlineBefore}</span>
-            <span className="grupo-headline-highlight">{grupo.headlineHighlight}</span>
-            <span className="grupo-headline-line">{grupo.headlineAfter}</span>
-          </h1>
+            <h1 className="grupo-headline">
+              <span className="grupo-headline-line">{grupo.headlineBefore}</span>
+              <span className="grupo-headline-highlight">{grupo.headlineHighlight}</span>
+              <span className="grupo-headline-line">{grupo.headlineAfter}</span>
+            </h1>
 
-          <p className="grupo-subtitle">{grupo.subtitle}</p>
+            <p className="grupo-subtitle">{grupo.subtitle}</p>
 
-          <GrupoLeadForm config={grupo} />
+            <GrupoLeadForm config={grupo} />
 
-          <p className="grupo-footer-note">{grupo.footerNote}</p>
-        </section>
+            <p className="grupo-footer-note">{grupo.footerNote}</p>
+          </section>
 
-        <aside className="grupo-hero" aria-hidden>
-          <Image
-            src={grupo.desktopHeroImage}
-            alt=""
-            fill
-            className="grupo-hero-img"
-            sizes="(min-width: 900px) 55vw, 0px"
-            unoptimized
-            priority
-          />
-          <span className="grupo-hero-fade" />
-        </aside>
-      </div>
-    </main>
+          <aside className="grupo-hero" aria-hidden>
+            <Image
+              src={grupo.desktopHeroImage}
+              alt=""
+              fill
+              className="grupo-hero-img"
+              sizes="(min-width: 900px) 55vw, 0px"
+              unoptimized
+              priority
+            />
+            <span className="grupo-hero-fade" />
+          </aside>
+        </div>
+      </main>
+    </>
   );
 }

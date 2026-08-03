@@ -90,14 +90,16 @@ export default function Header({ menu }: HeaderProps) {
         </ul>
 
         <div className="mobile-nav-actions md:hidden">
-          <Link
-            href="/sobre"
-            className={`about-me-btn ${isMenuActive(pathname, "/sobre") ? "is-active" : ""}`}
-            onClick={handleSobreMimClick}
-          >
-            <span className="about-me-btn-shine" aria-hidden />
-            <span className="about-me-btn-label">Sobre mim</span>
-          </Link>
+          {!isMenuActive(pathname, "/grupo") && (
+            <Link
+              href="/sobre"
+              className={`about-me-btn ${isMenuActive(pathname, "/sobre") ? "is-active" : ""}`}
+              onClick={handleSobreMimClick}
+            >
+              <span className="about-me-btn-shine" aria-hidden />
+              <span className="about-me-btn-label">Sobre mim</span>
+            </Link>
+          )}
 
           <button
             type="button"
