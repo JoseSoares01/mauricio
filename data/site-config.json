@@ -66,16 +66,16 @@
     "heroPhoto": "/uploads/hero-photo.png",
     "heroPhotoOriginal": "/uploads/hero-mauricio-original.png",
     "aboutPhoto": "https://raw.githubusercontent.com/JoseSoares01/mauricio/main/public/uploads/1781811045973-r1dvzw6ya08.png",
-    "aboutBg": "https://raw.githubusercontent.com/JoseSoares01/mauricio/main/public/uploads/1783959602619-3e2465rh36k.png",
+    "aboutBg": "https://raw.githubusercontent.com/JoseSoares01/mauricio/main/public/uploads/1785753356558-ptigwmsmc3.png",
     "senadoBg": "https://raw.githubusercontent.com/JoseSoares01/mauricio/main/public/uploads/1781811382721-f8c2cru914v.jpg",
     "banner": "https://raw.githubusercontent.com/JoseSoares01/mauricio/main/public/uploads/1781625358314-e21ya04w4c8.jpeg",
     "bannerSecondary": "",
     "favicon": "/uploads/favicon-192.png",
     "focus": {
       "aboutBg": {
-        "x": 42,
-        "y": 74,
-        "zoom": 100
+        "x": 0,
+        "y": 85,
+        "zoom": 110
       }
     }
   },
