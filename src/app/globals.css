@@ -2191,22 +2191,25 @@ path.animate-\[dash_10s_linear_infinite\] {
     background: #050a07;
   }
 
-  .grupo-hero::before {
+  .grupo-hero::before,
+  .grupo-hero::after {
     content: "";
     position: absolute;
     top: 0;
     bottom: 0;
-    left: 0;
     z-index: 3;
-    width: 5px;
-    background: linear-gradient(
-      to right,
-      #129547 0%,
-      #129547 50%,
-      #fdce27 50%,
-      #fdce27 100%
-    );
+    width: 2px;
     pointer-events: none;
+  }
+
+  .grupo-hero::before {
+    left: 0;
+    background: #129547;
+  }
+
+  .grupo-hero::after {
+    left: 2px;
+    background: #fdce27;
   }
 
   .grupo-hero-img {
