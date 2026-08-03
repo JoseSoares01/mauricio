@@ -223,16 +223,20 @@ export default function GrupoLeadForm({ config }: GrupoLeadFormProps) {
 }
 
 export function GrupoBrandHeader({ config }: { config: WhatsappGroupConfig }) {
+  const isRemote = /^https?:\/\//i.test(config.profileImage);
+
   return (
     <div className="grupo-brand">
       <div className="grupo-brand-avatar">
         <Image
           src={config.profileImage}
           alt={config.displayName}
-          width={72}
-          height={72}
+          width={256}
+          height={256}
+          quality={95}
+          sizes="160px"
           className="grupo-brand-avatar-img"
-          unoptimized
+          unoptimized={isRemote}
           priority
         />
       </div>

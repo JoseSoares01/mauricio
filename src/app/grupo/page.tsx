@@ -50,6 +50,11 @@ export default async function GrupoPage() {
             <p className="grupo-footer-note">{grupo.footerNote}</p>
           </section>
 
+          <div className="grupo-divider" aria-hidden>
+            <span className="grupo-divider-green" />
+            <span className="grupo-divider-yellow" />
+          </div>
+
           <aside className="grupo-hero" aria-hidden>
             <Image
               src={grupo.desktopHeroImage}
