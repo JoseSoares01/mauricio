@@ -74,7 +74,7 @@
     "focus": {
       "aboutBg": {
         "x": 0,
-        "y": 96,
+        "y": 85,
         "zoom": 110
       }
     }
@@ -750,10 +750,10 @@
   },
   "whatsappGroup": {
     "enabled": true,
-    "profileImage": "/uploads/hero-mauricio-original.png",
+    "profileImage": "https://raw.githubusercontent.com/JoseSoares01/mauricio/main/public/uploads/1785758631765-dq42qssn9dh.png",
     "desktopHeroImage": "/uploads/hero-mauricio-original.png",
     "displayName": "DR. MAURÍCIO SOARES",
-    "roleLine": "PRÉ-CANDIDATO · DEPUTADO FEDERAL · PIAUÍ",
+    "roleLine": "CANDIDATO · DEPUTADO FEDERAL · PIAUÍ",
     "headlineBefore": "VENHA FAZER PARTE DO MEU",
     "headlineHighlight": "GRUPO DE APOIO",
     "headlineAfter": "NA SUA CIDADE.",
@@ -765,16 +765,16 @@
     "defaultGroupUrl": "https://chat.whatsapp.com/GNtAll5zdmk2fBPWABUn6e?s=cl&p=i&mlu=4&amv=0",
     "cities": [
       {
-        "name": "Outras",
+        "name": "Outra",
         "groupUrl": ""
       },
       {
         "name": "Teresina",
-        "groupUrl": ""
+        "groupUrl": "https://chat.whatsapp.com/ISoZnNSyU2wHoIvV8V3111?s=cl&p=i&mlu=4&amv=0"
       },
       {
         "name": "Parnaíba",
-        "groupUrl": ""
+        "groupUrl": "https://chat.whatsapp.com/I3fCx3Os83A9RBaL5mKCxx?s=cl&p=i&mlu=4&amv=0"
       },
       {
         "name": "Floriano",
@@ -802,10 +802,6 @@
       },
       {
         "name": "Bom Jesus",
-        "groupUrl": ""
-      },
-      {
-        "name": "Outra",
         "groupUrl": ""
       }
     ],
