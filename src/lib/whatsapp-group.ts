@@ -30,7 +30,10 @@ const DEFAULT_CITY_NAMES = [...MAP_MUNICIPALITY_LABELS]
   .sort((a, b) => a.localeCompare(b, "pt-BR"));
 
 export function defaultWhatsappGroupCities(): WhatsappGroupCity[] {
-  return DEFAULT_CITY_NAMES.map((name) => ({ name, groupUrl: "" }));
+  const names = DEFAULT_CITY_NAMES.includes("Outra")
+    ? DEFAULT_CITY_NAMES
+    : [...DEFAULT_CITY_NAMES, "Outra"];
+  return names.map((name) => ({ name, groupUrl: "" }));
 }
 
 export function defaultWhatsappGroupConfig(images?: {
@@ -52,7 +55,7 @@ export function defaultWhatsappGroupConfig(images?: {
     ctaLabel: "ENTRAR NO GRUPO",
     footerNote:
       "Ao entrar você passa a receber comunicações da pré-campanha. Você pode sair do grupo a qualquer momento.",
-    privacyUrl: "/contato",
+    privacyUrl: "https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2018/lei/l13709.htm",
     privacyLabel: "Política de Privacidade",
     defaultGroupUrl: "",
     cities: defaultWhatsappGroupCities(),
@@ -73,6 +76,11 @@ export function normalizeWhatsappGroup(
         })).filter((c) => c.name)
       : defaults.cities;
 
+  const hasOutra = cities.some((c) => c.name.toLowerCase() === "outra");
+  const citiesWithOutra = hasOutra
+    ? cities
+    : [...cities, { name: "Outra", groupUrl: "" }];
+
   return {
     enabled: base?.enabled !== false,
     profileImage: base?.profileImage?.trim() || defaults.profileImage,
@@ -85,10 +93,13 @@ export function normalizeWhatsappGroup(
     subtitle: base?.subtitle?.trim() || defaults.subtitle,
     ctaLabel: base?.ctaLabel?.trim() || defaults.ctaLabel,
     footerNote: base?.footerNote?.trim() || defaults.footerNote,
-    privacyUrl: base?.privacyUrl?.trim() || defaults.privacyUrl,
+    privacyUrl:
+      !base?.privacyUrl?.trim() || base.privacyUrl.trim() === "/contato"
+        ? defaults.privacyUrl
+        : base.privacyUrl.trim(),
     privacyLabel: base?.privacyLabel?.trim() || defaults.privacyLabel,
     defaultGroupUrl: base?.defaultGroupUrl?.trim() || "",
-    cities,
+    cities: citiesWithOutra,
     notifyEmail: base?.notifyEmail?.trim() || "",
   };
 }

@@ -19,25 +19,37 @@ function WhatsAppIcon({ className = "" }: { className?: string }) {
 }
 
 export default function GrupoLeadForm({ config }: GrupoLeadFormProps) {
-  const cities = useMemo(
-    () => [...config.cities].sort((a, b) => a.name.localeCompare(b.name, "pt-BR")),
-    [config.cities]
-  );
+  const cities = useMemo(() => {
+    const sorted = [...config.cities].sort((a, b) =>
+      a.name.localeCompare(b.name, "pt-BR")
+    );
+    const withoutOutra = sorted.filter((c) => c.name.toLowerCase() !== "outra");
+    return [...withoutOutra, { name: "Outra", groupUrl: "" }];
+  }, [config.cities]);
 
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [city, setCity] = useState("");
+  const [otherCity, setOtherCity] = useState("");
   const [accepted, setAccepted] = useState(false);
   const [honeypot, setHoneypot] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const isOtherCity = city.trim().toLowerCase() === "outra";
+
   const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setError("");
 
-    if (!name.trim() || !phone.trim() || !city.trim()) {
-      setError("Preencha nome, WhatsApp e cidade.");
+    const resolvedCity = isOtherCity ? otherCity.trim() : city.trim();
+
+    if (!name.trim() || !phone.trim() || !resolvedCity) {
+      setError(
+        isOtherCity
+          ? "Preencha nome, WhatsApp e informe a cidade."
+          : "Preencha nome, WhatsApp e cidade."
+      );
       return;
     }
     if (digitsOnlyPhone(phone).length < 10) {
@@ -57,7 +69,7 @@ export default function GrupoLeadForm({ config }: GrupoLeadFormProps) {
         body: JSON.stringify({
           name: name.trim(),
           phone: digitsOnlyPhone(phone),
-          city,
+          city: resolvedCity,
           website: honeypot,
         }),
       });
@@ -116,17 +128,39 @@ export default function GrupoLeadForm({ config }: GrupoLeadFormProps) {
 
       <label className="grupo-field">
         <span>Cidade</span>
-        <div className="grupo-select-wrap">
-          <select value={city} onChange={(e) => setCity(e.target.value)} required>
-            <option value="">Selecione sua cidade...</option>
-            {cities.map((item) => (
-              <option key={item.name} value={item.name}>
-                {item.name}
-              </option>
-            ))}
-          </select>
-        </div>
+        <input
+          type="text"
+          list="grupo-cidades"
+          value={city}
+          onChange={(e) => {
+            setCity(e.target.value);
+            if (e.target.value.trim().toLowerCase() !== "outra") {
+              setOtherCity("");
+            }
+          }}
+          placeholder="Digite ou escolha sua cidade"
+          autoComplete="address-level2"
+          required
+        />
+        <datalist id="grupo-cidades">
+          {cities.map((item) => (
+            <option key={item.name} value={item.name} />
+          ))}
+        </datalist>
       </label>
+
+      {isOtherCity && (
+        <label className="grupo-field">
+          <span>Qual cidade?</span>
+          <input
+            type="text"
+            value={otherCity}
+            onChange={(e) => setOtherCity(e.target.value)}
+            placeholder="Digite o nome da cidade"
+            required
+          />
+        </label>
+      )}
 
       <label className="grupo-consent">
         <input
@@ -136,7 +170,14 @@ export default function GrupoLeadForm({ config }: GrupoLeadFormProps) {
         />
         <span>
           Li e concordo com a{" "}
-          <Link href={config.privacyUrl || "/contato"} target="_blank" rel="noopener noreferrer">
+          <Link
+            href={
+              config.privacyUrl ||
+              "https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2018/lei/l13709.htm"
+            }
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             {config.privacyLabel || "Política de Privacidade"}
           </Link>{" "}
           e autorizo o tratamento dos meus dados conforme a LGPD.

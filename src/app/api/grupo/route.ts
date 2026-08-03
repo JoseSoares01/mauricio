@@ -1,36 +1,8 @@
 import { NextResponse } from "next/server";
-import { promises as fs } from "fs";
-import path from "path";
 import { Resend } from "resend";
 import { getSiteConfig } from "@/lib/site-config";
+import { appendGrupoLead } from "@/lib/grupo-leads";
 import { resolveGroupUrl } from "@/lib/whatsapp-group";
-
-const LEADS_PATH = path.join(process.cwd(), "data", "grupo-leads.json");
-
-type Lead = {
-  id: string;
-  name: string;
-  phone: string;
-  city: string;
-  createdAt: string;
-};
-
-async function appendLead(lead: Lead) {
-  try {
-    let list: Lead[] = [];
-    try {
-      const raw = await fs.readFile(LEADS_PATH, "utf-8");
-      list = JSON.parse(raw) as Lead[];
-      if (!Array.isArray(list)) list = [];
-    } catch {
-      list = [];
-    }
-    list.push(lead);
-    await fs.writeFile(LEADS_PATH, `${JSON.stringify(list, null, 2)}\n`, "utf-8");
-  } catch (error) {
-    console.error("Falha ao gravar lead do grupo:", error);
-  }
-}
 
 export async function POST(request: Request) {
   try {
@@ -80,14 +52,23 @@ export async function POST(request: Request) {
       );
     }
 
-    const lead: Lead = {
+    const lead = {
       id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
       name,
       phone,
       city,
       createdAt: new Date().toISOString(),
     };
-    await appendLead(lead);
+
+    try {
+      await appendGrupoLead(lead);
+    } catch (error) {
+      console.error("Falha ao gravar lead do grupo:", error);
+      return NextResponse.json(
+        { error: "Não foi possível salvar o cadastro. Tente novamente." },
+        { status: 500 }
+      );
+    }
 
     const notifyTo = (grupo.notifyEmail || config.contact.email || "").trim();
     const apiKey = process.env.RESEND_API_KEY;
