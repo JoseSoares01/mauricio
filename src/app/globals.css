@@ -948,10 +948,249 @@ path.animate-\[dash_10s_linear_infinite\] {
   background: color-mix(in srgb, var(--color-background) 88%, var(--color-primary) 12%);
 }
 
+.hero-carousel-slide--propostas {
+  background:
+    radial-gradient(ellipse 80% 50% at 50% 0%, color-mix(in srgb, var(--color-primary) 8%, transparent), transparent 60%),
+    color-mix(in srgb, var(--color-background) 92%, var(--color-primary) 8%);
+}
+
 .hero-carousel-promo-link {
   position: absolute;
   inset: 0;
   display: block;
+}
+
+/* ========== Slide HTML de Propostas (hero) ========== */
+.hero-propostas-slide {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  overflow: hidden;
+  padding: 5.5rem 1.25rem 5.25rem;
+}
+
+.hero-propostas-inner {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  min-height: 0;
+  height: 100%;
+}
+
+.hero-propostas-intro {
+  margin: 0;
+  text-align: center;
+  font-family: var(--font-body);
+  font-size: clamp(0.95rem, 1.35vw, 1.15rem);
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--color-primary);
+  flex-shrink: 0;
+}
+
+.hero-propostas-stats {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem 1rem;
+  flex-shrink: 0;
+}
+
+.hero-propostas-stat {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  background: #fff;
+  border-radius: 0.65rem;
+  padding: 0.55rem 1.1rem 0.55rem 0.65rem;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+}
+
+.hero-propostas-stat-icon {
+  display: grid;
+  place-items: center;
+  width: 2.1rem;
+  height: 2.1rem;
+  border-radius: 999px;
+  background: #2f6fed;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.hero-propostas-stat-text {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: #1a1a1a;
+  line-height: 1.25;
+}
+
+.hero-propostas-stat-text strong {
+  color: #2f6fed;
+  font-size: 1.15rem;
+  font-weight: 800;
+  margin-right: 0.2rem;
+}
+
+.hero-propostas-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.85rem;
+  flex: 1;
+  min-height: 0;
+  align-items: stretch;
+}
+
+.hero-propostas-col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  min-width: 0;
+  min-height: 0;
+  background: #fff;
+  border-radius: 0.85rem;
+  padding: 1rem 1rem 0.85rem;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.07);
+  overflow: hidden;
+}
+
+.hero-propostas-col-head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.hero-propostas-col-icon {
+  color: var(--color-primary);
+  display: grid;
+  place-items: center;
+}
+
+.hero-propostas-col-title {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: clamp(0.78rem, 1.05vw, 0.95rem);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  line-height: 1.25;
+  color: var(--color-primary);
+}
+
+.hero-propostas-col-text {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  line-height: 1.45;
+  color: var(--color-text);
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.hero-propostas-docs {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-height: 0;
+  overflow: auto;
+  flex: 1;
+  scrollbar-width: thin;
+}
+
+.hero-propostas-doc {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.45rem 0.55rem;
+  border-radius: 0.45rem;
+  background: color-mix(in srgb, var(--color-primary) 10%, #fff);
+  border: 1px solid color-mix(in srgb, var(--color-primary) 18%, transparent);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  line-height: 1.35;
+  text-decoration: none;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.hero-propostas-doc span {
+  flex: 1;
+  min-width: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.hero-propostas-doc:hover {
+  background: color-mix(in srgb, var(--color-primary) 16%, #fff);
+  border-color: color-mix(in srgb, var(--color-primary) 35%, transparent);
+}
+
+.hero-propostas-footer {
+  display: flex;
+  justify-content: center;
+  flex-shrink: 0;
+  padding-top: 0.15rem;
+}
+
+.hero-propostas-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.55rem 1.35rem;
+  border-radius: 999px;
+  background: var(--color-primary);
+  color: #fff;
+  font-family: var(--font-heading);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-decoration: none;
+  box-shadow: 0 4px 14px color-mix(in srgb, var(--color-primary) 35%, transparent);
+  transition: transform 0.15s ease, filter 0.15s ease;
+}
+
+.hero-propostas-cta:hover {
+  filter: brightness(1.06);
+  transform: translateY(-1px);
+}
+
+@media (max-width: 1100px) {
+  .hero-propostas-col-text {
+    -webkit-line-clamp: 3;
+  }
+}
+
+@media (max-width: 900px) {
+  .hero-propostas-slide {
+    padding: 5rem 0.85rem 5rem;
+  }
+
+  .hero-propostas-grid {
+    grid-template-columns: 1fr;
+    overflow: auto;
+  }
+
+  .hero-propostas-col {
+    min-height: auto;
+  }
 }
 
 .hero-carousel-promo-link img,

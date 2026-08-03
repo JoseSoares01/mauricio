@@ -4,8 +4,9 @@ import { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import SocialIcons from "@/components/SocialIcons";
+import HeroPropostasSlide from "@/components/HeroPropostasSlide";
 import { getImageFocusStyles } from "@/lib/image-focus";
-import type { ImageFocus, SiteConfig } from "@/lib/types";
+import type { ImageFocus, PropostaItem, SiteConfig } from "@/lib/types";
 
 interface HeroCarouselProps {
   siteTitle: string;
@@ -14,26 +15,19 @@ interface HeroCarouselProps {
   heroPhoto: string;
   heroPhotoFocus?: ImageFocus;
   social: SiteConfig["social"];
+  propostas: PropostaItem[];
 }
 
 const SLIDE_MS = 6500;
 const TRANSITION_MS = 900;
 const DESKTOP_MQ = "(min-width: 768px)";
 
-const PROMO_SLIDES = [
-  {
-    id: "propostas",
-    src: "/uploads/hero-slide-propostas.png",
-    alt: "Conheça as propostas do Maurício Soares",
-    href: "/propostas",
-  },
-  {
-    id: "mapa",
-    src: "/uploads/hero-slide-mapa.png",
-    alt: "Mapa de atuação do Maurício",
-    href: "/mapa-de-atuacao",
-  },
-] as const;
+const MAPA_SLIDE = {
+  id: "mapa",
+  src: "/uploads/hero-slide-mapa.png",
+  alt: "Mapa de atuação do Maurício",
+  href: "/mapa-de-atuacao",
+} as const;
 
 function HomeHeroSlide({
   siteTitle,
@@ -41,7 +35,7 @@ function HomeHeroSlide({
   heroLogoFocus,
   heroPhoto,
   heroPhotoFocus,
-}: Omit<HeroCarouselProps, "social">) {
+}: Omit<HeroCarouselProps, "social" | "propostas">) {
   return (
     <>
       <div className="container-site relative pt-24 z-10 h-full">
@@ -86,8 +80,9 @@ export default function HeroCarousel({
   heroPhoto,
   heroPhotoFocus,
   social,
+  propostas,
 }: HeroCarouselProps) {
-  const total = 1 + PROMO_SLIDES.length;
+  const total = 3;
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
@@ -144,26 +139,34 @@ export default function HeroCarousel({
             <HomeHeroSlide {...homeProps} />
           </div>
 
-          {PROMO_SLIDES.map((slide) => (
-            <div
-              key={slide.id}
-              className="hero-carousel-slide hero-carousel-slide--promo"
-              aria-hidden={index === 0 ? true : undefined}
+          <div
+            className="hero-carousel-slide hero-carousel-slide--promo hero-carousel-slide--propostas"
+            aria-hidden={index !== 1}
+          >
+            <HeroPropostasSlide propostas={propostas} />
+          </div>
+
+          <div
+            className="hero-carousel-slide hero-carousel-slide--promo"
+            aria-hidden={index !== 2}
+          >
+            <Link
+              href={MAPA_SLIDE.href}
+              className="hero-carousel-promo-link"
+              aria-label={MAPA_SLIDE.alt}
             >
-              <Link href={slide.href} className="hero-carousel-promo-link" aria-label={slide.alt}>
-                <Image
-                  src={slide.src}
-                  alt={slide.alt}
-                  fill
-                  className="object-contain md:object-cover object-center"
-                  sizes="100vw"
-                  unoptimized
-                  priority={false}
-                />
-                <span className="hero-promo-fade-edge" aria-hidden />
-              </Link>
-            </div>
-          ))}
+              <Image
+                src={MAPA_SLIDE.src}
+                alt={MAPA_SLIDE.alt}
+                fill
+                className="object-contain md:object-cover object-center"
+                sizes="100vw"
+                unoptimized
+                priority={false}
+              />
+              <span className="hero-promo-fade-edge" aria-hidden />
+            </Link>
+          </div>
         </div>
       ) : (
         <div className="hero-carousel-slide hero-carousel-slide--home hero-carousel-slide--static">

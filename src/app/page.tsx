@@ -27,6 +27,7 @@ export default async function HomePage() {
         heroPhoto={config.images.heroPhoto}
         heroPhotoFocus={config.images.focus?.heroPhoto}
         social={config.social}
+        propostas={config.propostas}
       />
 
       <AboutPreviewSection
