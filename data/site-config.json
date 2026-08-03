@@ -765,143 +765,7 @@
     "defaultGroupUrl": "https://chat.whatsapp.com/GNtAll5zdmk2fBPWABUn6e?s=cl&p=i&mlu=4&amv=0",
     "cities": [
       {
-        "name": "Altos",
-        "groupUrl": ""
-      },
-      {
-        "name": "Barras",
-        "groupUrl": ""
-      },
-      {
-        "name": "Bom Jesus",
-        "groupUrl": ""
-      },
-      {
-        "name": "Buriti dos Lopes",
-        "groupUrl": ""
-      },
-      {
-        "name": "Campo Maior",
-        "groupUrl": ""
-      },
-      {
-        "name": "Canto do Buriti",
-        "groupUrl": ""
-      },
-      {
-        "name": "Caracol",
-        "groupUrl": ""
-      },
-      {
-        "name": "Castelo do Piauí",
-        "groupUrl": ""
-      },
-      {
-        "name": "Cocal",
-        "groupUrl": ""
-      },
-      {
-        "name": "Corrente",
-        "groupUrl": ""
-      },
-      {
-        "name": "Curimatá",
-        "groupUrl": ""
-      },
-      {
-        "name": "Dom Inocêncio",
-        "groupUrl": ""
-      },
-      {
-        "name": "Elesbão Veloso",
-        "groupUrl": ""
-      },
-      {
-        "name": "Esperantina",
-        "groupUrl": ""
-      },
-      {
-        "name": "Floriano",
-        "groupUrl": ""
-      },
-      {
-        "name": "Fronteiras",
-        "groupUrl": ""
-      },
-      {
-        "name": "Gilbués",
-        "groupUrl": ""
-      },
-      {
-        "name": "Guadalupe",
-        "groupUrl": ""
-      },
-      {
-        "name": "Jaicós",
-        "groupUrl": ""
-      },
-      {
-        "name": "Monte Alegre do Piauí",
-        "groupUrl": ""
-      },
-      {
-        "name": "Oeiras",
-        "groupUrl": ""
-      },
-      {
-        "name": "Parnaguá",
-        "groupUrl": ""
-      },
-      {
-        "name": "Parnaíba",
-        "groupUrl": ""
-      },
-      {
-        "name": "Paulistana",
-        "groupUrl": ""
-      },
-      {
-        "name": "Pedro II",
-        "groupUrl": ""
-      },
-      {
-        "name": "Picos",
-        "groupUrl": ""
-      },
-      {
-        "name": "Piracuruca",
-        "groupUrl": ""
-      },
-      {
-        "name": "Piripiri",
-        "groupUrl": ""
-      },
-      {
-        "name": "Queimada Nova",
-        "groupUrl": ""
-      },
-      {
-        "name": "Regeneração",
-        "groupUrl": ""
-      },
-      {
-        "name": "Simplício Mendes",
-        "groupUrl": ""
-      },
-      {
-        "name": "São João do Piauí",
-        "groupUrl": ""
-      },
-      {
-        "name": "São Miguel do Tapuio",
-        "groupUrl": ""
-      },
-      {
-        "name": "São Pedro do Piauí",
-        "groupUrl": ""
-      },
-      {
-        "name": "São Raimundo Nonato",
+        "name": "Outra",
         "groupUrl": ""
       },
       {
@@ -909,19 +773,35 @@
         "groupUrl": ""
       },
       {
+        "name": "Parnaíba",
+        "groupUrl": ""
+      },
+      {
+        "name": "Floriano",
+        "groupUrl": ""
+      },
+      {
+        "name": "Campo Maior",
+        "groupUrl": ""
+      },
+      {
         "name": "União",
         "groupUrl": ""
       },
       {
-        "name": "Uruçuí",
+        "name": "Esperantina",
         "groupUrl": ""
       },
       {
-        "name": "Valença do Piauí",
+        "name": "Barras",
         "groupUrl": ""
       },
       {
-        "name": "Outra",
+        "name": "Pedro II",
+        "groupUrl": ""
+      },
+      {
+        "name": "Bom Jesus",
         "groupUrl": ""
       }
     ],
