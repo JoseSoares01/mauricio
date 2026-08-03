@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import type { AboutMetric, ImageFocus } from "@/lib/types";
 import { AboutMetricIconDisplay } from "@/lib/about-metric-icon";
-import { getBackgroundFocusStyles, getImageFocusStyles } from "@/lib/image-focus";
+import { getImageFocusStyles } from "@/lib/image-focus";
 
 interface AboutPreviewSectionProps {
   logoBlue: string;
@@ -127,10 +127,10 @@ export default function AboutPreviewSection({
       ref={sectionRef}
       data-reveal-skip
       style={{ backgroundColor: "var(--color-primary)" }}
-      className="min-h-[660px]"
+      className="about-home-section min-h-[660px] overflow-hidden"
     >
-      <div className="container-site grid md:grid-cols-2 items-center min-h-[660px]">
-        <div className="py-12 md:pr-12">
+      <div className="container-site grid md:grid-cols-2 items-stretch min-h-[660px]">
+        <div className="about-home-copy py-12 md:pr-12 flex flex-col justify-center">
           <Image
             src={logoBlue}
             alt="Logo"
@@ -156,13 +156,19 @@ export default function AboutPreviewSection({
             ))}
           </ul>
 
-          <Link href="/mapa-de-atuacao" className="btn-primary">
+          <Link href="/mapa-de-atuacao" className="btn-primary self-start">
             Mapa de Atuação
           </Link>
         </div>
         <div
-          className="min-h-[400px] md:min-h-[660px] bg-cover bg-center"
-          style={getBackgroundFocusStyles(aboutBg, aboutBgFocus)}
+          className="about-home-photo min-h-[400px] md:min-h-[660px] h-full self-stretch"
+          style={{
+            backgroundImage: `url(${aboutBg})`,
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "cover",
+            backgroundPosition: `${aboutBgFocus?.x ?? 0}% 100%`,
+          }}
+          aria-hidden
         />
       </div>
     </section>

@@ -17,7 +17,7 @@ export default async function GrupoPage() {
 
   if (!grupo.enabled) {
     return (
-      <main className="grupo-page">
+      <main className="grupo-page" data-reveal-skip>
         <div className="grupo-page-inner grupo-page-disabled">
           <p>Esta página está temporariamente indisponível.</p>
         </div>
@@ -26,7 +26,7 @@ export default async function GrupoPage() {
   }
 
   return (
-    <main className="grupo-page">
+    <main className="grupo-page" data-reveal-skip>
       <div className="grupo-page-inner">
         <section className="grupo-content">
           <GrupoBrandHeader config={grupo} />
