@@ -329,18 +329,6 @@
   },
   "news": [
     {
-      "id": "1785847488866",
-      "title": "Asfaltamento no Mocambinho é iniciado com apoio de Alceonira Belchior e lideranças políticas pelo OPA.",
-      "excerpt": "Alceonira Belchior presidente da associação da Vila Mocambinho obteve aprovação em seu projeto de calçamento do mocambinho que se iniciou em 3 de agosto de 2026, as obras foram fruto de articulações e luta de ir em porta em porta conscientizar pessoas da comunidade para melhorar a situação vigente. Com apoio de líderes politicos como Dr. Maurício Soares Candidato a Deputado Federal, o mocambinho tem se desenvolvido e ampliado sua força política.",
-      "date": "2026-08-04",
-      "category": "Geral",
-      "image": "https://raw.githubusercontent.com/JoseSoares01/mauricio/main/public/uploads/1785847650127-z3vm92b0nen.jpeg",
-      "content": "Alceonira Belchior presidente da associação da Vila Mocambinho obteve aprovação em seu projeto de calçamento do mocambinho que se iniciou em 3 de agosto de 2026, as obras foram fruto de articulações e luta de ir em porta em porta conscientizar pessoas da comunidade para melhorar a situação vigente. Com apoio de líderes politicos como Dr. Maurício Soares Candidato a Deputado Federal, o mocambinho tem se desenvolvido e ampliado sua força política.",
-      "imageFocusX": 45,
-      "imageFocusY": 30,
-      "imageZoom": 100
-    },
-    {
       "id": "1781279000001",
       "title": "Dr. Maurício Soares dispara em enquete pública para Dep. Federal no Piauí.",
       "excerpt": "Maurício Soares lidera enquete promovida pelo portal Br Hoje entre pré-candidatos a deputado federal",
@@ -398,6 +386,18 @@
       "imageFocusX": 38,
       "imageFocusY": 76,
       "content": "**Entre 1034 propostas, o calçamento para rua da Chesf na comunidade Soturno foi ELEITA, Mauricio Soares esteve contribuindo com divulgação e pedidos de votos nas comunidades.**\n\nA proposta no orçamento popular (OPA) 2026 foi eleita com quase 900 votos. \n\nMaurício Soares nao utilizou nenhum centavo do dinheiro público, mas mesmo assim vem contribuindo com projetos reais para o desenvolvimento social, já tem diversos projetos feitos, e propostas eleitas. Enquanto isso diversos outros políticos que estão a décadas no poder nem sequer pisam na rua e usam milhões do dinheiro do contribuinte.",
+      "imageZoom": 100
+    },
+    {
+      "id": "1785847488866",
+      "title": "Asfaltamento no Mocambinho é iniciado com apoio de Alceonira Belchior e lideranças políticas pelo OPA.",
+      "excerpt": "Alceonira Belchior presidente da associação da Vila Mocambinho obteve aprovação em seu projeto de calçamento do mocambinho que se iniciou em 3 de agosto de 2026, as obras foram fruto de articulações e luta de ir em porta em porta conscientizar pessoas da comunidade para melhorar a situação vigente. Com apoio de líderes politicos como Dr. Maurício Soares Candidato a Deputado Federal, o mocambinho tem se desenvolvido e ampliado sua força política.",
+      "date": "2026-08-04",
+      "category": "Geral",
+      "image": "https://raw.githubusercontent.com/JoseSoares01/mauricio/main/public/uploads/1785847650127-z3vm92b0nen.jpeg",
+      "content": "Alceonira Belchior presidente da associação da Vila Mocambinho obteve aprovação em seu projeto de calçamento do mocambinho que se iniciou em 3 de agosto de 2026, as obras foram fruto de articulações e luta de ir em porta em porta conscientizar pessoas da comunidade para melhorar a situação vigente. Com apoio de líderes politicos como Dr. Maurício Soares Candidato a Deputado Federal, o mocambinho tem se desenvolvido e ampliado sua força política.",
+      "imageFocusX": 45,
+      "imageFocusY": 30,
       "imageZoom": 100
     }
   ],
