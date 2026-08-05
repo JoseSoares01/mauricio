@@ -223,16 +223,6 @@
         "imageZoom": 100
       },
       {
-        "id": "t3",
-        "image": "https://raw.githubusercontent.com/JoseSoares01/mauricio/main/public/uploads/1781811382721-f8c2cru914v.jpg",
-        "year": "Causas",
-        "title": "Principais pautas",
-        "text": "Soberania nacional, valorização do policial e dos professores, amparo aos necessitados, desburocratização, defesa do meio ambiente e proteção às PcDs. Sempre lutei por valores inegóciaveis, diferente dos políticos amebas do nosso estado que trocam de lado toda hora.",
-        "imageFocusX": 50,
-        "imageFocusY": 50,
-        "imageZoom": 100
-      },
-      {
         "id": "t4",
         "image": "https://raw.githubusercontent.com/JoseSoares01/mauricio/main/public/uploads/1785930700797-i9rnju3lsk.jpg",
         "year": "Ciência e Tecnologia",
@@ -240,6 +230,16 @@
         "text": "Vivi e sei como funciona a máquina pública, luto pela valorização da educação, da pesquisa e inovação. Com pessoas preparadas que valorizem a ciêncial nacional, a pesquisa de qualidade, e salário digno para educação, nosso país irá se desenvolver.",
         "imageFocusX": 52,
         "imageFocusY": 46,
+        "imageZoom": 100
+      },
+      {
+        "id": "t3",
+        "image": "https://raw.githubusercontent.com/JoseSoares01/mauricio/main/public/uploads/1781811382721-f8c2cru914v.jpg",
+        "year": "Causas",
+        "title": "Principais pautas",
+        "text": "Soberania nacional, valorização do policial e dos professores, amparo aos necessitados, desburocratização, defesa do meio ambiente e proteção às PcDs. Sempre lutei por valores inegóciaveis, diferente dos políticos amebas do nosso estado que trocam de lado toda hora.",
+        "imageFocusX": 50,
+        "imageFocusY": 50,
         "imageZoom": 100
       },
       {
