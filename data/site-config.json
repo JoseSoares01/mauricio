@@ -194,12 +194,12 @@
     "timeline": [
       {
         "id": "t1",
-        "image": "/uploads/hero-mauricio-original.png",
+        "image": "https://raw.githubusercontent.com/JoseSoares01/mauricio/main/public/uploads/1785931346294-ge2u0y357k.jpg",
         "year": "Origem",
         "title": "Raízes e formação",
         "text": "Nasci e fui criado na pobreza. Através dos estudos servi meu país e construí uma trajetória marcada pela fé, disciplina e compromisso com o próximo.",
-        "imageFocusX": 50,
-        "imageFocusY": 50,
+        "imageFocusX": 51,
+        "imageFocusY": 15,
         "imageZoom": 100
       },
       {
