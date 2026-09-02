@@ -36,7 +36,7 @@ function HomeHeroSlide({
   heroLogoFocus,
   heroPhoto,
   heroPhotoFocus,
-}: Omit<HeroCarouselProps, "social" | "propostas">) {
+}: Omit<HeroCarouselProps, "social" | "propostas" | "propostaImages">) {
   return (
     <>
       <div className="container-site relative pt-24 z-10 h-full">
