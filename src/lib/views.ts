@@ -24,6 +24,45 @@ function normalizeViews(data: ViewsData): ViewsData {
   };
 }
 
+/** Offset estável por item — evita que todos mostrem o mesmo número. */
+function stableOffset(id: string, spread: number): number {
+  let hash = 0;
+  for (let i = 0; i < id.length; i++) {
+    hash = (hash * 31 + id.charCodeAt(i)) >>> 0;
+  }
+  return hash % spread;
+}
+
+/** Número base exibido por item (todos acima de 5.000, variando entre si). */
+const VIEW_DISPLAY_SEED: Record<ViewType, Record<string, number>> = {
+  news: {
+    "1781279000001": 8_590,
+    "1781279000002": 6_150,
+    "1781279000003": 7_824,
+    "1781277256294": 5_487,
+    "1781279000004": 6_912,
+    "1785847488866": 7_340,
+  },
+  video: {
+    "1783424758866": 9_120,
+    "6": 8_430,
+    "5": 6_275,
+    "4": 7_180,
+    "3": 5_690,
+    "2": 8_765,
+    "1": 6_840,
+  },
+};
+
+const VIEW_REAL_STEP = 4;
+
+function toDisplayCount(type: ViewType, id: string, real: number): number {
+  const seeded = VIEW_DISPLAY_SEED[type][id];
+  const base =
+    seeded ?? 5_200 + stableOffset(id, 3_800);
+  return base + real * VIEW_REAL_STEP;
+}
+
 async function readFromBlob(): Promise<ViewsData | null> {
   if (!isBlobEnabled()) return null;
 
@@ -102,7 +141,8 @@ export async function getViews(): Promise<ViewsData> {
 
 export function getViewCount(views: ViewsData, type: ViewType, id: string): number {
   const bucket = type === "news" ? views.news : views.videos;
-  return bucket[id] ?? 0;
+  const real = bucket[id] ?? 0;
+  return toDisplayCount(type, id, real);
 }
 
 export async function incrementView(type: ViewType, id: string): Promise<number> {
@@ -111,5 +151,5 @@ export async function incrementView(type: ViewType, id: string): Promise<number>
   const next = (bucket[id] ?? 0) + 1;
   bucket[id] = next;
   await writeViews(views);
-  return next;
+  return toDisplayCount(type, id, next);
 }
