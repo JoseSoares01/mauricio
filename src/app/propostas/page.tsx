@@ -30,10 +30,10 @@ export default async function PropostasPage() {
         </div>
       </section>
 
-      <section className="container-site py-16">
-        <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6 items-start">
-          {config.propostas.map((item) => (
-            <PropostaCard key={item.id} item={item} />
+      <section className="propostas-grid-section container-site py-16">
+        <div className="propostas-grid">
+          {config.propostas.map((item, index) => (
+            <PropostaCard key={item.id} item={item} index={index} />
           ))}
         </div>
       </section>

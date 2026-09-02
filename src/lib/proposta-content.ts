@@ -76,6 +76,22 @@ export function parsePropostaDescription(description: string): {
   return { intro, blocks, links };
 }
 
+export function getPropostaExpandableBlocks(description: string): PropostaBlock[] {
+  const parsed = parsePropostaDescription(description);
+  const detailBlocks = parsed.blocks.filter(
+    (block, blockIndex) =>
+      !(
+        blockIndex === 0 &&
+        block.type === "paragraph" &&
+        block.text === parsed.intro
+      )
+  );
+
+  if (detailBlocks.length > 0) return detailBlocks;
+  if (parsed.intro) return [{ type: "paragraph", text: parsed.intro }];
+  return [];
+}
+
 export function mergePropostaLinks(
   parsed: { title: string; url: string }[],
   extra?: { link?: string; documents?: { title: string; url: string }[] }

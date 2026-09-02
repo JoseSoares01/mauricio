@@ -1,18 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import {
-  Bird,
-  Building2,
-  Check,
-  ExternalLink,
-  FileText,
-  ShieldCheck,
-  Shield,
-  type LucideIcon,
-} from "lucide-react";
+import Image from "next/image";
+import { Building2, Check, ExternalLink, FileText } from "lucide-react";
 import type { PropostaItem } from "@/lib/types";
 import { mergePropostaLinks, parsePropostaDescription } from "@/lib/proposta-content";
+import { getPropostaCardTheme } from "@/lib/proposta-images";
 
 const STATS = [
   {
@@ -29,46 +22,53 @@ const STATS = [
   },
 ] as const;
 
-const COLUMN_ICONS: Record<string, LucideIcon> = {
-  "1": ShieldCheck,
-  "2": Bird,
-  "3": Shield,
-};
-
-function pickIcon(item: PropostaItem, index: number): LucideIcon {
-  if (COLUMN_ICONS[item.id]) return COLUMN_ICONS[item.id];
-  const title = item.title.toLowerCase();
-  if (title.includes("soberania")) return ShieldCheck;
-  if (title.includes("aborto") || title.includes("comunismo")) return Bird;
-  if (title.includes("segurança") || title.includes("policial")) return Shield;
-  return [ShieldCheck, Bird, Shield][index % 3];
-}
-
 function shorten(text: string, max: number) {
   const clean = text.replace(/\s+/g, " ").trim();
   if (clean.length <= max) return clean;
   return `${clean.slice(0, max - 1).trim()}…`;
 }
 
-function ColumnCard({ item, index }: { item: PropostaItem; index: number }) {
+function ColumnCard({
+  item,
+  index,
+  imageSrc,
+}: {
+  item: PropostaItem;
+  index: number;
+  imageSrc: string | null;
+}) {
   const parsed = parsePropostaDescription(item.description);
   const links = mergePropostaLinks(parsed.links, {
     link: item.link,
     documents: item.documents,
   }).slice(0, 5);
-  const Icon = pickIcon(item, index);
+  const theme = getPropostaCardTheme(index);
   const summary = shorten(parsed.intro, index === 2 ? 220 : 140);
 
   return (
-    <article className="hero-propostas-col">
-      <div className="hero-propostas-col-head">
-        <span className="hero-propostas-col-icon" aria-hidden>
-          <Icon size={28} strokeWidth={1.75} />
-        </span>
-        <h3 className="hero-propostas-col-title">{item.title}</h3>
+    <article className={`hero-propostas-col proposta-card--${theme}`}>
+      <div className="hero-propostas-col-banner">
+        <span className="proposta-card-blob proposta-card-blob--1" aria-hidden />
+        <span className="proposta-card-blob proposta-card-blob--2" aria-hidden />
+        <div className="hero-propostas-col-head">
+          <div className="hero-propostas-col-head-text">
+            <h3 className="hero-propostas-col-title">{item.title}</h3>
+            {summary && <p className="hero-propostas-col-text">{summary}</p>}
+          </div>
+          {imageSrc ? (
+            <div className="hero-propostas-col-visual">
+              <Image
+                src={imageSrc}
+                alt=""
+                width={200}
+                height={200}
+                className="hero-propostas-col-image"
+                unoptimized
+              />
+            </div>
+          ) : null}
+        </div>
       </div>
-
-      {summary && <p className="hero-propostas-col-text">{summary}</p>}
 
       {links.length > 0 && (
         <ul className="hero-propostas-docs">
@@ -95,9 +95,13 @@ function ColumnCard({ item, index }: { item: PropostaItem; index: number }) {
 
 interface HeroPropostasSlideProps {
   propostas: PropostaItem[];
+  propostaImages: Record<string, string | null>;
 }
 
-export default function HeroPropostasSlide({ propostas }: HeroPropostasSlideProps) {
+export default function HeroPropostasSlide({
+  propostas,
+  propostaImages,
+}: HeroPropostasSlideProps) {
   const featured = propostas.slice(0, 3);
 
   return (
@@ -122,7 +126,12 @@ export default function HeroPropostasSlide({ propostas }: HeroPropostasSlideProp
 
         <div className="hero-propostas-grid">
           {featured.map((item, index) => (
-            <ColumnCard key={item.id} item={item} index={index} />
+            <ColumnCard
+              key={item.id}
+              item={item}
+              index={index}
+              imageSrc={propostaImages[item.id] ?? null}
+            />
           ))}
         </div>
 

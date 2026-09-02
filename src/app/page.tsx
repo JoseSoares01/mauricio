@@ -8,6 +8,7 @@ import MobileScrollNudge from "@/components/MobileScrollNudge";
 import HeroCarousel from "@/components/HeroCarousel";
 import { getSiteConfig, formatDate, getConfiguredImageUrl } from "@/lib/site-config";
 import { getViews, getViewCount } from "@/lib/views";
+import { resolvePropostaImages } from "@/lib/proposta-images.server";
 import { getBackgroundFocusStyles, getImageFocusStyles } from "@/lib/image-focus";
 import Image from "next/image";
 import Link from "next/link";
@@ -16,6 +17,7 @@ export default async function HomePage() {
   const [config, views] = await Promise.all([getSiteConfig(), getViews()]);
   const bannerLeft = getConfiguredImageUrl(config.images.banner);
   const bannerRight = getConfiguredImageUrl(config.images.bannerSecondary);
+  const propostaImages = resolvePropostaImages(config.propostas);
 
   return (
     <PageLayout config={config}>
@@ -28,6 +30,7 @@ export default async function HomePage() {
         heroPhotoFocus={config.images.focus?.heroPhoto}
         social={config.social}
         propostas={config.propostas}
+        propostaImages={propostaImages}
       />
 
       <AboutPreviewSection

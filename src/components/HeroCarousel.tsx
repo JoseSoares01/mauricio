@@ -16,6 +16,7 @@ interface HeroCarouselProps {
   heroPhotoFocus?: ImageFocus;
   social: SiteConfig["social"];
   propostas: PropostaItem[];
+  propostaImages: Record<string, string | null>;
 }
 
 const SLIDE_MS = 6500;
@@ -81,6 +82,7 @@ export default function HeroCarousel({
   heroPhotoFocus,
   social,
   propostas,
+  propostaImages,
 }: HeroCarouselProps) {
   const total = 3;
   const [index, setIndex] = useState(0);
@@ -143,7 +145,7 @@ export default function HeroCarousel({
             className="hero-carousel-slide hero-carousel-slide--promo hero-carousel-slide--propostas"
             aria-hidden={index !== 1}
           >
-            <HeroPropostasSlide propostas={propostas} />
+            <HeroPropostasSlide propostas={propostas} propostaImages={propostaImages} />
           </div>
 
           <div
