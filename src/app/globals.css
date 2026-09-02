@@ -1532,6 +1532,164 @@ path.animate-\[dash_10s_linear_infinite\] {
   background: #f4f6f2;
 }
 
+.home-banner-section {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+
+.home-news-section {
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+}
+
+.home-banner-carousel {
+  position: relative;
+  width: 100%;
+}
+
+.home-banner-carousel-stage {
+  position: relative;
+  width: 100%;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  padding: 1.25rem 0;
+  isolation: isolate;
+}
+
+.home-banner-carousel-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.home-banner-carousel-backdrop-slide {
+  position: absolute;
+  inset: -12%;
+  background-size: cover;
+  background-position: center;
+  filter: blur(28px) saturate(1.15);
+  opacity: 0;
+  transition: opacity 0.9s ease;
+  transform: scale(1.08);
+}
+
+.home-banner-carousel-backdrop-slide.is-active {
+  opacity: 1;
+}
+
+.home-banner-carousel-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.82) 0%,
+      rgba(255, 255, 255, 0.45) 28%,
+      rgba(255, 255, 255, 0.45) 72%,
+      rgba(255, 255, 255, 0.82) 100%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.35) 0%,
+      rgba(255, 255, 255, 0.12) 50%,
+      rgba(255, 255, 255, 0.35) 100%
+    );
+  pointer-events: none;
+}
+
+.home-banner-carousel-viewport {
+  position: relative;
+  z-index: 2;
+  overflow: hidden;
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.home-banner-carousel-track {
+  display: flex;
+  align-items: center;
+  transition: transform 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+}
+
+.home-banner-carousel-slide {
+  flex: 0 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.home-banner-carousel-image {
+  display: block;
+  max-width: 100%;
+  max-height: 26rem;
+  width: auto;
+  height: auto;
+  margin: 0 auto;
+  border-radius: 0.5rem;
+  box-shadow:
+    0 10px 28px rgba(15, 23, 42, 0.14),
+    0 2px 8px rgba(15, 23, 42, 0.08);
+}
+
+@media (min-width: 768px) {
+  .home-banner-carousel-stage {
+    padding: 1.5rem 0;
+  }
+
+  .home-banner-carousel-viewport {
+    max-width: min(36rem, calc((100% - 1rem) / 2));
+  }
+
+  .home-banner-carousel-image {
+    max-height: 32rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-banner-carousel-backdrop-slide {
+    transition: none;
+  }
+}
+
+.home-banner-carousel-dots {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1.25rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.home-banner-carousel-dot {
+  width: 0.55rem;
+  height: 0.55rem;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(110, 139, 61, 0.28);
+  cursor: pointer;
+  padding: 0;
+  transition: transform 0.2s ease, background-color 0.2s ease, width 0.2s ease;
+}
+
+.home-banner-carousel-dot.is-active {
+  width: 1.35rem;
+  background: var(--color-primary);
+}
+
+.home-banner-carousel-dot:hover {
+  background: rgba(110, 139, 61, 0.55);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-banner-carousel-track {
+    transition: none;
+  }
+}
+
 .propostas-grid {
   display: grid;
   grid-template-columns: 1fr;

@@ -3,20 +3,19 @@ import InstagramSection from "@/components/InstagramSection";
 import AboutPreviewSection from "@/components/AboutPreviewSection";
 import ViewCounter from "@/components/ViewCounter";
 import VideoCard from "@/components/VideoCard";
-import FocusedImage from "@/components/FocusedImage";
 import MobileScrollNudge from "@/components/MobileScrollNudge";
 import HeroCarousel from "@/components/HeroCarousel";
-import { getSiteConfig, formatDate, getConfiguredImageUrl } from "@/lib/site-config";
+import HomeBannerCarousel from "@/components/HomeBannerCarousel";
+import { getSiteConfig, formatDate } from "@/lib/site-config";
+import { getHomeBannerSlides } from "@/lib/home-banners";
 import { getViews, getViewCount } from "@/lib/views";
 import { resolvePropostaImages } from "@/lib/proposta-images.server";
-import { getBackgroundFocusStyles, getImageFocusStyles } from "@/lib/image-focus";
-import Image from "next/image";
+import { getBackgroundFocusStyles } from "@/lib/image-focus";
 import Link from "next/link";
 
 export default async function HomePage() {
   const [config, views] = await Promise.all([getSiteConfig(), getViews()]);
-  const bannerLeft = getConfiguredImageUrl(config.images.banner);
-  const bannerRight = getConfiguredImageUrl(config.images.bannerSecondary);
+  const bannerSlides = getHomeBannerSlides(config);
   const propostaImages = resolvePropostaImages(config.propostas);
 
   return (
@@ -42,45 +41,14 @@ export default async function HomePage() {
         metrics={config.about.metrics}
       />
 
-      {/* Banners */}
-      {(bannerLeft || bannerRight) && (
-        <section className="container-site py-12">
-          <div
-            className={`grid gap-4 ${
-              bannerLeft && bannerRight ? "md:grid-cols-2" : "max-w-3xl mx-auto"
-            }`}
-          >
-            {bannerLeft && (
-              <div className="overflow-hidden rounded-lg">
-                <Image
-                  src={bannerLeft}
-                  alt="Banner MMBus"
-                  width={512}
-                  height={1024}
-                  className="w-full h-auto rounded-lg"
-                  style={getImageFocusStyles(config.images.focus?.banner, "cover")}
-                  unoptimized
-                />
-              </div>
-            )}
-            {bannerRight && (
-              <div className="relative aspect-[3/1] overflow-hidden rounded-lg">
-                <FocusedImage
-                  src={bannerRight}
-                  alt="Banner 2"
-                  fill
-                  focus={config.images.focus?.bannerSecondary}
-                  className="object-cover"
-                  unoptimized
-                />
-              </div>
-            )}
-          </div>
+      {bannerSlides.length > 0 && (
+        <section className="container-site home-banner-section">
+          <HomeBannerCarousel slides={bannerSlides} />
         </section>
       )}
 
       {/* News */}
-      <section className="container-site py-16">
+      <section className="container-site home-news-section">
         <h2 className="section-title mb-10">Notícias</h2>
         <div className="max-w-4xl mx-auto">
           {config.news.slice(0, 3).map((item) => (
