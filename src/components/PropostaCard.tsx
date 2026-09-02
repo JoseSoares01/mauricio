@@ -63,12 +63,12 @@ export default function PropostaCard({
 
   return (
     <article className={`proposta-card proposta-card--${theme}`}>
+      <span className="proposta-card-blob proposta-card-blob--1" aria-hidden />
+      <span className="proposta-card-blob proposta-card-blob--2" aria-hidden />
+
       <div
         className={`proposta-card-banner${imageSrc ? "" : " proposta-card-banner--text-only"}`}
       >
-        <span className="proposta-card-blob proposta-card-blob--1" aria-hidden />
-        <span className="proposta-card-blob proposta-card-blob--2" aria-hidden />
-
         <div className="proposta-card-banner-inner">
           <div className="proposta-card-banner-text">
             <h2 className="proposta-card-title">{item.title}</h2>
