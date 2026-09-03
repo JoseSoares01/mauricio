@@ -1074,42 +1074,45 @@ path.animate-\[dash_10s_linear_infinite\] {
   align-items: stretch;
   justify-content: space-between;
   gap: 0.35rem;
-  min-height: 8.5rem;
-  padding: 0.65rem 0.5rem 0.65rem 0.85rem;
+  min-height: 8.75rem;
+  padding: 0.7rem 0 0.7rem 0.85rem;
   text-align: left;
   flex-shrink: 0;
+  overflow: hidden;
 }
 
 .hero-propostas-col-head-text {
+  position: relative;
+  z-index: 3;
   flex: 1;
   min-width: 0;
+  max-width: 58%;
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 
-.hero-propostas-col-banner {
-  position: relative;
-  overflow: hidden;
-}
-
 .hero-propostas-col-visual {
-  flex: 0 0 7.5rem;
-  height: 7.5rem;
+  position: absolute;
+  z-index: 1;
+  right: -0.35rem;
+  bottom: -0.55rem;
+  width: 7.75rem;
+  height: 7.75rem;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center;
-  overflow: hidden;
-  border-radius: 0.5rem;
+  pointer-events: none;
 }
 
 .hero-propostas-col-image {
   display: block;
-  width: 110%;
-  height: 110%;
+  width: 112%;
+  height: 112%;
+  max-width: none;
   object-fit: contain;
-  object-position: center;
-  filter: drop-shadow(0 8px 14px rgba(15, 23, 42, 0.12));
+  object-position: bottom center;
+  filter: drop-shadow(0 10px 16px rgba(15, 23, 42, 0.14));
 }
 
 .hero-propostas-col.proposta-card--green .hero-propostas-col-banner {
@@ -1125,6 +1128,8 @@ path.animate-\[dash_10s_linear_infinite\] {
 }
 
 .hero-propostas-col-title {
+  position: relative;
+  z-index: 3;
   margin: 0 0 0.35rem;
   font-family: var(--font-heading);
   font-size: clamp(0.72rem, 0.95vw, 0.88rem);
@@ -1133,15 +1138,19 @@ path.animate-\[dash_10s_linear_infinite\] {
   text-transform: uppercase;
   line-height: 1.25;
   color: #1a1a1a;
+  text-shadow: 0 1px 8px rgba(255, 255, 255, 0.85);
 }
 
 .hero-propostas-col-text {
+  position: relative;
+  z-index: 3;
   margin: 0;
   font-family: var(--font-body);
   font-size: 0.72rem;
   line-height: 1.45;
-  color: #4b5563;
+  color: #374151;
   display: -webkit-box;
+  text-shadow: 0 1px 8px rgba(255, 255, 255, 0.9);
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
@@ -1742,7 +1751,8 @@ path.animate-\[dash_10s_linear_infinite\] {
 .proposta-card-banner {
   position: relative;
   z-index: 1;
-  min-height: 12.5rem;
+  min-height: 13rem;
+  overflow: hidden;
 }
 
 .proposta-card-banner-inner {
@@ -1751,22 +1761,26 @@ path.animate-\[dash_10s_linear_infinite\] {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 0.5rem;
-  min-height: 12.5rem;
-  padding: 1rem 0.5rem 1rem 1.35rem;
+  gap: 0.25rem;
+  min-height: 13rem;
+  padding: 1.1rem 0 1.1rem 1.35rem;
 }
 
 .proposta-card-banner-text {
+  position: relative;
+  z-index: 3;
   flex: 1;
   min-width: 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding-right: 0.35rem;
+  padding-right: 0.5rem;
+  max-width: 58%;
 }
 
 .proposta-card-blob {
   position: absolute;
+  z-index: 0;
   border-radius: 999px;
   pointer-events: none;
   filter: blur(0.5px);
@@ -1828,29 +1842,36 @@ path.animate-\[dash_10s_linear_infinite\] {
   padding-right: 1.35rem;
 }
 
+.proposta-card-banner--text-only .proposta-card-banner-text {
+  max-width: 100%;
+}
+
 .proposta-card-banner--text-only .proposta-card-blob--1 {
   right: 8%;
   top: -1.5rem;
 }
 
 .proposta-card-visual {
-  position: relative;
-  flex: 0 0 clamp(11rem, 52%, 16rem);
-  height: clamp(10rem, 26vw, 13.5rem);
+  position: absolute;
+  z-index: 1;
+  right: -0.4rem;
+  bottom: -0.7rem;
+  width: clamp(10rem, 48%, 14.5rem);
+  height: clamp(10rem, 48%, 14.5rem);
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center;
-  overflow: hidden;
-  border-radius: 0.65rem;
+  pointer-events: none;
 }
 
 .proposta-card-image {
   display: block;
   width: 112%;
   height: 112%;
+  max-width: none;
   object-fit: contain;
-  object-position: center;
-  filter: drop-shadow(0 10px 18px rgba(15, 23, 42, 0.14));
+  object-position: bottom center;
+  filter: drop-shadow(0 12px 20px rgba(15, 23, 42, 0.15));
 }
 
 .proposta-card-content {
@@ -1860,6 +1881,8 @@ path.animate-\[dash_10s_linear_infinite\] {
 }
 
 .proposta-card-title {
+  position: relative;
+  z-index: 3;
   font-family: var(--font-heading);
   font-size: clamp(0.92rem, 1.5vw, 1.05rem);
   font-weight: 800;
@@ -1868,13 +1891,16 @@ path.animate-\[dash_10s_linear_infinite\] {
   text-transform: uppercase;
   color: #1a1a1a;
   margin: 0 0 0.55rem;
+  text-shadow: 0 1px 10px rgba(255, 255, 255, 0.85);
 }
 
 .proposta-card-intro {
+  position: relative;
+  z-index: 3;
   font-family: var(--font-body);
   font-size: 0.8125rem;
   line-height: 1.55;
-  color: #4b5563;
+  color: #374151;
   margin: 0;
   overflow-wrap: anywhere;
   word-break: break-word;
@@ -1882,21 +1908,28 @@ path.animate-\[dash_10s_linear_infinite\] {
   -webkit-line-clamp: 4;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  text-shadow: 0 1px 8px rgba(255, 255, 255, 0.9);
 }
 
 @media (max-width: 640px) {
   .proposta-card-banner,
   .proposta-card-banner-inner {
-    min-height: 10.5rem;
+    min-height: 11.5rem;
   }
 
   .proposta-card-banner-inner {
-    padding: 0.85rem 0.35rem 0.85rem 1rem;
+    padding: 0.9rem 0 0.9rem 1rem;
+  }
+
+  .proposta-card-banner-text {
+    max-width: 55%;
   }
 
   .proposta-card-visual {
-    flex-basis: 9rem;
-    height: 9rem;
+    right: -0.6rem;
+    bottom: -0.8rem;
+    width: 9.25rem;
+    height: 9.25rem;
   }
 
   .proposta-card-intro {

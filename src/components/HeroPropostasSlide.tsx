@@ -60,8 +60,8 @@ function ColumnCard({
               <Image
                 src={imageSrc}
                 alt=""
-                width={200}
-                height={200}
+                width={280}
+                height={280}
                 className="hero-propostas-col-image"
                 unoptimized
               />

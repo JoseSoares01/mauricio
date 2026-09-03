@@ -80,10 +80,10 @@ export default function PropostaCard({
               <Image
                 src={imageSrc}
                 alt=""
-                width={400}
-                height={400}
+                width={560}
+                height={560}
                 className="proposta-card-image"
-                sizes="(min-width: 768px) 200px, 140px"
+                sizes="(min-width: 768px) 280px, 200px"
                 unoptimized
               />
             </div>
