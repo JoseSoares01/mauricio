@@ -500,49 +500,94 @@
   },
   "agenda": [
     {
-      "id": "1",
-      "title": "Reunião com lideranças comunitárias",
-      "description": "Encontro para discutir propostas de desenvolvimento local",
-      "date": "2026-06-10",
+      "id": "ag-2026-09-01-1",
+      "title": "Gravações PL Piauí",
+      "description": "Gravações com o PL Piauí",
+      "date": "2026-09-01",
       "time": "09:00",
-      "location": "Centro Comunitário",
-      "type": "reuniao"
-    },
-    {
-      "id": "2",
-      "title": "Visita à escola municipal",
-      "description": "Acompanhamento das obras de reforma e entrega de materiais",
-      "date": "2026-06-12",
-      "time": "14:00",
-      "location": "Escola Municipal João Silva",
-      "type": "visita"
-    },
-    {
-      "id": "3",
-      "title": "Comício de lançamento da campanha",
-      "description": "Grande evento de abertura oficial da campanha",
-      "date": "2026-06-15",
-      "time": "18:00",
-      "location": "Praça Central",
+      "location": "PL Piauí",
       "type": "evento"
     },
     {
-      "id": "4",
-      "title": "Debate sobre educação",
-      "description": "Painel com especialistas sobre o futuro da educação",
-      "date": "2026-06-20",
-      "time": "10:00",
-      "location": "Auditório Municipal",
-      "type": "debate"
+      "id": "ag-2026-09-01-2",
+      "title": "Entrevista em rádio",
+      "description": "Entrevista em rádio",
+      "date": "2026-09-01",
+      "time": "13:00",
+      "location": "",
+      "type": "evento"
     },
     {
-      "id": "5",
-      "title": "Caminhada pelo bairro",
-      "description": "Conversa com moradores e comerciantes locais",
-      "date": "2026-06-25",
+      "id": "ag-2026-09-02-1",
+      "title": "Aula HomeClass (Zoom)",
+      "description": "Aula HomeClass das 09h às 11h",
+      "date": "2026-09-02",
+      "time": "09:00",
+      "location": "Zoom",
+      "type": "evento"
+    },
+    {
+      "id": "ag-2026-09-02-2",
+      "title": "Entrega de materiais para apoiadores",
+      "description": "Entrega de materiais para apoiadores das 16h às 20h",
+      "date": "2026-09-02",
+      "time": "16:00",
+      "location": "",
+      "type": "visita"
+    },
+    {
+      "id": "ag-2026-09-03-1",
+      "title": "Aula HomeClass (Zoom)",
+      "description": "Aula HomeClass das 08h às 09h",
+      "date": "2026-09-03",
       "time": "08:00",
-      "location": "Bairro São José",
+      "location": "Zoom",
+      "type": "evento"
+    },
+    {
+      "id": "ag-2026-09-03-2",
+      "title": "Bloco do 22",
+      "description": "Bloco do 22 — Dom Severino x Homero",
+      "date": "2026-09-03",
+      "time": "17:00",
+      "location": "Dom Severino x Homero",
+      "type": "evento"
+    },
+    {
+      "id": "ag-2026-09-04-1",
+      "title": "Rádio Calçada",
+      "description": "Participação na Rádio Calçada",
+      "date": "2026-09-04",
+      "time": "12:00",
+      "location": "Rádio Calçada",
+      "type": "evento"
+    },
+    {
+      "id": "ag-2026-09-05-1",
+      "title": "Viagem para Parnaíba",
+      "description": "Possibilidade de ação conjunta com PLJ PHB e Rodrigo Luna",
+      "date": "2026-09-05",
+      "time": "06:00",
+      "location": "Parnaíba",
+      "type": "visita"
+    },
+    {
+      "id": "ag-2026-09-05-2",
+      "title": "Adesivaço Parnaíba",
+      "description": "Adesivaço em Parnaíba",
+      "date": "2026-09-05",
+      "time": "17:00",
+      "location": "Parnaíba",
       "type": "caminhada"
+    },
+    {
+      "id": "ag-2026-09-07-1",
+      "title": "Manifestação — Ponte Estaiada",
+      "description": "Manifestação na Ponte Estaiada",
+      "date": "2026-09-07",
+      "time": "16:00",
+      "location": "Ponte Estaiada",
+      "type": "evento"
     }
   ],
   "actionMap": {
