@@ -1,6 +1,7 @@
 import { promises as fs } from "fs";
 import path from "path";
-import { unstable_noStore as noStore } from "next/cache";
+import { cache } from "react";
+import { revalidateTag, unstable_cache } from "next/cache";
 import { put, list } from "@vercel/blob";
 import type { SiteConfig } from "./types";
 import defaultConfig from "../../data/site-config.json";
@@ -16,6 +17,8 @@ import { normalizeWhatsappGroup } from "./whatsapp-group";
 
 const CONFIG_PATH = path.join(process.cwd(), "data", "site-config.json");
 const BLOB_PATHNAME = "mauricio/site-config.json";
+const SITE_CONFIG_CACHE_TAG = "site-config";
+const SITE_CONFIG_REVALIDATE_SECONDS = 30;
 
 async function readFromBlob(): Promise<SiteConfig | null> {
   if (!isBlobEnabled()) return null;
@@ -99,17 +102,42 @@ function applyConfigNormalization(config: SiteConfig): SiteConfig {
   };
 }
 
-export async function getSiteConfig(): Promise<SiteConfig> {
-  noStore();
+async function loadSiteConfigFromStorage(): Promise<SiteConfig> {
   const fromGitHub = await readFromGitHub();
-  if (fromGitHub) return applyConfigNormalization(fromGitHub);
+  if (fromGitHub) return fromGitHub;
   const fromBlob = await readFromBlob();
-  if (fromBlob) return applyConfigNormalization(fromBlob);
-  return applyConfigNormalization(await readFromDisk());
+  if (fromBlob) return fromBlob;
+  return readFromDisk();
+}
+
+const getCachedNormalizedSiteConfig = unstable_cache(
+  async () => applyConfigNormalization(await loadSiteConfigFromStorage()),
+  ["site-config-v1"],
+  {
+    revalidate: SITE_CONFIG_REVALIDATE_SECONDS,
+    tags: [SITE_CONFIG_CACHE_TAG],
+  }
+);
+
+/** Leitura fresca (admin / gravação). Evita cache stale no painel. */
+export async function getSiteConfigFresh(): Promise<SiteConfig> {
+  return applyConfigNormalization(await loadSiteConfigFromStorage());
+}
+
+/**
+ * Config pública com cache curto (30s) + dedupe no mesmo request.
+ * Invalidada automaticamente ao salvar no admin.
+ */
+export const getSiteConfig = cache(async (): Promise<SiteConfig> => {
+  return getCachedNormalizedSiteConfig();
+});
+
+export function invalidateSiteConfigCache(): void {
+  revalidateTag(SITE_CONFIG_CACHE_TAG);
 }
 
 export async function saveSiteConfig(config: SiteConfig): Promise<void> {
-  const previousConfig = isGithubStorageEnabled() ? await getSiteConfig() : null;
+  const previousConfig = isGithubStorageEnabled() ? await getSiteConfigFresh() : null;
   const normalized = applyConfigNormalization(config);
   const content = `${JSON.stringify(normalized, null, 2)}\n`;
 
@@ -122,6 +150,7 @@ export async function saveSiteConfig(config: SiteConfig): Promise<void> {
     if (previousConfig) {
       await deleteRemovedUploadsFromGitHub(previousConfig, normalized);
     }
+    invalidateSiteConfigCache();
     return;
   }
 
@@ -140,6 +169,7 @@ export async function saveSiteConfig(config: SiteConfig): Promise<void> {
       if (!saved || JSON.stringify(saved) !== JSON.stringify(normalized)) {
         throw new Error("O Blob não confirmou a gravação. Tente salvar novamente.");
       }
+      invalidateSiteConfigCache();
       return;
     } catch (error) {
       console.error("Falha ao gravar config no Blob:", error);
@@ -158,6 +188,7 @@ export async function saveSiteConfig(config: SiteConfig): Promise<void> {
   }
 
   await fs.writeFile(CONFIG_PATH, content, "utf-8");
+  invalidateSiteConfigCache();
 }
 
 export function getThemeCSSVars(theme: SiteConfig["theme"]): Record<string, string> {

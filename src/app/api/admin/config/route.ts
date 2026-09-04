@@ -1,6 +1,6 @@
 import { revalidatePath } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
-import { getSiteConfig, saveSiteConfig } from "@/lib/site-config";
+import { getSiteConfigFresh, saveSiteConfig } from "@/lib/site-config";
 
 export const dynamic = "force-dynamic";
 
@@ -12,7 +12,7 @@ export async function GET(request: NextRequest) {
   if (!checkAuth(request)) {
     return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
   }
-  const config = await getSiteConfig();
+  const config = await getSiteConfigFresh();
   return NextResponse.json(config);
 }
 

@@ -51,12 +51,11 @@ export default function Header({ menu }: HeaderProps) {
     html.classList.add("page-sliding", "page-slide-out-left");
     sessionStorage.setItem(SOBRE_SLIDE_KEY, "1");
 
+    // Navega já — a animação corre em paralelo (sem esperar ~380ms).
+    router.push("/sobre");
     window.setTimeout(() => {
-      router.push("/sobre");
-      window.setTimeout(() => {
-        slidingRef.current = false;
-      }, SOBRE_SLIDE_MS);
-    }, SOBRE_SLIDE_MS - 40);
+      slidingRef.current = false;
+    }, SOBRE_SLIDE_MS);
   };
 
   return (

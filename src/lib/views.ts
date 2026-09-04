@@ -1,5 +1,6 @@
 import { promises as fs } from "fs";
 import path from "path";
+import { cache } from "react";
 import { unstable_noStore as noStore } from "next/cache";
 import { put, list } from "@vercel/blob";
 import { blobAuth, isBlobEnabled } from "./blob-storage";
@@ -130,14 +131,14 @@ async function writeViews(data: ViewsData): Promise<void> {
   await fs.writeFile(VIEWS_PATH, content, "utf-8");
 }
 
-export async function getViews(): Promise<ViewsData> {
+export const getViews = cache(async (): Promise<ViewsData> => {
   noStore();
   const fromBlob = await readFromBlob();
   if (fromBlob) return fromBlob;
   const fromGitHub = await readFromGitHub();
   if (fromGitHub) return fromGitHub;
   return readFromDisk();
-}
+});
 
 export function getViewCount(views: ViewsData, type: ViewType, id: string): number {
   const bucket = type === "news" ? views.news : views.videos;

@@ -113,7 +113,7 @@ function reveal(el: HTMLElement, instant = false) {
   if (el.dataset.revealText === "words") {
     const words = Array.from(el.querySelectorAll<HTMLElement>(".reveal-word"));
     words.forEach((word, index) => {
-      word.style.transitionDelay = instant ? "0ms" : `${Math.min(index * 32, 1100)}ms`;
+      word.style.transitionDelay = instant ? "0ms" : `${Math.min(index * 28, 420)}ms`;
       word.classList.add("is-shown");
     });
   }
@@ -151,13 +151,14 @@ export default function SiteScrollEffects() {
       const collect = (selector: string, kind: "block" | "text") => {
         document.querySelectorAll<HTMLElement>(selector).forEach((el) => {
           if (shouldSkip(el) || observed.has(el)) return;
-          prepareElement(el, kind);
 
+          // Acima da dobra: não esconde — evita página “vazia” na troca de menu.
           if (isAboveFold(el)) {
-            reveal(el, true);
+            el.dataset.revealReady = "1";
             return;
           }
 
+          prepareElement(el, kind);
           observer.observe(el);
           observed.add(el);
         });

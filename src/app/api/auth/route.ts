@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getSiteConfig } from "@/lib/site-config";
+import { getSiteConfigFresh } from "@/lib/site-config";
 import { createHash } from "crypto";
 
 export async function POST(request: NextRequest) {
   const { password } = await request.json();
-  const config = await getSiteConfig();
+  const config = await getSiteConfigFresh();
 
   if (password === config.admin.password) {
     const token = createHash("sha256")
