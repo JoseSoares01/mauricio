@@ -295,7 +295,7 @@ export default function ActionMapCanvas({
                 "circle-radius": CLUSTER_PAINT.clusterRadius,
                 "circle-opacity": CLUSTER_PAINT.clusterOpacity,
                 "circle-stroke-width": 2,
-                "circle-stroke-color": "#ffffff",
+                "circle-stroke-color": CLUSTER_PAINT.clusterStrokeColor,
               }}
             />
             <Layer

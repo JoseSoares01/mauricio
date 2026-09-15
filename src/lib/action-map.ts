@@ -6,7 +6,7 @@ import { getPiauiBBox } from "./piaui-boundary";
 export const ACTION_MAP_COLORS = {
   realizada: "#129547",
   agendada: "#0071B7",
-  cluster: "#6E8B3D",
+  cluster: "#129547",
 } as const;
 
 export const DEFAULT_ACTION_MAP_IMAGE = "/uploads/piaui-3d-map-premium.png";

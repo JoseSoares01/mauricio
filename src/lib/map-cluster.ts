@@ -35,8 +35,33 @@ export function visitsToClusterGeoJSON(
 /** Camadas clicáveis: apenas agrupamentos (pins usam Marker React). */
 export const CLUSTER_LAYER_IDS = ["acoes-clusters", "acoes-cluster-count"] as const;
 
+/** Degradê institucional: amarelo → limão → verde (por densidade do cluster). */
 export const CLUSTER_PAINT = {
-  clusterColor: "#6E8B3D",
+  clusterColor: [
+    "interpolate",
+    ["linear"],
+    ["get", "point_count"],
+    2,
+    "#FDCE27",
+    8,
+    "#C6D92E",
+    20,
+    "#7CB518",
+    40,
+    "#129547",
+  ] as [
+    "interpolate",
+    ["linear"],
+    ["get", "point_count"],
+    number,
+    string,
+    number,
+    string,
+    number,
+    string,
+    number,
+    string,
+  ],
   clusterRadius: ["step", ["get", "point_count"], 20, 5, 26, 15, 32, 40, 38] as [
     "step",
     ["get", "point_count"],
@@ -48,5 +73,26 @@ export const CLUSTER_PAINT = {
     number,
     number,
   ],
-  clusterOpacity: 0.92,
+  clusterOpacity: 0.94,
+  clusterStrokeColor: [
+    "interpolate",
+    ["linear"],
+    ["get", "point_count"],
+    2,
+    "#F5E06A",
+    20,
+    "#A8D035",
+    40,
+    "#0E7A38",
+  ] as [
+    "interpolate",
+    ["linear"],
+    ["get", "point_count"],
+    number,
+    string,
+    number,
+    string,
+    number,
+    string,
+  ],
 };
