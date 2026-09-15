@@ -3,6 +3,7 @@ import "./globals.css";
 import { getSiteConfig } from "@/lib/site-config";
 import { getFaviconMetadata } from "@/lib/favicon";
 import { getAbsoluteUrl, getSiteUrl } from "@/lib/site-url";
+import SplashIntro from "@/components/SplashIntro";
 
 export const dynamic = "force-dynamic";
 
@@ -64,7 +65,10 @@ export default async function RootLayout({
       <head>
         <style dangerouslySetInnerHTML={{ __html: `:root { ${themeVars} }` }} />
       </head>
-      <body>{children}</body>
+      <body>
+        <SplashIntro />
+        {children}
+      </body>
     </html>
   );
 }
