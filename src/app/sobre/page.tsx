@@ -4,6 +4,7 @@ import AboutGallery from "@/components/AboutGallery";
 import AboutTimeline from "@/components/AboutTimeline";
 import { getSiteConfig } from "@/lib/site-config";
 import { getImageFocusStyles } from "@/lib/image-focus";
+import { emphasizeQualifications } from "@/lib/emphasize-qualifications";
 
 export default async function SobrePage() {
   const config = await getSiteConfig();
@@ -63,8 +64,14 @@ export default async function SobrePage() {
             )}
             {introParagraphs.length > 0 && (
               <div className="about-intro-text">
+                <div className="about-intro-rule" aria-hidden="true" />
                 {introParagraphs.map((paragraph, i) => (
-                  <p key={i}>{paragraph}</p>
+                  <p
+                    key={i}
+                    className={i === 0 ? "about-intro-lead" : "about-intro-body"}
+                  >
+                    {emphasizeQualifications(paragraph)}
+                  </p>
                 ))}
               </div>
             )}

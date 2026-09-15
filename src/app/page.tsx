@@ -41,11 +41,7 @@ export default async function HomePage() {
         metrics={config.about.metrics}
       />
 
-      {bannerSlides.length > 0 && (
-        <section className="container-site home-banner-section">
-          <HomeBannerCarousel slides={bannerSlides} />
-        </section>
-      )}
+      {bannerSlides.length > 0 && <HomeBannerCarousel slides={bannerSlides} />}
 
       {/* News */}
       <section className="container-site home-news-section">

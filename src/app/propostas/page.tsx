@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import PageLayout from "@/components/PageLayout";
-import PropostaCard from "@/components/PropostaCard";
+import PropostasCatalog from "@/components/PropostasCatalog";
 import { getSiteConfig } from "@/lib/site-config";
+import { getPropostaCardTheme } from "@/lib/proposta-images";
+import { resolvePropostaImage } from "@/lib/proposta-images.server";
 
 export async function generateMetadata(): Promise<Metadata> {
   const config = await getSiteConfig();
@@ -13,28 +15,29 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function PropostasPage() {
   const config = await getSiteConfig();
+  const catalogItems = config.propostas.map((item, index) => ({
+    item,
+    index,
+    imageSrc: resolvePropostaImage(item.title),
+    theme: getPropostaCardTheme(index),
+  }));
 
   return (
     <PageLayout config={config}>
-      <section
-        className="pt-32 pb-16"
-        style={{
-          background: `radial-gradient(at top center, var(--color-hero-start) 0%, var(--color-hero-end) 100%)`,
-        }}
-      >
-        <div className="container-site text-center">
-          <h1 className="section-title">Propostas</h1>
-          <p className="text-lg mt-4 max-w-2xl mx-auto" style={{ color: "var(--color-text)" }}>
+      <section className="propostas-hero">
+        <div className="container-site propostas-hero-inner">
+          <p className="propostas-hero-label">Compromissos</p>
+          <h1 className="propostas-hero-title">Propostas</h1>
+          <div className="propostas-hero-rule" aria-hidden="true" />
+          <p className="propostas-hero-desc">
             Conheça as principais propostas e compromissos para transformar o Piauí.
           </p>
         </div>
       </section>
 
-      <section className="propostas-grid-section container-site py-16">
-        <div className="propostas-grid">
-          {config.propostas.map((item, index) => (
-            <PropostaCard key={item.id} item={item} index={index} />
-          ))}
+      <section className="propostas-grid-section">
+        <div className="container-site">
+          <PropostasCatalog items={catalogItems} />
         </div>
       </section>
     </PageLayout>

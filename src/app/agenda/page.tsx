@@ -7,22 +7,22 @@ export default async function AgendaPage() {
 
   return (
     <PageLayout config={config}>
-      <section
-        className="pt-32 pb-16"
-        style={{
-          background: `radial-gradient(at top center, var(--color-hero-start) 0%, var(--color-hero-end) 100%)`,
-        }}
-      >
-        <div className="container-site text-center">
-          <h1 className="section-title">Agenda</h1>
-          <p className="text-lg mt-4 max-w-2xl mx-auto" style={{ color: "var(--color-text)" }}>
-            Acompanhe os eventos e compromissos de {config.site.title} na semana e no mês
+      <section className="agenda-hero">
+        <div className="container-site agenda-hero-inner">
+          <p className="agenda-hero-label">Presença pública</p>
+          <h1 className="agenda-hero-title">Agenda</h1>
+          <div className="agenda-hero-rule" aria-hidden="true" />
+          <p className="agenda-hero-desc">
+            Compromissos, encontros e ações em curso — a agenda de presença e
+            atuação pública de {config.site.title}.
           </p>
         </div>
       </section>
 
-      <section className="container-site py-16">
-        <AgendaCalendar events={config.agenda} />
+      <section className="agenda-listing">
+        <div className="container-site">
+          <AgendaCalendar events={config.agenda} />
+        </div>
       </section>
     </PageLayout>
   );

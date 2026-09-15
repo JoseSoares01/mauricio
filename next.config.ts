@@ -2,6 +2,8 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   transpilePackages: ["mapbox-gl"],
+  // Esconde o badge vermelho "N / Issue" do Next em desenvolvimento
+  devIndicators: false,
   outputFileTracingIncludes: {
     "/*": ["./data/site-config.json"],
     "/api/**": ["./data/site-config.json"],

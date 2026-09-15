@@ -2,9 +2,8 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import type { AboutMetric, ImageFocus } from "@/lib/types";
-import { AboutMetricIconDisplay } from "@/lib/about-metric-icon";
 import { getImageFocusStyles } from "@/lib/image-focus";
 
 interface AboutPreviewSectionProps {
@@ -16,8 +15,54 @@ interface AboutPreviewSectionProps {
   metrics: AboutMetric[];
 }
 
+/** Qualificações destacadas de forma discreta (ordem: frases mais longas primeiro). */
+const EMPHASIS_PHRASES = [
+  "Oficial R/2 do Exército Brasileiro",
+  "Servidor Público Federal",
+  "Doutor em melhoramento genético",
+  "Professor",
+  "Biólogo",
+] as const;
+
 function formatMetricValue(value: number): string {
   return Math.round(value).toLocaleString("pt-BR");
+}
+
+function renderEmphasizedText(text: string): ReactNode[] {
+  if (!text) return [];
+
+  type Match = { start: number; end: number; phrase: string };
+  const matches: Match[] = [];
+  const lower = text.toLowerCase();
+
+  for (const phrase of EMPHASIS_PHRASES) {
+    const needle = phrase.toLowerCase();
+    let from = 0;
+    while (from < lower.length) {
+      const idx = lower.indexOf(needle, from);
+      if (idx === -1) break;
+      const end = idx + phrase.length;
+      const overlaps = matches.some((m) => idx < m.end && end > m.start);
+      if (!overlaps) matches.push({ start: idx, end, phrase: text.slice(idx, end) });
+      from = end;
+    }
+  }
+
+  matches.sort((a, b) => a.start - b.start);
+
+  const nodes: ReactNode[] = [];
+  let cursor = 0;
+  matches.forEach((m, i) => {
+    if (m.start > cursor) nodes.push(text.slice(cursor, m.start));
+    nodes.push(
+      <strong key={`em-${i}`} className="about-home-emphasis">
+        {m.phrase}
+      </strong>
+    );
+    cursor = m.end;
+  });
+  if (cursor < text.length) nodes.push(text.slice(cursor));
+  return nodes;
 }
 
 function AnimatedMetric({
@@ -60,10 +105,10 @@ function AnimatedMetric({
 
   return (
     <li className="about-metric-item">
-      <AboutMetricIconDisplay icon={metric.icon} />
-      <span className="about-metric-text">
-        <strong>{formatMetricValue(value)}</strong> {metric.label}
+      <span className="about-metric-value" aria-label={`${formatMetricValue(metric.value)} ${metric.label}`}>
+        {formatMetricValue(value)}
       </span>
+      <span className="about-metric-label">{metric.label}</span>
     </li>
   );
 }
@@ -136,16 +181,20 @@ export default function AboutPreviewSection({
             alt="Logo"
             width={500}
             height={500}
-            className="w-[75%] md:w-[65%] max-w-[340px] mb-6"
+            className="w-[75%] md:w-[65%] max-w-[340px] mb-7"
             style={getImageFocusStyles(logoBlueFocus, "contain")}
             unoptimized
           />
-          <p className="text-white text-[17px] leading-relaxed mb-6 min-h-[5.5rem]">
-            {typedText}
-            {!typingDone && animate && <span className="about-typewriter-cursor" aria-hidden="true">|</span>}
+          <p className="about-home-lead">
+            {renderEmphasizedText(typedText)}
+            {!typingDone && animate && (
+              <span className="about-typewriter-cursor" aria-hidden="true">
+                |
+              </span>
+            )}
           </p>
 
-          <ul className="about-metrics-list mb-6">
+          <ul className="about-metrics-list">
             {metrics.map((metric, i) => (
               <AnimatedMetric
                 key={metric.id}
@@ -156,8 +205,11 @@ export default function AboutPreviewSection({
             ))}
           </ul>
 
-          <Link href="/mapa-de-atuacao" className="btn-primary self-start">
-            Mapa de Atuação
+          <Link href="/mapa-de-atuacao" className="about-home-cta self-start">
+            <span>Mapa de Atuação</span>
+            <span className="about-home-cta-arrow" aria-hidden="true">
+              →
+            </span>
           </Link>
         </div>
         <div
