@@ -1,8 +1,10 @@
-import { unstable_noStore as noStore } from "next/cache";
+import { unstable_cache } from "next/cache";
 import type { InstagramPost, SiteConfig } from "./types";
 
 const FB_GRAPH = "https://graph.facebook.com/v21.0";
 const IG_GRAPH = "https://graph.instagram.com";
+const IG_CACHE_TAG = "instagram-posts";
+const IG_REVALIDATE_SECONDS = 300;
 
 interface IgMedia {
   id: string;
@@ -79,15 +81,10 @@ async function getMediaImageUrl(
     : first.media_url || null;
 }
 
-export async function getInstagramPosts(config: SiteConfig): Promise<InstagramPost[]> {
-  noStore();
-
+async function fetchLiveInstagramPosts(): Promise<InstagramPost[] | null> {
   const token = process.env.INSTAGRAM_ACCESS_TOKEN;
   const userId = process.env.INSTAGRAM_USER_ID;
-
-  if (!token || !userId) {
-    return config.instagram.posts;
-  }
+  if (!token || !userId) return null;
 
   try {
     const igUserId = await resolveInstagramUserId(token, userId);
@@ -103,11 +100,11 @@ export async function getInstagramPosts(config: SiteConfig): Promise<InstagramPo
 
     if (!res.ok) {
       console.error("Instagram API error:", res.status, await res.text());
-      return config.instagram.posts;
+      return null;
     }
 
     const data = (await res.json()) as { data?: IgMedia[] };
-    if (!data.data?.length) return config.instagram.posts;
+    if (!data.data?.length) return null;
 
     const posts = await Promise.all(
       data.data.map(async (item) => {
@@ -125,11 +122,26 @@ export async function getInstagramPosts(config: SiteConfig): Promise<InstagramPo
     );
 
     const livePosts = posts.filter((post) => post !== null);
-    return livePosts.length > 0 ? livePosts : config.instagram.posts;
+    return livePosts.length > 0 ? livePosts : null;
   } catch (error) {
     console.error("Falha ao buscar posts do Instagram:", error);
+    return null;
+  }
+}
+
+const getCachedLiveInstagramPosts = unstable_cache(
+  async () => fetchLiveInstagramPosts(),
+  ["instagram-posts-v1"],
+  { revalidate: IG_REVALIDATE_SECONDS, tags: [IG_CACHE_TAG] }
+);
+
+export async function getInstagramPosts(config: SiteConfig): Promise<InstagramPost[]> {
+  if (!isInstagramLiveEnabled()) {
     return config.instagram.posts;
   }
+
+  const live = await getCachedLiveInstagramPosts();
+  return live && live.length > 0 ? live : config.instagram.posts;
 }
 
 export function isInstagramLiveEnabled(): boolean {

@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
+import { emitSplashComplete } from "@/lib/splash";
 
 /**
  * Timeline única (proporcional) — 2200 e M sincronizados.
@@ -44,6 +45,7 @@ export default function SplashIntro() {
 
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       startedRef.current = true;
+      emitSplashComplete();
       return;
     }
 
@@ -62,6 +64,7 @@ export default function SplashIntro() {
     finishedRef.current = true;
     document.documentElement.classList.remove("splash-lock");
     setVisible(false);
+    emitSplashComplete();
   };
 
   useEffect(() => {

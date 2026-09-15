@@ -6,6 +6,7 @@ import Link from "next/link";
 import SocialIcons from "@/components/SocialIcons";
 import HeroPropostasSlide from "@/components/HeroPropostasSlide";
 import { getImageFocusStyles } from "@/lib/image-focus";
+import { SPLASH_COMPLETE_EVENT } from "@/lib/splash";
 import type { ImageFocus, PropostaItem, SiteConfig } from "@/lib/types";
 
 interface HeroCarouselProps {
@@ -73,6 +74,7 @@ function HomeHeroSlide({
 /**
  * Desktop: carrossel automático (Maurício → Propostas → Mapa).
  * Mobile: hero estático como antes (só logo + foto).
+ * Após a splash, o desktop começa sempre no slide do Maurício.
  */
 export default function HeroCarousel({
   siteTitle,
@@ -88,28 +90,67 @@ export default function HeroCarousel({
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
+  const [autoplayReady, setAutoplayReady] = useState(false);
 
   useEffect(() => {
     const mq = window.matchMedia(DESKTOP_MQ);
     const apply = () => {
       setIsDesktop(mq.matches);
-      if (!mq.matches) setIndex(0);
+      if (!mq.matches) {
+        setIndex(0);
+        setAutoplayReady(false);
+      }
     };
     apply();
     mq.addEventListener("change", apply);
     return () => mq.removeEventListener("change", apply);
   }, []);
 
+  useEffect(() => {
+    if (!isDesktop) return;
+
+    let cancelled = false;
+    let settled = false;
+
+    const markReady = () => {
+      if (cancelled || settled) return;
+      settled = true;
+      setIndex(0);
+      setAutoplayReady(true);
+    };
+
+    const onSplashComplete = () => markReady();
+    window.addEventListener(SPLASH_COMPLETE_EVENT, onSplashComplete);
+
+    // Se a splash não arrancar, libera o carrossel.
+    const checkId = window.setTimeout(() => {
+      const splashOn =
+        document.documentElement.classList.contains("splash-lock") ||
+        !!document.querySelector(".splash-intro");
+      if (!splashOn) markReady();
+    }, 120);
+
+    // Segurança: nunca bloquear o carrossel indefinidamente
+    const safetyId = window.setTimeout(markReady, 12000);
+
+    return () => {
+      cancelled = true;
+      window.removeEventListener(SPLASH_COMPLETE_EVENT, onSplashComplete);
+      window.clearTimeout(checkId);
+      window.clearTimeout(safetyId);
+    };
+  }, [isDesktop]);
+
   const goNext = useCallback(() => {
     setIndex((current) => (current + 1) % total);
   }, [total]);
 
   useEffect(() => {
-    if (!isDesktop || paused) return;
+    if (!isDesktop || !autoplayReady || paused) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const id = window.setInterval(goNext, SLIDE_MS);
     return () => window.clearInterval(id);
-  }, [goNext, paused, isDesktop]);
+  }, [goNext, paused, isDesktop, autoplayReady]);
 
   const homeProps = {
     siteTitle,
@@ -134,7 +175,7 @@ export default function HeroCarousel({
           className="hero-carousel-track"
           style={{
             transform: `translate3d(-${index * 100}%, 0, 0)`,
-            transitionDuration: `${TRANSITION_MS}ms`,
+            transitionDuration: autoplayReady ? `${TRANSITION_MS}ms` : "0ms",
           }}
         >
           <div className="hero-carousel-slide hero-carousel-slide--home" aria-hidden={index !== 0}>

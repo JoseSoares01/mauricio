@@ -1,7 +1,7 @@
 import { promises as fs } from "fs";
 import path from "path";
 import { cache } from "react";
-import { unstable_noStore as noStore } from "next/cache";
+import { revalidateTag, unstable_cache } from "next/cache";
 import { put, list } from "@vercel/blob";
 import { blobAuth, isBlobEnabled } from "./blob-storage";
 import { isGithubStorageEnabled, readTextFileFromGitHub, writeFileToGitHub } from "./github-storage";
@@ -15,6 +15,8 @@ export interface ViewsData {
 
 const VIEWS_PATH = path.join(process.cwd(), "data", "views.json");
 const BLOB_PATHNAME = "mauricio/views.json";
+const VIEWS_CACHE_TAG = "site-views";
+const VIEWS_REVALIDATE_SECONDS = 60;
 
 const EMPTY_VIEWS: ViewsData = { news: {}, videos: {} };
 
@@ -131,13 +133,23 @@ async function writeViews(data: ViewsData): Promise<void> {
   await fs.writeFile(VIEWS_PATH, content, "utf-8");
 }
 
-export const getViews = cache(async (): Promise<ViewsData> => {
-  noStore();
+async function loadViewsFromStorage(): Promise<ViewsData> {
   const fromBlob = await readFromBlob();
   if (fromBlob) return fromBlob;
   const fromGitHub = await readFromGitHub();
   if (fromGitHub) return fromGitHub;
   return readFromDisk();
+}
+
+const getCachedViews = unstable_cache(
+  async () => loadViewsFromStorage(),
+  ["site-views-v1"],
+  { revalidate: VIEWS_REVALIDATE_SECONDS, tags: [VIEWS_CACHE_TAG] }
+);
+
+/** Contagens com cache curto — não bloqueia a home a cada request. */
+export const getViews = cache(async (): Promise<ViewsData> => {
+  return getCachedViews();
 });
 
 export function getViewCount(views: ViewsData, type: ViewType, id: string): number {
@@ -147,10 +159,11 @@ export function getViewCount(views: ViewsData, type: ViewType, id: string): numb
 }
 
 export async function incrementView(type: ViewType, id: string): Promise<number> {
-  const views = await getViews();
+  const views = await loadViewsFromStorage();
   const bucket = type === "news" ? views.news : views.videos;
   const next = (bucket[id] ?? 0) + 1;
   bucket[id] = next;
   await writeViews(views);
+  revalidateTag(VIEWS_CACHE_TAG);
   return toDisplayCount(type, id, next);
 }

@@ -42,15 +42,12 @@ export default function HomeBannerCarousel({ slides }: HomeBannerCarouselProps) 
     >
       <div className="home-banner-carousel-stage">
         <div className="home-banner-carousel-backdrop" aria-hidden="true">
-          {slides.map((slide, slideIndex) => (
-            <div
-              key={slide.id}
-              className={`home-banner-carousel-backdrop-slide${
-                slideIndex === index ? " is-active" : ""
-              }`}
-              style={{ backgroundImage: `url("${slide.src}")` }}
-            />
-          ))}
+          {/* Só o slide ativo no backdrop — evita N downloads duplicados */}
+          <div
+            key={activeSlide.id}
+            className="home-banner-carousel-backdrop-slide is-active"
+            style={{ backgroundImage: `url("${activeSlide.src}")` }}
+          />
         </div>
         <div className="home-banner-carousel-overlay" aria-hidden="true" />
 
@@ -81,6 +78,7 @@ export default function HomeBannerCarousel({ slides }: HomeBannerCarouselProps) 
                   sizes="(min-width: 768px) 576px, 100vw"
                   unoptimized
                   priority={slideIndex === 0}
+                  loading={slideIndex === 0 ? "eager" : "lazy"}
                 />
               </article>
             ))}
