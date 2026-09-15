@@ -2593,27 +2593,34 @@ path.animate-\[dash_10s_linear_infinite\] {
 /* ========== Página /grupo (leads WhatsApp) ========== */
 html:has(.grupo-page),
 body:has(.grupo-page) {
-  background: #0a120c;
+  background: #129547;
   overflow-x: hidden;
 }
 
 body:has(.grupo-page) .site-nav-link {
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.75), 0 0 14px rgba(0, 0, 0, 0.35);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.45), 0 0 12px rgba(0, 0, 0, 0.25);
 }
 
 .grupo-page {
-  --grupo-bg: #0a120c;
+  --grupo-bg: #129547;
   --grupo-yellow: #f5d000;
   --grupo-yellow-soft: #ffe44d;
-  --grupo-text: #f4f4f4;
-  --grupo-muted: #b7c0b8;
-  --grupo-border: rgba(245, 208, 0, 0.85);
+  --grupo-text: #ffffff;
+  --grupo-muted: rgba(255, 255, 255, 0.88);
+  --grupo-border: rgba(255, 255, 255, 0.55);
   min-height: 100svh;
   min-height: 100dvh;
   background:
-    radial-gradient(ellipse at 20% 0%, rgba(18, 80, 40, 0.45), transparent 55%),
-    radial-gradient(ellipse at 80% 100%, rgba(10, 40, 20, 0.5), transparent 50%),
-    var(--grupo-bg);
+    radial-gradient(ellipse 90% 70% at 50% 18%, rgba(255, 255, 255, 0.14), transparent 58%),
+    linear-gradient(
+      165deg,
+      #0f7a2f 0%,
+      #129547 18%,
+      #3cb43a 38%,
+      #8fd400 58%,
+      #d4e000 78%,
+      #f5d000 100%
+    );
   color: var(--grupo-text);
   font-family: var(--font-body), system-ui, sans-serif;
   box-sizing: border-box;
@@ -2675,7 +2682,8 @@ body:has(.grupo-page) .site-nav-link {
 
 .grupo-brand-name {
   margin: 0;
-  color: var(--grupo-yellow);
+  color: #ffffff;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.28);
   font-family: var(--font-heading), system-ui, sans-serif;
   font-weight: 800;
   font-size: 0.95rem;
@@ -2710,7 +2718,8 @@ body:has(.grupo-page) .site-nav-link {
 
 .grupo-headline-highlight {
   display: block;
-  color: var(--grupo-yellow);
+  color: #ffffff;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.22);
 }
 
 .grupo-subtitle {
@@ -2932,7 +2941,7 @@ body:has(.grupo-page) .site-nav-link {
 .grupo-footer-note {
   margin: 0.15rem 0 0;
   text-align: center;
-  color: #8b958d;
+  color: rgba(255, 255, 255, 0.78);
   font-size: 0.72rem;
   line-height: 1.45;
 }
@@ -2979,8 +2988,9 @@ body:has(.grupo-page) .site-nav-link {
     overflow: visible;
     background: linear-gradient(
       to right,
-      var(--grupo-bg) 0%,
-      var(--grupo-bg) 78%,
+      color-mix(in srgb, #129547 92%, transparent) 0%,
+      color-mix(in srgb, #3cb43a 78%, transparent) 55%,
+      color-mix(in srgb, #8fd400 35%, transparent) 82%,
       transparent 100%
     );
   }
@@ -3104,16 +3114,15 @@ body:has(.grupo-page) .site-nav-link {
     background:
       linear-gradient(
         to right,
-        var(--grupo-bg) 0%,
-        rgba(10, 18, 12, 0.92) 8%,
-        rgba(10, 18, 12, 0.55) 22%,
-        rgba(10, 18, 12, 0.12) 40%,
-        transparent 58%
+        color-mix(in srgb, #129547 95%, transparent) 0%,
+        color-mix(in srgb, #129547 78%, transparent) 10%,
+        color-mix(in srgb, #3cb43a 42%, transparent) 28%,
+        transparent 52%
       ),
       linear-gradient(
         to top,
-        rgba(5, 10, 7, 0.25) 0%,
-        transparent 22%
+        color-mix(in srgb, #f5d000 28%, transparent) 0%,
+        transparent 28%
       );
     pointer-events: none;
   }
