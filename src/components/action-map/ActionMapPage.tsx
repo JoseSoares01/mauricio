@@ -175,17 +175,14 @@ export default function ActionMapPage({
 
   return (
     <div className="action-map-page min-h-screen" data-reveal-skip>
-      <div className="action-map-shell border-b border-slate-200/70 px-4 pb-4 pt-28 md:px-6 md:pt-32">
-        <div className="mx-auto max-w-[1600px]">
-          <div className="flex flex-wrap items-end justify-between gap-3">
+      <div className="action-map-shell">
+        <div className="action-map-shell-inner">
+          <div className="action-map-hero-row">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">
-                Monitoramento territorial
-              </p>
-              <h1 className="mt-1 text-2xl font-bold text-slate-900 md:text-3xl" style={{ fontFamily: "var(--font-heading)" }}>
-                Mapa de Atuação
-              </h1>
-              <p className="mt-1 max-w-2xl text-sm text-slate-600">
+              <p className="action-map-hero-label">Monitoramento territorial</p>
+              <h1 className="action-map-hero-title">Mapa de Atuação</h1>
+              <div className="action-map-hero-rule" aria-hidden="true" />
+              <p className="action-map-hero-desc">
                 Acompanhe as ações e visitas de {siteTitle} pelo estado do Piauí.
               </p>
             </div>
@@ -201,29 +198,26 @@ export default function ActionMapPage({
             )}
           </div>
 
-          {/* Aba de Navegação */}
-          <div className="mt-6 flex border-b border-slate-200">
+          <div className="action-map-tabs" role="tablist" aria-label="Abrangência do mapa">
             <button
+              type="button"
+              role="tab"
+              aria-selected={activeTab === "piaui"}
               onClick={() => setActiveTab("piaui")}
-              className={`pb-3 text-sm font-semibold transition-all border-b-2 px-4 ${
-                activeTab === "piaui"
-                  ? "border-[#0071B7] text-[#0071B7]"
-                  : "border-transparent text-slate-500 hover:text-slate-800"
-              }`}
+              className={`action-map-tab${activeTab === "piaui" ? " is-active" : ""}`}
             >
               Atuação no Piauí
             </button>
             <button
+              type="button"
+              role="tab"
+              aria-selected={activeTab === "teresina"}
               onClick={() => {
                 setActiveTab("teresina");
                 closeVisit();
                 stopJourney();
               }}
-              className={`pb-3 text-sm font-semibold transition-all border-b-2 px-4 ${
-                activeTab === "teresina"
-                  ? "border-[#0071B7] text-[#0071B7]"
-                  : "border-transparent text-slate-500 hover:text-slate-800"
-              }`}
+              className={`action-map-tab${activeTab === "teresina" ? " is-active" : ""}`}
             >
               Atuação em Teresina
             </button>
@@ -233,8 +227,8 @@ export default function ActionMapPage({
 
       {activeTab === "piaui" ? (
         <>
-          <div className="mx-auto max-w-[1600px] px-4 md:px-6">
-            <div className="mt-4 rounded-[20px] border border-slate-200/80 bg-white/90 p-3 shadow-sm backdrop-blur md:p-4">
+          <div className="action-map-tools-wrap">
+            <div className="action-map-tools-bar">
               <ActionMapToolbar
                 filters={filters}
                 years={years}
@@ -254,7 +248,7 @@ export default function ActionMapPage({
                 onExportCsv={handleExportCsv}
               />
               {journeyActive && (
-                <div className="mt-3">
+                <div className="mt-1">
                   <ActionMapJourneyBar
                     visit={chronologyVisits[journeyIndex] || null}
                     index={journeyIndex}
@@ -265,7 +259,7 @@ export default function ActionMapPage({
             </div>
           </div>
 
-          <section className="mx-auto max-w-[1600px] px-0 md:px-6 md:pb-8 mt-6">
+          <section className="action-map-stage-section">
             <div className="action-map-layout">
               <div className="action-map-canvas-wrap">
                 <ActionMapCanvas
@@ -301,7 +295,7 @@ export default function ActionMapPage({
           </section>
         </>
       ) : (
-        <section className="mx-auto max-w-[1600px] px-0 md:px-6 md:pb-8 mt-6">
+        <section className="action-map-stage-section">
           <TeresinaMapSection visits={teresinaVisits} isActive={activeTab === "teresina"} />
         </section>
       )}
@@ -314,9 +308,9 @@ export default function ActionMapPage({
             aria-label="Fechar painel"
             onClick={() => setMobilePanelOpen(false)}
           />
-          <aside className="fixed inset-y-0 right-0 z-50 w-[min(100%,360px)] overflow-hidden bg-white shadow-2xl lg:hidden">
-            <div className="flex items-center justify-between border-b border-slate-100 px-4 py-3">
-              <p className="text-sm font-bold text-slate-900">Painel do mapa</p>
+          <aside className="action-map-mobile-drawer fixed inset-y-0 right-0 z-50 w-[min(100%,360px)] overflow-hidden shadow-2xl lg:hidden">
+            <div className="action-map-mobile-drawer-head">
+              <p className="action-map-mobile-drawer-title">Ações no mapa</p>
               <button
                 type="button"
                 className="action-map-icon-btn"
@@ -326,7 +320,7 @@ export default function ActionMapPage({
                 <PanelRightClose size={16} />
               </button>
             </div>
-            <div className="h-[calc(100%-52px)] overflow-y-auto">{sidebarContent}</div>
+            <div className="h-[calc(100%-56px)] overflow-y-auto">{sidebarContent}</div>
           </aside>
         </>
       )}

@@ -11,9 +11,6 @@ interface ActionMapControlsProps {
   onExportCsv: () => void;
 }
 
-const btnBase =
-  "inline-flex items-center gap-2 rounded-[14px] px-4 py-2.5 text-sm font-semibold transition-all duration-200";
-
 export default function ActionMapControls({
   showHeatmap,
   journeyActive,
@@ -23,17 +20,13 @@ export default function ActionMapControls({
   onExportCsv,
 }: ActionMapControlsProps) {
   return (
-    <div className="flex flex-wrap gap-2">
+    <div className="action-map-controls">
       <button
         type="button"
         onClick={onToggleHeatmap}
-        className={`${btnBase} ${
-          showHeatmap
-            ? "bg-[#129547] text-white shadow-md shadow-emerald-500/20"
-            : "border border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50"
-        }`}
+        className={`action-map-control-btn${showHeatmap ? " is-active is-green" : ""}`}
       >
-        <Flame size={16} />
+        <Flame size={15} aria-hidden />
         {showHeatmap ? "Ocultar heatmap" : "Regiões atendidas"}
       </button>
 
@@ -41,28 +34,24 @@ export default function ActionMapControls({
         <button
           type="button"
           onClick={onStopJourney}
-          className={`${btnBase} bg-[#0071B7] text-white shadow-md shadow-blue-500/20`}
+          className="action-map-control-btn is-active"
         >
-          <Route size={16} />
+          <Route size={15} aria-hidden />
           Parar trajetória
         </button>
       ) : (
         <button
           type="button"
           onClick={onStartJourney}
-          className={`${btnBase} border border-[#0071B7]/30 bg-white text-[#0071B7] hover:bg-blue-50`}
+          className="action-map-control-btn is-outline"
         >
-          <Route size={16} />
+          <Route size={15} aria-hidden />
           Ver trajetória
         </button>
       )}
 
-      <button
-        type="button"
-        onClick={onExportCsv}
-        className={`${btnBase} border border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50`}
-      >
-        <Download size={16} />
+      <button type="button" onClick={onExportCsv} className="action-map-control-btn">
+        <Download size={15} aria-hidden />
         Exportar CSV
       </button>
     </div>

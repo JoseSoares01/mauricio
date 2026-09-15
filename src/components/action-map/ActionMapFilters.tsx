@@ -1,7 +1,6 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { Calendar, MapPin, Tag } from "lucide-react";
 import type { ActionMapFilters as Filters } from "@/lib/action-map";
 
 interface ActionMapFiltersProps {
@@ -13,26 +12,21 @@ interface ActionMapFiltersProps {
 }
 
 function FilterSelect({
-  icon: Icon,
   label,
   value,
   onChange,
   children,
 }: {
-  icon: typeof Calendar;
   label: string;
   value: string;
   onChange: (value: string) => void;
   children: ReactNode;
 }) {
   return (
-    <label className="group flex flex-col gap-1.5 text-sm">
-      <span className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-slate-500">
-        <Icon size={14} />
-        {label}
-      </span>
+    <label className="action-map-filter">
+      <span className="action-map-filter-label">{label}</span>
       <select
-        className="rounded-[14px] border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-800 shadow-sm transition hover:border-slate-300 focus:border-[#0071B7]/40 focus:outline-none focus:ring-2 focus:ring-[#0071B7]/15"
+        className="action-map-filter-select"
         value={value}
         onChange={(e) => onChange(e.target.value)}
       >
@@ -52,8 +46,8 @@ export default function ActionMapFilters({
   const set = (patch: Partial<Filters>) => onChange({ ...filters, ...patch });
 
   return (
-    <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-      <FilterSelect icon={Calendar} label="Ano" value={filters.year} onChange={(year) => set({ year })}>
+    <div className="action-map-filters">
+      <FilterSelect label="Ano" value={filters.year} onChange={(year) => set({ year })}>
         <option value="">Todos</option>
         {years.map((year) => (
           <option key={year} value={year}>
@@ -62,7 +56,7 @@ export default function ActionMapFilters({
         ))}
       </FilterSelect>
 
-      <FilterSelect icon={MapPin} label="Cidade" value={filters.city} onChange={(city) => set({ city })}>
+      <FilterSelect label="Cidade" value={filters.city} onChange={(city) => set({ city })}>
         <option value="">Todas</option>
         {cities.map((city) => (
           <option key={city} value={city}>
@@ -72,7 +66,6 @@ export default function ActionMapFilters({
       </FilterSelect>
 
       <FilterSelect
-        icon={Tag}
         label="Categoria"
         value={filters.category}
         onChange={(category) => set({ category })}

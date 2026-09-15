@@ -65,7 +65,7 @@ export default function ContactForm({ recipientEmail, siteTitle }: ContactFormPr
   };
 
   return (
-    <form className="space-y-4" onSubmit={handleSubmit}>
+    <form className="contato-form" onSubmit={handleSubmit}>
       <input
         type="text"
         name="website"
@@ -73,18 +73,18 @@ export default function ContactForm({ recipientEmail, siteTitle }: ContactFormPr
         onChange={(e) => setHoneypot(e.target.value)}
         tabIndex={-1}
         autoComplete="off"
-        className="absolute opacity-0 pointer-events-none h-0 w-0"
+        className="contato-form-honeypot"
         aria-hidden="true"
       />
 
-      <div>
-        <label className="admin-label" htmlFor="contact-name">
+      <div className="contato-field">
+        <label className="contato-field-label" htmlFor="contact-name">
           Nome
         </label>
         <input
           id="contact-name"
           type="text"
-          className="admin-input"
+          className="contato-field-input"
           placeholder="Seu nome"
           value={name}
           onChange={(e) => setName(e.target.value)}
@@ -93,14 +93,14 @@ export default function ContactForm({ recipientEmail, siteTitle }: ContactFormPr
         />
       </div>
 
-      <div>
-        <label className="admin-label" htmlFor="contact-email">
+      <div className="contato-field">
+        <label className="contato-field-label" htmlFor="contact-email">
           E-mail
         </label>
         <input
           id="contact-email"
           type="email"
-          className="admin-input"
+          className="contato-field-input"
           placeholder="seu@email.com"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
@@ -109,13 +109,13 @@ export default function ContactForm({ recipientEmail, siteTitle }: ContactFormPr
         />
       </div>
 
-      <div>
-        <label className="admin-label" htmlFor="contact-message">
+      <div className="contato-field">
+        <label className="contato-field-label" htmlFor="contact-message">
           Mensagem
         </label>
         <textarea
           id="contact-message"
-          className="admin-input min-h-[120px] resize-y"
+          className="contato-field-input contato-field-textarea"
           placeholder="Sua mensagem..."
           value={message}
           onChange={(e) => setMessage(e.target.value)}
@@ -127,12 +127,12 @@ export default function ContactForm({ recipientEmail, siteTitle }: ContactFormPr
 
       {feedback && (
         <p
-          className={`text-sm rounded-lg px-4 py-3 ${
+          className={`contato-feedback${
             status === "success"
-              ? "bg-green-50 text-green-800"
+              ? " contato-feedback--success"
               : status === "error"
-                ? "bg-red-50 text-red-700"
-                : "bg-blue-50 text-blue-800"
+                ? " contato-feedback--error"
+                : " contato-feedback--info"
           }`}
           role="status"
         >
@@ -142,13 +142,19 @@ export default function ContactForm({ recipientEmail, siteTitle }: ContactFormPr
 
       <button
         type="submit"
-        className="btn-primary w-full text-center disabled:opacity-60"
+        className="contato-submit"
         disabled={status === "loading" || status === "success"}
       >
-        {status === "loading" ? "Enviando..." : "Enviar mensagem"}
+        {status === "loading" ? (
+          "Enviando..."
+        ) : (
+          <>
+            Enviar mensagem <span aria-hidden="true">→</span>
+          </>
+        )}
       </button>
 
-      <p className="text-xs text-gray-500 text-center">
+      <p className="contato-form-note">
         Sua mensagem será enviada para {recipientEmail} ({siteTitle}).
       </p>
     </form>

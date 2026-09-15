@@ -8,47 +8,58 @@ export default async function ContatoPage() {
 
   return (
     <PageLayout config={config}>
-      <section
-        className="pt-32 pb-16"
-        style={{
-          background: `radial-gradient(at top center, var(--color-hero-start) 0%, var(--color-hero-end) 100%)`,
-        }}
-      >
-        <div className="container-site text-center">
-          <h1 className="section-title">{config.contact.title}</h1>
-          <h2 className="text-2xl mt-4" style={{ color: "var(--color-primary)" }}>Contato</h2>
+      <section className="contato-hero">
+        <div className="container-site contato-hero-inner">
+          <p className="contato-hero-label">Canal oficial</p>
+          <h1 className="contato-hero-title">{config.contact.title}</h1>
+          <div className="contato-hero-rule" aria-hidden="true" />
+          <p className="contato-hero-desc">Contato</p>
         </div>
       </section>
 
-      <section className="container-site py-16 max-w-2xl mx-auto">
-        <div className="bg-white rounded-2xl shadow-lg p-8 md:p-12">
-          <div className="space-y-6 mb-10">
-            <div>
-              <h3 className="font-semibold text-sm text-gray-500 uppercase tracking-wide">E-mail</h3>
-              <a href={`mailto:${config.contact.email}`} className="text-lg" style={{ color: "var(--color-primary)" }}>
-                {config.contact.email}
-              </a>
-            </div>
-            <div>
-              <h3 className="font-semibold text-sm text-gray-500 uppercase tracking-wide">Telefone</h3>
-              <p className="text-lg" style={{ color: "var(--color-primary)" }}>{config.contact.phone}</p>
-            </div>
-            <div>
-              <h3 className="font-semibold text-sm text-gray-500 uppercase tracking-wide">Endereço</h3>
-              <p className="text-lg" style={{ color: "var(--color-primary)" }}>{config.contact.address}</p>
-            </div>
-          </div>
+      <section className="contato-section">
+        <div className="container-site contato-layout">
+          <aside className="contato-info">
+            <p className="contato-info-label">Informações</p>
+            <h2 className="contato-info-title">Fale conosco</h2>
+            <div className="contato-info-rule" aria-hidden="true" />
+            <p className="contato-info-message">
+              Este é o canal oficial para mensagens, pedidos de agenda e
+              esclarecimentos junto à equipe de {config.site.title}. Sua
+              mensagem será recebida com atenção e seriedade.
+            </p>
 
-          <ContactForm
-            recipientEmail={config.contact.email}
-            siteTitle={config.site.title}
-          />
+            <dl className="contato-details">
+              <div className="contato-detail">
+                <dt>E-mail</dt>
+                <dd>
+                  <a href={`mailto:${config.contact.email}`}>{config.contact.email}</a>
+                </dd>
+              </div>
+              <div className="contato-detail">
+                <dt>Telefone</dt>
+                <dd>{config.contact.phone}</dd>
+              </div>
+              <div className="contato-detail">
+                <dt>Localização</dt>
+                <dd>{config.contact.address}</dd>
+              </div>
+            </dl>
 
-          <div className="mt-12 text-center">
-            <h3 className="font-semibold mb-4" style={{ color: "var(--color-primary)" }}>
-              Redes Sociais
-            </h3>
-            <SocialIcons social={config.social} variant="footer" />
+            <div className="contato-social">
+              <p className="contato-social-label">Redes sociais</p>
+              <SocialIcons social={config.social} variant="footer" />
+            </div>
+          </aside>
+
+          <div className="contato-form-panel">
+            <p className="contato-form-label">Mensagem</p>
+            <h2 className="contato-form-title">Envie sua mensagem</h2>
+            <div className="contato-form-rule" aria-hidden="true" />
+            <ContactForm
+              recipientEmail={config.contact.email}
+              siteTitle={config.site.title}
+            />
           </div>
         </div>
       </section>

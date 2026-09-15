@@ -37,7 +37,7 @@ export default function ActionMapToolbar({
   onExportCsv,
 }: ActionMapToolbarProps) {
   return (
-    <div className="space-y-3">
+    <div className="action-map-toolbar">
       <ActionMapFilters
         filters={filters}
         years={years}
@@ -45,7 +45,7 @@ export default function ActionMapToolbar({
         categories={categories}
         onChange={onChangeFilters}
       />
-      <div className="flex flex-col gap-3 xl:flex-row xl:items-center xl:justify-between">
+      <div className="action-map-toolbar-row">
         <ActionMapTimeline years={years} selectedYear={selectedYear} onSelect={onSelectYear} />
         <ActionMapControls
           showHeatmap={showHeatmap}
