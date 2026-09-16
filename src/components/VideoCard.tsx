@@ -43,13 +43,13 @@ export default function VideoCard({ video, initialCount }: VideoCardProps) {
 
   const card = (
     <>
-      <div className="relative aspect-video rounded-lg overflow-hidden bg-gray-200">
+      <div className="video-card-media">
         {thumbnail ? (
           <Image
             src={thumbnail}
             alt={video.title}
             fill
-            className="object-cover group-hover:scale-105 transition-transform"
+            className="video-card-thumb"
             unoptimized={thumbnail.startsWith("http")}
           />
         ) : directVideo ? (
@@ -58,34 +58,29 @@ export default function VideoCard({ video, initialCount }: VideoCardProps) {
             preload="metadata"
             muted
             playsInline
-            className="w-full h-full object-cover"
+            className="video-card-thumb-video"
           />
         ) : (
-          <div className="w-full h-full bg-gray-300" />
+          <div className="video-card-placeholder" />
         )}
-        <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/40 transition-colors pointer-events-none">
-          <div className="w-14 h-14 rounded-full bg-red-600 flex items-center justify-center">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="white" aria-hidden="true">
+        <div className="video-card-scrim" aria-hidden="true">
+          <span className="video-card-play">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
               <path d="M8 5v14l11-7z" />
             </svg>
-          </div>
+          </span>
         </div>
       </div>
-      <div className="mt-2 flex items-start justify-between gap-2">
-        <p
-          className="text-sm font-medium group-hover:underline flex-1"
-          style={{ color: "var(--color-primary)" }}
-        >
-          {video.title}
-        </p>
-        <ViewCounter count={count} className="shrink-0 mt-0.5" />
+      <div className="video-card-meta">
+        <p className="video-card-title">{video.title}</p>
+        <ViewCounter count={count} className="video-card-views" />
       </div>
     </>
   );
 
   if (!clickable) {
     return (
-      <div className="block opacity-60">
+      <div className="video-card video-card--disabled">
         {card}
       </div>
     );
@@ -96,7 +91,7 @@ export default function VideoCard({ video, initialCount }: VideoCardProps) {
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="group block cursor-pointer"
+      className="video-card group"
       aria-label={`Abrir vídeo: ${video.title}`}
       onClick={handleClick}
     >

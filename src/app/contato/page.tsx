@@ -19,7 +19,7 @@ export default async function ContatoPage() {
 
       <section className="contato-section">
         <div className="container-site contato-layout">
-          <aside className="contato-info">
+          <aside className="contato-info" aria-label="Informações de contato">
             <p className="contato-info-label">Informações</p>
             <h2 className="contato-info-title">Fale conosco</h2>
             <div className="contato-info-rule" aria-hidden="true" />

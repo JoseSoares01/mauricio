@@ -2,12 +2,18 @@
 
 import { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import SocialIcons from "@/components/SocialIcons";
-import HeroPropostasSlide from "@/components/HeroPropostasSlide";
+import {
+  HeroShowcaseAgenda,
+  HeroShowcaseMapa,
+  HeroShowcaseNoticias,
+  HeroShowcasePropostas,
+  type HeroMapStatsPreview,
+  type HeroMapVisitPreview,
+} from "@/components/HeroShowcaseSlides";
 import { getImageFocusStyles } from "@/lib/image-focus";
 import { SPLASH_COMPLETE_EVENT } from "@/lib/splash";
-import type { ImageFocus, PropostaItem, SiteConfig } from "@/lib/types";
+import type { AgendaEvent, ImageFocus, NewsItem, PropostaItem, SiteConfig } from "@/lib/types";
 
 interface HeroCarouselProps {
   siteTitle: string;
@@ -18,18 +24,16 @@ interface HeroCarouselProps {
   social: SiteConfig["social"];
   propostas: PropostaItem[];
   propostaImages: Record<string, string | null>;
+  news: NewsItem[];
+  agenda: AgendaEvent[];
+  mapVisits: HeroMapVisitPreview[];
+  mapStats: HeroMapStatsPreview;
 }
 
 const SLIDE_MS = 6500;
 const TRANSITION_MS = 900;
 const DESKTOP_MQ = "(min-width: 768px)";
-
-const MAPA_SLIDE = {
-  id: "mapa",
-  src: "/uploads/hero-slide-mapa.png",
-  alt: "Mapa de atuação do Maurício",
-  href: "/mapa-de-atuacao",
-} as const;
+const TOTAL_SLIDES = 5;
 
 function HomeHeroSlide({
   siteTitle,
@@ -37,7 +41,10 @@ function HomeHeroSlide({
   heroLogoFocus,
   heroPhoto,
   heroPhotoFocus,
-}: Omit<HeroCarouselProps, "social" | "propostas" | "propostaImages">) {
+}: Pick<
+  HeroCarouselProps,
+  "siteTitle" | "heroLogo" | "heroLogoFocus" | "heroPhoto" | "heroPhotoFocus"
+>) {
   return (
     <>
       <div className="container-site relative pt-24 z-10 h-full">
@@ -72,7 +79,7 @@ function HomeHeroSlide({
 }
 
 /**
- * Desktop: carrossel automático (Maurício → Propostas → Mapa).
+ * Desktop: carrossel automático (Maurício → showcases).
  * Mobile: hero estático como antes (só logo + foto).
  * Após a splash, o desktop começa sempre no slide do Maurício.
  */
@@ -85,8 +92,12 @@ export default function HeroCarousel({
   social,
   propostas,
   propostaImages,
+  news,
+  agenda,
+  mapVisits,
+  mapStats,
 }: HeroCarouselProps) {
-  const total = 3;
+  const total = TOTAL_SLIDES;
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
@@ -122,7 +133,6 @@ export default function HeroCarousel({
     const onSplashComplete = () => markReady();
     window.addEventListener(SPLASH_COMPLETE_EVENT, onSplashComplete);
 
-    // Se a splash não arrancar, libera o carrossel.
     const checkId = window.setTimeout(() => {
       const splashOn =
         document.documentElement.classList.contains("splash-lock") ||
@@ -130,7 +140,6 @@ export default function HeroCarousel({
       if (!splashOn) markReady();
     }, 120);
 
-    // Segurança: nunca bloquear o carrossel indefinidamente
     const safetyId = window.setTimeout(markReady, 12000);
 
     return () => {
@@ -141,8 +150,19 @@ export default function HeroCarousel({
     };
   }, [isDesktop]);
 
+  const goTo = useCallback(
+    (next: number) => {
+      setIndex(((next % total) + total) % total);
+    },
+    [total]
+  );
+
   const goNext = useCallback(() => {
     setIndex((current) => (current + 1) % total);
+  }, [total]);
+
+  const goPrev = useCallback(() => {
+    setIndex((current) => (current - 1 + total) % total);
   }, [total]);
 
   useEffect(() => {
@@ -160,6 +180,14 @@ export default function HeroCarousel({
     heroPhotoFocus,
   };
 
+  const slideLabels = [
+    "Início",
+    "Propostas",
+    "Mapa de Atuação",
+    "Notícias",
+    "Agenda",
+  ];
+
   return (
     <section
       className={`hero-carousel ${isDesktop ? "hero-carousel--desktop" : "hero-carousel--mobile"}`}
@@ -169,48 +197,82 @@ export default function HeroCarousel({
       onMouseEnter={() => isDesktop && setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       aria-label="Destaque inicial"
+      aria-roledescription="carrossel"
     >
       {isDesktop ? (
-        <div
-          className="hero-carousel-track"
-          style={{
-            transform: `translate3d(-${index * 100}%, 0, 0)`,
-            transitionDuration: autoplayReady ? `${TRANSITION_MS}ms` : "0ms",
-          }}
-        >
-          <div className="hero-carousel-slide hero-carousel-slide--home" aria-hidden={index !== 0}>
-            <HomeHeroSlide {...homeProps} />
-          </div>
-
+        <>
           <div
-            className="hero-carousel-slide hero-carousel-slide--promo hero-carousel-slide--propostas"
-            aria-hidden={index !== 1}
+            className="hero-carousel-track"
+            style={{
+              transform: `translate3d(-${index * 100}%, 0, 0)`,
+              transitionDuration: autoplayReady ? `${TRANSITION_MS}ms` : "0ms",
+            }}
           >
-            <HeroPropostasSlide propostas={propostas} propostaImages={propostaImages} />
-          </div>
+            <div className="hero-carousel-slide hero-carousel-slide--home" aria-hidden={index !== 0}>
+              <HomeHeroSlide {...homeProps} />
+            </div>
 
-          <div
-            className="hero-carousel-slide hero-carousel-slide--promo"
-            aria-hidden={index !== 2}
-          >
-            <Link
-              href={MAPA_SLIDE.href}
-              className="hero-carousel-promo-link"
-              aria-label={MAPA_SLIDE.alt}
+            <div
+              className="hero-carousel-slide hero-carousel-slide--promo hero-carousel-slide--showcase"
+              aria-hidden={index !== 1}
             >
-              <Image
-                src={MAPA_SLIDE.src}
-                alt={MAPA_SLIDE.alt}
-                fill
-                className="object-contain md:object-cover object-center"
-                sizes="100vw"
-                unoptimized
-                priority={false}
-              />
-              <span className="hero-promo-fade-edge" aria-hidden />
-            </Link>
+              <HeroShowcasePropostas propostas={propostas} propostaImages={propostaImages} />
+            </div>
+
+            <div
+              className="hero-carousel-slide hero-carousel-slide--promo hero-carousel-slide--showcase"
+              aria-hidden={index !== 2}
+            >
+              <HeroShowcaseMapa visits={mapVisits} stats={mapStats} />
+            </div>
+
+            <div
+              className="hero-carousel-slide hero-carousel-slide--promo hero-carousel-slide--showcase"
+              aria-hidden={index !== 3}
+            >
+              <HeroShowcaseNoticias news={news} />
+            </div>
+
+            <div
+              className="hero-carousel-slide hero-carousel-slide--promo hero-carousel-slide--showcase"
+              aria-hidden={index !== 4}
+            >
+              <HeroShowcaseAgenda agenda={agenda} />
+            </div>
           </div>
-        </div>
+
+          <div className="hero-carousel-nav">
+            <button
+              type="button"
+              className="hero-carousel-arrow"
+              onClick={goPrev}
+              aria-label="Slide anterior"
+            >
+              ‹
+            </button>
+            <div className="hero-carousel-dots" role="tablist" aria-label="Slides do destaque">
+              {slideLabels.map((label, i) => (
+                <button
+                  key={label}
+                  type="button"
+                  role="tab"
+                  aria-selected={index === i}
+                  aria-label={label}
+                  className={`hero-carousel-dot${index === i ? " is-active" : ""}`}
+                  onClick={() => goTo(i)}
+                />
+              ))}
+            </div>
+            <button
+              type="button"
+              className="hero-carousel-arrow"
+              onClick={goNext}
+              aria-label="Próximo slide"
+            >
+              ›
+            </button>
+          </div>
+        </>
       ) : (
         <div className="hero-carousel-slide hero-carousel-slide--home hero-carousel-slide--static">
           <HomeHeroSlide {...homeProps} />

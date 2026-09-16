@@ -12,51 +12,63 @@ export default async function InstagramSection({ config }: InstagramSectionProps
   const profileUrl = config.social.instagram;
 
   return (
-    <section className="container-site py-16">
-      <div className="flex items-center gap-3 mb-8">
-        <Image
-          src="/uploads/instagram-icon.png"
-          alt=""
-          width={48}
-          height={48}
-          className="w-12 h-12 rounded-xl object-cover shrink-0"
-        />
-        <h2 className="text-[40px] font-semibold" style={{ color: "var(--color-primary)", fontFamily: "Roboto, sans-serif" }}>
-          INSTAGRAM
-        </h2>
-      </div>
-      <h3 className="text-center text-xl mb-6" style={{ color: "var(--color-primary)" }}>
-        @{config.instagram.username}
-      </h3>
-      <div className="instagram-grid max-w-3xl mx-auto">
-        {posts.map((post) => (
+    <section className="home-instagram-section">
+      <div className="container-site home-instagram-inner">
+        <header className="home-instagram-header">
+          <div className="home-instagram-brand">
+            <Image
+              src="/uploads/instagram-icon.png"
+              alt=""
+              width={48}
+              height={48}
+              className="home-instagram-icon"
+            />
+            <h2 className="home-instagram-title">INSTAGRAM</h2>
+          </div>
+          <div className="home-instagram-rule" aria-hidden="true" />
+          <h3 className="home-instagram-handle">@{config.instagram.username}</h3>
+        </header>
+
+        <div className="instagram-grid home-instagram-grid">
+          {posts.map((post) => (
+            <a
+              key={post.id}
+              href={post.permalink || profileUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="home-instagram-shot group"
+            >
+              <FocusedImage
+                src={post.image}
+                alt={post.caption || "Post do Instagram"}
+                fill
+                focus={post}
+                className="home-instagram-shot-img object-cover"
+                unoptimized
+              />
+              <div className="home-instagram-shot-overlay">
+                <p className="home-instagram-shot-caption">
+                  {post.caption}
+                </p>
+              </div>
+            </a>
+          ))}
+        </div>
+
+        <div className="home-instagram-cta-wrap">
           <a
-            key={post.id}
-            href={post.permalink || profileUrl}
+            href={profileUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="relative aspect-square group overflow-hidden"
+            className="btn-primary home-instagram-cta"
           >
-            <FocusedImage
-              src={post.image}
-              alt={post.caption || "Post do Instagram"}
-              fill
-              focus={post}
-              className="object-cover group-hover:scale-110 transition-transform"
-              unoptimized
-            />
-            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/50 transition-colors flex items-end p-2">
-              <p className="text-white text-xs opacity-0 group-hover:opacity-100 transition-opacity line-clamp-2">
-                {post.caption}
-              </p>
-            </div>
+            Seguir no Instagram
           </a>
-        ))}
+        </div>
       </div>
-      <div className="text-center mt-8">
-        <a href={profileUrl} target="_blank" rel="noopener noreferrer" className="btn-primary">
-          Seguir no Instagram
-        </a>
+
+      <div className="home-instagram-footer-bridge" aria-hidden="true">
+        <div className="home-instagram-footer-accent" />
       </div>
     </section>
   );

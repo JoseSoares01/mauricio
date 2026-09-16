@@ -1,6 +1,7 @@
 import PageLayout from "@/components/PageLayout";
 import InstagramSection from "@/components/InstagramSection";
 import AboutPreviewSection from "@/components/AboutPreviewSection";
+import NewsImage from "@/components/NewsImage";
 import ViewCounter from "@/components/ViewCounter";
 import VideoCard from "@/components/VideoCard";
 import MobileScrollNudge from "@/components/MobileScrollNudge";
@@ -11,12 +12,17 @@ import { getHomeBannerSlides } from "@/lib/home-banners";
 import { getViews, getViewCount } from "@/lib/views";
 import { resolvePropostaImages } from "@/lib/proposta-images.server";
 import { getBackgroundFocusStyles } from "@/lib/image-focus";
+import { computeActionMapStats, getActiveVisits } from "@/lib/action-map";
 import Link from "next/link";
 
 export default async function HomePage() {
   const [config, views] = await Promise.all([getSiteConfig(), getViews()]);
   const bannerSlides = getHomeBannerSlides(config);
   const propostaImages = resolvePropostaImages(config.propostas);
+  const homeNews = config.news.slice(0, 3);
+  const [featuredNews, ...secondaryNews] = homeNews;
+  const mapVisits = getActiveVisits(config.actionMap);
+  const mapStats = computeActionMapStats(mapVisits);
 
   return (
     <PageLayout config={config}>
@@ -30,6 +36,14 @@ export default async function HomePage() {
         social={config.social}
         propostas={config.propostas}
         propostaImages={propostaImages}
+        news={config.news.slice(0, 4)}
+        agenda={config.agenda.slice(0, 4)}
+        mapVisits={mapVisits.slice(0, 8).map((visit) => ({
+          id: visit.id,
+          city: visit.city,
+          title: visit.title,
+        }))}
+        mapStats={mapStats}
       />
 
       <AboutPreviewSection
@@ -44,47 +58,110 @@ export default async function HomePage() {
       {bannerSlides.length > 0 && <HomeBannerCarousel slides={bannerSlides} />}
 
       {/* News */}
-      <section className="container-site home-news-section">
-        <h2 className="section-title mb-10">Notícias</h2>
-        <div className="max-w-4xl mx-auto">
-          {config.news.slice(0, 3).map((item) => (
-            <article key={item.id} className="news-card">
-              <div className="flex items-center gap-3 mb-1">
-                <p className="date mb-0">{formatDate(item.date)}</p>
-                <ViewCounter count={getViewCount(views, "news", item.id)} />
-              </div>
-              <h3>
-                <Link href={`/noticias/${item.id}`}>{item.title}</Link>
-              </h3>
-              <p className="excerpt">{item.excerpt}</p>
-              <Link href={`/noticias/${item.id}`} className="read-more">
-                Leia mais
+      <section className="home-news-section">
+        <div className="container-site">
+          <header className="home-news-header">
+            <p className="home-news-eyebrow">Atualizações</p>
+            <h2 className="home-news-title">Notícias</h2>
+            <div className="home-news-rule" aria-hidden="true" />
+          </header>
+
+          {featuredNews && (
+            <article className="home-news-featured">
+              <Link
+                href={`/noticias/${featuredNews.id}`}
+                className="home-news-featured-media"
+                aria-label={featuredNews.title}
+              >
+                <NewsImage item={featuredNews} alt={featuredNews.title} />
               </Link>
+              <div className="home-news-featured-body">
+                <div className="home-news-meta">
+                  {featuredNews.category?.trim() && (
+                    <span className="home-news-category">{featuredNews.category}</span>
+                  )}
+                  <time className="home-news-date" dateTime={featuredNews.date}>
+                    {formatDate(featuredNews.date)}
+                  </time>
+                  <ViewCounter
+                    count={getViewCount(views, "news", featuredNews.id)}
+                    className="home-news-views"
+                  />
+                </div>
+                <h3 className="home-news-featured-title">
+                  <Link href={`/noticias/${featuredNews.id}`}>{featuredNews.title}</Link>
+                </h3>
+                <p className="home-news-featured-excerpt">{featuredNews.excerpt}</p>
+                <Link href={`/noticias/${featuredNews.id}`} className="home-news-cta">
+                  LER NOTÍCIA <span aria-hidden="true">→</span>
+                </Link>
+              </div>
             </article>
-          ))}
-        </div>
-        <div className="text-center mt-8">
-          <Link href="/noticias" className="btn-primary">
-            Todas as notícias
-          </Link>
+          )}
+
+          {secondaryNews.length > 0 && (
+            <div className="home-news-secondary">
+              {secondaryNews.map((item) => (
+                <article key={item.id} className="home-news-item">
+                  <Link
+                    href={`/noticias/${item.id}`}
+                    className="home-news-item-media"
+                    aria-label={item.title}
+                  >
+                    <NewsImage item={item} alt={item.title} />
+                  </Link>
+                  <div className="home-news-item-body">
+                    <div className="home-news-meta">
+                      {item.category?.trim() && (
+                        <span className="home-news-category">{item.category}</span>
+                      )}
+                      <time className="home-news-date" dateTime={item.date}>
+                        {formatDate(item.date)}
+                      </time>
+                      <ViewCounter
+                        count={getViewCount(views, "news", item.id)}
+                        className="home-news-views"
+                      />
+                    </div>
+                    <h3 className="home-news-item-title">
+                      <Link href={`/noticias/${item.id}`}>{item.title}</Link>
+                    </h3>
+                    <p className="home-news-item-excerpt">{item.excerpt}</p>
+                    <Link href={`/noticias/${item.id}`} className="home-news-cta">
+                      LER NOTÍCIA <span aria-hidden="true">→</span>
+                    </Link>
+                  </div>
+                </article>
+              ))}
+            </div>
+          )}
+
+          <div className="home-news-footer">
+            <Link href="/noticias" className="btn-primary home-news-all">
+              TODAS AS NOTÍCIAS
+            </Link>
+          </div>
         </div>
       </section>
 
       {/* Senado / Ação */}
       <section
-        className="relative min-h-[569px] flex items-center bg-cover bg-center"
+        className="home-acao-section"
         style={getBackgroundFocusStyles(config.images.senadoBg, config.images.focus?.senadoBg)}
       >
-        <div className="absolute inset-0 bg-black/35" />
-        <div className="container-site relative z-10 py-16">
-          <h2 className="text-white text-[40px] md:text-[60px] font-semibold mb-8" style={{ fontFamily: "Roboto, sans-serif" }}>
-            {config.senado.title}
-          </h2>
-          <div className="flex flex-wrap gap-4">
-            <a href={config.senado.accessUrl} className="btn-white">
+        <div className="home-acao-overlay" aria-hidden="true" />
+        <div className="container-site home-acao-inner">
+          <p className="home-acao-eyebrow">Presença e atuação</p>
+          <h2 className="home-acao-title">{config.senado.title}</h2>
+          <p className="home-acao-lead">
+            Presente no território e nas causas que importam — presença próxima,
+            atuação constante e compromisso com o povo piauiense.
+          </p>
+          <div className="home-acao-actions">
+            <a href={config.senado.accessUrl} className="btn-white home-acao-btn">
               {config.senado.buttonAccess} →
             </a>
-            <a href={config.senado.proposicoesUrl} className="btn-yellow">
+            <a href={config.senado.proposicoesUrl} className="btn-yellow home-acao-btn">
               {config.senado.buttonProposicoes} →
             </a>
           </div>
@@ -92,30 +169,32 @@ export default async function HomePage() {
       </section>
 
       {/* Videos */}
-      <section className="container-site py-16">
-        <div className="flex items-center gap-3 mb-8">
-          <div className="w-12 h-12 rounded-full bg-red-600 flex items-center justify-center">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
-              <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-            </svg>
+      <section className="home-videos-section">
+        <div className="container-site">
+          <header className="home-videos-header">
+            <p className="home-videos-eyebrow">YouTube</p>
+            <h2 className="home-videos-title">Vídeos</h2>
+            <div className="home-videos-rule" aria-hidden="true" />
+          </header>
+          <div className="home-videos-grid">
+            {config.videos.map((video) => (
+              <VideoCard
+                key={video.id}
+                video={video}
+                initialCount={getViewCount(views, "video", video.id)}
+              />
+            ))}
           </div>
-          <h2 className="text-[40px] font-semibold" style={{ color: "var(--color-primary)", fontFamily: "Roboto, sans-serif" }}>
-            VÍDEOS
-          </h2>
-        </div>
-        <div className="video-grid">
-          {config.videos.map((video) => (
-            <VideoCard
-              key={video.id}
-              video={video}
-              initialCount={getViewCount(views, "video", video.id)}
-            />
-          ))}
-        </div>
-        <div className="text-center mt-8">
-          <a href={config.social.youtube} target="_blank" rel="noopener noreferrer" className="btn-primary">
-            Ver mais...
-          </a>
+          <div className="home-videos-footer">
+            <a
+              href={config.social.youtube}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-primary home-videos-more"
+            >
+              Ver mais
+            </a>
+          </div>
         </div>
       </section>
 
