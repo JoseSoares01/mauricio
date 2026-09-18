@@ -588,6 +588,87 @@
       "time": "16:00",
       "location": "Ponte Estaiada",
       "type": "evento"
+    },
+    {
+      "id": "ag-2026-09-19-1",
+      "title": "Visita a apoiadores",
+      "description": "Visita a apoiadores em Campo Maior",
+      "date": "2026-09-19",
+      "time": "08:30",
+      "location": "Campo Maior",
+      "type": "visita"
+    },
+    {
+      "id": "ag-2026-09-19-2",
+      "title": "Adesivaço no Terminal Rodoviário",
+      "description": "Adesivaço no Terminal Rodoviário de Barras",
+      "date": "2026-09-19",
+      "time": "09:30",
+      "location": "Barras — Terminal Rodoviário",
+      "type": "caminhada"
+    },
+    {
+      "id": "ag-2026-09-19-3",
+      "title": "Adesivaço na Praça da Bandeira e almoço",
+      "description": "Adesivaço na Praça da Bandeira e almoço em Piripiri",
+      "date": "2026-09-19",
+      "time": "11:30",
+      "location": "Piripiri — Praça da Bandeira",
+      "type": "caminhada"
+    },
+    {
+      "id": "ag-2026-09-19-4",
+      "title": "Reunião com lideranças",
+      "description": "Reunião com lideranças em Piracuruca",
+      "date": "2026-09-19",
+      "time": "13:40",
+      "location": "Piracuruca",
+      "type": "evento"
+    },
+    {
+      "id": "ag-2026-09-19-5",
+      "title": "Adesivaço na Praça do Real",
+      "description": "Adesivaço na Praça do Real em Cocal",
+      "date": "2026-09-19",
+      "time": "15:00",
+      "location": "Cocal — Praça do Real",
+      "type": "caminhada"
+    },
+    {
+      "id": "ag-2026-09-19-6",
+      "title": "Reunião com lideranças",
+      "description": "Reunião com lideranças em Buriti dos Lopes",
+      "date": "2026-09-19",
+      "time": "15:30",
+      "location": "Buriti dos Lopes",
+      "type": "evento"
+    },
+    {
+      "id": "ag-2026-09-19-7",
+      "title": "Encontro com amigos",
+      "description": "Encontro com amigos em Luís Correia",
+      "date": "2026-09-19",
+      "time": "18:00",
+      "location": "Luís Correia",
+      "type": "evento"
+    },
+    {
+      "id": "ag-2026-09-20-1",
+      "title": "Carreata",
+      "description": "Carreata com concentração no aeroporto de Parnaíba",
+      "date": "2026-09-20",
+      "time": "09:00",
+      "location": "Parnaíba — Aeroporto",
+      "type": "evento"
+    },
+    {
+      "id": "ag-2026-09-20-2",
+      "title": "Panfletagem no shopping",
+      "description": "Panfletagem no shopping Luís Correia",
+      "date": "2026-09-20",
+      "time": "16:00",
+      "location": "Luís Correia — Shopping",
+      "type": "caminhada"
     }
   ],
   "actionMap": {
