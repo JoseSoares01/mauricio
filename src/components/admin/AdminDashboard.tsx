@@ -13,7 +13,7 @@ import {
 import ImageUploader from "./ImageUploader";
 import VideoUploader from "./VideoUploader";
 import {
-  Palette, Image, Menu, FileText, Video, Calendar, Share2, Settings, Save, LogOut, ExternalLink, Plus, Trash2, MapPin, User, MessageCircle,
+  Palette, Image, Menu, FileText, Video, Calendar, Share2, Settings, Save, LogOut, ExternalLink, Plus, Trash2, MapPin, User, MessageCircle, Search,
 } from "lucide-react";
 import ActionMapAdmin from "./ActionMapAdmin";
 import NewsAdmin from "./NewsAdmin";
@@ -32,19 +32,19 @@ interface AdminDashboardProps {
 type Tab = "theme" | "images" | "menu" | "content" | "sobre" | "news" | "propostas" | "videos" | "agenda" | "actionMap" | "grupo" | "social" | "settings";
 
 const TABS: { id: Tab; label: string; icon: React.ReactNode }[] = [
-  { id: "theme", label: "Cores & Tema", icon: <Palette size={18} /> },
-  { id: "images", label: "Imagens", icon: <Image size={18} /> },
-  { id: "menu", label: "Menus", icon: <Menu size={18} /> },
-  { id: "content", label: "Conteúdo", icon: <FileText size={18} /> },
-  { id: "sobre", label: "Sobre", icon: <User size={18} /> },
-  { id: "news", label: "Notícias", icon: <FileText size={18} /> },
-  { id: "propostas", label: "Propostas", icon: <FileText size={18} /> },
-  { id: "videos", label: "Vídeos", icon: <Video size={18} /> },
-  { id: "agenda", label: "Agenda", icon: <Calendar size={18} /> },
-  { id: "actionMap", label: "Mapa de Atuação", icon: <MapPin size={18} /> },
-  { id: "grupo", label: "Grupo WhatsApp", icon: <MessageCircle size={18} /> },
-  { id: "social", label: "Redes Sociais", icon: <Share2 size={18} /> },
-  { id: "settings", label: "Configurações", icon: <Settings size={18} /> },
+  { id: "theme", label: "Cores & Tema", icon: <Palette size={20} /> },
+  { id: "images", label: "Imagens", icon: <Image size={20} /> },
+  { id: "menu", label: "Menus", icon: <Menu size={20} /> },
+  { id: "content", label: "Conteúdo", icon: <FileText size={20} /> },
+  { id: "sobre", label: "Sobre", icon: <User size={20} /> },
+  { id: "news", label: "Notícias", icon: <FileText size={20} /> },
+  { id: "propostas", label: "Propostas", icon: <FileText size={20} /> },
+  { id: "videos", label: "Vídeos", icon: <Video size={20} /> },
+  { id: "agenda", label: "Agenda", icon: <Calendar size={20} /> },
+  { id: "actionMap", label: "Mapa de Atuação", icon: <MapPin size={20} /> },
+  { id: "grupo", label: "Grupo WhatsApp", icon: <MessageCircle size={20} /> },
+  { id: "social", label: "Redes Sociais", icon: <Share2 size={20} /> },
+  { id: "settings", label: "Configurações", icon: <Settings size={20} /> },
 ];
 
 export default function AdminDashboard({ config: initialConfig, token, onSave, onLogout }: AdminDashboardProps) {
@@ -52,6 +52,12 @@ export default function AdminDashboard({ config: initialConfig, token, onSave, o
   const [tab, setTab] = useState<Tab>("theme");
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState("");
+  const [navSearch, setNavSearch] = useState("");
+
+  const activeTab = TABS.find((item) => item.id === tab);
+  const filteredTabs = TABS.filter((item) =>
+    item.label.toLowerCase().includes(navSearch.trim().toLowerCase())
+  );
 
   const update = <K extends keyof SiteConfig>(key: K, value: SiteConfig[K]) => {
     setConfig((prev) => ({ ...prev, [key]: value }));
@@ -92,62 +98,93 @@ export default function AdminDashboard({ config: initialConfig, token, onSave, o
   };
 
   const ColorInput = ({ label, value, onChange }: { label: string; value: string; onChange: (v: string) => void }) => (
-    <div className="flex items-center gap-3">
-      <input type="color" value={value} onChange={(e) => onChange(e.target.value)} className="w-10 h-10 rounded cursor-pointer border-0" />
-      <div className="flex-1">
-        <label className="admin-label mb-0">{label}</label>
+    <div className="admin-color-card">
+      <input type="color" value={value} onChange={(e) => onChange(e.target.value)} aria-label={label} />
+      <div className="flex-1 min-w-0">
+        <label className="admin-label mb-1">{label}</label>
         <input type="text" className="admin-input" value={value} onChange={(e) => onChange(e.target.value)} />
       </div>
     </div>
   );
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      <header className="bg-[#0071B7] text-white sticky top-0 z-50 shadow-lg">
-        <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-          <div>
-            <h1 className="text-xl font-bold">Control System</h1>
-            <p className="text-sm text-white/70">Mauricío Soares - Painel Admin</p>
+    <div className="admin-shell">
+      <header className="admin-header">
+        <div className="admin-header-inner">
+          <div className="admin-brand">
+            <div className="admin-brand-mark" aria-hidden>MS</div>
+            <div>
+              <h1>Control System</h1>
+              <p className="admin-breadcrumb">
+                Admin / {activeTab?.label || "Painel"}
+              </p>
+            </div>
           </div>
-          <div className="flex items-center gap-3">
-            {message && (
-              <span className="text-sm bg-white/20 px-3 py-1 rounded-full">{message}</span>
-            )}
-            <a href="/" target="_blank" className="flex items-center gap-1 text-sm hover:underline">
-              <ExternalLink size={16} /> Ver site
+          <div className="admin-header-actions">
+            {message && <span className="admin-toast">{message}</span>}
+            <a href="/" target="_blank" className="admin-btn admin-btn-secondary inline-flex items-center gap-2 text-sm">
+              <ExternalLink size={16} /> <span>Ver site</span>
             </a>
-            <button onClick={handleSave} disabled={saving} className="bg-[#FDCE27] text-[#0071B7] px-4 py-2 rounded-lg font-semibold flex items-center gap-2 hover:opacity-90">
-              <Save size={16} /> {saving ? "Salvando..." : "Salvar"}
+            <button onClick={handleSave} disabled={saving} className="admin-btn admin-btn-save inline-flex items-center gap-2">
+              <Save size={16} /> {saving ? "Salvando..." : "Salvar alterações"}
             </button>
-            <button onClick={onLogout} className="text-white/80 hover:text-white">
+            <button onClick={onLogout} className="admin-btn admin-btn-ghost p-2" aria-label="Sair">
               <LogOut size={20} />
             </button>
           </div>
         </div>
       </header>
 
-      <div className="max-w-7xl mx-auto px-4 py-6 flex gap-6">
-        <nav className="w-56 flex-shrink-0">
-          <div className="bg-white rounded-xl shadow-sm p-2 sticky top-24">
-            {TABS.map((t) => (
+      <div className="admin-layout">
+        <aside className="admin-sidebar">
+          <div className="admin-sidebar-head">
+            {config.images.heroPhoto ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={config.images.heroPhoto} alt="" className="admin-avatar" />
+            ) : (
+              <div className="admin-avatar" aria-hidden />
+            )}
+            <div>
+              <strong>{config.site.title || "Maurício Soares"}</strong>
+              <span>Painel de gestão</span>
+            </div>
+          </div>
+          <div className="relative mb-3">
+            <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
+            <input
+              type="search"
+              className="admin-nav-search !pl-9"
+              placeholder="Buscar secção..."
+              value={navSearch}
+              onChange={(e) => setNavSearch(e.target.value)}
+              aria-label="Buscar secção do painel"
+            />
+          </div>
+          <nav className="admin-nav" aria-label="Secções do admin">
+            {filteredTabs.map((t) => (
               <button
                 key={t.id}
+                type="button"
                 onClick={() => setTab(t.id)}
-                className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
-                  tab === t.id ? "bg-[#0071B7] text-white" : "text-gray-600 hover:bg-gray-100"
-                }`}
+                className={`admin-nav-item${tab === t.id ? " is-active" : ""}`}
               >
                 {t.icon} {t.label}
               </button>
             ))}
-          </div>
-        </nav>
+            {filteredTabs.length === 0 && (
+              <p className="text-xs text-slate-500 px-2 py-3">Nenhuma secção encontrada.</p>
+            )}
+          </nav>
+        </aside>
 
-        <div className="flex-1 min-w-0">
+        <div className="admin-main">
           {tab === "theme" && (
             <div className="admin-card">
-              <h2 className="text-xl font-bold mb-6">Cores & Tema</h2>
-              <div className="grid md:grid-cols-2 gap-6">
+              <div className="admin-page-head">
+                <h2>Cores & Tema</h2>
+                <p>Defina a identidade visual do site. Cada cor fica isolada num cartão para edição rápida.</p>
+              </div>
+              <div className="admin-color-grid">
                 <ColorInput label="Cor Primária (Azul)" value={config.theme.primary} onChange={(v) => update("theme", { ...config.theme, primary: v })} />
                 <ColorInput label="Cor Secundária (Verde)" value={config.theme.secondary} onChange={(v) => update("theme", { ...config.theme, secondary: v })} />
                 <ColorInput label="Cor de Destaque (Amarelo)" value={config.theme.accent} onChange={(v) => update("theme", { ...config.theme, accent: v })} />
@@ -158,23 +195,46 @@ export default function AdminDashboard({ config: initialConfig, token, onSave, o
                 <ColorInput label="Gradiente Hero (Fim)" value={config.theme.heroGradientEnd} onChange={(v) => update("theme", { ...config.theme, heroGradientEnd: v })} />
                 <ColorInput label="Cor do Rodapé" value={config.theme.footerBg} onChange={(v) => update("theme", { ...config.theme, footerBg: v })} />
               </div>
-              <div className="mt-6 p-4 rounded-lg border" style={{ background: `radial-gradient(at top center, ${config.theme.heroGradientStart}, ${config.theme.heroGradientEnd})` }}>
-                <p style={{ color: config.theme.primary, fontSize: 24, fontWeight: "bold" }}>Pré-visualização</p>
-                <p style={{ color: config.theme.text }}>Texto de exemplo com as cores selecionadas</p>
-                <button style={{ background: config.theme.accent, color: config.theme.primary, padding: "8px 16px", borderRadius: 4, border: "none", marginTop: 8 }}>
-                  Botão de exemplo
-                </button>
+              <div
+                className="admin-theme-preview"
+                style={{ background: `radial-gradient(at top center, ${config.theme.heroGradientStart}, ${config.theme.heroGradientEnd})` }}
+              >
+                <div className="admin-theme-preview-nav" style={{ color: config.theme.primary }}>
+                  <span>Navbar</span>
+                  <span style={{ color: config.theme.textLight }}>Menu</span>
+                </div>
+                <div className="admin-theme-preview-body">
+                  <p style={{ color: config.theme.primary, fontSize: 24, fontWeight: 600, margin: 0 }}>Pré-visualização</p>
+                  <p style={{ color: config.theme.text, margin: "0.5rem 0 0" }}>Texto de exemplo com as cores selecionadas</p>
+                  <div className="admin-theme-preview-card">
+                    <p style={{ color: config.theme.text, margin: 0, fontSize: 14 }}>Card de exemplo</p>
+                  </div>
+                  <button
+                    type="button"
+                    style={{
+                      background: config.theme.accent,
+                      color: config.theme.primary,
+                      padding: "10px 18px",
+                      borderRadius: 14,
+                      border: "none",
+                      marginTop: 12,
+                      fontWeight: 600,
+                    }}
+                  >
+                    Botão de exemplo
+                  </button>
+                </div>
               </div>
             </div>
           )}
 
           {tab === "images" && (
             <div className="admin-card">
-              <h2 className="text-xl font-bold mb-6">Gerenciar Imagens</h2>
-              <p className="text-sm text-gray-500 mb-6">
-                Faça upload de novas imagens e ajuste zoom, posição horizontal e vertical de cada uma.
-              </p>
-              <div className="space-y-6">
+              <div className="admin-page-head">
+                <h2>Gerenciar Imagens</h2>
+                <p>Cards compactos para upload. Use &quot;Ajustar imagem&quot; apenas quando precisar de zoom e enquadramento.</p>
+              </div>
+              <div className="admin-image-grid">
                 {renderSiteImageUploader(
                   "heroLogo",
                   "Logo Hero — fundo claro (página inicial)",
@@ -240,10 +300,13 @@ export default function AdminDashboard({ config: initialConfig, token, onSave, o
 
           {tab === "menu" && (
             <div className="admin-card">
-              <h2 className="text-xl font-bold mb-6">Menus de Navegação</h2>
+              <div className="admin-page-head">
+                <h2>Menus de Navegação</h2>
+                <p>Cada item do menu aparece numa linha limpa e fácil de editar.</p>
+              </div>
               {config.menu.map((item, i) => (
-                <div key={i} className="flex gap-3 mb-3 items-end">
-                  <div className="flex-1">
+                <div key={i} className="admin-menu-row">
+                  <div>
                     <label className="admin-label">Label</label>
                     <input className="admin-input" value={item.label} onChange={(e) => {
                       const menu = [...config.menu];
@@ -251,7 +314,7 @@ export default function AdminDashboard({ config: initialConfig, token, onSave, o
                       update("menu", menu);
                     }} />
                   </div>
-                  <div className="flex-1">
+                  <div>
                     <label className="admin-label">Link</label>
                     <input className="admin-input" value={item.href} onChange={(e) => {
                       const menu = [...config.menu];
@@ -259,123 +322,140 @@ export default function AdminDashboard({ config: initialConfig, token, onSave, o
                       update("menu", menu);
                     }} />
                   </div>
-                  <button onClick={() => update("menu", config.menu.filter((_, j) => j !== i))} className="admin-btn admin-btn-danger p-2">
+                  <button onClick={() => update("menu", config.menu.filter((_, j) => j !== i))} className="admin-btn admin-btn-danger p-3" aria-label="Remover item">
                     <Trash2 size={16} />
                   </button>
                 </div>
               ))}
-              <button onClick={() => update("menu", [...config.menu, { label: "Novo", href: "/" }])} className="admin-btn flex items-center gap-2 mt-4">
+              <button onClick={() => update("menu", [...config.menu, { label: "Novo", href: "/" }])} className="admin-btn flex items-center gap-2 mt-2">
                 <Plus size={16} /> Adicionar Menu
               </button>
             </div>
           )}
 
           {tab === "content" && (
-            <div className="space-y-6">
-              <div className="admin-card">
-                <h2 className="text-xl font-bold mb-4">Informações do Site</h2>
-                <div className="grid md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="admin-label">Título do Site</label>
-                    <input className="admin-input" value={config.site.title} onChange={(e) => update("site", { ...config.site, title: e.target.value })} />
-                  </div>
-                  <div>
-                    <label className="admin-label">Subtítulo</label>
-                    <input className="admin-input" value={config.site.subtitle} onChange={(e) => update("site", { ...config.site, subtitle: e.target.value })} />
-                  </div>
-                </div>
+            <div>
+              <div className="admin-page-head mb-4">
+                <h2>Conteúdo</h2>
+                <p>Abra apenas a secção que precisa editar — o restante fica recolhido.</p>
               </div>
 
-              <div className="admin-card">
-                <h2 className="text-xl font-bold mb-4">Rodapé</h2>
-                <p className="text-sm text-gray-500 mb-4">
-                  O logo do rodapé usa a imagem &quot;Logo Fundo Azul&quot; na aba Imagens.
-                </p>
-                <div className="grid md:grid-cols-2 gap-4">
-                  <div className="md:col-span-2">
-                    <label className="admin-label">Direitos reservados (copyright)</label>
-                    <input className="admin-input" value={config.site.copyright} onChange={(e) => update("site", { ...config.site, copyright: e.target.value })} />
-                  </div>
-                  <div className="md:col-span-2">
-                    <label className="admin-label">Endereço no rodapé</label>
-                    <input className="admin-input" value={config.contact.address} onChange={(e) => update("contact", { ...config.contact, address: e.target.value })} />
-                  </div>
-                  <div className="md:col-span-2">
-                    <label className="admin-label">Telefone(s) no rodapé</label>
-                    <input className="admin-input" value={config.contact.phone} onChange={(e) => update("contact", { ...config.contact, phone: e.target.value })} placeholder="Ex: (86) 99999-0000 / (86) 3333-0000" />
+              <details className="admin-accordion" open>
+                <summary>Informações do Site</summary>
+                <div className="admin-accordion-body">
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="admin-label">Título do Site</label>
+                      <input className="admin-input" value={config.site.title} onChange={(e) => update("site", { ...config.site, title: e.target.value })} />
+                    </div>
+                    <div>
+                      <label className="admin-label">Subtítulo</label>
+                      <input className="admin-input" value={config.site.subtitle} onChange={(e) => update("site", { ...config.site, subtitle: e.target.value })} />
+                    </div>
                   </div>
                 </div>
-              </div>
+              </details>
 
-              <div className="admin-card">
-                <h2 className="text-xl font-bold mb-4">Hero (Página Inicial)</h2>
-                <div className="grid md:grid-cols-3 gap-4">
-                  <div>
-                    <label className="admin-label">Linha 1 (ex: CANDIDATO)</label>
-                    <input className="admin-input" value={config.hero.titleLine1} onChange={(e) => update("hero", { ...config.hero, titleLine1: e.target.value })} />
-                  </div>
-                  <div>
-                    <label className="admin-label">Linha 2 (ex: MAURÍCIO)</label>
-                    <input className="admin-input" value={config.hero.titleLine2} onChange={(e) => update("hero", { ...config.hero, titleLine2: e.target.value })} />
-                  </div>
-                  <div>
-                    <label className="admin-label">Linha 3 (ex: SOARES)</label>
-                    <input className="admin-input" value={config.hero.titleLine3} onChange={(e) => update("hero", { ...config.hero, titleLine3: e.target.value })} />
+              <details className="admin-accordion">
+                <summary>Rodapé</summary>
+                <div className="admin-accordion-body">
+                  <p className="text-sm text-slate-500 mb-4">
+                    O logo do rodapé usa a imagem &quot;Logo Fundo Azul&quot; na aba Imagens.
+                  </p>
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <div className="md:col-span-2">
+                      <label className="admin-label">Direitos reservados (copyright)</label>
+                      <input className="admin-input" value={config.site.copyright} onChange={(e) => update("site", { ...config.site, copyright: e.target.value })} />
+                    </div>
+                    <div className="md:col-span-2">
+                      <label className="admin-label">Endereço no rodapé</label>
+                      <input className="admin-input" value={config.contact.address} onChange={(e) => update("contact", { ...config.contact, address: e.target.value })} />
+                    </div>
+                    <div className="md:col-span-2">
+                      <label className="admin-label">Telefone(s) no rodapé</label>
+                      <input className="admin-input" value={config.contact.phone} onChange={(e) => update("contact", { ...config.contact, phone: e.target.value })} placeholder="Ex: (86) 99999-0000 / (86) 3333-0000" />
+                    </div>
                   </div>
                 </div>
-              </div>
+              </details>
 
-              <div className="admin-card">
-                <h2 className="text-xl font-bold mb-2">Sobre</h2>
-                <p className="text-sm text-gray-600">
-                  A página Sobre (cabeçalho, introdução, galeria e linha do tempo) agora é editada na aba{" "}
-                  <strong>Sobre</strong> do menu lateral.
-                </p>
-              </div>
-
-              <div className="admin-card">
-                <h2 className="text-xl font-bold mb-4">Seção Ação / Senado</h2>
-                <div className="grid md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="admin-label">Título</label>
-                    <input className="admin-input" value={config.senado.title} onChange={(e) => update("senado", { ...config.senado, title: e.target.value })} />
-                  </div>
-                  <div>
-                    <label className="admin-label">Botão Acessar</label>
-                    <input className="admin-input" value={config.senado.buttonAccess} onChange={(e) => update("senado", { ...config.senado, buttonAccess: e.target.value })} />
-                  </div>
-                  <div>
-                    <label className="admin-label">URL Acessar</label>
-                    <input className="admin-input" value={config.senado.accessUrl} onChange={(e) => update("senado", { ...config.senado, accessUrl: e.target.value })} />
-                  </div>
-                  <div>
-                    <label className="admin-label">Botão Proposições</label>
-                    <input className="admin-input" value={config.senado.buttonProposicoes} onChange={(e) => update("senado", { ...config.senado, buttonProposicoes: e.target.value })} />
+              <details className="admin-accordion">
+                <summary>Hero (Página Inicial)</summary>
+                <div className="admin-accordion-body">
+                  <div className="grid md:grid-cols-3 gap-4">
+                    <div>
+                      <label className="admin-label">Linha 1 (ex: CANDIDATO)</label>
+                      <input className="admin-input" value={config.hero.titleLine1} onChange={(e) => update("hero", { ...config.hero, titleLine1: e.target.value })} />
+                    </div>
+                    <div>
+                      <label className="admin-label">Linha 2 (ex: MAURÍCIO)</label>
+                      <input className="admin-input" value={config.hero.titleLine2} onChange={(e) => update("hero", { ...config.hero, titleLine2: e.target.value })} />
+                    </div>
+                    <div>
+                      <label className="admin-label">Linha 3 (ex: SOARES)</label>
+                      <input className="admin-input" value={config.hero.titleLine3} onChange={(e) => update("hero", { ...config.hero, titleLine3: e.target.value })} />
+                    </div>
                   </div>
                 </div>
-              </div>
+              </details>
 
-              <div className="admin-card">
-                <h2 className="text-xl font-bold mb-4">Contato</h2>
-                <div className="grid md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="admin-label">Título</label>
-                    <input className="admin-input" value={config.contact.title} onChange={(e) => update("contact", { ...config.contact, title: e.target.value })} />
-                  </div>
-                  <div>
-                    <label className="admin-label">E-mail</label>
-                    <input className="admin-input" value={config.contact.email} onChange={(e) => update("contact", { ...config.contact, email: e.target.value })} />
-                  </div>
-                  <div>
-                    <label className="admin-label">Telefone</label>
-                    <input className="admin-input" value={config.contact.phone} onChange={(e) => update("contact", { ...config.contact, phone: e.target.value })} />
-                  </div>
-                  <div>
-                    <label className="admin-label">Endereço</label>
-                    <input className="admin-input" value={config.contact.address} onChange={(e) => update("contact", { ...config.contact, address: e.target.value })} />
+              <details className="admin-accordion">
+                <summary>Sobre</summary>
+                <div className="admin-accordion-body">
+                  <p className="text-sm text-slate-600">
+                    A página Sobre (cabeçalho, introdução, galeria e linha do tempo) agora é editada na aba{" "}
+                    <strong>Sobre</strong> do menu lateral.
+                  </p>
+                </div>
+              </details>
+
+              <details className="admin-accordion">
+                <summary>Seção Ação / Senado</summary>
+                <div className="admin-accordion-body">
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="admin-label">Título</label>
+                      <input className="admin-input" value={config.senado.title} onChange={(e) => update("senado", { ...config.senado, title: e.target.value })} />
+                    </div>
+                    <div>
+                      <label className="admin-label">Botão Acessar</label>
+                      <input className="admin-input" value={config.senado.buttonAccess} onChange={(e) => update("senado", { ...config.senado, buttonAccess: e.target.value })} />
+                    </div>
+                    <div>
+                      <label className="admin-label">URL Acessar</label>
+                      <input className="admin-input" value={config.senado.accessUrl} onChange={(e) => update("senado", { ...config.senado, accessUrl: e.target.value })} />
+                    </div>
+                    <div>
+                      <label className="admin-label">Botão Proposições</label>
+                      <input className="admin-input" value={config.senado.buttonProposicoes} onChange={(e) => update("senado", { ...config.senado, buttonProposicoes: e.target.value })} />
+                    </div>
                   </div>
                 </div>
-              </div>
+              </details>
+
+              <details className="admin-accordion">
+                <summary>Contato</summary>
+                <div className="admin-accordion-body">
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="admin-label">Título</label>
+                      <input className="admin-input" value={config.contact.title} onChange={(e) => update("contact", { ...config.contact, title: e.target.value })} />
+                    </div>
+                    <div>
+                      <label className="admin-label">E-mail</label>
+                      <input className="admin-input" value={config.contact.email} onChange={(e) => update("contact", { ...config.contact, email: e.target.value })} />
+                    </div>
+                    <div>
+                      <label className="admin-label">Telefone</label>
+                      <input className="admin-input" value={config.contact.phone} onChange={(e) => update("contact", { ...config.contact, phone: e.target.value })} />
+                    </div>
+                    <div>
+                      <label className="admin-label">Endereço</label>
+                      <input className="admin-input" value={config.contact.address} onChange={(e) => update("contact", { ...config.contact, address: e.target.value })} />
+                    </div>
+                  </div>
+                </div>
+              </details>
             </div>
           )}
 
@@ -406,14 +486,14 @@ export default function AdminDashboard({ config: initialConfig, token, onSave, o
 
           {tab === "videos" && (
             <div className="admin-card">
-              <h2 className="text-xl font-bold mb-2">Vídeos do Feed Principal</h2>
-              <p className="text-sm text-gray-500 mb-6">
-                Cole o ID ou qualquer link do YouTube. O visitante será direcionado ao clicar no vídeo ou no título.
-              </p>
+              <div className="admin-page-head">
+                <h2>Vídeos do Feed Principal</h2>
+                <p>Cole o ID ou qualquer link do YouTube. O visitante será direcionado ao clicar no vídeo ou no título.</p>
+              </div>
               {config.videos.map((video, i) => (
-                <div key={video.id} className="border rounded-lg p-4 mb-4">
+                <div key={video.id} className="admin-item-card">
                   <div className="flex justify-between mb-3">
-                    <span className="font-semibold text-sm text-gray-500">Vídeo #{i + 1}</span>
+                    <span className="font-semibold text-sm text-slate-500">Vídeo #{i + 1}</span>
                     <button onClick={() => update("videos", config.videos.filter((v) => v.id !== video.id))} className="text-red-500">
                       <Trash2 size={16} />
                     </button>
@@ -471,12 +551,14 @@ export default function AdminDashboard({ config: initialConfig, token, onSave, o
 
           {tab === "agenda" && (
             <div className="admin-card">
-              <h2 className="text-xl font-bold mb-2">Agenda de Eventos</h2>
-              <p className="text-sm text-gray-500 mb-6">Gerencie os eventos visíveis na página de Agenda.</p>
+              <div className="admin-page-head">
+                <h2>Agenda de Eventos</h2>
+                <p>Gerencie os eventos visíveis na página de Agenda.</p>
+              </div>
               {config.agenda.map((event, i) => (
-                <div key={event.id} className="border rounded-lg p-4 mb-4">
+                <div key={event.id} className="admin-item-card">
                   <div className="flex justify-between mb-3">
-                    <span className="font-semibold text-sm text-gray-500">Evento #{i + 1}</span>
+                    <span className="font-semibold text-sm text-slate-500">Evento #{i + 1}</span>
                     <button onClick={() => update("agenda", config.agenda.filter((e) => e.id !== event.id))} className="text-red-500">
                       <Trash2 size={16} />
                     </button>
@@ -572,7 +654,10 @@ export default function AdminDashboard({ config: initialConfig, token, onSave, o
 
           {tab === "social" && (
             <div className="admin-card">
-              <h2 className="text-xl font-bold mb-6">Redes Sociais</h2>
+              <div className="admin-page-head">
+                <h2>Redes Sociais</h2>
+                <p>Links oficiais e posts de reserva do Instagram.</p>
+              </div>
               <div className="space-y-4">
                 {(["instagram", "facebook", "twitter", "youtube", "tiktok"] as const).map((key) => (
                   <div key={key}>
@@ -591,9 +676,9 @@ export default function AdminDashboard({ config: initialConfig, token, onSave, o
                 />
               </div>
               <div className="mt-8">
-                <h3 className="font-bold mb-4">Posts do Instagram (reserva manual)</h3>
+                <h3 className="font-semibold mb-4 text-slate-700">Posts do Instagram (reserva manual)</h3>
                 {config.instagram.posts.map((post, i) => (
-                  <div key={post.id} className="border rounded-lg p-3 mb-3 flex gap-3 items-start">
+                  <div key={post.id} className="admin-item-card flex gap-3 items-start">
                     <div className="flex-1 space-y-2">
                       <ImageUploader
                         label=""
@@ -641,15 +726,18 @@ export default function AdminDashboard({ config: initialConfig, token, onSave, o
 
           {tab === "settings" && (
             <div className="admin-card">
-              <h2 className="text-xl font-bold mb-6">Configurações</h2>
+              <div className="admin-page-head">
+                <h2>Configurações</h2>
+                <p>Acesso ao painel e guia rápido de utilização.</p>
+              </div>
               <div>
                 <label className="admin-label">Senha do Admin</label>
                 <input type="password" className="admin-input max-w-sm" value={config.admin.password} onChange={(e) => update("admin", { password: e.target.value })} />
-                <p className="text-xs text-gray-500 mt-1">Altere a senha de acesso ao painel admin</p>
+                <p className="text-xs text-slate-500 mt-1">Altere a senha de acesso ao painel admin</p>
               </div>
-              <div className="mt-8 p-4 bg-blue-50 rounded-lg">
-                <h3 className="font-semibold mb-2">Como editar o site</h3>
-                <ul className="text-sm text-gray-600 space-y-1 list-disc list-inside">
+              <div className="mt-8 p-4 rounded-2xl border border-slate-200/80 bg-white/70">
+                <h3 className="font-semibold mb-2 text-slate-800">Como editar o site</h3>
+                <ul className="text-sm text-slate-600 space-y-1 list-disc list-inside">
                   <li><strong>Cores & Tema:</strong> Altere as cores primárias, secundárias e de destaque</li>
                   <li><strong>Imagens:</strong> Faça upload para substituir fotos do site</li>
                   <li><strong>Menus:</strong> Adicione, remova ou edite itens do menu</li>
@@ -657,7 +745,7 @@ export default function AdminDashboard({ config: initialConfig, token, onSave, o
                   <li><strong>Notícias:</strong> Gerencie as notícias do site</li>
                   <li><strong>Vídeos:</strong> Upload de vídeos para o feed principal</li>
                   <li><strong>Agenda:</strong> Gerencie eventos da semana e mês</li>
-                  <li>Clique em <strong>Salvar</strong> após cada alteração</li>
+                  <li>Clique em <strong>Salvar alterações</strong> após cada alteração</li>
                 </ul>
               </div>
             </div>

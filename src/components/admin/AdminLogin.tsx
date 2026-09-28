@@ -33,14 +33,14 @@ export default function AdminLogin({ onLogin }: AdminLoginProps) {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#0071B7] to-[#129547] p-4">
-      <div className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-md">
+    <div className="admin-login-shell">
+      <div className="admin-login-card">
         <div className="text-center mb-8">
-          <div className="w-16 h-16 rounded-full bg-[#0071B7] flex items-center justify-center mx-auto mb-4">
-            <Lock className="text-white" size={28} />
+          <div className="admin-login-icon">
+            <Lock size={26} />
           </div>
-          <h1 className="text-2xl font-bold text-gray-800">Painel Admin</h1>
-          <p className="text-gray-500 mt-2">Mauricío Soares - Control System</p>
+          <h1 className="text-2xl font-semibold text-slate-800 tracking-tight">Painel Admin</h1>
+          <p className="text-slate-500 mt-2 text-sm">Maurício Soares — Control System</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -61,7 +61,7 @@ export default function AdminLogin({ onLogin }: AdminLoginProps) {
           </button>
         </form>
 
-        <p className="text-xs text-gray-400 text-center mt-6">
+        <p className="text-xs text-slate-400 text-center mt-6">
           Senha padrão: mauricio2026
         </p>
       </div>

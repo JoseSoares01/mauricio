@@ -89,17 +89,17 @@ export default function ImagePositionEditor({
     previewAspect === "square" ? "h-40" : previewAspect === "tall" ? "h-52" : "h-36";
 
   return (
-    <div className="space-y-3 rounded-lg border border-gray-200 bg-gray-50 p-4">
+    <div className="space-y-3 rounded-2xl border border-slate-200/80 bg-slate-900/[0.03] p-4">
       <div className="flex items-center justify-between gap-3">
         <div>
           <p className="admin-label mb-0">Enquadramento da imagem</p>
-          <p className="text-xs text-gray-500 mt-1">
+          <p className="text-xs text-slate-500 mt-1">
             Arraste, use os controles ou ajuste o zoom para posicionar a imagem.
           </p>
         </div>
         <button
           type="button"
-          className="admin-btn-secondary flex items-center gap-1 text-xs shrink-0"
+          className="admin-btn admin-btn-secondary flex items-center gap-1 text-xs shrink-0 !py-2 !px-3"
           onClick={() => onChange({ ...DEFAULT_IMAGE_FOCUS })}
         >
           <RotateCcw size={14} />
@@ -108,11 +108,11 @@ export default function ImagePositionEditor({
       </div>
 
       <div>
-        <p className="text-xs font-medium text-gray-500 mb-2">{previewLabel}</p>
+        <p className="text-xs font-medium text-slate-500 mb-2">{previewLabel}</p>
         <div
           ref={previewRef}
-          className={`relative ${previewHeight} rounded-lg overflow-hidden border bg-white touch-none select-none ${
-            dragging ? "cursor-grabbing ring-2 ring-[var(--color-primary)]" : "cursor-grab"
+          className={`relative ${previewHeight} rounded-2xl overflow-hidden border border-slate-700/40 bg-slate-900 touch-none select-none ${
+            dragging ? "cursor-grabbing ring-2 ring-[#0071B7]" : "cursor-grab"
           }`}
           onPointerDown={handlePointerDown}
           onPointerMove={handlePointerMove}
@@ -135,7 +135,7 @@ export default function ImagePositionEditor({
         <div>
           <label className="admin-label flex justify-between">
             <span>Horizontal</span>
-            <span className="text-gray-400 font-normal">{normalized.x}%</span>
+            <span className="text-slate-400 font-normal">{normalized.x}%</span>
           </label>
           <input
             type="range"
@@ -143,9 +143,9 @@ export default function ImagePositionEditor({
             max={100}
             value={normalized.x}
             onChange={(e) => updateFocus({ x: Number(e.target.value) })}
-            className="w-full accent-[var(--color-primary)]"
+            className="w-full accent-[#0071B7]"
           />
-          <div className="flex justify-between text-[11px] text-gray-400 mt-1">
+          <div className="flex justify-between text-[11px] text-slate-400 mt-1">
             <span>Esquerda</span>
             <span>Direita</span>
           </div>
@@ -153,7 +153,7 @@ export default function ImagePositionEditor({
         <div>
           <label className="admin-label flex justify-between">
             <span>Vertical</span>
-            <span className="text-gray-400 font-normal">{normalized.y}%</span>
+            <span className="text-slate-400 font-normal">{normalized.y}%</span>
           </label>
           <input
             type="range"
@@ -161,9 +161,9 @@ export default function ImagePositionEditor({
             max={100}
             value={normalized.y}
             onChange={(e) => updateFocus({ y: Number(e.target.value) })}
-            className="w-full accent-[var(--color-primary)]"
+            className="w-full accent-[#0071B7]"
           />
-          <div className="flex justify-between text-[11px] text-gray-400 mt-1">
+          <div className="flex justify-between text-[11px] text-slate-400 mt-1">
             <span>Topo</span>
             <span>Base</span>
           </div>
@@ -175,7 +175,7 @@ export default function ImagePositionEditor({
               Zoom
               <ZoomIn size={14} />
             </span>
-            <span className="text-gray-400 font-normal">{normalized.zoom}%</span>
+            <span className="text-slate-400 font-normal">{normalized.zoom}%</span>
           </label>
           <input
             type="range"
@@ -183,9 +183,9 @@ export default function ImagePositionEditor({
             max={MAX_IMAGE_ZOOM}
             value={normalized.zoom}
             onChange={(e) => updateFocus({ zoom: Number(e.target.value) })}
-            className="w-full accent-[var(--color-primary)]"
+            className="w-full accent-[#0071B7]"
           />
-          <div className="flex justify-between text-[11px] text-gray-400 mt-1">
+          <div className="flex justify-between text-[11px] text-slate-400 mt-1">
             <span>Menor</span>
             <span>Maior</span>
           </div>

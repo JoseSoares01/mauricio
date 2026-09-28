@@ -60,8 +60,8 @@ export default function AdminPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-100">
-        <p>Carregando...</p>
+      <div className="admin-shell min-h-screen flex items-center justify-center">
+        <p className="text-slate-500">Carregando...</p>
       </div>
     );
   }
@@ -72,8 +72,8 @@ export default function AdminPage() {
 
   if (!config) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-100">
-        <p>Carregando configurações...</p>
+      <div className="admin-shell min-h-screen flex items-center justify-center">
+        <p className="text-slate-500">Carregando configurações...</p>
       </div>
     );
   }
