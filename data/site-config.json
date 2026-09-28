@@ -669,6 +669,78 @@
       "time": "16:00",
       "location": "Luís Correia — Shopping",
       "type": "caminhada"
+    },
+    {
+      "id": "ag-2026-09-26-1",
+      "title": "Carreata Campo Maior",
+      "description": "Carreata em Campo Maior — concentração no Posto Santa Rita. Agenda sujeita a alterações.",
+      "date": "2026-09-26",
+      "time": "17:00",
+      "location": "Campo Maior — Posto Santa Rita",
+      "type": "evento"
+    },
+    {
+      "id": "ag-2026-09-27-1",
+      "title": "Carreata José de Freitas",
+      "description": "Carreata em José de Freitas — concentração no Antigo Restaurante Brasas. Agenda sujeita a alterações.",
+      "date": "2026-09-27",
+      "time": "17:00",
+      "location": "José de Freitas — Antigo Restaurante Brasas",
+      "type": "evento"
+    },
+    {
+      "id": "ag-2026-09-27-2",
+      "title": "Carreata Água Branca",
+      "description": "Carreata em Água Branca — Av. Neco Teixeira, 919, Centro. Agenda sujeita a alterações.",
+      "date": "2026-09-27",
+      "time": "17:00",
+      "location": "Água Branca — Av. Neco Teixeira, 919, Centro",
+      "type": "evento"
+    },
+    {
+      "id": "ag-2026-09-28-1",
+      "title": "Podcast Cristão",
+      "description": "Participação no Podcast Cristão. Agenda sujeita a alterações.",
+      "date": "2026-09-28",
+      "time": "15:00",
+      "location": "",
+      "type": "evento"
+    },
+    {
+      "id": "ag-2026-09-30-1",
+      "title": "Carreata Bom Jesus",
+      "description": "Carreata em Bom Jesus — concentração no Posto KQ. Agenda sujeita a alterações.",
+      "date": "2026-09-30",
+      "time": "18:00",
+      "location": "Bom Jesus — Posto KQ",
+      "type": "evento"
+    },
+    {
+      "id": "ag-2026-10-01-1",
+      "title": "Carreata Esperantina",
+      "description": "Carreata em Esperantina — Av. Petrônio Portela. Agenda sujeita a alterações.",
+      "date": "2026-10-01",
+      "time": "18:00",
+      "location": "Esperantina — Av. Petrônio Portela",
+      "type": "evento"
+    },
+    {
+      "id": "ag-2026-10-02-1",
+      "title": "Carreata Barras",
+      "description": "Carreata em Barras — concentração no Posto Santa Luzia. Agenda sujeita a alterações.",
+      "date": "2026-10-02",
+      "time": "17:00",
+      "location": "Barras — Posto Santa Luzia",
+      "type": "evento"
+    },
+    {
+      "id": "ag-2026-10-03-1",
+      "title": "Carreata Timon",
+      "description": "Carreata em Timon. Agenda sujeita a alterações.",
+      "date": "2026-10-03",
+      "time": "16:00",
+      "location": "Timon",
+      "type": "evento"
     }
   ],
   "actionMap": {
