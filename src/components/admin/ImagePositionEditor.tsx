@@ -89,7 +89,7 @@ export default function ImagePositionEditor({
     previewAspect === "square" ? "h-40" : previewAspect === "tall" ? "h-52" : "h-36";
 
   return (
-    <div className="space-y-3 rounded-2xl border border-slate-200/80 bg-slate-900/[0.03] p-4">
+    <div className="space-y-3 rounded-2xl border border-white/45 bg-white/50 backdrop-blur-md p-4 shadow-[0_8px_24px_rgba(15,23,42,0.05)]">
       <div className="flex items-center justify-between gap-3">
         <div>
           <p className="admin-label mb-0">Enquadramento da imagem</p>

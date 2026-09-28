@@ -13,5 +13,5 @@ export const metadata: Metadata = {
 };
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
-  return <div className={inter.className}>{children}</div>;
+  return <div className={`${inter.className} admin-root`}>{children}</div>;
 }

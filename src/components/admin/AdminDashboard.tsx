@@ -12,6 +12,7 @@ import {
 } from "@/lib/video";
 import ImageUploader from "./ImageUploader";
 import VideoUploader from "./VideoUploader";
+import AdminLivePreview from "./AdminLivePreview";
 import {
   Palette, Image, Menu, FileText, Video, Calendar, Share2, Settings, Save, LogOut, ExternalLink, Plus, Trash2, MapPin, User, MessageCircle, Search,
 } from "lucide-react";
@@ -295,6 +296,13 @@ export default function AdminDashboard({ config: initialConfig, token, onSave, o
                   { focusPreviewAspect: "square" }
                 )}
               </div>
+
+              <AdminLivePreview
+                theme={config.theme}
+                images={config.images}
+                siteTitle={config.site.title}
+                menuLabels={config.menu.map((item) => item.label)}
+              />
             </div>
           )}
 
@@ -735,7 +743,7 @@ export default function AdminDashboard({ config: initialConfig, token, onSave, o
                 <input type="password" className="admin-input max-w-sm" value={config.admin.password} onChange={(e) => update("admin", { password: e.target.value })} />
                 <p className="text-xs text-slate-500 mt-1">Altere a senha de acesso ao painel admin</p>
               </div>
-              <div className="mt-8 p-4 rounded-2xl border border-slate-200/80 bg-white/70">
+              <div className="mt-8 p-4 rounded-2xl admin-glass-panel">
                 <h3 className="font-semibold mb-2 text-slate-800">Como editar o site</h3>
                 <ul className="text-sm text-slate-600 space-y-1 list-disc list-inside">
                   <li><strong>Cores & Tema:</strong> Altere as cores primárias, secundárias e de destaque</li>
