@@ -66,7 +66,7 @@
     "heroPhoto": "/uploads/hero-photo.png",
     "heroPhotoOriginal": "/uploads/hero-mauricio-original.png",
     "aboutPhoto": "https://raw.githubusercontent.com/JoseSoares01/mauricio/main/public/uploads/1781811045973-r1dvzw6ya08.png",
-    "aboutBg": "https://raw.githubusercontent.com/JoseSoares01/mauricio/main/public/uploads/1790781203016-27qg0g0cnc6.png",
+    "aboutBg": "https://raw.githubusercontent.com/JoseSoares01/mauricio/main/public/uploads/1790781527027-6jd2slyy8tc.png",
     "senadoBg": "https://raw.githubusercontent.com/JoseSoares01/mauricio/main/public/uploads/1781811382721-f8c2cru914v.jpg",
     "banner": "https://raw.githubusercontent.com/JoseSoares01/mauricio/main/public/uploads/1781625358314-e21ya04w4c8.jpeg",
     "bannerSecondary": "",
@@ -75,7 +75,7 @@
       "aboutBg": {
         "x": 0,
         "y": 96,
-        "zoom": 102
+        "zoom": 106
       },
       "heroLogo": {
         "x": 50,
