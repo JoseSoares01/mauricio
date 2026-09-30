@@ -1,6 +1,5 @@
-import type { SiteConfig } from "./types";
+import type { HomeCarouselSlide, SiteConfig } from "./types";
 import type { ImageFocusSource } from "./image-focus";
-import { getConfiguredImageUrl } from "./site-config";
 
 export interface HomeBannerSlide {
   id: string;
@@ -15,7 +14,12 @@ export interface HomeBannerSlide {
   focus?: ImageFocusSource | null;
 }
 
-const MAX_SLIDES = 12;
+export const MAX_HOME_CAROUSEL_SLIDES = 12;
+
+function configuredUrl(url?: string | null): string | null {
+  const trimmed = url?.trim();
+  return trimmed ? trimmed : null;
+}
 
 function shortenDescription(text: string | undefined, max = 140): string | undefined {
   if (!text?.trim()) return undefined;
@@ -26,54 +30,118 @@ function shortenDescription(text: string | undefined, max = 140): string | undef
   return `${(lastSpace > 80 ? slice.slice(0, lastSpace) : slice).trim()}…`;
 }
 
-export function getHomeBannerSlides(config: SiteConfig): HomeBannerSlide[] {
+/** Monta slides a partir de banner + galeria + trajetória (legado). */
+export function deriveHomeCarouselFromLegacy(config: SiteConfig): HomeCarouselSlide[] {
   const seen = new Set<string>();
-  const slides: HomeBannerSlide[] = [];
+  const slides: HomeCarouselSlide[] = [];
 
   const add = (
     rawSrc: string | undefined,
-    alt: string,
-    focus?: ImageFocusSource | null,
-    meta?: { title?: string; description?: string; tag?: string }
+    meta?: {
+      id?: string;
+      title?: string;
+      text?: string;
+      tag?: string;
+      imageFocusX?: number;
+      imageFocusY?: number;
+      imageZoom?: number;
+    }
   ) => {
-    if (!rawSrc?.trim() || slides.length >= MAX_SLIDES) return;
-    const src = getConfiguredImageUrl(rawSrc);
+    if (!rawSrc?.trim() || slides.length >= MAX_HOME_CAROUSEL_SLIDES) return;
+    const src = configuredUrl(rawSrc);
     if (!src || seen.has(src)) return;
     seen.add(src);
     slides.push({
-      id: src,
-      src,
-      alt,
+      id: meta?.id || `hc-${slides.length + 1}`,
+      image: rawSrc.trim(),
       title: meta?.title?.trim() || undefined,
-      description: shortenDescription(meta?.description),
+      text: meta?.text?.trim() || undefined,
       tag: meta?.tag?.trim() || undefined,
-      focus,
+      imageFocusX: meta?.imageFocusX,
+      imageFocusY: meta?.imageFocusY,
+      imageZoom: meta?.imageZoom,
     });
   };
 
-  add(config.images.banner, "Banner", config.images.focus?.banner);
-  add(
-    config.images.bannerSecondary,
-    "Banner",
-    config.images.focus?.bannerSecondary
-  );
+  add(config.images.banner, { title: "Banner" });
+  add(config.images.bannerSecondary, { title: "Banner" });
 
   for (const item of config.about?.gallery ?? []) {
-    add(item.image, item.title || "Galeria", item, {
+    add(item.image, {
+      id: item.id,
       title: item.title,
-      description: item.text,
+      text: item.text,
       tag: item.tag,
+      imageFocusX: item.imageFocusX,
+      imageFocusY: item.imageFocusY,
+      imageZoom: item.imageZoom,
     });
   }
 
   for (const item of config.about?.timeline ?? []) {
     if (item.image) {
-      add(item.image, item.title || "Trajetória", item, {
+      add(item.image, {
+        id: item.id,
         title: item.title,
-        description: item.text,
+        text: item.text,
         tag: item.year,
+        imageFocusX: item.imageFocusX,
+        imageFocusY: item.imageFocusY,
+        imageZoom: item.imageZoom,
       });
     }
+  }
+
+  return slides;
+}
+
+export function normalizeHomeCarousel(
+  slides: HomeCarouselSlide[] | undefined,
+  config: SiteConfig
+): HomeCarouselSlide[] {
+  const source =
+    Array.isArray(slides) && slides.length > 0
+      ? slides
+      : deriveHomeCarouselFromLegacy(config);
+
+  return source
+    .filter((slide) => Boolean(slide?.image?.trim()))
+    .slice(0, MAX_HOME_CAROUSEL_SLIDES)
+    .map((slide, index) => ({
+      id: slide.id?.trim() || `hc-${index + 1}`,
+      image: slide.image.trim(),
+      title: slide.title?.trim() || undefined,
+      text: slide.text?.trim() || undefined,
+      tag: slide.tag?.trim() || undefined,
+      imageFocusX: slide.imageFocusX,
+      imageFocusY: slide.imageFocusY,
+      imageZoom: slide.imageZoom,
+    }));
+}
+
+export function getHomeBannerSlides(config: SiteConfig): HomeBannerSlide[] {
+  const carousel = normalizeHomeCarousel(config.homeCarousel, config);
+  const slides: HomeBannerSlide[] = [];
+  const seen = new Set<string>();
+
+  for (const item of carousel) {
+    if (slides.length >= MAX_HOME_CAROUSEL_SLIDES) break;
+    const src = configuredUrl(item.image);
+    if (!src || seen.has(src)) continue;
+    seen.add(src);
+    slides.push({
+      id: item.id || src,
+      src,
+      alt: item.title?.trim() || "Banner",
+      title: item.title?.trim() || undefined,
+      description: shortenDescription(item.text),
+      tag: item.tag?.trim() || undefined,
+      focus: {
+        imageFocusX: item.imageFocusX,
+        imageFocusY: item.imageFocusY,
+        imageZoom: item.imageZoom,
+      },
+    });
   }
 
   return slides;

@@ -134,6 +134,18 @@ export interface AboutTimelineItem {
   imageZoom?: number;
 }
 
+/** Slides do carrossel de fotos da Home (aba Imagens no admin) */
+export interface HomeCarouselSlide {
+  id: string;
+  image: string;
+  tag?: string;
+  title?: string;
+  text?: string;
+  imageFocusX?: number;
+  imageFocusY?: number;
+  imageZoom?: number;
+}
+
 export type ActionVisitStatus = "realizada";
 
 /** Documento anexo — preparado para fase futura */
@@ -284,6 +296,8 @@ export interface SiteConfig {
   propostas: PropostaItem[];
   actionMap: ActionMapConfig;
   whatsappGroup?: WhatsappGroupConfig;
+  /** Fotos do carrossel da Home — editáveis na aba Imagens */
+  homeCarousel?: HomeCarouselSlide[];
   admin: {
     password: string;
   };

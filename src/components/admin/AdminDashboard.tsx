@@ -13,6 +13,7 @@ import {
 import ImageUploader from "./ImageUploader";
 import VideoUploader from "./VideoUploader";
 import AdminLivePreview from "./AdminLivePreview";
+import HomeCarouselAdmin from "./HomeCarouselAdmin";
 import {
   Palette, Image, Menu, FileText, Video, Calendar, Share2, Settings, Save, LogOut, ExternalLink, Plus, Trash2, MapPin, User, MessageCircle, Search,
 } from "lucide-react";
@@ -22,6 +23,7 @@ import PropostasAdmin from "./PropostasAdmin";
 import SobreAdmin from "./SobreAdmin";
 import WhatsappGroupAdmin from "./WhatsappGroupAdmin";
 import { defaultWhatsappGroupConfig } from "@/lib/whatsapp-group";
+import { normalizeHomeCarousel } from "@/lib/home-banners";
 
 interface AdminDashboardProps {
   config: SiteConfig;
@@ -233,7 +235,7 @@ export default function AdminDashboard({ config: initialConfig, token, onSave, o
             <div className="admin-card">
               <div className="admin-page-head">
                 <h2>Gerenciar Imagens</h2>
-                <p>Cards compactos para upload. Use &quot;Ajustar imagem&quot; apenas quando precisar de zoom e enquadramento.</p>
+                <p>Logos, fotos fixas e o carrossel da Home. Use &quot;Ajustar imagem&quot; quando precisar de zoom e enquadramento.</p>
               </div>
               <div className="admin-image-grid">
                 {renderSiteImageUploader(
@@ -278,13 +280,13 @@ export default function AdminDashboard({ config: initialConfig, token, onSave, o
                 )}
                 {renderSiteImageUploader(
                   "banner",
-                  "Banner (esquerda)",
+                  "Banner legado (esquerda) — preferir Carrossel da Home abaixo",
                   config.images.banner,
                   (v) => update("images", { ...config.images, banner: v })
                 )}
                 {renderSiteImageUploader(
                   "bannerSecondary",
-                  "Banner (direita)",
+                  "Banner legado (direita) — preferir Carrossel da Home abaixo",
                   config.images.bannerSecondary || "",
                   (v) => update("images", { ...config.images, bannerSecondary: v })
                 )}
@@ -296,6 +298,13 @@ export default function AdminDashboard({ config: initialConfig, token, onSave, o
                   { focusPreviewAspect: "square" }
                 )}
               </div>
+
+              <HomeCarouselAdmin
+                slides={normalizeHomeCarousel(config.homeCarousel, config)}
+                fallbackImage={config.images.banner || config.images.heroPhoto || config.images.aboutBg}
+                token={token}
+                onChange={(slides) => update("homeCarousel", slides)}
+              />
 
               <AdminLivePreview
                 theme={config.theme}

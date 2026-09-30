@@ -1061,5 +1061,102 @@
       }
     ],
     "notifyEmail": "maumau.br22@gmail.com"
-  }
+  },
+  "homeCarousel": [
+    {
+      "id": "hc-1",
+      "image": "https://raw.githubusercontent.com/JoseSoares01/mauricio/main/public/uploads/1781625358314-e21ya04w4c8.jpeg",
+      "title": "Banner"
+    },
+    {
+      "id": "g1",
+      "image": "/uploads/1790780390564-of2h5adrj8e.png",
+      "title": "Da periferia à vida pública",
+      "text": "Jovem da periferia que transformou estudo e fé em serviço ao povo piauiense.",
+      "tag": "Trajetória",
+      "imageFocusX": 50,
+      "imageFocusY": 50,
+      "imageZoom": 100
+    },
+    {
+      "id": "g2",
+      "image": "https://raw.githubusercontent.com/JoseSoares01/mauricio/main/public/uploads/1781811382721-f8c2cru914v.jpg",
+      "title": "Presente no Piauí",
+      "text": "Atuação em cidades, comunidades e causas que aproximam a política das pessoas.",
+      "tag": "Ação",
+      "imageFocusX": 50,
+      "imageFocusY": 50,
+      "imageZoom": 100
+    },
+    {
+      "id": "g3",
+      "image": "https://raw.githubusercontent.com/JoseSoares01/mauricio/main/public/uploads/1784557751615-6u6n3n9981.png",
+      "title": "Um encontro de ideias e esperança pelo Brasil 🇧🇷",
+      "text": "Uma tarde de conversa, união e participação política ao lado de jovens engajados, compartilhando ideias sobre o presente e o futuro do Brasil. Um registro que simboliza o diálogo, a participação da juventude e o compromisso com os valores em que acreditamos.",
+      "tag": "Esperança",
+      "imageFocusX": 50,
+      "imageFocusY": 50,
+      "imageZoom": 100
+    },
+    {
+      "id": "1784553066540",
+      "image": "https://raw.githubusercontent.com/JoseSoares01/mauricio/main/public/uploads/1784553272893-6kbsm55vsfg.png",
+      "title": "2013",
+      "text": "2 Batalhão de Engenharia de Construção (2BEC) como Aspirante a Oficial - Comemoro o dia das Mulheres. Lembranças da juventude",
+      "tag": "Dia da Mulher",
+      "imageFocusX": 50,
+      "imageFocusY": 43,
+      "imageZoom": 100
+    },
+    {
+      "id": "1784659329039",
+      "image": "https://raw.githubusercontent.com/JoseSoares01/mauricio/main/public/uploads/1784659335991-rx8drwxwons.png",
+      "title": "Visita ao Terminal Rodoviário no Mocambinho",
+      "text": "Visita ao Terminal Rodoviário do Mocambinho\nHoje estive no Terminal Rodoviário do Mocambinho para acompanhar de perto a realidade de quem depende diariamente do transporte público.",
+      "tag": "Vivenciando",
+      "imageFocusX": 50,
+      "imageFocusY": 50,
+      "imageZoom": 100
+    },
+    {
+      "id": "t1",
+      "image": "https://raw.githubusercontent.com/JoseSoares01/mauricio/main/public/uploads/1785931346294-ge2u0y357k.jpg",
+      "title": "Raízes e formação",
+      "text": "Nasci e fui criado na pobreza. Através dos estudos servi meu país e construí uma trajetória marcada pela fé, disciplina e compromisso com o próximo. (Foto da infância de Maurício Soares)",
+      "tag": "Origem",
+      "imageFocusX": 51,
+      "imageFocusY": 15,
+      "imageZoom": 100
+    },
+    {
+      "id": "t2",
+      "image": "https://raw.githubusercontent.com/JoseSoares01/mauricio/main/public/uploads/1785930429020-21b2yp0rlpt.jpg",
+      "title": "Serviço ao Brasil",
+      "text": "Oficial R/2 do Exército Brasileiro da Arma de Engenharia, professor, servidor público federal, biólogo e doutor em melhoramento genético. Com o estudo e serviço prestado a pátria (foto na construção da Transposição do Rio São Francisco).",
+      "tag": "Carreira",
+      "imageFocusX": 50,
+      "imageFocusY": 50,
+      "imageZoom": 100
+    },
+    {
+      "id": "1785931486783",
+      "image": "https://raw.githubusercontent.com/JoseSoares01/mauricio/main/public/uploads/1785931493730-tpkdcdxve3.jpg",
+      "title": "Professor por vocação",
+      "text": "Não entrei na política de paraquedas, sempre prestei serviço para sociedade diferente dos escrupulos politicos do Piauí que nunca pegaram um onibus na vida, nunca viveram na periferia, nunca tiveram contato com o pobre, nunca passaram por dificuldades na vida. Foto de um curso de formação ministrado por mim, para dependentes quimicos da Comunidade Terapêutica Shalom. Sou professor a 10 anos.",
+      "tag": "Docência",
+      "imageFocusX": 48,
+      "imageFocusY": 34,
+      "imageZoom": 100
+    },
+    {
+      "id": "t4",
+      "image": "https://raw.githubusercontent.com/JoseSoares01/mauricio/main/public/uploads/1785930700797-i9rnju3lsk.jpg",
+      "title": "A experiencia no serviço público federal",
+      "text": "Vivi e sei como funciona a máquina pública, trabalhei na EMBRAPA e também em Hospitais Públicos, luto pela valorização da educação, da pesquisa e inovação. Com pessoas preparadas que valorizem a ciêncial nacional, a pesquisa de qualidade, e salário digno para educação, nosso país irá se desenvolver.",
+      "tag": "Ciência e Tecnologia",
+      "imageFocusX": 52,
+      "imageFocusY": 46,
+      "imageZoom": 100
+    }
+  ]
 }

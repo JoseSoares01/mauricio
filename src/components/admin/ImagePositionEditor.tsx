@@ -85,6 +85,8 @@ export default function ImagePositionEditor({
   if (!image) return null;
 
   const focusStyles = getImageFocusStyles(normalized, objectFit);
+  const effectiveObjectFit =
+    objectFit === "cover" && normalized.zoom < 100 ? "contain" : objectFit;
   const previewHeight =
     previewAspect === "square" ? "h-40" : previewAspect === "tall" ? "h-52" : "h-36";
 
@@ -94,7 +96,7 @@ export default function ImagePositionEditor({
         <div>
           <p className="admin-label mb-0">Enquadramento da imagem</p>
           <p className="text-xs text-slate-500 mt-1">
-            Arraste, use os controles ou ajuste o zoom para posicionar a imagem.
+            Arraste, use os controles ou ajuste o zoom. Abaixo de 100% a foto inteira fica visível no frame.
           </p>
         </div>
         <button
@@ -123,7 +125,7 @@ export default function ImagePositionEditor({
             src={image}
             alt="Preview"
             fill
-            className={`${objectFit === "contain" ? "object-contain" : "object-cover"} pointer-events-none`}
+            className={`${effectiveObjectFit === "contain" ? "object-contain" : "object-cover"} pointer-events-none`}
             style={focusStyles}
             draggable={false}
             unoptimized
@@ -186,8 +188,8 @@ export default function ImagePositionEditor({
             className="w-full accent-[#0071B7]"
           />
           <div className="flex justify-between text-[11px] text-slate-400 mt-1">
-            <span>Menor</span>
-            <span>Maior</span>
+            <span>Menor ({MIN_IMAGE_ZOOM}%)</span>
+            <span>Maior ({MAX_IMAGE_ZOOM}%)</span>
           </div>
         </div>
       </div>

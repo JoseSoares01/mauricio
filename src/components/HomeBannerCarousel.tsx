@@ -134,8 +134,9 @@ export default function HomeBannerCarousel({ slides }: HomeBannerCarouselProps) 
                     width={960}
                     height={1200}
                     focus={slide.focus}
+                    focusMode="cover"
                     className="home-trajetoria-image"
-                    style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                    style={{ width: "100%", height: "100%" }}
                     sizes="(min-width: 1024px) 55vw, 100vw"
                     unoptimized
                     priority={slideIndex === 0}

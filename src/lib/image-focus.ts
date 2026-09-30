@@ -3,7 +3,8 @@ import type { ImageFocus } from "./types";
 
 export const DEFAULT_IMAGE_FOCUS: Required<ImageFocus> = { x: 50, y: 50, zoom: 100 };
 
-export const MIN_IMAGE_ZOOM = 100;
+/** Permite afastar até ver a foto inteira no frame (antes o mínimo era 100%). */
+export const MIN_IMAGE_ZOOM = 40;
 export const MAX_IMAGE_ZOOM = 200;
 
 export type ImageFocusSource =
@@ -62,15 +63,31 @@ export function getImageFocusStyles(
 ): CSSProperties {
   const { x, y, zoom } = normalizeImageFocus(source);
   const scale = zoom / 100;
+  const position = `${x}% ${y}%`;
 
-  if (mode === "contain" && scale === 1) {
-    return { objectPosition: `${x}% ${y}%` };
+  if (mode === "contain") {
+    return {
+      objectPosition: position,
+      transform: scale === 1 ? undefined : `scale(${scale})`,
+      transformOrigin: position,
+    };
+  }
+
+  // Zoom < 100%: afasta a imagem para caber no frame e mostrar a foto inteira.
+  // object-cover + scale<1 só encolhe o mesmo recorte — por isso usamos contain.
+  if (scale < 1) {
+    return {
+      objectFit: "contain",
+      objectPosition: position,
+      transform: `scale(${scale})`,
+      transformOrigin: position,
+    };
   }
 
   return {
-    objectPosition: `${x}% ${y}%`,
+    objectPosition: position,
     transform: scale === 1 ? undefined : `scale(${scale})`,
-    transformOrigin: `${x}% ${y}%`,
+    transformOrigin: position,
   };
 }
 
@@ -82,6 +99,7 @@ export function getBackgroundFocusStyles(
   return {
     backgroundImage: `url(${url})`,
     backgroundPosition: `${x}% ${y}%`,
+    // 100% = cover; abaixo mostra mais da foto; acima aproxima
     backgroundSize: zoom === 100 ? "cover" : `${zoom}%`,
     backgroundRepeat: "no-repeat",
   };
