@@ -60,7 +60,7 @@
     "tiktok": "https://www.tiktok.com/@maumau_pi?_r=1&_t=ZS-972pWisdzGO  "
   },
   "images": {
-    "heroLogo": "https://raw.githubusercontent.com/JoseSoares01/mauricio/main/public/uploads/1781811341002-mc8glyivex.png",
+    "heroLogo": "https://raw.githubusercontent.com/JoseSoares01/mauricio/main/public/uploads/1790779699711-rlco9piv78t.png",
     "logoBlue": "https://raw.githubusercontent.com/JoseSoares01/mauricio/main/public/uploads/1781811045973-r1dvzw6ya08.png",
     "headerLogo": "",
     "heroPhoto": "/uploads/hero-photo.png",
@@ -76,6 +76,11 @@
         "x": 0,
         "y": 96,
         "zoom": 102
+      },
+      "heroLogo": {
+        "x": 50,
+        "y": 50,
+        "zoom": 141
       }
     }
   },
