@@ -4659,8 +4659,8 @@ path.animate-\[dash_10s_linear_infinite\] {
 
 .hero-showcase-mapa-canvas {
   position: relative;
-  width: min(100%, 22rem);
-  aspect-ratio: 200 / 240;
+  width: min(100%, 18rem);
+  aspect-ratio: 200 / 290;
 }
 
 .hero-showcase-mapa-shape {

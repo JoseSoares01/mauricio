@@ -42,6 +42,8 @@ export default async function HomePage() {
           id: visit.id,
           city: visit.city,
           title: visit.title,
+          latitude: visit.latitude,
+          longitude: visit.longitude,
         }))}
         mapStats={mapStats}
       />

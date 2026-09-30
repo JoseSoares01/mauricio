@@ -3,11 +3,19 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { AgendaEvent, NewsItem, PropostaItem } from "@/lib/types";
+import {
+  getPiauiSvgPath,
+  projectPiauiLatLngToPercent,
+  PIAUI_SVG_HEIGHT,
+  PIAUI_SVG_WIDTH,
+} from "@/lib/piaui-boundary";
 
 export interface HeroMapVisitPreview {
   id: string;
   city: string;
   title: string;
+  latitude?: number;
+  longitude?: number;
 }
 
 export interface HeroMapStatsPreview {
@@ -110,14 +118,14 @@ export function HeroShowcasePropostas({
 }
 
 const PIN_LAYOUT = [
-  { x: 42, y: 28 },
-  { x: 58, y: 38 },
-  { x: 36, y: 52 },
-  { x: 62, y: 58 },
-  { x: 48, y: 70 },
-  { x: 70, y: 44 },
-  { x: 30, y: 40 },
-  { x: 54, y: 22 },
+  { x: 55, y: 22 },
+  { x: 48, y: 35 },
+  { x: 62, y: 42 },
+  { x: 42, y: 52 },
+  { x: 58, y: 58 },
+  { x: 50, y: 70 },
+  { x: 38, y: 64 },
+  { x: 66, y: 30 },
 ] as const;
 
 export function HeroShowcaseMapa({
@@ -128,6 +136,26 @@ export function HeroShowcaseMapa({
   stats: HeroMapStatsPreview;
 }) {
   const pins = visits.slice(0, 8);
+  const piauiPath = getPiauiSvgPath();
+
+  const pinPositions = pins.map((visit, index) => {
+    if (
+      Number.isFinite(visit.latitude) &&
+      Number.isFinite(visit.longitude)
+    ) {
+      return projectPiauiLatLngToPercent(visit.latitude!, visit.longitude!);
+    }
+    return PIN_LAYOUT[index % PIN_LAYOUT.length];
+  });
+
+  const routePoints = pinPositions
+    .slice(0, Math.min(5, pinPositions.length))
+    .map((pos) => {
+      const x = (pos.x / 100) * PIAUI_SVG_WIDTH;
+      const y = (pos.y / 100) * PIAUI_SVG_HEIGHT;
+      return `${x.toFixed(1)},${y.toFixed(1)}`;
+    })
+    .join(" ");
 
   return (
     <ShowcaseShell
@@ -140,27 +168,33 @@ export function HeroShowcaseMapa({
         <div className="hero-showcase-mapa-canvas">
           <svg
             className="hero-showcase-mapa-shape"
-            viewBox="0 0 200 260"
+            viewBox={`0 0 ${PIAUI_SVG_WIDTH} ${PIAUI_SVG_HEIGHT}`}
             fill="none"
             aria-hidden="true"
           >
             <path
-              d="M78 18c22-8 48-6 64 10 14 14 18 34 16 54 6 10 18 22 18 40 0 28-16 46-34 58-8 18-22 34-44 40-24 6-48-2-62-20-12-16-14-38-8-56-10-14-14-32-8-48 8-22 30-36 38-38z"
+              d={piauiPath}
               fill="color-mix(in srgb, var(--color-primary) 12%, #fff)"
               stroke="color-mix(in srgb, var(--color-primary) 45%, transparent)"
               strokeWidth="2.5"
+              strokeLinejoin="round"
             />
-            <path
-              d="M86 48c16-4 34 0 44 12 8 10 10 24 6 36"
-              stroke="color-mix(in srgb, var(--color-accent) 70%, var(--color-primary))"
-              strokeWidth="1.5"
-              strokeDasharray="4 5"
-              opacity="0.7"
-            />
+            {routePoints && (
+              <polyline
+                points={routePoints}
+                fill="none"
+                stroke="color-mix(in srgb, var(--color-accent) 70%, var(--color-primary))"
+                strokeWidth="1.5"
+                strokeDasharray="4 5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                opacity="0.7"
+              />
+            )}
           </svg>
 
           {pins.map((visit, index) => {
-            const pos = PIN_LAYOUT[index % PIN_LAYOUT.length];
+            const pos = pinPositions[index];
             return (
               <span
                 key={visit.id}
