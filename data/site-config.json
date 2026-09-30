@@ -1070,13 +1070,13 @@
     },
     {
       "id": "g1",
-      "image": "/uploads/1790780390564-of2h5adrj8e.png",
+      "image": "https://raw.githubusercontent.com/JoseSoares01/mauricio/main/public/uploads/1790780876136-ia18g1ccg9d.png",
       "title": "Da periferia à vida pública",
       "text": "Jovem da periferia que transformou estudo e fé em serviço ao povo piauiense.",
       "tag": "Trajetória",
       "imageFocusX": 50,
       "imageFocusY": 50,
-      "imageZoom": 100
+      "imageZoom": 102
     },
     {
       "id": "g2",
